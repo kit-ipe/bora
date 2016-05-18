@@ -1,0 +1,93 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+html,
+body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 28px; 
+}
+
+span,
+.varval {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 28px; 
+    font-weight: 700;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: #f44336;} /* Red */ 
+.showhide {
+    background-color: #e7e7e7;
+    color: black;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+#tool-btn {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+}
+
+.save,
+.add,
+.remove,
+.highlight {
+    background-color: #e7e7e7;
+    color: black;
+}
+
+.info {
+    color:ghostwhite;
+}
+
+.button5 {background-color: #555555;} /* Black */
+
+.varbox {
+    position: absolute;
+    width: 50px;
+    border: dashed 5px #ccc;
+}
+
+.statusbox {
+    position: absolute;
+    width: 50px;
+    padding: 5px;
+}
+
+#page_info {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: darkgray;
+}
+
+.box_highlight {
+    border-color: red;
+}
+
+
+

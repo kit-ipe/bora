@@ -1,0 +1,8 @@
+type: 'mysql' 
+polling: 2
+user: root
+password: nico
+database: numbers
+server: 'localhost'
+path: '/Users/ntj/Development/OPA/'
+
