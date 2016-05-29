@@ -24,7 +24,7 @@ def main(sensor, mystr):
     #print query
     
     rest_str = []
-    rest_str.append("http://localhost:8888/add")
+    rest_str.append("http://ipepc57.ipe.kit.edu:8888/add")
     rest_str.append(db_server)
     rest_str.append(db_name)
     rest_str.append(db_group)

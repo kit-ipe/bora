@@ -3,32 +3,15 @@
     size: 28px
     title: ''
     weight: '400'
-  height: 112.991
-  larger: ''
-  left: 1109.98px
+  height: 79.991
+  larger: '77'
+  left: 734.968px
   lesser: ''
-  max: ''
-  min: ''
-  top: 409.978px
-  unit:
-    size: 40px
-    title: K
-    weight: '400'
-  width: 227.99099999999999
-320-RTY-3-2101:
-  header:
-    size: 28px
-    title: ''
-    weight: '400'
-  height: 68.991
-  larger: '70'
-  left: 744px
-  lesser: ''
-  max: '70'
+  max: '77'
   min: '0'
-  top: 268px
+  top: 266.946px
   unit:
     size: 28px
     title: '  K'
     weight: '400'
-  width: 158.99099999999999
+  width: 191.99099999999999

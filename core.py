@@ -2,7 +2,6 @@ import os
 import sys
 import yaml
 import requests
-import MySQLdb
 import shutil
 from datetime import date
 import csv
@@ -63,88 +62,14 @@ class RepeatedTimer(object):
         self.interval = interval
     
 
-def fetchDataMySQL(sort_name):
-    # config contains db setup
-    # varname consist column name
-    
-    
-    with open("varname.yaml", 'r') as stream:
-        try:
-            #print(yaml.load(stream))
-            varname = yaml.load(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-    if varname == None:
-        print("Error: Empty varname file.")
-        return
-    
-    # first write to tmp.yml
-    db = MySQLdb.connect(config["server"],
-                         config["user"],
-                         config["password"],
-                         config["database"])
-
-    # prepare a cursor object using cursor() method
-    cursor = db.cursor()
-
-    # execute SQL query using execute() method.
-    sql = "SELECT "
-    for table_name in varname:
-        column_names = varname[table_name]
-    if isinstance(column_names, list):
-        sql += ",".join(column_names)
-    else:
-        sql += column_names
-    sql += " FROM "
-    sql += table_name
-    sql += " ORDER BY "
-    sql += sort_name
-    sql += " DESC LIMIT 1"
-
-    
-    print sql
-    
-    cursor.execute(sql)
-    # Fetch a single row using fetchone() method.
-    data = cursor.fetchone()
-
-    print data
-    # when ready then copy to cache.yml
-    print config
-    print varname
-    
-    cache_data = {}
-    if isinstance(varname[table_name], list):
-        for i, item in enumerate(varname[table_name]):
-            cache_data[item] = float(data[i])
-    else:
-        cache_data[varname[table_name]] = float(data[0])
-
-    print cache_data
-    with open(".tmp.yaml", 'w') as stream_tmp:
-        stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
-    src_file = config["path"] + ".tmp.yaml"
-    dst_file = config["path"] + "cache.yaml"
-    shutil.copy(src_file, dst_file)
 
 
 def fetchDataADEI():
-    """
-    with open("config.yaml", 'r') as stream:
-        try:
-            #print(yaml.load(stream))
-            config = yaml.load(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-    if config == None:
-        print("Error: Empty configuration file.")
-        return
-    """
     if os.path.isfile(config["path"]+".mutex"):
-        print("Process running...")
+        #print("Process running...")
         return
     else:
-        print("Created mutex")
+        #print("Created mutex")
         file = open(config["path"]+'.mutex', 'w+')
     
     with open("varname.yaml", 'r') as stream:
@@ -155,6 +80,7 @@ def fetchDataADEI():
             print(exc)
     if varname == None:
         print("Error: Empty varname file.")
+    	os.remove(config["path"]+".mutex")
         return
     
     cache_data = {}
@@ -176,7 +102,6 @@ def fetchDataADEI():
     src_file = config["path"] + ".tmp.yaml"
     dst_file = config["path"] + "cache.yaml"
     shutil.copy(src_file, dst_file)
-
     
     
     os.remove(config["path"]+".mutex")
@@ -236,86 +161,9 @@ class SetTimerHandler(tornado.web.RequestHandler):
         print "Set interval"
         rt.setInterval(float(duration))
 
-        
-class AddHandler(tornado.web.RequestHandler):
-    def get(self, **params):
-        print params
-        table_name = str(params["table_name"])
-        column_name = str(params["column_name"])
-        response = {}
-        """
-        with open("config.yaml", 'r') as stream:
-            try:
-                #print(yaml.load(stream))
-                config = yaml.load(stream)
-            except yaml.YAMLError as exc:
-                print(exc)
-        if config == None:
-            print("Error: Empty configuration file.")
-            return
-        """
-        if config["type"] == "mysql":
-            print("Inside MySQL block:")
-            print config
-            
-            # Open database connection
-            db = MySQLdb.connect(config["server"],
-                                 config["user"],
-                                 config["password"],
-                                 config["database"])
-
-            # prepare a cursor object using cursor() method
-            cursor = db.cursor()
-
-            # execute SQL query using execute() method.
-            sql = "SHOW COLUMNS FROM `" + params["table_name"] + "` LIKE '" + params["column_name"] + "'"
-            #print sql
-            cursor.execute(sql)
-
-            # Fetch a single row using fetchone() method.
-            data = cursor.fetchone()
-            db.close()
-            
-            if data == None:
-                response = {"error": "Data name not valid."}
-            else:
-                # column name available
-                # store in yaml file
-                with open("varname.yaml", 'r') as stream:
-                    try:
-                        #print(yaml.load(stream))
-                        cache_data = yaml.load(stream)
-                    except yaml.YAMLError as exc:
-                        print(exc)
-                
-                if cache_data == None:
-                    cache_data = {table_name: column_name}
-                else:
-                    if table_name in cache_data:
-                        tmp = cache_data[table_name]
-                        print tmp
-                        if isinstance(tmp, list):
-                            tmp_lst = tmp
-                        else:
-                            tmp_lst = [tmp]
-                        tmp_lst.append(column_name)
-                        # remove redundant in list
-                        tmp_lst = list(set(tmp_lst))
-                        cache_data[table_name] = tmp_lst
-                    else:
-                        cache_data[table_name] = column_name
-                
-                with open("varname.yaml", 'w') as output:
-                    output.write(yaml.dump(cache_data, default_flow_style=False))
-                response = {"success": "Data entry inserted."}
-        
-        self.write(response)
 
 
 class DesignerHandler(tornado.web.RequestHandler):
-    # TODO: Need to load and pass style to client
-    # If user did nothing, save should actually save the
-    # same content.
     def get(self):
         print "In designer mode."
         with open("cache.yaml", 'r') as stream:
@@ -385,7 +233,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class AdeiKatrinHandler(tornado.web.RequestHandler):
     def get(self, **params):
-        print params
+        #print params
         sensor_name = str(params["sensor_name"])
         """
         {'db_group': u'320_KRY_Kryo_4K_CurLead',
@@ -394,29 +242,12 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
          'db_server': u'cscps',
          'control_group': u'320_KRY_Kryo_3K'}
         """
-        
-        """
-        with open("config.yaml", 'r') as stream:
-            try:
-                #print(yaml.load(stream))
-                config = yaml.load(stream)
-            except yaml.YAMLError as exc:
-                print(exc)
-
-        if config == None:
-            print("Error: Empty configuration file.")
-            return
-        """
         if config["type"] != "adei":
             print("Error: Wrong handler.")
             return
         
-        """
-        requests.get('http://katrin.kit.edu/adei-katrin/services/getdata.php?db_server=cscps&db_name=ControlSystem_CPS&db_group=320_KRY_Kryo_4K_CurLead&control_group=320_KRY_Kryo_3K&db_mask=33&window=-1')
-        requests.get(url, auth=(username, password))
-        """
         
-        print config
+        #print config
         
         dest = config['server'] + config['script']
         query_cmds = []
@@ -428,7 +259,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         query = "&".join(query_cmds)
         url = dest + "?" + query
 
-        print url
+        #print url
         # get the db_masks
         # store the query command in varname
         
@@ -459,9 +290,9 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        print "CHECK THIS"
-        print sensor_name, query
-        print cache_data
+        #print "CHECK THIS"
+        #print sensor_name, query
+        #print cache_data
         if cache_data == None:
             cache_data = {}
             cache_data[sensor_name] = query
@@ -477,7 +308,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
             output.write(yaml.dump(cache_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
         
-        print match_token, db_mask
+        #print match_token, db_mask
         self.write(response)
         
 class GetDataHandler(tornado.web.RequestHandler):
@@ -489,6 +320,8 @@ class GetDataHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
         print("GetData:")
+        if cache_data == None:
+            cache_data = {}
         print cache_data
         self.write(cache_data) 
 
@@ -503,7 +336,6 @@ application = tornado.web.Application([
     (r"/save/", SaveHandler),
     (r"/getdata/", GetDataHandler),
     (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
-    (r"/mysql/add/(?P<table_name>[^\/]+)/?(?P<column_name>[^\/]+)?", AddHandler),
     (r"/add/(?P<db_server>[^\/]+)/?(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?", AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'), js_path=os.path.join(root, 'js'))
  

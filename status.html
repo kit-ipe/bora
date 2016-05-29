@@ -14,6 +14,8 @@
 </head>
 
 <body>
+
+<div id="page_info">CPS data monitoring. Last refreshed</div>
     
 {% if data['style'] %}
 {% for key in data['style'] %}
@@ -54,6 +56,17 @@ function myTimer() {
                     $(".varval", "#" + key).text(parseFloat(response[key]).toFixed(2));
                 }
             }
+
+
+	    var currentdate = new Date(); 
+	    var datetime = "CPS data monitoring page. Last Sync: " + ( (currentdate.getDate()<10?'0':'').toString() + (currentdate.getDate()).toString() ) + "/"
+                + ( ((currentdate.getMonth()+1)<10?'0':'').toString() + (currentdate.getMonth()+1)).toString()  + "/" 
+                + ( (currentdate.getFullYear()<10?'0':'').toString() + (currentdate.getFullYear()).toString() ) + " @ "  
+                + ( (currentdate.getHours()<10?'0':'').toString() + (currentdate.getHours()).toString() ) + ":"  
+                + ( (currentdate.getMinutes()<10?'0':'').toString() + (currentdate.getMinutes()).toString() ) + ":" 
+                + ( (currentdate.getSeconds()<10?'0':'').toString() + (currentdate.getSeconds()).toString() );
+   	    $("#page_info").text(datetime);
+            console.log(datetime);
         },
         error: function () {
             console.log("Error.")
