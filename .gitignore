@@ -1,3 +1,4 @@
 config.yaml
 cache.yaml
 .tmp.yaml
+*.yaml

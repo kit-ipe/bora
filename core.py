@@ -6,7 +6,7 @@ import shutil
 from datetime import date
 import csv
 import urllib2
-
+import re
 
 
 
@@ -93,8 +93,15 @@ def fetchDataADEI():
                             auth=(config['username'],
                                   config['password'])).content
         #tmp_data = data.content
+        print data
+
         last_value = data.split(",")[-1].strip()
-        print last_value
+	try:
+            print last_value
+            test_x = float(last_value)
+        except ValueError:
+            last_value = None
+ 	print last_value
         cache_data[param] = last_value
 
     with open(".tmp.yaml", 'w') as stream_tmp:
@@ -272,8 +279,13 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         match_token = params['sensor_name'] + "-IST_Val"
         db_mask = None
         for i, item in enumerate(cr):
-            if item.strip() == match_token:
-                db_mask = i - 1
+            if "[" and "]" in item.strip():
+                lhs = re.match(r"[^[]*\[([^]]*)\]", item.strip()).groups()[0]
+                if lhs == params['sensor_name']:
+                    db_mask = i - 1
+    	    else:
+	        if item.strip() == match_token:
+                    db_mask = i - 1
         if db_mask == None:
             response = {"Error": "Cannot find variable on ADEI server."}
             self.write(response)

@@ -3,17 +3,20 @@ import sys, getopt
 
 
 def main(sensor, mystr):
-    #print mystr
+    print mystr
     query = mystr.split("#")[1]
+    print mystr.split("#")
     cmds = query.split("&")
     
+    print cmds 
+   
     db_server = None
     db_name = None
     db_group = None
     for item in cmds:
-        #print item
+        print item
         subtitle = item.split("=")
-        #print subtitle
+        print subtitle
         if subtitle[0].strip() == "db_server":
             db_server = subtitle[1].strip()
         elif subtitle[0].strip() == "db_name":
@@ -22,14 +25,18 @@ def main(sensor, mystr):
             db_group = subtitle[1].strip()
 
     #print query
-    
+    print "check"
+    print db_server   
+
+ 
     rest_str = []
     rest_str.append("http://ipepc57.ipe.kit.edu:8888/add")
     rest_str.append(db_server)
     rest_str.append(db_name)
     rest_str.append(db_group)
     rest_str.append(sensor)
-    
+  
+ 
     print "/".join(rest_str)
 
 

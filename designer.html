@@ -21,10 +21,25 @@
 
 {% if data['style'] %}
 {% for key in data['style'] %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
+{% if data['style'][key]['type'] == "data" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-type="{{ data['style'][key]['type'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
+{% else %}
 {% end %}
+
+
+{% if data['style'][key]['type'] == "ventil" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("ventil_inactive.png") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+
+
+{% end %}
+
 {% else %}
 {% end %}
 
@@ -36,6 +51,12 @@
   {% for key in data['cache'] %}
   <option value={{data['cache'][key]}}>{{key}}</option>
   {% end %}
+</select>
+<span class="info">Type</span>
+<select id="vartype" style="font-size:16pt;">
+  <option value="data">data</option>
+  <option value="ventil">ventil</option>
+  <option value="integer-to-string">integer-to-string</option>
 </select>
 <br /><br />
 <span class="info">Title</span>
@@ -104,14 +125,65 @@ function add() {
     
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
-    console.log(title_text, unit_text, varname, varval);
+    vartype = $("#vartype option:selected").val();
+    console.log(title_text, unit_text, varname, varval, vartype);
     
     
     if($("#" + varname).length == 0) {
-        html_text = "<div style='position: absolute; top:0; left:0;' class='varbox' id='" + varname + "' data-cond='" + data_condition + "' data-lesser='" + data_lesser + "' data-larger='" + data_larger + "'>";
-        html_text += "<p><span style='color: " + title_color + "; font-size:" + title_size + "px; font-weight: " + title_style + ";' " + "class='title'>" + title_text + " </span><span style='color: " + unit_color + "; font-size:" + unit_size + "px; font-weight: " + unit_style + ";' " + "class='varval'>" + parseFloat(varval).toFixed(2) + " </span><span class='unit_title'>" + unit_text + "</span></p>";
-        html_text += "</div>";
-    
+        if (vartype == "data") {
+            html_text = "<div " +
+                    "style='position: absolute; " +
+                           "top:0; " +
+                           "left:0;' " +
+                    "class='varbox' " + 
+                    "id='" + varname +
+                    "' data-type='" + vartype +
+                    "' data-cond='" + data_condition +
+                    "' data-lesser='" + data_lesser + 
+ 		    "' data-larger='" + data_larger + 
+                    "'>" +
+                    "<p>" +
+                    "<span style='color: " + title_color + ";" + 
+                    "font-size:" + title_size + "px; " + 
+                    "font-weight: " + title_style + ";' " + 
+                    "class='title'>" + title_text +
+                    " </span>" + 
+                    "<span style='color: " + unit_color + "; " + 
+                           "font-size:" + unit_size + "px; " +
+                           "font-weight: " + unit_style + ";' " + 
+                    "class='varval'>" + parseFloat(varval).toFixed(2) + " </span>" + 
+                    "<span class='unit_title'>" + unit_text + "</span></p>" +
+        	    "</div>";
+        } else if (vartype == "ventil") {
+            var token = unit_text.split(";");
+            var lhs = token[0];
+            var rhs = token[1];
+            var data_on, data_off;
+            if (lhs.split(":")[0] == "on") {
+                data_on = lhs.split(":")[1];
+                data_off = rhs.split(":")[1];
+            } else {
+                data_off = lhs.split(":")[1];
+                data_on = rhs.split(":")[1];
+            }
+
+            html_text = "<div " +
+                    "style='position: absolute; " +
+                           "top:0; " +
+                           "left:0;' " +
+                    "class='varbox' " + 
+                    "id='" + varname +
+                    "' data-type='" + vartype +
+                    "' data-cond='" + data_condition +
+                    "' data-lesser='" + data_lesser + 
+ 		    "' data-larger='" + data_larger + 
+ 		    "' data-on='" + data_on + 
+ 		    "' data-off='" + data_off + 
+                    "'>" +
+ 		    "<img width='100%' height='100%' " + 
+                    "src='{{ static_url("ventil_inactive.png") }}'></img>" +
+        	    "</div>";	    
+	}
         $( "body" ).append(html_text);
         $("#"+varname).draggable();
         $("#"+varname).resizable(); 
@@ -138,28 +210,39 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
+            //tmp["type"] = $("#vartype option:selected").val();
             //tmp["min"] = $("#elem_min_range").val();
             //tmp["max"] = $("#elem_max_range").val();
             tmp["min"] = $("#"+key).attr("min");
             tmp["max"] = $("#"+key).attr("max");
-            tmp["condition"] = $("#"+key).attr("data-cond");
-            tmp["lesser"] = $("#"+key).attr("data-lesser");
-            tmp["larger"] = $("#"+key).attr("data-larger");
-            
-            header = {};
-            header["title"] = $(".title", "#"+key).text();
-            //header["color"] = $(".title", "#"+key).css("color");
-            header["size"] = $(".title", "#"+key).css("font-size");
-            header["weight"] = $(".title", "#"+key).css("font-weight");
-            
-            unit = {};
-            unit["title"] = $(".unit_title", "#"+key).text();
-            //unit["color"] = $(".varval", "#"+key).css("color");
-            unit["size"] = $(".varval", "#"+key).css("font-size");
-            unit["weight"] = $(".varval", "#"+key).css("font-weight");
+            tmp["type"] = $("#"+key).attr("data-type");
 
-            tmp["header"] = header;
-            tmp["unit"] = unit;
+            if ( $("#"+key).attr("data-type") == "data" ) {
+            	tmp["condition"] = $("#"+key).attr("data-cond");
+            	tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	tmp["larger"] = $("#"+key).attr("data-larger");
+            
+            	header = {};
+            	header["title"] = $(".title", "#"+key).text();
+            	//header["color"] = $(".title", "#"+key).css("color");
+            	header["size"] = $(".title", "#"+key).css("font-size");
+            	header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	unit = {};
+            	unit["title"] = $(".unit_title", "#"+key).text();
+            	//unit["color"] = $(".varval", "#"+key).css("color");
+            	unit["size"] = $(".varval", "#"+key).css("font-size");
+            	unit["weight"] = $(".varval", "#"+key).css("font-weight");
+
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            } else if ( $("#"+key).attr("data-type") == "ventil" ) {
+		//console.log("Ventil !!");
+            	//console.log($(".unit_title", "#"+key).text());
+            	tmp["on"] = $("#"+key).attr("data-on");
+            	tmp["off"] = $("#"+key).attr("data-off");
+            }
+
             position[key] = tmp;
         }
     }
