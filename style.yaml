@@ -1,17 +1,32 @@
 320-RTP-3-1101:
+  condition: ''
   header:
     size: 28px
-    title: ''
+    title: '  '
     weight: '400'
-  height: 79.991
-  larger: '77'
-  left: 734.968px
-  lesser: ''
-  max: '77'
-  min: '0'
-  top: 266.946px
+  height: 88.991
+  larger: '70'
+  left: 173.968px
+  lesser: '0'
+  top: 811.96px
   unit:
     size: 28px
-    title: '  K'
+    title: '      K'
     weight: '400'
-  width: 191.99099999999999
+  width: 130.99099999999999
+320-RTY-3-2101:
+  condition: ''
+  header:
+    size: 28px
+    title: 'Temperature 1 '
+    weight: '400'
+  height: 112.991
+  larger: '4.5'
+  left: 423.972px
+  lesser: ''
+  top: 359.963px
+  unit:
+    size: 28px
+    title: K
+    weight: '400'
+  width: 233.99099999999999

@@ -70,6 +70,10 @@ span,
     border: dashed 5px #ccc;
 }
 
+.databox {
+    border: dashed 5px rgba(0,0,0,0);
+}
+
 .statusbox {
     position: absolute;
     width: 50px;

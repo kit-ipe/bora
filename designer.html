@@ -21,9 +21,8 @@
 
 {% if data['style'] %}
 {% for key in data['style'] %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' min="{{ data['style'][key]['min'] }}" max="{{ data['style'][key]['max'] }}" lesser="{{ data['style'][key]['lesser'] }}" larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-<span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></span></p>
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
 {% end %}
 {% else %}
@@ -55,8 +54,7 @@
 <input type="text" id="elem_unit_text" placeholder="unit" style="font-size:16pt; width=100px;"/>
 <input type="text" id="elem_unit_size" placeholder="size" style="font-size:16pt; width=100px;"/>
 
-<input type="text" id="elem_min_range" placeholder="minimum (green)" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_max_range" placeholder="maximum (green)" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
 
 <select id="elem_unit_style" style="font-size:16pt;">
   <option value="400">normal</option>
@@ -98,8 +96,8 @@ function add() {
     unit_size = $("#elem_unit_size").val();
     unit_style = $("#elem_unit_style option:selected").val();
     
-    data_min = $("#elem_min_range").val();
-    data_max = $("#elem_max_range").val();
+    data_condition = $("#elem_condition_range").val();
+    //data_max = $("#elem_max_range").val();
     
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
@@ -110,8 +108,8 @@ function add() {
     
     
     if($("#" + varname).length == 0) {
-        html_text = "<div style='position: absolute; top:0; left:0;' class='varbox' id='" + varname + "' min='" + data_min + "' max='" + data_max + "' lesser='" + data_lesser + "' larger='" + data_larger + "'>";
-        html_text += "<p><span style='color: " + title_color + "; font-size:" + title_size + "px; font-weight: " + title_style + ";' " + "class='title'>" + title_text + "</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: " + unit_color + "; font-size:" + unit_size + "px; font-weight: " + unit_style + ";' " + "class='varval'>" + parseFloat(varval).toFixed(2) + " </span><span class='unit_title'>" + unit_text + "</span></p>";
+        html_text = "<div style='position: absolute; top:0; left:0;' class='varbox' id='" + varname + "' data-cond='" + data_condition + "' data-lesser='" + data_lesser + "' data-larger='" + data_larger + "'>";
+        html_text += "<p><span style='color: " + title_color + "; font-size:" + title_size + "px; font-weight: " + title_style + ";' " + "class='title'>" + title_text + " </span><span style='color: " + unit_color + "; font-size:" + unit_size + "px; font-weight: " + unit_style + ";' " + "class='varval'>" + parseFloat(varval).toFixed(2) + " </span><span class='unit_title'>" + unit_text + "</span></p>";
         html_text += "</div>";
     
         $( "body" ).append(html_text);
@@ -144,9 +142,9 @@ function mysave(data) {
             //tmp["max"] = $("#elem_max_range").val();
             tmp["min"] = $("#"+key).attr("min");
             tmp["max"] = $("#"+key).attr("max");
-            
-            tmp["lesser"] = $("#"+key).attr("lesser");
-            tmp["larger"] = $("#"+key).attr("larger");
+            tmp["condition"] = $("#"+key).attr("data-cond");
+            tmp["lesser"] = $("#"+key).attr("data-lesser");
+            tmp["larger"] = $("#"+key).attr("data-larger");
             
             header = {};
             header["title"] = $(".title", "#"+key).text();

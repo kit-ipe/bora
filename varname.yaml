@@ -1,1 +1,2 @@
 320-RTP-3-1101: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_STR_Strahlrohr&db_mask=all&window=-1&db_mask=180
+320-RTY-3-2101: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_STR_Strahlrohr&db_mask=all&window=-1&db_mask=213

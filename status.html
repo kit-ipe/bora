@@ -19,9 +19,13 @@
     
 {% if data['style'] %}
 {% for key in data['style'] %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' min="{{ data['style'][key]['min'] }}" max="{{ data['style'][key]['max'] }}" lesser="{{ data['style'][key]['lesser'] }}" larger="{{ data['style'][key]['larger'] }}" id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
-    <span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX </span><span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></p>
+<div class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' 
+{% if data['style'][key]['condition'] %}
+data-cond="{{ data['style'][key]['condition'] }}"
+{% else%}
+{% end%}
+data-lesser="{{ data['style'][key]['lesser'] }}" data-larger="{{ data['style'][key]['larger'] }}" id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX </span><span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></p>
 </div>
 {% end %}
 {% else %}
@@ -54,9 +58,30 @@ function myTimer() {
                 console.log(key, response[key]);
                 if($("#" + key).length > 0) {
                     $(".varval", "#" + key).text(parseFloat(response[key]).toFixed(2));
+ 		    var set_color = "green";
+                    var condition_attr = $("#" + key).attr('data-cond');
+                    var lesser_attr = $("#" + key).attr('data-lesser');
+                    var larger_attr = $("#" + key).attr('data-larger');
+  		    //console.log(condition_attr);
+                    if (typeof(condition_attr) !== 'undefined' && condition_attr !== false) {
+ 			if (response[key] == condition_attr) {
+ 			    set_color = "red";
+      			}
+		    }
+ 		    if (typeof(lesser_attr) !== 'undefined' && lesser_attr !== false) {
+ 			if (parseFloat(response[key]) < parseFloat(lesser_attr)) {
+ 			    set_color = "red";
+      			}
+		    }
+  		    if (typeof(larger_attr) !== 'undefined' && larger_attr !== false) {
+ 			if (parseFloat(response[key]) > parseFloat(larger_attr)) {
+ 			    set_color = "red";
+      			}
+		    }
+		    $(".varval", "#" + key).css("color", set_color);
+		    $(".unit_title", "#" + key).css("color", set_color);
                 }
             }
-
 
 	    var currentdate = new Date(); 
 	    var datetime = "CPS data monitoring page. Last Sync: " + ( (currentdate.getDate()<10?'0':'').toString() + (currentdate.getDate()).toString() ) + "/"
