@@ -100,7 +100,7 @@ def fetchDataADEI():
             print last_value
             test_x = float(last_value)
         except ValueError:
-            last_value = None
+            last_value = ""
  	print last_value
         cache_data[param] = last_value
 
@@ -276,7 +276,10 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         print cr, len(cr)
         
         # parameter name stored in ADEI with '-IST_Val' suffix
-        match_token = params['sensor_name'] + "-IST_Val"
+        if "MOD" in params['sensor_name']:
+	    match_token = params['sensor_name'] + "-MODUS_Val"
+    	else:
+	    match_token = params['sensor_name'] + "-IST_Val"
         db_mask = None
         for i, item in enumerate(cr):
             if "[" and "]" in item.strip():

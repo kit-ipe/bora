@@ -1,25 +1,23 @@
-320-RTP-3-1101:
-  condition: ''
+320-MOD-0-0001:
+  dict: '{"0": "zero mode", "2": "two mode"}'
   header:
     size: 28px
-    title: '        '
+    title: 'Operation Mode '
     weight: '400'
-  height: 82.991
-  larger: '70'
-  left: 1145.98px
-  lesser: '0'
-  top: 423px
-  type: data
+  height: 131.99099999999999
+  left: 170px
+  top: 71px
+  type: integer-to-string
   unit:
     size: 28px
-    title: '       K'
+    title: ''
     weight: '400'
-  width: 139.99099999999999
+  width: 301.991
 411-REI-1-1110-0030:
   height: 50.991
-  left: 802px
+  left: 778px
   'off': '1'
   'on': '0'
-  top: 275px
+  top: 283px
   type: ventil
   width: 49.991
