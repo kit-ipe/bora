@@ -7,7 +7,8 @@ from datetime import date
 import csv
 import urllib2
 import re
-
+import datetime
+from shutil import copyfile
 
 
 import tornado.escape
@@ -207,6 +208,18 @@ class VersionHandler(tornado.web.RequestHandler):
         self.write(response)
 
 
+class BackupHandler(tornado.web.RequestHandler):
+    def post(self):
+        print "Backup"
+        print config["path"]
+        backup_dst = config["path"] + "backup/"
+        fname = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        os.makedirs(backup_dst + fname)
+        copyfile(config["path"] + "varname.yaml", backup_dst + fname + "/varname.yaml")        
+        copyfile(config["path"] + "style.yaml", backup_dst + fname + "/style.yaml")        
+        #self.write(json.dumps(response))
+
+
 class SaveHandler(tornado.web.RequestHandler):
 
     def post(self):
@@ -364,6 +377,7 @@ application = tornado.web.Application([
     (r"/version", VersionHandler),
     (r"/list", ListHandler),
     (r"/start", StartHandler),
+    (r"/backup/", BackupHandler),
     (r"/stop", StopHandler),
     (r"/designer", DesignerHandler),
     (r"/status", StatusHandler),

@@ -88,7 +88,8 @@
   <option value="700">bold</option>
 </select>
 <br /><br />
-    <button class="button highlight" onclick="highlight()">Highlight</button>
+<button class="button save" onclick="backup()">Backup</button>
+<button class="button highlight" onclick="highlight()">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
@@ -100,7 +101,18 @@
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
 <script>
-    
+function backup() {
+    $.ajax({
+        url: '/backup/',
+        type: 'POST',
+        success: function (response) {
+            alert("Backup success!");
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}    
     
     
 
