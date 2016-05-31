@@ -1,17 +1,41 @@
+320-MOD-0-0001:
+  dict: '{"1":"bake out","2":"Cool-Down","3":"Argon-Preparation","4":"Standby","5":"Standard
+    Operation","6":"Regeneration","7":"Warm-Up","8":"CKrS Calibration"}'
+  header:
+    size: 28px
+    title: 'Operation mode    '
+    weight: '400'
+  height: 211
+  left: 223px
+  top: 98px
+  type: integer-to-string
+  unit:
+    size: 28px
+    title: ''
+    weight: '400'
+  width: 107
 320-RTY-3-3101:
   condition: ''
   header:
     size: 28px
-    title: ' '
+    title: '   '
     weight: '400'
-  height: 98
-  larger: '70'
-  left: 747px
-  lesser: '0'
-  top: 263px
+  height: 96
+  larger: '77'
+  left: 182px
+  lesser: '77'
+  top: 834px
   type: data
   unit:
     size: 28px
-    title: K
+    title: '  K'
     weight: '400'
-  width: 160
+  width: 164
+411-REI-1-1110-0030:
+  height: 51
+  left: 517px
+  'off': '1'
+  'on': '0'
+  top: 142px
+  type: ventil
+  width: 50
