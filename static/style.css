@@ -113,8 +113,9 @@ span,
     
     /* customizable */
     background: black;
-    margin-top: -50px;
-    margin-left: 20px;    
+    width: 150px;
+    margin-top: -25px;
+    margin-left: 20px;
 }
 
 [tooltip]:not([tooltip-persistent]):before {
