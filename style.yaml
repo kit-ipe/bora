@@ -1,23 +1,17 @@
-320-MOD-0-0001:
-  dict: '{"0": "zero mode", "2": "two mode"}'
+320-RTY-3-3101:
+  condition: ''
   header:
     size: 28px
-    title: 'Operation Mode '
+    title: ' '
     weight: '400'
-  height: 131.99099999999999
-  left: 170px
-  top: 71px
-  type: integer-to-string
+  height: 98
+  larger: '70'
+  left: 747px
+  lesser: '0'
+  top: 263px
+  type: data
   unit:
     size: 28px
-    title: ''
+    title: K
     weight: '400'
-  width: 301.991
-411-REI-1-1110-0030:
-  height: 50.991
-  left: 778px
-  'off': '1'
-  'on': '0'
-  top: 283px
-  type: ventil
-  width: 49.991
+  width: 160

@@ -87,7 +87,7 @@ def fetchDataADEI():
     for param in varname:
         print param
         dest = config['server'] + config['script']
-        url = dest + "?" + varname[param]
+        url = dest + "?" + varname[param] + "&window=-1"
         print url
         data = requests.get(url,
                             auth=(config['username'],
@@ -232,8 +232,20 @@ class StatusHandler(tornado.web.RequestHandler):
         if style_data == None:
             print("Error: Empty style data file.")
             return
-        data = {
-            "style": style_data
+        
+	with open("varname.yaml", 'r') as vstream:
+            try:
+                #print(yaml.load(stream))
+                varname_data = yaml.load(vstream)
+            except yaml.YAMLError as exc:
+                print(exc)
+        if varname_data == None:
+            print("Error: Empty varname data file.")
+            return
+        
+	data = {
+            "style": style_data,
+            "varname": varname_data
         }
         self.render('status.html', data=data)
 
@@ -261,8 +273,10 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         query_cmds.append("db_server="+str(params['db_server']))
         query_cmds.append("db_name="+str(params['db_name']))
         query_cmds.append("db_group="+str(params['db_group']))
+        
         query_cmds.append("db_mask=all")
         query_cmds.append("window=-1")
+        
         query = "&".join(query_cmds)
         url = dest + "?" + query
 
@@ -293,6 +307,11 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
             response = {"Error": "Cannot find variable on ADEI server."}
             self.write(response)
             return
+        
+        query_cmds = []
+        query_cmds.append("db_server="+str(params['db_server']))
+        query_cmds.append("db_name="+str(params['db_name']))
+        query_cmds.append("db_group="+str(params['db_group']))
             
         query_cmds.append("db_mask="+str(db_mask))
         query = "&".join(query_cmds)

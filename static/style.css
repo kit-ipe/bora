@@ -93,5 +93,33 @@ span,
     border-color: red;
 }
 
+[tooltip]:before {
+    /* needed - do not touch */
+    content: attr(tooltip);
+    position: absolute;
+    opacity: 0;
+    
+    /* customizable */
+    transition: all 0.15s ease;
+    padding: 10px;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px silver;    
+}
+
+[tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    
+    /* customizable */
+    background: black;
+    margin-top: -50px;
+    margin-left: 20px;    
+}
+
+[tooltip]:not([tooltip-persistent]):before {
+    pointer-events: none;
+}
+
 
 
