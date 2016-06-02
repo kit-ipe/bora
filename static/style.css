@@ -73,6 +73,9 @@ span,
 .databox {
     border: dashed 5px rgba(0,0,0,0);
 }
+.databox:hover {
+    z-index: 9999 !important;
+}
 
 .statusbox {
     position: absolute;
@@ -104,7 +107,9 @@ span,
     padding: 10px;
     color: #fff;
     border-radius: 10px;
-    box-shadow: 2px 2px 1px silver;    
+    box-shadow: 2px 2px 1px silver;
+    font-family: 'Open Sans', sans-serif;
+    text-align:center;
 }
 
 [tooltip]:hover:before {
