@@ -130,7 +130,9 @@ function myTimer() {
 		    }
 		}
             }
+	    var datetime = "CPS data monitoring page. Last Sync: " + response["time"];
 
+            /*
 	    var currentdate = new Date(); 
 	    var datetime = "CPS data monitoring page. Last Sync: " + ( (currentdate.getDate()<10?'0':'').toString() + (currentdate.getDate()).toString() ) + "/"
                 + ( ((currentdate.getMonth()+1)<10?'0':'').toString() + (currentdate.getMonth()+1)).toString()  + "/" 
@@ -138,6 +140,7 @@ function myTimer() {
                 + ( (currentdate.getHours()<10?'0':'').toString() + (currentdate.getHours()).toString() ) + ":"  
                 + ( (currentdate.getMinutes()<10?'0':'').toString() + (currentdate.getMinutes()).toString() ) + ":" 
                 + ( (currentdate.getSeconds()<10?'0':'').toString() + (currentdate.getSeconds()).toString() );
+            */
    	    $("#page_info").text(datetime);
             console.log(datetime);
         },

@@ -9,6 +9,7 @@ import urllib2
 import re
 import datetime
 from shutil import copyfile
+from time import gmtime, strftime
 
 
 import tornado.escape
@@ -94,7 +95,8 @@ def fetchDataADEI():
                             auth=(config['username'],
                                   config['password'])).content
         #tmp_data = data.content
-        print data
+        #print "CHECK THIS"
+        #print data
 
         last_value = data.split(",")[-1].strip()
 	try:
@@ -104,6 +106,9 @@ def fetchDataADEI():
             last_value = ""
  	print last_value
         cache_data[param] = last_value
+        #current_timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+        current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
+        cache_data['time'] = current_timestamp
 
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
