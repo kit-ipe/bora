@@ -92,7 +92,6 @@ function myTimer() {
                 //console.log(key, response[key]);
                 data_type = $("#" + key).attr('data-type');
                 if($("#" + key).length > 0) {
-
                     if (data_type == "data") {
                         var datavalue, set_color;
 			if (response[key]) {
@@ -136,8 +135,21 @@ function myTimer() {
       			}
 		    } else if (data_type == "integer-to-string") {
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
-                        var dict_cond = JSON.parse($("#" + key).attr('data-cond'));
-                        var dict_color = dict_cond[response[key]];
+                        //var dict_cond = {}; 
+                        var dict_cond;
+                        var attr = $("#" + key).attr('data-cond');
+                        if (typeof attr !== typeof undefined && attr !== false) {
+                            dict_cond = {};
+                        } else {
+                            dict_cond = JSON.parse($("#" + key).attr('data-cond'));
+                        }
+                        var dict_color = "";
+                        if (key in response) {
+                            var token = response[key];
+                            if (token in dict_cond) {
+                                dict_color = dict_cond[token];
+                            }
+                        }
                         //console.log("CHECK");
                         //console.log(response[key]);
                         $(".varval", "#" + key).css("color", dict_color);
