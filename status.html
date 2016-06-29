@@ -50,6 +50,16 @@ data-type="{{ data['style'][key]['type'] }}" data-lesser="{{ data['style'][key][
 {% else %}
 {% end %}
 
+{% if data['style'][key]['type'] == "header" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type="{{
+    data['style'][key]['type'] }}" class='databox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span></p>
+</div>
+{% else %}
+{% end %}
+
 
 {% end %}
 {% else %}

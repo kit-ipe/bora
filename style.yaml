@@ -3,7 +3,7 @@
   dict: '{"5": "Five Mode", "0": "Zero Mode"}'
   header:
     size: 28px
-    title: ' '
+    title: '       '
     weight: '400'
   height: 137.99099999999999
   left: 409px
@@ -18,7 +18,7 @@
   condition: ''
   header:
     size: 28px
-    title: '  '
+    title: '        '
     weight: '400'
   height: 92.991
   larger: ''
@@ -28,14 +28,14 @@
   type: data
   unit:
     size: 28px
-    title: ' '
+    title: '       '
     weight: '400'
   width: 50.991
 320-RTY-3-3101:
   condition: ''
   header:
     size: 28px
-    title: '       '
+    title: '             '
     weight: '400'
   height: 95.991
   larger: '77'
@@ -45,7 +45,7 @@
   type: data
   unit:
     size: 28px
-    title: '      K'
+    title: '            K'
     weight: '400'
   width: 163.99099999999999
 411-REI-1-1110-0030:
