@@ -1,26 +1,43 @@
 320-MOD-0-0001:
-  dict: '{"1":"bake out","2":"Cool-Down","3":"Argon-Preparation","4":"Standby","5":"Standard
-    Operation","6":"Regeneration","7":"Warm-Up","8":"CKrS Calibration"}'
+  cond: '{"5": "#ff0", "0": "#0f0"}'
+  dict: '{"5": "Five Mode", "0": "Zero Mode"}'
   header:
     size: 28px
-    title: 'Operation mode    '
+    title: ' '
     weight: '400'
-  height: 211
-  left: 223px
-  top: 98px
+  height: 137.99099999999999
+  left: 409px
+  top: 369px
   type: integer-to-string
   unit:
     size: 28px
     title: ''
     weight: '400'
-  width: 107
+  width: 293.991
+320-RTY-3-2101:
+  condition: ''
+  header:
+    size: 28px
+    title: '  '
+    weight: '400'
+  height: 92.991
+  larger: ''
+  left: 352px
+  lesser: ''
+  top: 189px
+  type: data
+  unit:
+    size: 28px
+    title: ' '
+    weight: '400'
+  width: 50.991
 320-RTY-3-3101:
   condition: ''
   header:
     size: 28px
-    title: '   '
+    title: '       '
     weight: '400'
-  height: 96
+  height: 95.991
   larger: '77'
   left: 182px
   lesser: '77'
@@ -28,14 +45,14 @@
   type: data
   unit:
     size: 28px
-    title: '  K'
+    title: '      K'
     weight: '400'
-  width: 164
+  width: 163.99099999999999
 411-REI-1-1110-0030:
-  height: 51
+  height: 50.991
   left: 517px
   'off': '1'
   'on': '0'
   top: 142px
   type: ventil
-  width: 50
+  width: 50.991

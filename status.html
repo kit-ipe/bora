@@ -41,7 +41,10 @@ data-type="{{ data['style'][key]['type'] }}" data-lesser="{{ data['style'][key][
 {% end %}
 
 {% if data['style'][key]['type'] == "integer-to-string" %}
-<div tooltip="{{ key }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
+<div tooltip="{{ key }}" style='position: absolute; top: {{
+    data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
+    width:{{ data['style'][key]['width'] }}px; height:{{
+    data['style'][key]['height'] }}px;' data-cond="{{ data['style'][key]['cond'] }}" data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">??? </span></p>
 </div>
 {% else %}
@@ -123,9 +126,11 @@ function myTimer() {
       			}
 		    } else if (data_type == "integer-to-string") {
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
+                        var dict_cond = JSON.parse($("#" + key).attr('data-cond'));
+                        var dict_color = dict_cond[response[key]];
                         //console.log("CHECK");
-			//console.log(response[key]);
-			//console.log(dict_attr);
+                        //console.log(response[key]);
+                        $(".varval", "#" + key).css("color", dict_color);
                         $(".varval", "#" + key).text(dict_attr[response[key]]);
 		    }
 		}
