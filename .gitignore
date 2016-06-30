@@ -1,5 +1,6 @@
 config.yaml
 cache.yaml
+style.yaml
 .tmp.yaml
 *.yaml
 backup

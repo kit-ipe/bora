@@ -135,13 +135,11 @@ function myTimer() {
       			}
 		    } else if (data_type == "integer-to-string") {
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
-                        //var dict_cond = {}; 
                         var dict_cond;
-                        var attr = $("#" + key).attr('data-cond');
-                        if (typeof attr !== typeof undefined && attr !== false) {
-                            dict_cond = {};
-                        } else {
+                        if ($("#"+key).attr("data-cond")) {
                             dict_cond = JSON.parse($("#" + key).attr('data-cond'));
+                        } else {
+                            dict_cond = {};
                         }
                         var dict_color = "";
                         if (key in response) {
@@ -150,8 +148,6 @@ function myTimer() {
                                 dict_color = dict_cond[token];
                             }
                         }
-                        //console.log("CHECK");
-                        //console.log(response[key]);
                         $(".varval", "#" + key).css("color", dict_color);
                         $(".varval", "#" + key).text(dict_attr[response[key]]);
 		    }
