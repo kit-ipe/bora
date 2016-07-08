@@ -118,19 +118,7 @@ def fetchDataADEI():
     
     
     os.remove(config["path"]+".mutex")
-    
-    
-"""
-with open("config.yaml", 'r') as stream:
-    try:
-        #print(yaml.load(stream))
-        config = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-if config == None:
-    print("Error: Empty configuration file.")
-    sys.exit(1)
-"""
+
     
 print "Start torrenting..."
 # it auto-starts, no need of rt.start()
@@ -140,6 +128,9 @@ print "Debugging..."
 rt = RepeatedTimer(config["polling"], fetchDataADEI)
     
 
+class BaseHandler(tornado.web.RequestHandler):
+    def get_current(self):
+        return self.get_secure_cookie("user")
 
 class ListHandler(tornado.web.RequestHandler):
     def get(self):
@@ -177,6 +168,7 @@ class SetTimerHandler(tornado.web.RequestHandler):
 
 
 class DesignerHandler(tornado.web.RequestHandler):
+    @tornado.web.authenticated
     def get(self):
         print "In designer mode."
         with open("cache.yaml", 'r') as stream:
@@ -282,8 +274,6 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         if config["type"] != "adei":
             print("Error: Wrong handler.")
             return
-        
-        
         #print config
         
         dest = config['server'] + config['script']
@@ -342,9 +332,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        #print "CHECK THIS"
-        #print sensor_name, query
-        #print cache_data
+
         if cache_data == None:
             cache_data = {}
             cache_data[sensor_name] = query
@@ -362,7 +350,8 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         
         #print match_token, db_mask
         self.write(response)
-        
+
+
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         with open("cache.yaml", 'r') as stream:
@@ -377,20 +366,78 @@ class GetDataHandler(tornado.web.RequestHandler):
         print cache_data
         self.write(cache_data) 
 
+    
+class AuthLoginHandler(BaseHandler):
+    def get(self):
+        try:
+            errormessage = self.get_argument("error")
+        except:
+            errormessage = ""
+        print errormessage
+        self.render("login.html", errormessage = errormessage)
+
+    def check_permission(self, password, username):
+        if username == config["username"] and password == config["password"]:
+            return True
+        return False
+
+    def post(self):
+        username = self.get_argument("username", "")
+        password = self.get_argument("password", "")
+        auth = self.check_permission(password, username)
+        if auth:
+            self.set_current_user(username)
+            print "In designer mode."
+            with open("cache.yaml", 'r') as stream:
+                try:
+                    #print(yaml.load(stream))
+                    cache_data = yaml.load(stream)
+                except yaml.YAMLError as exc:
+                    print(exc)
+            if cache_data == None:
+                print("Error: Empty cache data file.")
+                return
+        
+            print cache_data
+        
+            with open("style.yaml", 'r') as stream:
+                try:
+                    #print(yaml.load(stream))
+                    style_data = yaml.load(stream)
+                except yaml.YAMLError as exc:
+                    print(exc)
+
+            data = {
+                "cache": cache_data,
+                "style": style_data
+            }
+            self.render('designer.html', data=data)
+        else:
+            error_msg = u"?error=" + tornado.escape.url_escape("Login incorrect")
+            self.redirect(u"/auth/login/" + error_msg)
+
+
+    def set_current_user(self, user):
+        if user:
+            self.set_secure_cookie("user", tornado.escape.json_encode(user))
+        else:
+            self.clear_cookie("user")
+
 
 application = tornado.web.Application([
-    (r"/version", VersionHandler),
-    (r"/list", ListHandler),
-    (r"/start", StartHandler),
-    (r"/backup/", BackupHandler),
-    (r"/stop", StopHandler),
-    (r"/designer", DesignerHandler),
-    (r"/status", StatusHandler),
-    (r"/save/", SaveHandler),
-    (r"/getdata/", GetDataHandler),
+    (r"/auth/login/?", AuthLoginHandler),
+    (r"/version/?", VersionHandler),
+    (r"/list/?", ListHandler),
+    (r"/start/?", StartHandler),
+    (r"/backup/?", BackupHandler),
+    (r"/stop/?", StopHandler),
+    (r"/designer/?", DesignerHandler),
+    (r"/status/?", StatusHandler),
+    (r"/save/?", SaveHandler),
+    (r"/getdata/?", GetDataHandler),
     (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
     (r"/add/(?P<db_server>[^\/]+)/?(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?", AdeiKatrinHandler)
-], debug=True, static_path=os.path.join(root, 'static'), js_path=os.path.join(root, 'js'))
+], debug=True, static_path=os.path.join(root, 'static'), js_path=os.path.join(root, 'js'), login_url="auth/login", cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
  
 
 if __name__ == "__main__":
