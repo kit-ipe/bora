@@ -22,8 +22,15 @@
 {% if data['style'] %}
 {% for key in data['style'] %}
 {% if data['style'][key]['type'] == "data" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-type="{{ data['style'][key]['type'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title'> {{ data['style'][key]['unit']['title'] }}</span></span></p>
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' 
+    {% if "formula" in data['style'][key] %}
+    data-formula="{{ data['style'][key]['formula'] }}"
+    {% else %}
+    {% end %}
+    data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-type="{{ data['style'][key]['type'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
 {% else %}
 {% end %}
@@ -65,9 +72,15 @@
 <div id="tool-btn">
 <span class="info">Variable</span>
 <select id="varname" style="font-size:16pt;">
-  {% for key in data['style'] %}
-  <option value={{data['style'][key]}}>{{key}}</option>
+{% if data['cache'] %}  
+  {% for key in data['cache'] %}
+    {% if key != "time" %}  
+    <option value={{data['cache'][key]}}>{{key}}</option>
+    {% else %}
+    {% end %}
   {% end %}
+{% else %}
+{% end %}
 </select>
 <span class="info">Type</span>
 <select id="vartype" style="font-size:16pt;">
@@ -94,6 +107,7 @@
 <input type="text" id="elem_unit_size" placeholder="size" style="font-size:16pt; width=100px;"/>
 
 <input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_formula" placeholder="Equation" style="font-size:16pt; width=100px;"/>
 
 <select id="elem_unit_style" style="font-size:16pt;">
   <option value="400">normal</option>
@@ -126,8 +140,6 @@ function backup() {
     });
 }    
     
-    
-
 function showhide() {
     console.log("Show or Hide");
     $("#tool-btn").toggle();
@@ -152,18 +164,25 @@ function add() {
     data_condition = $("#elem_condition_range").val();
     //data_max = $("#elem_max_range").val();
     
+    data_formula = $("#elem_formula").val();
+    
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
     
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
     vartype = $("#vartype option:selected").val();
+    console.log("Selected");
+    console.log(vartype);
+
     console.log(title_text, unit_text, varname, varval, vartype);
     
-    
-    if(($("#" + varname).length == 0) || (vartype="header")) {
+        
+    if(($("#" + varname).length == 0) || (vartype=="header")) {
         console.log("Must enter here");
+        console.log(vartype);
         if (vartype == "data") {
+            console.log("Data");
             html_text = "<div " +
                     "style='position: absolute; " +
                            "top:0; " +
@@ -172,8 +191,9 @@ function add() {
                     "id='" + varname +
                     "' data-type='" + vartype +
                     "' data-cond='" + data_condition +
+                    "' data-formula='" + data_formula +
                     "' data-lesser='" + data_lesser + 
- 		    "' data-larger='" + data_larger + 
+ 		            "' data-larger='" + data_larger + 
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -188,6 +208,7 @@ function add() {
                     "<span class='unit_title'>" + unit_text + "</span></p>" +
         	    "</div>";
         } else if (vartype == "header") {
+            console.log("Header");
             varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
             html_text = "<div " +
                     "style='position: absolute; " +
@@ -208,6 +229,7 @@ function add() {
                     " </span></p>" + 
         	    "</div>";
         } else if (vartype == "ventil") {
+            console.log("Ventil");
             var token = JSON.parse(unit_text);
             data_on = token["on"];
             data_off = token["off"];
@@ -221,14 +243,15 @@ function add() {
                     "' data-type='" + vartype +
                     "' data-cond='" + data_condition +
                     "' data-lesser='" + data_lesser + 
- 		    "' data-larger='" + data_larger + 
- 		    "' data-on='" + data_on + 
- 		    "' data-off='" + data_off + 
+ 		            "' data-larger='" + data_larger + 
+ 		            "' data-on='" + data_on + 
+ 		            "' data-off='" + data_off + 
                     "'>" +
- 		    "<img width='100%' height='100%' " + 
+ 		            "<img width='100%' height='100%' " + 
                     "src='{{ static_url("ventil_inactive.png") }}'></img>" +
-        	    "</div>";	    
-	} else if (vartype == "integer-to-string") {
+        	        "</div>";	    
+	    } else if (vartype == "integer-to-string") {
+            console.log("Integer2String");
             html_text = "<div " +
                     "style='position: absolute; " +
                            "top:0; " +
@@ -250,7 +273,7 @@ function add() {
                            "font-weight: " + unit_style + ";' " + 
                     "class='varval'>Standard Operation </span>" + 
                     "</p>" +
-        	    "</div>";
+        	        "</div>";
         }
         console.log("Adding element");
         console.log(html_text);
@@ -259,15 +282,24 @@ function add() {
         $("#"+varname).resizable(); 
     }
 }
-    
+   
 function myremove() {
     varname = $("#varname option:selected").text();
-    if($("#" + varname).length > 0) {
+    vartype = $("#vartype option:selected").val();
+    if (vartype != "header") {
+        if($("#" + varname).length > 0) {
+            $("#"+varname).remove();
+            console.log(varname +" removed.");
+        }
+    } else {
+        title_text = $("#elem_title_text").val();
+        title_text = title_text.trim();
+        varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
         $("#"+varname).remove();
         console.log(varname +" removed.");
-    }    
+    }
 }
-    
+
 function mysave(data) {
     console.log("saving...");
     console.log(data);
@@ -276,30 +308,32 @@ function mysave(data) {
         var tmp = {};
         console.log(key);
         if($("#" + key).length > 0 ) {
+            
             tmp["left"] = $("#"+key).css("left");
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
-            tmp["type"] = $("#"+key).attr("data-type");
+            tmp["type"] = $("#vartype option:selected").val();
 
             if ( $("#"+key).attr("data-type") == "data" ) {
-            	tmp["condition"] = $("#"+key).attr("data-cond");
-            	tmp["lesser"] = $("#"+key).attr("data-lesser");
-            	tmp["larger"] = $("#"+key).attr("data-larger");
-            	tmp["min"] = $("#"+key).attr("min");
-           	tmp["max"] = $("#"+key).attr("max");
+            	tmp["condition"] = $("#elem_condition_range").val();
+            	tmp["formula"] = $("#elem_formula").val();
+            	tmp["lesser"] = $("#elem_lesser_range").val();
+            	tmp["larger"] = $("#elem_larger_range").val();
+            	//tmp["min"] = $("#"+key).attr("min");
+           	    //tmp["max"] = $("#"+key).attr("max");
             
             	header = {};
-            	header["title"] = $(".title", "#"+key).text();
+            	header["title"] = $("#elem_title_text").val().trim();
             	//header["color"] = $(".title", "#"+key).css("color");
-            	header["size"] = $(".title", "#"+key).css("font-size");
-            	header["weight"] = $(".title", "#"+key).css("font-weight");
+            	header["size"] = $("#elem_title_size").val();
+            	header["weight"] = $("#elem_title_style option:selected").val();
             
             	unit = {};
-            	unit["title"] = $(".unit_title", "#"+key).text();
+            	unit["title"] = $("#elem_unit_text").val().trim();
             	//unit["color"] = $(".varval", "#"+key).css("color");
-            	unit["size"] = $(".varval", "#"+key).css("font-size");
-            	unit["weight"] = $(".varval", "#"+key).css("font-weight");
+            	unit["size"] = $("#elem_unit_size").val();
+            	unit["weight"] = $("#elem_unit_style option:selected").val();
 
             	tmp["header"] = header;
             	tmp["unit"] = unit;
@@ -392,10 +426,71 @@ function mysave(data) {
     });
 }
     
-    
 function highlight() {
     varname = $("#varname option:selected").text();
     console.log(varname);
+    vartype = $("#vartype option:selected").val();
+    if (vartype == "header") {
+        title_text = $("#elem_title_text").val();
+        title_text = title_text.trim();
+        varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
+    } else if (vartype == "data") {
+        $("#elem_title_text").val($("#"+varname + " .title").text().trim());
+        $("#elem_title_size").val("");
+        if ($("#"+varname + " .title").css("font-size")) {
+            $("#elem_title_size").val(parseFloat($("#"+varname + " .title").css("font-size")));
+        }
+        $("#elem_unit_text").val($("#"+varname + " .unit_title").text().trim());
+        $("#elem_unit_size").val("");
+        if ($("#"+varname + " .varval").css("font-size")) {
+            $("#elem_unit_size").val(parseFloat($("#"+varname + " .varval").css("font-size")));
+        }
+        $("#elem_lesser_range").val("");
+        if ($("#"+varname).attr("data-lesser") ) {
+            $("#elem_lesser_range").val($("#"+varname).attr("data-lesser"));
+        }
+        $("#elem_larger_range").val("");
+        if ($("#"+varname).attr("data-larger") ) {
+            $("#elem_larger_range").val($("#"+varname).attr("data-larger"));
+        }
+        $("#elem_condition_range").val("");
+        if ($("#"+varname).attr("data-cond") ) {
+            $("#elem_condition_range").val($("#"+varname).attr("data-cond"));
+        }
+        $("#elem_formula").val("");
+        if ($("#"+varname).attr("data-formula") ) {
+            $("#elem_formula").val($("#"+varname).attr("data-formula"));
+        }
+
+    /*
+        title_text = title_text.trim();
+    title_color = "#000000";
+    //title_color = $("#elem_title_color").val();
+    title_size = $("#elem_title_size").val();
+    title_style = $("#elem_title_style option:selected").val();
+    
+    unit_text = $("#elem_unit_text").val();
+    unit_text = unit_text.trim();
+    unit_color = "#000";
+    //unit_color = $("#elem_unit_color").val();
+    unit_size = $("#elem_unit_size").val();
+    unit_style = $("#elem_unit_style option:selected").val();
+    
+    data_condition = $("#elem_condition_range").val();
+    //data_max = $("#elem_max_range").val();
+    
+    data_formula = $("#elem_formula").val();
+    
+    data_lesser = $("#elem_lesser_range").val();
+    data_larger = $("#elem_larger_range").val();
+    
+    varval = $( "#varname option:selected").val();
+    varname = $("#varname option:selected").text();
+    vartype = $("#vartype option:selected").val();
+    console.log("Selected");
+    console.log(vartype);
+    */  
+    }
     if ($("#"+varname).hasClass("box_highlight")) {
         $("#"+varname).removeClass("box_highlight");
     } else {
