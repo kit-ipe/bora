@@ -22,7 +22,7 @@
 
 {% if data['style'][key]['type'] == "data" %}
 <div tooltip="{{ key }}" class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' 
-{% if data['style'][key]['condition'] %}
+{% if "condition" in data['style'][key] %}
 data-cond="{{ data['style'][key]['condition'] }}"
 {% else%}
 {% end%}
@@ -30,7 +30,15 @@ data-cond="{{ data['style'][key]['condition'] }}"
 data-formula="{{ data['style'][key]['formula'] }}"
 {% else %}
 {% end %}
-data-type="{{ data['style'][key]['type'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-larger="{{ data['style'][key]['larger'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
+{% if "lesser" in data['style'][key] %}
+data-lesser="{{ data['style'][key]['lesser'] }}"
+{% else %}
+{% end %}
+{% if "larger" in data['style'][key] %}
+data-larger="{{ data['style'][key]['larger'] }}"
+{% else %}
+{% end %}
+data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span></p>
 </div>
 {% else %}

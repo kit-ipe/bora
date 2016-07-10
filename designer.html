@@ -25,11 +25,23 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px;' 
-    {% if "formula" in data['style'][key] %}
-    data-formula="{{ data['style'][key]['formula'] }}"
-    {% else %}
-    {% end %}
-    data-cond="{{ data['style'][key]['condition'] }}" data-lesser="{{ data['style'][key]['lesser'] }}" data-type="{{ data['style'][key]['type'] }}" data-larger="{{ data['style'][key]['larger'] }}" class='varbox' id="{{ key }}">
+{% if "condition" in data['style'][key] %}
+ data-cond="{{ data['style'][key]['condition'] }}"
+{% else%}
+{% end%}
+{% if "formula" in data['style'][key] %}
+ data-formula="{{ data['style'][key]['formula'] }}"
+{% else %}
+{% end %}
+{% if "lesser" in data['style'][key] %}
+ data-lesser="{{ data['style'][key]['lesser'] }}"
+{% else %}
+{% end %}
+{% if "larger" in data['style'][key] %}
+ data-larger="{{ data['style'][key]['larger'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
 {% else %}
@@ -313,27 +325,27 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
-            tmp["type"] = $("#vartype option:selected").val();
+            tmp["type"] = $("#"+key).attr("data-type");
 
             if ( $("#"+key).attr("data-type") == "data" ) {
-            	tmp["condition"] = $("#elem_condition_range").val();
-            	tmp["formula"] = $("#elem_formula").val();
-            	tmp["lesser"] = $("#elem_lesser_range").val();
-            	tmp["larger"] = $("#elem_larger_range").val();
+            	tmp["condition"] = $("#"+key).attr("data-cond");
+            	tmp["formula"] = $("#"+key).attr("data-formula");
+            	tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	tmp["larger"] = $("#"+key).attr("data-larger");
             	//tmp["min"] = $("#"+key).attr("min");
-           	    //tmp["max"] = $("#"+key).attr("max");
+           	//tmp["max"] = $("#"+key).attr("max");
             
             	header = {};
-            	header["title"] = $("#elem_title_text").val().trim();
+            	header["title"] = $(".title", "#"+key).text();
             	//header["color"] = $(".title", "#"+key).css("color");
-            	header["size"] = $("#elem_title_size").val();
-            	header["weight"] = $("#elem_title_style option:selected").val();
+            	header["size"] = $(".title", "#"+key).css("font-size");
+            	header["weight"] = $(".title", "#"+key).css("font-weight");
             
             	unit = {};
-            	unit["title"] = $("#elem_unit_text").val().trim();
+            	unit["title"] = $(".unit_title", "#"+key).text();
             	//unit["color"] = $(".varval", "#"+key).css("color");
-            	unit["size"] = $("#elem_unit_size").val();
-            	unit["weight"] = $("#elem_unit_style option:selected").val();
+            	unit["size"] = $(".varval", "#"+key).css("font-size");
+            	unit["weight"] = $(".varval", "#"+key).css("font-weight");
 
             	tmp["header"] = header;
             	tmp["unit"] = unit;
