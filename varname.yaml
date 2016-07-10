@@ -1,6 +1,0 @@
-311-RBY-1-5051: db_server=cscryo&db_name=ControlSystem_Cryo&db_group=310DPS_Magnetsteuerung&db_mask=39
-320-MOD-0-0001: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_SYS&db_mask=0
-320-RTP-3-1101: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_STR_Strahlrohr&db_mask=180
-320-RTY-3-2101: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_STR_Strahlrohr&db_mask=213
-320-RTY-3-3101: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_STR_Strahlrohr&db_mask=222
-411-REI-1-1110-0030: db_server=aircoils&db_name=aircoils_rep&db_group=0&db_mask=84
