@@ -127,7 +127,7 @@
 </select>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
-<button class="button highlight" onclick="highlight()">Highlight</button>
+<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
@@ -199,13 +199,13 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0;' " +
-                    "class='varbox' " + 
+                    "class='varbox box_highlight' " + 
                     "id='" + varname +
                     "' data-type='" + vartype +
                     "' data-cond='" + data_condition +
                     "' data-formula='" + data_formula +
                     "' data-lesser='" + data_lesser + 
- 		            "' data-larger='" + data_larger + 
+ 		    "' data-larger='" + data_larger + 
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -226,7 +226,7 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0;' " +
-                    "class='varbox' " + 
+                    "class='varbox box_highlight' " + 
                     "id='" + varname +
                     "' data-type='" + vartype +
                     "' data-cond='" + data_condition +
@@ -250,7 +250,7 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0;' " +
-                    "class='varbox' " + 
+                    "class='varbox box_highlight' " + 
                     "id='" + varname +
                     "' data-type='" + vartype +
                     "' data-cond='" + data_condition +
@@ -268,7 +268,7 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0;' " +
-                    "class='varbox' " + 
+                    "class='varbox box_highlight' " + 
                     "id='" + varname +
                     "' data-type='" + vartype +
                     "' data-dict='" + unit_text +
@@ -283,7 +283,7 @@ function add() {
                     "<span style='color: " + unit_color + "; " + 
                            "font-size:" + unit_size + "px; " +
                            "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>Standard Operation </span>" + 
+                    "class='varval'>??? </span>" + 
                     "</p>" +
         	        "</div>";
         }
@@ -293,8 +293,7 @@ function add() {
         $("#"+varname).draggable();
         $("#"+varname).resizable(); 
     }
-}
-   
+} 
 function myremove() {
     varname = $("#varname option:selected").text();
     vartype = $("#vartype option:selected").val();
@@ -438,10 +437,22 @@ function mysave(data) {
     });
 }
     
-function highlight() {
+function highlight(mydata) {
     varname = $("#varname option:selected").text();
-    console.log(varname);
-    vartype = $("#vartype option:selected").val();
+    vartype = $("#"+varname).attr("data-type");
+    $("#vartype").val(vartype);
+    //console.log(varname, vartype);
+
+    // clear values
+    $("#elem_title_text").val("");
+    $("#elem_title_size").val("");
+    $("#elem_unit_text").val("");
+    $("#elem_unit_size").val("");
+    $("#elem_lesser_range").val("");
+    $("#elem_larger_range").val("");
+    $("#elem_condition_range").val("");
+    $("#elem_formula").val("");
+
     if (vartype == "header") {
         title_text = $("#elem_title_text").val();
         title_text = title_text.trim();
@@ -473,40 +484,31 @@ function highlight() {
         if ($("#"+varname).attr("data-formula") ) {
             $("#elem_formula").val($("#"+varname).attr("data-formula"));
         }
-
-    /*
-        title_text = title_text.trim();
-    title_color = "#000000";
-    //title_color = $("#elem_title_color").val();
-    title_size = $("#elem_title_size").val();
-    title_style = $("#elem_title_style option:selected").val();
-    
-    unit_text = $("#elem_unit_text").val();
-    unit_text = unit_text.trim();
-    unit_color = "#000";
-    //unit_color = $("#elem_unit_color").val();
-    unit_size = $("#elem_unit_size").val();
-    unit_style = $("#elem_unit_style option:selected").val();
-    
-    data_condition = $("#elem_condition_range").val();
-    //data_max = $("#elem_max_range").val();
-    
-    data_formula = $("#elem_formula").val();
-    
-    data_lesser = $("#elem_lesser_range").val();
-    data_larger = $("#elem_larger_range").val();
-    
-    varval = $( "#varname option:selected").val();
-    varname = $("#varname option:selected").text();
-    vartype = $("#vartype option:selected").val();
-    console.log("Selected");
-    console.log(vartype);
-    */  
+    } else if (vartype == "ventil") {
+        $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
+    } else if (vartype == "integer-to-string") {
+        $("#elem_title_text").val($("#"+varname + " .title").text().trim());
+        $("#elem_title_size").val("");
+        if ($("#"+varname + " .title").css("font-size")) {
+            $("#elem_title_size").val(parseFloat($("#"+varname + " .title").css("font-size")));
+        }
+        $("#elem_unit_text").val($("#"+varname).attr("data-dict"));
+        $("#elem_condition_range").val("");
+        if ($("#"+varname).attr("data-cond") ) {
+            $("#elem_condition_range").val($("#"+varname).attr("data-cond"));
+        }
+        
     }
-    if ($("#"+varname).hasClass("box_highlight")) {
-        $("#"+varname).removeClass("box_highlight");
-    } else {
-        $("#"+varname).addClass("box_highlight");
+
+    for(key in mydata) {
+        console.log(key, varname);
+        if(($("#" + key).length > 0) && (key == varname) ) {
+            //if (!$("#"+varname).hasClass("box_highlight")) {
+            $("#"+key).addClass("box_highlight");
+            //}
+        } else {
+            $("#"+key).removeClass("box_highlight");
+        }
     }
 }
 
@@ -521,6 +523,15 @@ jQuery(window).load(function () {
     $('[id^=header_]').each(function( index ) {
         $(this).draggable();
         $(this).resizable(); 
+    });
+
+    $("#buttonHighlight").trigger("click"); 
+
+    $("#varname").change(function() {
+        varval = $( "#varname option:selected").val();
+        varname = $("#varname option:selected").text();
+        console.log(varval, varname);
+        $("#buttonHighlight").trigger("click"); 
     });
 });
 </script>
