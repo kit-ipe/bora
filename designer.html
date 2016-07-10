@@ -84,10 +84,10 @@
 <div id="tool-btn">
 <span class="info">Variable</span>
 <select id="varname" style="font-size:16pt;">
-{% if data['cache'] %}  
-  {% for key in data['cache'] %}
+{% if data['style'] %}  
+  {% for key in data['style'] %}
     {% if key != "time" %}  
-    <option value={{data['cache'][key]}}>{{key}}</option>
+    <option value={{data['style'][key]}}>{{key}}</option>
     {% else %}
     {% end %}
   {% end %}
@@ -127,7 +127,7 @@
 </select>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
-<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
+<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['style'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
@@ -297,15 +297,7 @@ function add() {
 function myremove() {
     varname = $("#varname option:selected").text();
     vartype = $("#vartype option:selected").val();
-    if (vartype != "header") {
-        if($("#" + varname).length > 0) {
-            $("#"+varname).remove();
-            console.log(varname +" removed.");
-        }
-    } else {
-        title_text = $("#elem_title_text").val();
-        title_text = title_text.trim();
-        varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
+    if($("#" + varname).length > 0) {
         $("#"+varname).remove();
         console.log(varname +" removed.");
     }
@@ -454,9 +446,10 @@ function highlight(mydata) {
     $("#elem_formula").val("");
 
     if (vartype == "header") {
-        title_text = $("#elem_title_text").val();
-        title_text = title_text.trim();
-        varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
+        var hname = varname.split("_");
+        var res = hname[1].replace("-", " ");
+        $("#elem_title_text").val(res);
+        //varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
     } else if (vartype == "data") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
