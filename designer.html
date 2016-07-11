@@ -58,7 +58,12 @@
 {% if data['style'][key]['type'] == "integer-to-string" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-cond="{{data['style'][key]['cond']}}"  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+    height:{{ data['style'][key]['height'] }}px;' 
+{% if "cond" in data['style'][key] %}
+ data-cond="{{ data['style'][key]['cond'] }}"
+{% else%}
+{% end%}
+ data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">??? </span></p>
 </div>
 {% else %}
@@ -221,7 +226,8 @@ function add() {
         	    "</div>";
         } else if (vartype == "header") {
             console.log("Header");
-            varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
+            var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+            varname = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
             html_text = "<div " +
                     "style='position: absolute; " +
                            "top:0; " +
@@ -240,6 +246,14 @@ function add() {
                     "class='title'>" + title_text +
                     " </span></p>" + 
         	    "</div>";
+            
+            $('#varname').append($('<option>', {
+                value: varname,
+                text: varname
+            }));
+            $('#varname').val(varname);
+            
+
         } else if (vartype == "ventil") {
             console.log("Ventil");
             var token = JSON.parse(unit_text);
@@ -305,11 +319,11 @@ function myremove() {
 
 function mysave(data) {
     console.log("saving...");
-    console.log(data);
+    varname = $("#varname option:selected").text();
     var position = {};
     for(key in data) {
         var tmp = {};
-        console.log(key);
+        //console.log(key);
         if($("#" + key).length > 0 ) {
             
             tmp["left"] = $("#"+key).css("left");
@@ -318,65 +332,100 @@ function mysave(data) {
             tmp["height"] = $("#"+key).height();
             tmp["type"] = $("#"+key).attr("data-type");
 
+            
+
             if ( $("#"+key).attr("data-type") == "data" ) {
-            	tmp["condition"] = $("#"+key).attr("data-cond");
-            	tmp["formula"] = $("#"+key).attr("data-formula");
-            	tmp["lesser"] = $("#"+key).attr("data-lesser");
-            	tmp["larger"] = $("#"+key).attr("data-larger");
-            	//tmp["min"] = $("#"+key).attr("min");
-           	//tmp["max"] = $("#"+key).attr("max");
+                if (varname == key) {
+            	    tmp["condition"] = $("#elem_condtion_range").val();
+            	    tmp["formula"] = $("#elem_formula").val();
+             	    tmp["lesser"] = $("#elem_lesser_range").val();
+            	    tmp["larger"] = $("#elem_larger_range").val();
             
-            	header = {};
-            	header["title"] = $(".title", "#"+key).text();
-            	//header["color"] = $(".title", "#"+key).css("color");
-            	header["size"] = $(".title", "#"+key).css("font-size");
-            	header["weight"] = $(".title", "#"+key).css("font-weight");
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
             
-            	unit = {};
-            	unit["title"] = $(".unit_title", "#"+key).text();
-            	//unit["color"] = $(".varval", "#"+key).css("color");
-            	unit["size"] = $(".varval", "#"+key).css("font-size");
-            	unit["weight"] = $(".varval", "#"+key).css("font-weight");
+            	    unit = {};
+            	    unit["title"] = $("#elem_unit_text").val().trim();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                    
+                } else {
+            	    tmp["condition"] = $("#"+key).attr("data-cond");
+            	    tmp["formula"] = $("#"+key).attr("data-formula");
+             	    tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	    tmp["larger"] = $("#"+key).attr("data-larger");
+             	    //tmp["min"] = $("#"+key).attr("min");
+           	    //tmp["max"] = $("#"+key).attr("max");
+            
+            	    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $(".title", "#"+key).css("font-size");
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
 
             	tmp["header"] = header;
             	tmp["unit"] = unit;
             } else if ( $("#"+key).attr("data-type") == "header" ) {
-            	//tmp["condition"] = $("#"+key).attr("data-cond");
-            	//tmp["lesser"] = $("#"+key).attr("data-lesser");
-            	//tmp["larger"] = $("#"+key).attr("data-larger");
-            	//tmp["min"] = $("#"+key).attr("min");
-           	    //tmp["max"] = $("#"+key).attr("max");
-            	header = {};
-            	header["title"] = $(".title", "#"+key).text();
-            	//header["color"] = $(".title", "#"+key).css("color");
-            	header["size"] = $(".title", "#"+key).css("font-size");
-            	header["weight"] = $(".title", "#"+key).css("font-weight");
-            
-            	//unit = {};
-            	//unit["title"] = $(".unit_title", "#"+key).text();
-            	//unit["color"] = $(".varval", "#"+key).css("color");
-            	//unit["size"] = $(".varval", "#"+key).css("font-size");
-            	//unit["weight"] = $(".varval", "#"+key).css("font-weight");
-
+		header = {};
+		header["title"] = $(".title", "#"+key).text();
+		header["size"] = $(".title", "#"+key).css("font-size");
+		header["weight"] = $(".title", "#"+key).css("font-weight");
             	tmp["header"] = header;
-            	//tmp["unit"] = unit;
             } else if ( $("#"+key).attr("data-type") == "ventil" ) {
-            	tmp["on"] = $("#"+key).attr("data-on");
-            	tmp["off"] = $("#"+key).attr("data-off");
+                if (varname == key) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = dtoken["on"];
+                    tmp["off"] = dtoken["off"];
+                } else {
+            	    tmp["on"] = $("#"+key).attr("data-on");
+            	    tmp["off"] = $("#"+key).attr("data-off");
+                }
             } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
-            	tmp["dict"] = $("#"+key).attr("data-dict");
-            	tmp["cond"] = $("#"+key).attr("data-cond");
-            	header = {};
-            	header["title"] = $(".title", "#"+key).text();
-            	//header["color"] = $(".title", "#"+key).css("color");
-            	header["size"] = $(".title", "#"+key).css("font-size");
-            	header["weight"] = $(".title", "#"+key).css("font-weight");
+                if (varname == key) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var data_condition = $("#elem_condition_range").val();
+
+            	    tmp["cond"] = data_condition;
+            	    tmp["dict"] = unit_text;
+             	    
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
             
-            	unit = {};
-            	unit["title"] = $(".unit_title", "#"+key).text();
-            	//unit["color"] = $(".varval", "#"+key).css("color");
-            	unit["size"] = $(".varval", "#"+key).css("font-size");
-            	unit["weight"] = $(".varval", "#"+key).css("font-weight");
+            	    unit = {};
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                } else {
+            	    tmp["dict"] = $("#"+key).attr("data-dict");
+            	    tmp["cond"] = $("#"+key).attr("data-cond");
+            	    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $(".title", "#"+key).css("font-size");
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    //unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
 
             	tmp["header"] = header;
             	tmp["unit"] = unit;
@@ -385,26 +434,35 @@ function mysave(data) {
             position[key] = tmp;
         }
     }
+    
+    var title_text = $("#elem_title_text").val();
+    title_text = title_text.trim();
+    
+    var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+    var token = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
 
     $('[id^=header_]').each(function( index ) {
         tmp = {};
         var hkey = $( this ).attr('id');
+        console.log(hkey);
         tmp["left"] = $("#"+hkey).css("left");
         tmp["top"] = $("#"+hkey).css("top");
         tmp["width"] = $("#"+hkey).width();
         tmp["height"] = $("#"+hkey).height();
         tmp["type"] = $("#"+hkey).attr("data-type");
-
-        //tmp["condition"] = $("#"+hkey).attr("data-cond");
-        //tmp["lesser"] = $("#"+hkey).attr("data-lesser");
-        //tmp["larger"] = $("#"+hkey).attr("data-larger");
-        //tmp["min"] = $("#"+hkey).attr("min");
-        //tmp["max"] = $("#"+hkey).attr("max");
+        
         header = {};
-        header["title"] = $(".title", "#"+hkey).text();
-        //header["color"] = $(".title", "#"+hkey).css("color");
-        header["size"] = $(".title", "#"+hkey).css("font-size");
-        header["weight"] = $(".title", "#"+hkey).css("font-weight");
+        if (token == hkey) {
+            header["title"] = $("#elem_title_text").val().trim();
+            //header["color"] = $(".title", "#"+key).css("color");
+            header["size"] = $("#elem_title_size").val();
+            header["weight"] = $("#elem_title_style option:selected").val();
+        } else {
+            header["title"] = $(".title", "#"+hkey).text();
+            //header["color"] = $(".title", "#"+hkey).css("color");
+            header["size"] = $(".title", "#"+hkey).css("font-size");
+            header["weight"] = $(".title", "#"+hkey).css("font-weight");
+        }
 
         tmp["header"] = header;
         position[hkey] = tmp;
@@ -446,10 +504,7 @@ function highlight(mydata) {
     $("#elem_formula").val("");
 
     if (vartype == "header") {
-        var hname = varname.split("_");
-        var res = hname[1].replace("-", " ");
-        $("#elem_title_text").val(res);
-        //varname = "header_" + title_text.replace(/\s+/g, '-').toLowerCase();
+        $("#elem_title_text").val($("#"+varname + " .title").text());
     } else if (vartype == "data") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
@@ -525,6 +580,22 @@ jQuery(window).load(function () {
         varname = $("#varname option:selected").text();
         console.log(varval, varname);
         $("#buttonHighlight").trigger("click"); 
+    });
+    
+    $("#vartype").change(function() {
+        vartype = $("#vartype option:selected").val();
+        if (vartype == "header"){
+            $("#varname").val("");
+            // clear values
+	    $("#elem_title_text").val("");
+	    $("#elem_title_size").val("");
+	    $("#elem_unit_text").val("");
+	    $("#elem_unit_size").val("");
+	    $("#elem_lesser_range").val("");
+	    $("#elem_larger_range").val("");
+	    $("#elem_condition_range").val("");
+	    $("#elem_formula").val("");
+        }       
     });
 });
 </script>
