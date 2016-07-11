@@ -181,8 +181,6 @@ class DesignerHandler(tornado.web.RequestHandler):
             print("Error: Empty cache data file.")
             return
         
-        print cache_data
-        
         with open("style.yaml", 'r') as stream:
             try:
                 #print(yaml.load(stream))
@@ -398,7 +396,6 @@ class AuthLoginHandler(BaseHandler):
                 print("Error: Empty cache data file.")
                 return
         
-            print cache_data
         
             with open("style.yaml", 'r') as stream:
                 try:
@@ -406,10 +403,15 @@ class AuthLoginHandler(BaseHandler):
                     style_data = yaml.load(stream)
                 except yaml.YAMLError as exc:
                     print(exc)
+            
+            index_data = list(set(cache_data) | set(style_data)) 
+
+            print index_data
 
             data = {
                 "cache": cache_data,
-                "style": style_data
+                "style": style_data,
+                "index": index_data
             }
             self.render('designer.html', data=data)
         else:

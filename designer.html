@@ -84,10 +84,10 @@
 <div id="tool-btn">
 <span class="info">Variable</span>
 <select id="varname" style="font-size:16pt;">
-{% if data['style'] %}  
-  {% for key in data['style'] %}
+{% if data['index'] %}  
+  {% for key in data['index'] %}
     {% if key != "time" %}  
-    <option value={{data['style'][key]}}>{{key}}</option>
+    <option value={{ key }}>{{key}}</option>
     {% else %}
     {% end %}
   {% end %}
