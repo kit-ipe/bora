@@ -505,6 +505,7 @@ function highlight(mydata) {
 
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
+        $("#elem_title_size").val(parseInt($("#"+varname + " .title").css("font-size")));
     } else if (vartype == "data") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
@@ -549,7 +550,7 @@ function highlight(mydata) {
     }
 
     for(key in mydata) {
-        console.log(key, varname);
+        //console.log(key, varname);
         if(($("#" + key).length > 0) && (key == varname) ) {
             //if (!$("#"+varname).hasClass("box_highlight")) {
             $("#"+key).addClass("box_highlight");
@@ -565,13 +566,18 @@ jQuery(window).load(function () {
         if ($('#'+this.text).length){
             $('#'+this.text).draggable();
             $('#'+this.text).resizable(); 
+            $('#'+this.text).click(function() {
+                console.log($(this).attr("id"));
+                $("#varname").val($(this).attr("id"));
+                $("#buttonHighlight").trigger("click"); 
+            });
         }
         //console.log(this.text + ' ' + this.value);
     });
-    $('[id^=header_]').each(function( index ) {
-        $(this).draggable();
-        $(this).resizable(); 
-    });
+    //$('[id^=header_]').each(function( index ) {
+    //    $(this).draggable();
+    //    $(this).resizable(); 
+    //});
 
     $("#buttonHighlight").trigger("click"); 
 
@@ -597,6 +603,8 @@ jQuery(window).load(function () {
 	    $("#elem_formula").val("");
         }       
     });
+
+
 });
 </script>
 </body>
