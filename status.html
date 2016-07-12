@@ -117,7 +117,7 @@ function myTimer() {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[key]).toFixed(2);
  			                    formula = formula_attr.replace("x", datavalue.toString());
-                                datavalue = math.eval(formula); 
+                                datavalue = math.round(math.eval(formula),2); 
 		    	            } else {
 			                    datavalue = parseFloat(response[key]).toFixed(2);
                             }
