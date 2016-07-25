@@ -21,6 +21,34 @@
 
 {% if data['style'] %}
 {% for key in data['style'] %}
+    
+{% if data['style'][key]['type'] == "calc" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' 
+{% if "condition" in data['style'][key] %}
+ data-cond="{{ data['style'][key]['condition'] }}"
+{% else%}position
+{% end%}
+{% if "formula" in data['style'][key] %}
+ data-formula="{{ data['style'][key]['formula'] }}"
+{% else %}
+{% end %}
+{% if "lesser" in data['style'][key] %}
+ data-lesser="{{ data['style'][key]['lesser'] }}"
+{% else %}
+{% end %}
+{% if "larger" in data['style'][key] %}
+ data-larger="{{ data['style'][key]['larger'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
+</div>
+{% else %}
+{% end %}
+
+    
 {% if data['style'][key]['type'] == "data" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
@@ -105,6 +133,7 @@
   <option value="ventil">ventil</option>
   <option value="integer-to-string">integer-to-string</option>
   <option value="header">header</option>
+  <option value="calc">calc</option>
 </select>
 <span class="info">Attribute</span>
 <select id="varattr" style="font-size:16pt;">
@@ -275,6 +304,42 @@ function add() {
                     "font-weight: " + title_style + ";' " + 
                     "class='title'>" + title_text +
                     " </span></p>" + 
+        	    "</div>";
+            
+            $('#varname').append($('<option>', {
+                value: varname,
+                text: varname
+            }));
+            $('#varname').val(varname);
+            
+
+        } else if (vartype == "calc") {
+            console.log("Calc");
+            var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+            varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+            html_text = "<div " +
+                    "style='position: absolute; " +
+                           "top:0; " +
+                           "left:0;' " +
+                    "class='varbox box_highlight' " + 
+                    "id='" + varname +
+                    "' data-type='" + vartype +
+                    "' data-cond='" + data_condition +
+                    "' data-lesser='" + data_lesser + 
+ 		            "' data-larger='" + data_larger +
+                    "' data-formula='" + data_formula +
+                    "'>" +
+                    "<p>" +
+                    "<span style='color: " + title_color + ";" + 
+                    "font-size:" + title_size + "px; " + 
+                    "font-weight: " + title_style + ";' " + 
+                    "class='title'>" + title_text +
+                    " </span>" + 
+                    "<span style='color: " + unit_color + "; " + 
+                           "font-size:" + unit_size + "px; " +
+                           "font-weight: " + unit_style + ";' " + 
+                    "class='varval'>" + parseFloat(varval).toFixed(2) + " </span>" + 
+                    "<span class='unit_title'>" + unit_text + "</span></p>" +
         	    "</div>";
             
             $('#varname').append($('<option>', {
@@ -593,6 +658,92 @@ function mysave(data) {
         }
     });
 
+    $('[id^=header_]').each(function( index ) {
+        tmp = {};
+        var hkey = $( this ).attr('id');
+        console.log(hkey);
+        tmp["left"] = $("#"+hkey).css("left");
+        tmp["top"] = $("#"+hkey).css("top");
+        tmp["width"] = $("#"+hkey).width();
+        tmp["height"] = $("#"+hkey).height();
+        tmp["type"] = $("#"+hkey).attr("data-type");
+
+        header = {};
+        if (token == hkey) {
+            header["title"] = $("#elem_title_text").val().trim();
+            //header["color"] = $(".title", "#"+key).css("color");
+            header["size"] = $("#elem_title_size").val();
+            header["weight"] = $("#elem_title_style option:selected").val();
+        } else {
+            header["title"] = $(".title", "#"+hkey).text();
+            //header["color"] = $(".title", "#"+hkey).css("color");
+            header["size"] = $(".title", "#"+hkey).css("font-size");
+            header["weight"] = $(".title", "#"+hkey).css("font-weight");
+        }
+
+        tmp["header"] = header;
+        position[hkey] = tmp;
+        //console.log( index + ": " + $( this ).text() );
+    });
+    
+    $('[id^=calc_]').each(function( index ) {
+      var tmp = {};
+        var key = this.id;
+        if($("#" + key).length > 0 ) {
+            tmp["ref"] = "";
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = $("#"+key).width();
+            tmp["height"] = $("#"+key).height();
+            tmp["type"] = $("#"+key).attr("data-type");
+
+            if ( $("#"+key).attr("data-type") == "calc" ) {
+                if (varname == key) {
+            	    tmp["condition"] = $("#elem_condtion_range").val();
+            	    tmp["formula"] = $("#elem_formula").val();
+             	    tmp["lesser"] = $("#elem_lesser_range").val();
+            	    tmp["larger"] = $("#elem_larger_range").val();
+            
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
+            
+            	    unit = {};
+            	    unit["title"] = $("#elem_unit_text").val().trim();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                    
+                } else {
+            	    tmp["condition"] = $("#"+key).attr("data-cond");
+            	    tmp["formula"] = $("#"+key).attr("data-formula");
+             	    tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	    tmp["larger"] = $("#"+key).attr("data-larger");
+             	    //tmp["min"] = $("#"+key).attr("min");
+           	        //tmp["max"] = $("#"+key).attr("max");
+            
+            	    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $(".title", "#"+key).css("font-size");
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
+
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            }
+            position[key] = tmp;
+        }
+    });
+    
     //console.log("Check here");
     //console.log(position);
     var dataToSend = JSON.stringify(position);
@@ -631,6 +782,33 @@ function highlight(mydata) {
         $("#elem_title_text").val($("#"+varname + " .title").text());
         $("#elem_title_size").val(parseInt($("#"+varname + " .title").css("font-size")));
     } else if (vartype == "data") {
+        $("#elem_title_text").val($("#"+varname + " .title").text().trim());
+        $("#elem_title_size").val("");
+        if ($("#"+varname + " .title").css("font-size")) {
+            $("#elem_title_size").val(parseFloat($("#"+varname + " .title").css("font-size")));
+        }
+        $("#elem_unit_text").val($("#"+varname + " .unit_title").text().trim());
+        $("#elem_unit_size").val("");
+        if ($("#"+varname + " .varval").css("font-size")) {
+            $("#elem_unit_size").val(parseFloat($("#"+varname + " .varval").css("font-size")));
+        }
+        $("#elem_lesser_range").val("");
+        if ($("#"+varname).attr("data-lesser") ) {
+            $("#elem_lesser_range").val($("#"+varname).attr("data-lesser"));
+        }
+        $("#elem_larger_range").val("");
+        if ($("#"+varname).attr("data-larger") ) {
+            $("#elem_larger_range").val($("#"+varname).attr("data-larger"));
+        }
+        $("#elem_condition_range").val("");
+        if ($("#"+varname).attr("data-cond") ) {
+            $("#elem_condition_range").val($("#"+varname).attr("data-cond"));
+        }
+        $("#elem_formula").val("");
+        if ($("#"+varname).attr("data-formula") ) {
+            $("#elem_formula").val($("#"+varname).attr("data-formula"));
+        }
+    } else if (vartype == "calc") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
         if ($("#"+varname + " .title").css("font-size")) {
@@ -714,17 +892,17 @@ jQuery(window).load(function () {
     
     $("#vartype").change(function() {
         vartype = $("#vartype option:selected").val();
-        if (vartype == "header"){
+        if ((vartype == "header") || (vartype == "calc")) {
             $("#varname").val("");
             // clear values
-	    $("#elem_title_text").val("");
-	    $("#elem_title_size").val("");
-	    $("#elem_unit_text").val("");
-	    $("#elem_unit_size").val("");
-	    $("#elem_lesser_range").val("");
-	    $("#elem_larger_range").val("");
-	    $("#elem_condition_range").val("");
-	    $("#elem_formula").val("");
+	        $("#elem_title_text").val("");
+	        $("#elem_title_size").val("");
+	        $("#elem_unit_text").val("");
+	        $("#elem_unit_size").val("");
+	        $("#elem_lesser_range").val("");
+	        $("#elem_larger_range").val("");
+	        $("#elem_condition_range").val("");
+	        $("#elem_formula").val("");
         }       
     });
 
