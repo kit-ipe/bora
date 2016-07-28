@@ -101,7 +101,7 @@ data-cond="{{ data['style'][key]['cond'] }}"
 {% else %}
 {% end %}
  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">??? </span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span></p>
 </div>
 {% else %}
 {% end %}
@@ -163,7 +163,7 @@ function myTimer() {
                             }
  		    	            set_color = "green";
 			            } else {
-			                datavalue = "???";
+			                datavalue = "---";
 			                set_color = "black";
 			            }
                         $(".varval", "#" + key).text(datavalue);
@@ -218,15 +218,17 @@ function myTimer() {
 		            }
 		        }
             }
+
             $('[id^=virtual_]').each(function( index ) {
-                var key = this.id;
-                var ref = key.split("_");
+                var vkey = this.id;
+                var ref = vkey.split("_");
                 ref = ref[1];
-                data_type = $("#" + key).attr('data-type');
-                if($("#" + key).length > 0) {
+                data_type = $("#" + vkey).attr('data-type');
+                if($("#" + vkey).length > 0) {
                     if (data_type == "data") {
+                        console.log(vkey);
                         var datavalue, set_color, formula;
-                        var formula_attr = $("#" + key).attr('data-formula');
+                        var formula_attr = $("#" + vkey).attr('data-formula');
 			            if (response[ref]) {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[ref]).toFixed(2);
@@ -238,13 +240,13 @@ function myTimer() {
                             }
  		    	            set_color = "green";
 			            } else {
-			                datavalue = "???";
+			                datavalue = "---";
 			                set_color = "black";
 			            }
-                        $(".varval", "#" + key).text(datavalue);
-                        var condition_attr = $("#" + key).attr('data-cond');
-                        var lesser_attr = $("#" + key).attr('data-lesser');
-                        var larger_attr = $("#" + key).attr('data-larger');
+                        $(".varval", "#" + vkey).text(datavalue);
+                        var condition_attr = $("#" + vkey).attr('data-cond');
+                        var lesser_attr = $("#" + vkey).attr('data-lesser');
+                        var larger_attr = $("#" + vkey).attr('data-larger');
   		    	        //console.log(condition_attr);
                         if (condition_attr) {
  			                if (response[ref] == condition_attr) {
@@ -261,8 +263,8 @@ function myTimer() {
  			    	            set_color = "red";
       			            }
 		    	        }
-		    	        $(".varval", "#" + key).css("color", set_color);
-		    	        $(".unit_title", "#" + key).css("color", set_color);
+		    	        $(".varval", "#" + vkey).css("color", set_color);
+		    	        $(".unit_title", "#" + vkey).css("color", set_color);
                     
 		            } else if (data_type == "ventil") {
                         var on_attr = $("#" + key).attr('data-on');
@@ -293,7 +295,7 @@ function myTimer() {
 		            }
 		        }
             });
-            
+
             $('[id^=calc_]').each(function( index ) {
                 console.log(this.id);
                 console.log($(this).attr('data-formula'));

@@ -415,6 +415,10 @@ function myremove() {
 function mysave(data) {
     console.log("saving...");
     varname = $("#varname option:selected").text();
+    varattr = $("#varattr option:selected").val();
+    
+    console.log("debug");
+    console.log(varattr);
     var position = {};
     for(key in data) {
         var tmp = {};
@@ -427,10 +431,8 @@ function mysave(data) {
             tmp["height"] = $("#"+key).height();
             tmp["type"] = $("#"+key).attr("data-type");
 
-            
-
             if ( $("#"+key).attr("data-type") == "data" ) {
-                if (varname == key) {
+                if ( (varname == key) && (varattr == "normal") ) {
             	    tmp["condition"] = $("#elem_condtion_range").val();
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
@@ -478,7 +480,7 @@ function mysave(data) {
 		header["weight"] = $(".title", "#"+key).css("font-weight");
             	tmp["header"] = header;
             } else if ( $("#"+key).attr("data-type") == "ventil" ) {
-                if (varname == key) {
+                if ((varname == key) && (varattr == "normal")) {
                     var unit_text = $("#elem_unit_text").val();
                     unit_text = unit_text.trim();
                     var dtoken = JSON.parse(unit_text);
@@ -489,7 +491,7 @@ function mysave(data) {
             	    tmp["off"] = $("#"+key).attr("data-off");
                 }
             } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
-                if (varname == key) {
+                if ((varname == key)&& (varattr == "normal")) {
                     var unit_text = $("#elem_unit_text").val();
                     unit_text = unit_text.trim();
                     var data_condition = $("#elem_condition_range").val();
