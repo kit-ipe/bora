@@ -218,17 +218,16 @@ function myTimer() {
 		            }
 		        }
             }
-
             $('[id^=virtual_]').each(function( index ) {
-                var vkey = this.id;
-                var ref = vkey.split("_");
+                var key = this.id;
+                var ref = key.split("_");
                 ref = ref[1];
-                data_type = $("#" + vkey).attr('data-type');
-                if($("#" + vkey).length > 0) {
+                data_type = $("#" + key).attr('data-type');
+                if($("#" + key).length > 0) {
                     if (data_type == "data") {
-                        console.log(vkey);
+                        console.log(key);
                         var datavalue, set_color, formula;
-                        var formula_attr = $("#" + vkey).attr('data-formula');
+                        var formula_attr = $("#" + key).attr('data-formula');
 			            if (response[ref]) {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[ref]).toFixed(2);
@@ -243,10 +242,10 @@ function myTimer() {
 			                datavalue = "---";
 			                set_color = "black";
 			            }
-                        $(".varval", "#" + vkey).text(datavalue);
-                        var condition_attr = $("#" + vkey).attr('data-cond');
-                        var lesser_attr = $("#" + vkey).attr('data-lesser');
-                        var larger_attr = $("#" + vkey).attr('data-larger');
+                        $(".varval", "#" + key).text(datavalue);
+                        var condition_attr = $("#" + key).attr('data-cond');
+                        var lesser_attr = $("#" + key).attr('data-lesser');
+                        var larger_attr = $("#" + key).attr('data-larger');
   		    	        //console.log(condition_attr);
                         if (condition_attr) {
  			                if (response[ref] == condition_attr) {
@@ -263,8 +262,8 @@ function myTimer() {
  			    	            set_color = "red";
       			            }
 		    	        }
-		    	        $(".varval", "#" + vkey).css("color", set_color);
-		    	        $(".unit_title", "#" + vkey).css("color", set_color);
+		    	        $(".varval", "#" + key).css("color", set_color);
+		    	        $(".unit_title", "#" + key).css("color", set_color);
                     
 		            } else if (data_type == "ventil") {
                         var on_attr = $("#" + key).attr('data-on');
@@ -295,7 +294,7 @@ function myTimer() {
 		            }
 		        }
             });
-
+            
             $('[id^=calc_]').each(function( index ) {
                 console.log(this.id);
                 console.log($(this).attr('data-formula'));
@@ -310,21 +309,22 @@ function myTimer() {
                 for(m = re.exec(data); m; m = re.exec(data)){
                     buffer.push(m[1]);
                 }
+                console.log("Debug:");
                 console.log(buffer);
                 var finalstring = "";
                 var pattern = /\[(.*?)\]/g;
-                var teststring = myformula.split(" ");
+                var teststring = myformula.split(/[\[\]]+/);
                 console.log(teststring);
                 console.log(finalstring);
                 for (var i = 0; i < teststring.length; i++) {
                     var val = "";
-                    if (pattern.exec(teststring[i]) != null) {
-                        var cleanref = teststring[i].replace(/[\[\]']+/g,'');
-                        val = response[cleanref];
+                    
+                    if (teststring[i] in response) {
+                        val = response[teststring[i]];
                     } else {
                         val = teststring[i];
-                        
                     }
+
                     finalstring += val;
                     finalstring += " ";
                 }

@@ -240,7 +240,7 @@ function add() {
     console.log(title_text, unit_text, varname, varval, vartype);
     
         
-    if(($("#" + varname).length == 0) || (vartype=="header") || (varattr=="virtual")) {
+    if(($("#" + varname).length == 0) || (vartype=="header") || (vartype=="calc") || (varattr=="virtual")) {
         console.log("Must enter here");
         console.log(vartype);
         if (vartype == "data") {
@@ -280,7 +280,7 @@ function add() {
                     "<span style='color: " + unit_color + "; " + 
                            "font-size:" + unit_size + "px; " +
                            "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>" + parseFloat(varval).toFixed(2) + " </span>" + 
+                    "class='varval'>XXX.XX </span>" + 
                     "<span class='unit_title'>" + unit_text + "</span></p>" +
         	    "</div>";
         } else if (vartype == "header") {
@@ -315,7 +315,7 @@ function add() {
 
         } else if (vartype == "calc") {
             console.log("Calc");
-            var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+            var clean_text = virtual_id.replace(/[^a-zA-Z0-9 ]/g, "")
             varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
             html_text = "<div " +
                     "style='position: absolute; " +
@@ -338,7 +338,7 @@ function add() {
                     "<span style='color: " + unit_color + "; " + 
                            "font-size:" + unit_size + "px; " +
                            "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>" + parseFloat(varval).toFixed(2) + " </span>" + 
+                    "class='varval'>XXX.XX </span>" + 
                     "<span class='unit_title'>" + unit_text + "</span></p>" +
         	    "</div>";
             
@@ -779,6 +779,7 @@ function highlight(mydata) {
     $("#elem_larger_range").val("");
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
+    $("#virtual_id_text").val("");
 
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
@@ -811,6 +812,11 @@ function highlight(mydata) {
             $("#elem_formula").val($("#"+varname).attr("data-formula"));
         }
     } else if (vartype == "calc") {
+        var vid = varname.split("_");
+        vid = vid[1];
+        $("#virtual_id_text").val(vid);
+        
+        
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
         if ($("#"+varname + " .title").css("font-size")) {
