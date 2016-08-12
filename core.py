@@ -439,7 +439,7 @@ application = tornado.web.Application([
     (r"/getdata/?", GetDataHandler),
     (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
     (r"/add/(?P<db_server>[^\/]+)/?(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?", AdeiKatrinHandler)
-], debug=True, static_path=os.path.join(root, 'static'), js_path=os.path.join(root, 'js'), login_url="auth/login", cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
+], debug=True, static_path=os.path.join(root, 'static'), js_path=os.path.join(root, 'js'), login_url="/auth/login", cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
  
 
 if __name__ == "__main__":
