@@ -250,11 +250,15 @@ class StatusHandler(tornado.web.RequestHandler):
         if varname_data == None:
             print("Error: Empty varname data file.")
             return
-        
-	data = {
+
+        data = {
             "style": style_data,
             "varname": varname_data
         }
+       
+        if "background" in config:
+            data["background"] = config["background"]    
+ 
         self.render('status.html', data=data)
 
 
@@ -375,7 +379,7 @@ class AuthLoginHandler(BaseHandler):
         self.render("login.html", errormessage = errormessage)
 
     def check_permission(self, password, username):
-        if username == config["username"] and password == config["password"]:
+        if username == config["username"] and password == config["pw_designer"]:
             return True
         return False
 
