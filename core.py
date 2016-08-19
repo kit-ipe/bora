@@ -376,7 +376,7 @@ class AuthLoginHandler(BaseHandler):
         self.render("login.html", errormessage = errormessage)
 
     def check_permission(self, password, username):
-        if username == config["username"] and password == config["password"]:
+        if username == config["username"] and password == config["pw_designer"]:
             return True
         return False
 
