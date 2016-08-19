@@ -121,9 +121,13 @@ data-cond="{{ data['style'][key]['cond'] }}"
 {% else %}
 {% end %}
 
-    
 
-<img src="{{ static_url('background.png') }}"></img>    
+
+{% if "background" in data %}
+<img src="{{ static_url( data['background'] ) }}"></img>    
+{% else %}
+<img src="{{ static_url( 'background.png' ) }}"></img>
+{% end %}
 
    
 <!-- java script -->

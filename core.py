@@ -252,6 +252,7 @@ class StatusHandler(tornado.web.RequestHandler):
             return
         
 	data = {
+            "background": config['background'],
             "style": style_data,
             "varname": varname_data
         }
