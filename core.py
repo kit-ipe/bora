@@ -417,6 +417,10 @@ class AuthLoginHandler(BaseHandler):
                 "style": style_data,
                 "index": index_data
             }
+            
+            if "background" in config:
+                data["background"] = config["background"]  
+  
             self.render('designer.html', data=data)
         else:
             error_msg = u"?error=" + tornado.escape.url_escape("Login incorrect")
