@@ -250,12 +250,15 @@ class StatusHandler(tornado.web.RequestHandler):
         if varname_data == None:
             print("Error: Empty varname data file.")
             return
-        
-	data = {
-            "background": config['background'],
+
+        data = {
             "style": style_data,
             "varname": varname_data
         }
+       
+        if "background" in config:
+            data["background"] = config["background"]    
+ 
         self.render('status.html', data=data)
 
 
