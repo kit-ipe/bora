@@ -71,11 +71,11 @@ data-larger="{{ data['style'][key]['larger'] }}"
 {% end %}
      
 {% if "ref" in data['style'][key] %}
-data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
+data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span></p>
 </div>
 {% else %}
-data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
+data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span></p>
 </div>
 {% end %}
@@ -85,7 +85,7 @@ data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin
 
 
 {% if data['style'][key]['type'] == "ventil" %}
-<div tooltip="{{ key }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
+<div tooltip="{{ key }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
 <img width='100%' height='100%' src='{{ static_url("ventil_inactive.png") }}'></img>
 </div>
 {% else %}
@@ -100,7 +100,7 @@ data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin
 data-cond="{{ data['style'][key]['cond'] }}"
 {% else %}
 {% end %}
- data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=0&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
+ data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][key]}}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span></p>
 </div>
 {% else %}
