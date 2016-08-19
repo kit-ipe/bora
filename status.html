@@ -15,7 +15,7 @@
 
 <body>
 
-<div id="page_info">CPS data monitoring. Last refreshed</div>
+<div id="page_info">WGTS data monitoring. Last refreshed</div>
     
 {% if data['style'] %}
 {% for key in data['style'] %}
@@ -358,7 +358,7 @@ function myTimer() {
 		        $(".unit_title", "#" + this.id).css("color", set_color);
                 
             });
-	        var datetime = "CPS data monitoring page. Last Sync: " + response["time"];
+	        var datetime = "WGTS data monitoring page. Last Sync: " + response["time"];
    	        $("#page_info").text(datetime);
             console.log(datetime);
         },
