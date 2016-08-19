@@ -447,7 +447,7 @@ application = tornado.web.Application([
  
 
 if __name__ == "__main__":
-    application.listen(8888)
+    application.listen(config["port"])
     tornado.autoreload.start()
     #tornado.autoreload.watch('myfile')
     tornado.ioloop.IOLoop.instance().start()
