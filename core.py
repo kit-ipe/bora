@@ -298,13 +298,18 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         cr = data.content
         cr = cr.split(",")
         print cr, len(cr)
-        
-        # parameter name stored in ADEI with '-IST_Val' suffix
-        if "MOD" in params['sensor_name']:
-	    match_token = params['sensor_name'] + "-MODUS_Val"
-    	else:
-	    match_token = params['sensor_name'] + "-IST_Val"
-        db_mask = None
+       
+
+        # handling the inconsistency on naming convention
+	match_token = params['sensor_name']
+        if params["db_server"] != "lara":
+            # parameter name stored in ADEI with '-IST_Val' suffix
+            if "MOD" in params['sensor_name']:
+	        match_token = params['sensor_name'] + "-MODUS_Val"
+    	    else:
+	        match_token = params['sensor_name'] + "-IST_Val"
+            db_mask = None
+
         for i, item in enumerate(cr):
             if "[" and "]" in item.strip():
                 lhs = re.match(r"[^[]*\[([^]]*)\]", item.strip()).groups()[0]
