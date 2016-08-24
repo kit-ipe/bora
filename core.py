@@ -258,6 +258,11 @@ class StatusHandler(tornado.web.RequestHandler):
        
         if "background" in config:
             data["background"] = config["background"]    
+        
+        if "title" in config:
+            data["title"] = config["title"]
+        else:
+            data["title"] = "BORA"
  
         self.render('status.html', data=data)
 
