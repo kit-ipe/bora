@@ -151,59 +151,62 @@ function myTimer() {
             //var objresponse = JSON.parse(response);
             console.log(response);
             for (var key in response) {
-                //console.log(key, response[key]);
+                //console.log(key, response[key]); 
                 data_type = $("#" + key).attr('data-type');
                 if($("#" + key).length > 0) {
                     if (data_type == "data") {
+                        //console.log("data");
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
-			            if (response[key]) {
+			if (response[key]) {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[key]).toFixed(2);
  			        formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed(2);
-		    	            } else {
-			                    datavalue = parseFloat(response[key]).toFixed(2);
+		    	    } else {
+			        datavalue = parseFloat(response[key]).toFixed(2);
                             }
- 		    	            set_color = "green";
-			            } else {
-			                datavalue = "---";
-			                set_color = "black";
-			            }
+ 		    	    set_color = "green";
+		        } else {
+			    datavalue = "---";
+			    set_color = "black";
+		        }
                         $(".varval", "#" + key).text(datavalue);
                         var condition_attr = $("#" + key).attr('data-cond');
                         var lesser_attr = $("#" + key).attr('data-lesser');
                         var larger_attr = $("#" + key).attr('data-larger');
   		    	        //console.log(condition_attr);
                         if (condition_attr) {
- 			                if (response[key] == condition_attr) {
- 			    	            set_color = "red";
-      			            }
-		    	        }
- 		    	        if (lesser_attr) {
- 			                if (parseFloat(response[key]) < parseFloat(lesser_attr)) {
- 			    	            set_color = "red";
-      			            }
-		    	        }
-  		                if (larger_attr) {
- 			                if (parseFloat(response[key]) > parseFloat(larger_attr)) {
- 			    	            set_color = "red";
-      			            }
-		    	        }
-		    	        $(".varval", "#" + key).css("color", set_color);
-		    	        $(".unit_title", "#" + key).css("color", set_color);
+ 			    if (response[key] == condition_attr) {
+ 			        set_color = "red";
+      			    }
+		    	}
+ 		    	if (lesser_attr) {
+ 			    if (parseFloat(response[key]) < parseFloat(lesser_attr)) {
+ 			    	set_color = "red";
+      			    }
+		    	}
+  		        if (larger_attr) {
+ 			    if (parseFloat(response[key]) > parseFloat(larger_attr)) {
+ 			    	set_color = "red";
+      			    }
+		    	}
+		    	$(".varval", "#" + key).css("color", set_color);
+		    	$(".unit_title", "#" + key).css("color", set_color);
                     
-		            } else if (data_type == "ventil") {
+		    } else if (data_type == "ventil") {
+                        //console.log("ventil");
                         var on_attr = $("#" + key).attr('data-on');
                         var off_attr = $("#" + key).attr('data-off');
- 			            if (parseFloat(response[key]) == parseFloat(on_attr)) {
- 			                $("img", "#" + key).attr("src", "{{ static_url('ventil_green.png') }}");
-      			        }
- 			            if (parseFloat(response[key]) == parseFloat(off_attr)) {
- 			                $("img", "#" + key).attr("src", "{{ static_url('ventil_red.png') }}");
-      			        }
-		            } else if (data_type == "integer-to-string") {
+ 			if (parseFloat(response[key]) == parseFloat(on_attr)) {
+ 			    $("img", "#" + key).attr("src", "{{ static_url('ventil_green.png') }}");
+      			}
+ 			if (parseFloat(response[key]) == parseFloat(off_attr)) {
+ 			    $("img", "#" + key).attr("src", "{{ static_url('ventil_red.png') }}");
+      			}
+		    } else if (data_type == "integer-to-string") {
+                        //console.log("integer-to-string");
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
                         var dict_cond;
                         if ($("#"+key).attr("data-cond")) {
@@ -220,8 +223,8 @@ function myTimer() {
                         }
                         $(".varval", "#" + key).css("color", dict_color);
                         $(".varval", "#" + key).text(dict_attr[response[key]]);
-		            }
-		        }
+		    }
+		}
             }
             $('[id^=virtual_]').each(function( index ) {
                 var key = this.id;

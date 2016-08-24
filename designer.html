@@ -173,7 +173,7 @@
 </select>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
-<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['style'] }})">Highlight</button>
+<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
@@ -815,6 +815,8 @@ function mysave(data) {
 }
     
 function highlight(mydata) {
+    console.log("highlight");
+
     varname = $("#varname option:selected").text();
     vartype = $("#"+varname).attr("data-type");
     $("#vartype").val(vartype);
@@ -947,24 +949,21 @@ function highlight(mydata) {
     }
 }
 
+
 jQuery(window).load(function () {
     $("#varname > option").each(function() {
         if ($('#'+this.text).length){
             $('#'+this.text).draggable();
             $('#'+this.text).resizable(); 
             $('#'+this.text).click(function() {
-                console.log($(this).attr("id"));
+                //console.log($(this).attr("id")); 
                 $("#varname").val($(this).attr("id"));
                 $("#buttonHighlight").trigger("click"); 
             });
         }
         //console.log(this.text + ' ' + this.value);
     });
-    //$('[id^=header_]').each(function( index ) {
-    //    $(this).draggable();
-    //    $(this).resizable(); 
-    //});
-
+    
     $("#buttonHighlight").trigger("click"); 
 
     $("#varname").change(function() {
