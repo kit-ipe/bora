@@ -311,6 +311,10 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
             # parameter name stored in ADEI with '-IST_Val' suffix
             if "MOD" in params['sensor_name']:
 	        match_token = params['sensor_name'] + "-MODUS_Val"
+            elif "GRA" in params['sensor_name']:
+	        match_token = params['sensor_name'] + "-GRAD_Val"
+            elif "RPO" in params['sensor_name']:
+	        match_token = params['sensor_name'] + "-ZUST_Val"
     	    else:
 	        match_token = params['sensor_name'] + "-IST_Val"
             db_mask = None
