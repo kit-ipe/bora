@@ -315,6 +315,8 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 	        match_token = params['sensor_name'] + "-GRAD_Val"
             elif "RPO" in params['sensor_name']:
 	        match_token = params['sensor_name'] + "-ZUST_Val"
+            elif "VYS" in params['sensor_name']:
+	        match_token = params['sensor_name'] + "-ZUST_Val"
     	    else:
 	        match_token = params['sensor_name'] + "-IST_Val"
             db_mask = None
