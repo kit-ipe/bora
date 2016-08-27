@@ -236,8 +236,10 @@ function add() {
     
     if ($('#elem_exponential').is(":checked")) {
         data_exponential = true;
+        $("#"+key).attr("data-exponential", true);
     } else {
         data_exponential = false;
+        $("#"+key).attr("data-exponential", false);
     }
     
     data_lesser = $("#elem_lesser_range").val();

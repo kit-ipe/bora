@@ -168,15 +168,11 @@ function myTimer() {
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed(2);
 		    	            } else {
-                                console.log("XYZVBN CHECK");
-                                console.log($("#" + key).attr('data-exponential'));
-                                if ( ($("#" + key).attr('data-exponential')) == "True" ) {
-			                        //datavalue = math.format(0.000000000001234567, {notation: 'exponential'});
+                                if ( ($("#" + key).attr('data-exponential')) == "True" || $("#" + key).attr('data-exponential')) == "true" ) {
                                     datavalue = parseFloat(response[key]);
                                     datavalue = datavalue.toExponential(2)
                                 } else {
                                     datavalue = parseFloat(response[key]).toFixed(2);
-                                    //datavalue = math.format(0.000000000001234567, {notation: 'exponential'});
                                 }
                             }
  		    	            set_color = "green";
