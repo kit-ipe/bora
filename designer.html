@@ -74,6 +74,10 @@
  data-larger="{{ data['style'][key]['larger'] }}"
 {% else %}
 {% end %}
+{% if "exponential" in data['style'][key] %}
+ data-exponential="{{ data['style'][key]['exponential'] }}"
+{% else %}
+{% end %}
  data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
@@ -166,11 +170,11 @@
 
 <input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
 <input type="text" id="elem_formula" placeholder="Equation" style="font-size:16pt; width=100px;"/>
-
 <select id="elem_unit_style" style="font-size:16pt;">
   <option value="400">normal</option>
   <option value="700">bold</option>
 </select>
+<span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
@@ -230,6 +234,12 @@ function add() {
         virtual_id = "0";
     }
     
+    if ($('#elem_exponential').is(":checked")) {
+        data_exponential = true;
+    } else {
+        data_exponential = false;
+    }
+    
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
     
@@ -275,6 +285,7 @@ function add() {
                     "' data-formula='" + data_formula +
                     "' data-lesser='" + data_lesser + 
  		            "' data-larger='" + data_larger + 
+                    "' data-exponential='" + data_exponential + 
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -442,6 +453,11 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+                    if ($('#elem_exponential').is(":checked")) {
+                        tmp["exponential"] = true;
+                    } else {
+                        tmp["exponential"] = false;
+                    }
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -469,6 +485,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#"+key).attr("data-formula");
              	    tmp["lesser"] = $("#"+key).attr("data-lesser");
             	    tmp["larger"] = $("#"+key).attr("data-larger");
+                    tmp["exponential"] = $("#"+key).attr("data-exponential");
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
             
@@ -832,6 +849,7 @@ function highlight(mydata) {
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
     $("#virtual_id_text").val("");
+    $('#elem_exponential').prop('checked', false); 
 
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
@@ -849,6 +867,13 @@ function highlight(mydata) {
             $("#elem_unit_style").val("700"); 
         }
     } else if (vartype == "data") {
+        
+        if ($("#"+varname).attr("data-exponential")) {
+            $('#elem_exponential').prop('checked', true); 
+        } else {
+            $('#elem_exponential').prop('checked', false); 
+        }
+        
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
         if ($("#"+varname + " .title").css("font-size")) {

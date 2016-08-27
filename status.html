@@ -70,7 +70,10 @@ data-lesser="{{ data['style'][key]['lesser'] }}"
 data-larger="{{ data['style'][key]['larger'] }}"
 {% else %}
 {% end %}
-     
+{% if "exponential" in data['style'][key] %}
+ data-exponential="{{ data['style'][key]['exponential'] }}"
+{% else %}
+{% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" onclick="window.open('http://katrin.kit.edu/adei-katrin/#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span></p>
@@ -158,20 +161,29 @@ function myTimer() {
                         //console.log("data");
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
-			if (response[key]) {
+			            if (response[key]) {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[key]).toFixed(2);
- 			        formula = formula_attr.replace("x", datavalue.toString());
+ 			                    formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed(2);
-		    	    } else {
-			        datavalue = parseFloat(response[key]).toFixed(2);
+		    	            } else {
+                                console.log("XYZVBN CHECK");
+                                console.log($("#" + key).attr('data-exponential'));
+                                if ( ($("#" + key).attr('data-exponential')) == "True" ) {
+			                        //datavalue = math.format(0.000000000001234567, {notation: 'exponential'});
+                                    datavalue = parseFloat(response[key]);
+                                    datavalue = datavalue.toExponential(2)
+                                } else {
+                                    datavalue = parseFloat(response[key]).toFixed(2);
+                                    //datavalue = math.format(0.000000000001234567, {notation: 'exponential'});
+                                }
                             }
- 		    	    set_color = "green";
-		        } else {
-			    datavalue = "---";
-			    set_color = "black";
-		        }
+ 		    	            set_color = "green";
+		                } else {
+			                datavalue = "---";
+			                set_color = "black";
+		                }
                         $(".varval", "#" + key).text(datavalue);
                         var condition_attr = $("#" + key).attr('data-cond');
                         var lesser_attr = $("#" + key).attr('data-lesser');
