@@ -168,7 +168,7 @@ function myTimer() {
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed(2);
 		    	            } else {
-                                if ( ($("#" + key).attr('data-exponential')) == "True" || $("#" + key).attr('data-exponential')) == "true" ) {
+                                if ( ($("#" + key).attr('data-exponential')) == "True" || ($("#" + key).attr('data-exponential')) == "true" ) {
                                     datavalue = parseFloat(response[key]);
                                     datavalue = datavalue.toExponential(2)
                                 } else {
