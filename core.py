@@ -423,8 +423,11 @@ class AuthLoginHandler(BaseHandler):
                     style_data = yaml.load(stream)
                 except yaml.YAMLError as exc:
                     print(exc)
-            
-            index_data = list(set(cache_data) | set(style_data)) 
+           
+            if style_data: 
+                index_data = list(set(cache_data) | set(style_data)) 
+            else:    
+                index_data = cache_data
 
             print index_data
 
