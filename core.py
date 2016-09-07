@@ -67,12 +67,12 @@ class RepeatedTimer(object):
 
 
 def fetchDataADEI():
-    if os.path.isfile(config["path"]+".mutex"):
+    if os.path.isfile(os.getcwd()+"/.mutex"):
         #print("Process running...")
         return
     else:
         #print("Created mutex")
-        file = open(config["path"]+'.mutex', 'w+')
+        file = open(os.getcwd()+'/.mutex', 'w+')
     
     with open("varname.yaml", 'r') as stream:
         try:
@@ -82,7 +82,7 @@ def fetchDataADEI():
             print(exc)
     if varname == None:
         print("Error: Empty varname file.")
-    	os.remove(config["path"]+".mutex")
+    	os.remove(os.getcwd()+"/.mutex")
         return
     
     cache_data = {}
@@ -112,12 +112,12 @@ def fetchDataADEI():
 
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
-    src_file = config["path"] + ".tmp.yaml"
-    dst_file = config["path"] + "cache.yaml"
+    src_file = os.getcwd() + "/.tmp.yaml"
+    dst_file = os.getcwd() + "/cache.yaml"
     shutil.copy(src_file, dst_file)
     
     
-    os.remove(config["path"]+".mutex")
+    os.remove(os.getcwd()+"/.mutex")
 
     
 print "Start torrenting..."
@@ -125,7 +125,7 @@ print "Start torrenting..."
 
 print "Debugging..."
 # TODO: Turn off for debug
-rt = RepeatedTimer(config["polling"], fetchDataADEI)
+rt = RepeatedTimer(int(config["polling"]), fetchDataADEI)
     
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -156,8 +156,8 @@ class StopHandler(tornado.web.RequestHandler):
     def get(self):
         print "Stop fetchData"
         rt.stop()
-        if os.path.isfile(config["path"]+".mutex"):
-            os.remove(config["path"]+".mutex")
+        if os.path.isfile(os.getcwd()+"/.mutex"):
+            os.remove(os.getcwd()+"/.mutex")
 
 
 class SetTimerHandler(tornado.web.RequestHandler):
@@ -205,13 +205,11 @@ class VersionHandler(tornado.web.RequestHandler):
 
 class BackupHandler(tornado.web.RequestHandler):
     def post(self):
-        print "Backup"
-        print config["path"]
-        backup_dst = config["path"] + "backup/"
+        backup_dst = os.getcwd() + "/backup/"
         fname = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         os.makedirs(backup_dst + fname)
-        copyfile(config["path"] + "varname.yaml", backup_dst + fname + "/varname.yaml")        
-        copyfile(config["path"] + "style.yaml", backup_dst + fname + "/style.yaml")        
+        copyfile(os.getcwd() + "/varname.yaml", backup_dst + fname + "/varname.yaml")        
+        copyfile(os.getcwd() + "/style.yaml", backup_dst + fname + "/style.yaml")        
         #self.write(json.dumps(response))
 
 
@@ -237,9 +235,9 @@ class StatusHandler(tornado.web.RequestHandler):
                 style_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        if style_data == None:
-            print("Error: Empty style data file.")
-            return
+        #if style_data == None:
+        #    print("Error: Empty style data file.")
+        #    return
         
 	with open("varname.yaml", 'r') as vstream:
             try:
@@ -247,9 +245,9 @@ class StatusHandler(tornado.web.RequestHandler):
                 varname_data = yaml.load(vstream)
             except yaml.YAMLError as exc:
                 print(exc)
-        if varname_data == None:
-            print("Error: Empty varname data file.")
-            return
+        #if varname_data == None:
+        #    print("Error: Empty varname data file.")
+        #    return
 
         data = {
             "style": style_data,
@@ -281,7 +279,6 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         if config["type"] != "adei":
             print("Error: Wrong handler.")
             return
-        #print config
         
         dest = config['server'] + config['script']
         query_cmds = []
@@ -398,6 +395,7 @@ class AuthLoginHandler(BaseHandler):
         if username == config["username"] and password == config["pw_designer"]:
             return True
         return False
+        
 
     def post(self):
         username = self.get_argument("username", "")
@@ -412,9 +410,9 @@ class AuthLoginHandler(BaseHandler):
                     cache_data = yaml.load(stream)
                 except yaml.YAMLError as exc:
                     print(exc)
-            if cache_data == None:
-                print("Error: Empty cache data file.")
-                return
+            #if cache_data == None:
+            #    print("Error: Empty cache data file.")
+            #    return
         
         
             with open("style.yaml", 'r') as stream:
@@ -434,7 +432,7 @@ class AuthLoginHandler(BaseHandler):
             data = {
                 "cache": cache_data,
                 "style": style_data,
-                "index": index_data
+                "index": index_data,
             }
             
             if "background" in config:
@@ -470,7 +468,7 @@ application = tornado.web.Application([
  
 
 if __name__ == "__main__":
-    application.listen(config["port"])
+    application.listen(int(config["port"]))
     tornado.autoreload.start()
     #tornado.autoreload.watch('myfile')
     tornado.ioloop.IOLoop.instance().start()
