@@ -96,6 +96,11 @@ span,
     border-color: red;
 }
 
+.glowing_border {
+    border: 2px solid #FF0000;
+    border-radius: 7px;
+}
+
 [tooltip]:before {
     /* needed - do not touch */
     content: attr(tooltip);

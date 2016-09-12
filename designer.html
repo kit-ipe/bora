@@ -85,7 +85,7 @@
 {% end %}
 
 
-{% if data['style'][key]['type'] == "ventil" %}
+{% if data['style'][key]['type'] == "valve" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
 <img width='100%' height='100%' src='{{ static_url("ventil_inactive.png") }}'></img>
 </div>
@@ -139,7 +139,7 @@
 <span class="info">Type</span>
 <select id="vartype" style="font-size:16pt;">
   <option value="data">data</option>
-  <option value="ventil">ventil</option>
+  <option value="valve">valve</option>
   <option value="integer-to-string">integer-to-string</option>
   <option value="header">header</option>
   <option value="calc">calc</option>
@@ -303,77 +303,92 @@ function add() {
         	    "</div>";
         } else if (vartype == "header") {
             console.log("Header");
-            var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
-            varname = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
-            html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " + 
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-cond='" + data_condition +
-                    "' data-lesser='" + data_lesser + 
- 		            "' data-larger='" + data_larger + 
-                    "'>" +
-                    "<p>" +
-                    "<span style='color: " + title_color + ";" + 
-                    "font-size:" + title_size + "px; " + 
-                    "font-weight: " + title_style + ";' " + 
-                    "class='title'>" + title_text +
-                    " </span></p>" + 
-        	    "</div>";
+            if (title_text.length > 0) { 
+                var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+                varname = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0;' " +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-lesser='" + data_lesser + 
+ 		                "' data-larger='" + data_larger + 
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span></p>" + 
+        	        "</div>";
             
-            $('#varname').append($('<option>', {
-                value: varname,
-                text: varname
-            }));
-            $('#varname').val(varname);
+                $('#varname').append($('<option>', {
+                    value: varname,
+                    text: varname
+                }));
+                $('#varname').val(varname);
+                $('#elem_title_text').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_title_text').addClass('glowing_border');
+            }
             
 
         } else if (vartype == "calc") {
             console.log("Calc");
-            var clean_text = virtual_id.replace(/[^a-zA-Z0-9 ]/g, "")
-            varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
-            html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " + 
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-cond='" + data_condition +
-                    "' data-lesser='" + data_lesser + 
- 		            "' data-larger='" + data_larger +
-                    "' data-formula='" + data_formula +
-                    "'>" +
-                    "<p>" +
-                    "<span style='color: " + title_color + ";" + 
-                    "font-size:" + title_size + "px; " + 
-                    "font-weight: " + title_style + ";' " + 
-                    "class='title'>" + title_text +
-                    " </span>" + 
-                    "<span style='color: " + unit_color + "; " + 
-                           "font-size:" + unit_size + "px; " +
-                           "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>XXX.XX </span>" + 
-                    "<span class='unit_title'>" + unit_text + "</span></p>" +
-        	    "</div>";
+            if (data_formula.length > 0) {
+                var clean_text = virtual_id.replace(/[^a-zA-Z0-9 ]/g, "")
+                varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0;' " +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-lesser='" + data_lesser + 
+ 		                "' data-larger='" + data_larger +
+                        "' data-formula='" + data_formula +
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span>" + 
+                        "<span style='color: " + unit_color + "; " + 
+                               "font-size:" + unit_size + "px; " +
+                               "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>XXX.XX </span>" + 
+                        "<span class='unit_title'>" + unit_text + "</span></p>" +
+        	        "</div>";
             
-            $('#varname').append($('<option>', {
-                value: varname,
-                text: varname
-            }));
-            $('#varname').val(varname);
-            
+                $('#varname').append($('<option>', {
+                    value: varname,
+                    text: varname
+                }));
+                $('#varname').val(varname);
+                $('#elem_formula').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_formula').addClass('glowing_border');
+            }
 
-        } else if (vartype == "ventil") {
+            
+        } else if (vartype == "valve") {
             console.log("Ventil");
-            var token = JSON.parse(unit_text);
-            data_on = token["on"];
-            data_off = token["off"];
+            if (unit_text.length > 0) {
+                var token = JSON.parse(unit_text);
+                data_on = token["on"];
+                data_off = token["off"];
 
-            html_text = "<div " +
+                 html_text = "<div " +
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0;' " +
@@ -388,37 +403,55 @@ function add() {
                     "'>" +
  		            "<img width='100%' height='100%' " + 
                     "src='{{ static_url("ventil_inactive.png") }}'></img>" +
-        	        "</div>";	    
-	    } else if (vartype == "integer-to-string") {
-            console.log("Integer2String");
-            html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " + 
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-dict='" + unit_text +
-                    "' data-cond='" + data_condition +
-                    "'>" +
-                    "<p>" +
-                    "<span style='color: " + title_color + ";" + 
-                    "font-size:" + title_size + "px; " + 
-                    "font-weight: " + title_style + ";' " + 
-                    "class='title'>" + title_text +
-                    " </span><br />" + 
-                    "<span style='color: " + unit_color + "; " + 
-                           "font-size:" + unit_size + "px; " +
-                           "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>??? </span>" + 
-                    "</p>" +
         	        "</div>";
+                 $('#elem_unit_text').removeClass('glowing_border');
+            } else{
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_unit_text').addClass('glowing_border');
+            }
+   
+	} else if (vartype == "integer-to-string") {
+            console.log("Integer2String");
+            
+            if (unit_text.length > 0) {
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0;' " +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-dict='" + unit_text +
+                        "' data-cond='" + data_condition +
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span><br />" + 
+                        "<span style='color: " + unit_color + "; " + 
+                               "font-size:" + unit_size + "px; " +
+                               "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>??? </span>" + 
+                        "</p>" +
+        	            "</div>";
+                $('#elem_unit_text').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_unit_text').addClass('glowing_border');
+            }
         }
+        
         console.log("Adding element");
         console.log(html_text);
-        $( "body" ).append(html_text);
-        $("#"+varname).draggable();
-        $("#"+varname).resizable(); 
+        if (html_text.length > 0) {
+            $( "body" ).append(html_text);
+            $("#"+varname).draggable();
+            $("#"+varname).resizable();
+        }
     }
 } 
 function myremove() {
@@ -526,7 +559,7 @@ function mysave(data) {
 	    //	header["size"] = $(".title", "#"+key).css("font-size");
 	    //	header["weight"] = $(".title", "#"+key).css("font-weight");
             //	tmp["header"] = header;
-            } else if ( $("#"+key).attr("data-type") == "ventil" ) {
+            } else if ( $("#"+key).attr("data-type") == "valve" ) {
                 if ((varname == key) && (varattr == "normal")) {
                     var unit_text = $("#elem_unit_text").val();
                     unit_text = unit_text.trim();
@@ -662,7 +695,7 @@ function mysave(data) {
 	    //	        header["size"] = $(".title", "#"+key).css("font-size");
 	    //	        header["weight"] = $(".title", "#"+key).css("font-weight");
             //	tmp["header"] = header;
-            } else if ( $("#"+key).attr("data-type") == "ventil" ) {
+            } else if ( $("#"+key).attr("data-type") == "valve" ) {
                 if (varname == key) {
                     var unit_text = $("#elem_unit_text").val();
                     unit_text = unit_text.trim();
@@ -852,7 +885,10 @@ function highlight(mydata) {
     $("#elem_formula").val("");
     $("#virtual_id_text").val("");
     $('#elem_exponential').prop('checked', false); 
-
+    $('#elem_unit_text').removeClass('glowing_border');  
+    $('#elem_title_text').removeClass('glowing_border');
+    $('#elem_formula').removeClass('glowing_border');
+ 
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
         $("#elem_title_size").val(parseInt($("#"+varname + " .title").css("font-size")));
@@ -948,7 +984,7 @@ function highlight(mydata) {
         if ($("#"+varname).attr("data-formula") ) {
             $("#elem_formula").val($("#"+varname).attr("data-formula"));
         }
-    } else if (vartype == "ventil") {
+    } else if (vartype == "valve") {
         $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
     } else if (vartype == "integer-to-string") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
