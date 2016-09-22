@@ -10,6 +10,7 @@ import re
 import datetime
 from shutil import copyfile
 from time import gmtime, strftime
+import time
 
 
 import tornado.escape
@@ -86,10 +87,13 @@ def fetchDataADEI():
         return
     
     cache_data = {}
+    print time.time()
+    curtime = int(time.time())
+    time_range = str((curtime-3600)) + "-" + str(curtime)
     for param in varname:
         print param
         dest = config['server'] + config['script']
-        url = dest + "?" + varname[param] + "&window=-1"
+        url = dest + "?" + varname[param] + "&window=" + time_range
         print url
         data = requests.get(url,
                             auth=(config['username'],
