@@ -295,7 +295,8 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         
         query = "&".join(query_cmds)
         url = dest + "?" + query
-
+        
+	print params['db_group']
         #print url
         # get the db_masks
         # store the query command in varname
@@ -303,12 +304,11 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         data = requests.get(url, auth=(config['username'], config['password']))
         cr = data.content
         cr = cr.split(",")
-        print cr, len(cr)
-       
+        print cr, len(cr) 
 
         # handling the inconsistency on naming convention
 	match_token = params['sensor_name']
-        if params["db_server"] != "lara":
+        if params["db_server"] != "lara" and params["db_server"] != "hiu":
             # parameter name stored in ADEI with '-IST_Val' suffix
             if "MOD" in params['sensor_name']:
 	        match_token = params['sensor_name'] + "-MODUS_Val"
@@ -318,10 +318,13 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 	        match_token = params['sensor_name'] + "-ZUST_Val"
             elif "VYS" in params['sensor_name']:
 	        match_token = params['sensor_name'] + "-ZUST_Val"
-    	    else:
+    	    elif "MSS" in params['sensor_name']:
+	        match_token = params['sensor_name'] + "_Val"
+	    else:
 	        match_token = params['sensor_name'] + "-IST_Val"
             db_mask = None
 
+        print match_token
         for i, item in enumerate(cr):
             if "[" and "]" in item.strip():
                 lhs = re.match(r"[^[]*\[([^]]*)\]", item.strip()).groups()[0]
