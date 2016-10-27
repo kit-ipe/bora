@@ -11,6 +11,7 @@ import datetime
 from shutil import copyfile
 from time import gmtime, strftime
 import time
+import smtplib
 
 
 import tornado.escape
@@ -84,10 +85,10 @@ def fetchDataADEI():
     curtime = int(time.time())
     time_range = str((curtime-3600)) + "-" + str(curtime)
     for param in varname:
-        print param
+        #print param
         dest = config['server'] + config['script']
         url = dest + "?" + varname[param] + "&window=" + time_range
-        print url
+        #print url
         data = requests.get(url,
                             auth=(config['username'],
                                   config['password'])).content
@@ -97,15 +98,37 @@ def fetchDataADEI():
 
         last_value = data.split(",")[-1].strip()
 	try:
-            print last_value
+            #print last_value
             test_x = float(last_value)
         except ValueError:
             last_value = ""
- 	print last_value
+ 	#print last_value
         cache_data[param] = last_value
         #current_timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
+        time_pattern = "%Y-%m-%d %H:%M:%S"
+        epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
+        #print("current: ", epoch_cur)
+    
+
+    with open("cache.yaml",'r') as stream_cache:
+        cache_content = {}
+        cache_content = yaml.load(stream_cache)
+        #print(cache_content)
+        time_prev = cache_content.get('time')
+        #time_pattern = "%Y-%m-%d %H:%M:%S"
+        epoch_prev = int(time.mktime(time.strptime(time_prev, time_pattern)))
+        print("previous:", epoch_prev)
+
+    if epoch_cur == epoch_prev:
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login("server.bora@gmail.com", "not2peepinsider")
+        msg = "Katrin is running!"
+        server.sendmail("server.bora@gmail.com", "chanhoonseng3101@gmail.com", msg)
+        server.quit()
+
 
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
@@ -369,10 +392,10 @@ class GetDataHandler(tornado.web.RequestHandler):
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        print("GetData:")
+        #print("GetData:")
         if cache_data == None:
             cache_data = {}
-        print cache_data
+        #print cache_data
         self.write(cache_data) 
 
     

@@ -85,7 +85,7 @@
 {% end %}
 
 
-{% if data['style'][key]['type'] == "valve" %}
+{% if data['style'][key]['type'] == "ventil" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
 <img width='100%' height='100%' src='{{ static_url("ventil_inactive.png") }}'></img>
 </div>
