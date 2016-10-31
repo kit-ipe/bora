@@ -91,7 +91,7 @@ def fetchDataADEI():
                             auth=(config['username'],
                                   config['password'])).content
         last_value = data.split(",")[-1].strip()
-	    try:
+	try:
             #print last_value
             test_x = float(last_value)
         except ValueError:
