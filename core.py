@@ -92,7 +92,7 @@ def fetchDataADEI():
                                   config['password'])).content
         last_value = data.split(",")[-1].strip()
 	try:
-            #print last_value
+            print last_value
             test_x = float(last_value)
         except ValueError:
             last_value = ""
@@ -275,7 +275,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class AdeiKatrinHandler(tornado.web.RequestHandler):
     def get(self, **params):
-        #print params
+        print params
         sensor_name = str(params["sensor_name"])
         """
         {'db_group': u'320_KRY_Kryo_4K_CurLead',
@@ -301,14 +301,19 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         url = dest + "?" + query
         
 	print params['db_group']
-        #print url
+        print url
         # get the db_masks
         # store the query command in varname
         
         data = requests.get(url, auth=(config['username'], config['password']))
-        cr = data.content
+	cr = data.content
+	print("HARRY!")
+	print cr
+	cr = cr.splitlines()
+	cr = ",".join(cr)
         cr = cr.split(",")
-        print cr, len(cr) 
+        print("HELLO!")
+	print cr, len(cr) 
 
         # handling the inconsistency on naming convention
 	match_token = params['sensor_name']
@@ -386,10 +391,10 @@ class GetDataHandler(tornado.web.RequestHandler):
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        #print("GetData:")
+        print("GetData:")
         if cache_data == None:
             cache_data = {}
-        #print cache_data
+        print cache_data
         self.write(cache_data) 
 
     
