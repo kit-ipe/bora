@@ -30,7 +30,7 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' 
+    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' 
 {% if "condition" in data['style'][key] %}
  data-cond="{{ data['style'][key]['condition'] }}"
 {% else%}position
@@ -57,7 +57,7 @@
 {% if data['style'][key]['type'] == "data" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' 
+    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};'
 {% if "condition" in data['style'][key] %}
  data-cond="{{ data['style'][key]['condition'] }}"
 {% else%}position
@@ -102,7 +102,7 @@
 {% if data['style'][key]['type'] == "integer-to-string" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' 
+    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' 
 {% if "cond" in data['style'][key] %}
  data-cond="{{ data['style'][key]['cond'] }}"
 {% else%}
@@ -116,7 +116,7 @@
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span></p>
 </div>
 {% else %}
@@ -160,7 +160,8 @@
 <span class="info">Virtual ID</span>
 <input type="text" id="virtual_id_text" placeholder="text" style="font-size:16pt; width=100px;"/>
 <br /><br />
-<span class="info">Title</span>
+<span class="info">Title</span>tt_chg_day_vis:
+
 <input type="text" id="elem_title_text" placeholder="text" style="font-size:16pt; width=100px;"/>
 <input type="text" id="elem_title_size" placeholder="size" style="font-size:16pt; width=100px;"/>
 
@@ -183,6 +184,9 @@
   <option value="700">bold</option>
 </select>
 <span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
+<br /><br />
+<span class="info">Background colour</span>
+<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
@@ -252,17 +256,19 @@ function add() {
     
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
-    
+    background_color = $("#background_color").val(); 
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
     vartype = $("#vartype option:selected").val();
     varattr = $("#varattr option:selected").val();
+
+
     console.log("Selected");
     console.log(varattr);
     console.log(virtual_id);
     console.log(vartype);
 
-    console.log(title_text, unit_text, varname, varval, vartype);
+    console.log(title_text, unit_text, background_color, varname, varval, vartype);
     
         
     if(($("#" + varname).length == 0) || (vartype=="header") || (vartype=="calc") || (varattr=="virtual")) {
@@ -287,7 +293,8 @@ function add() {
             html_text = "<div " +
                     "style='position: absolute; " +
                            "top:0; " +
-                           "left:0;' " +
+                           "left:0; " +
+			   "background-color:" + background_color + "'" +
                     "class='varbox box_highlight' " +
                     "id='" + varname +
                     "' data-type='" + vartype +
@@ -295,7 +302,7 @@ function add() {
                     "' data-formula='" + data_formula +
                     "' data-lesser='" + data_lesser + 
  		            "' data-larger='" + data_larger + 
-                    "' data-exponential='" + data_exponential + 
+                    "' data-exponential='" + data_exponential +
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -317,7 +324,8 @@ function add() {
                 html_text = "<div " +
                         "style='position: absolute; " +
                                "top:0; " +
-                               "left:0;' " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
                         "' data-type='" + vartype +
@@ -349,12 +357,15 @@ function add() {
         } else if (vartype == "calc") {
             console.log("Calc");
             if (data_formula.length > 0) {
-                var clean_text = virtual_id.replace(/[^a-zA-Z0-9 ]/g, "")
+                var clean_text = data_formula.replace(/[^a-zA-Z0-9 ]/g, "")
                 varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+                console.log('Hi');
+                console.log(varname);
                 html_text = "<div " +
                         "style='position: absolute; " +
                                "top:0; " +
-                               "left:0;' " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
                         "' data-type='" + vartype +
@@ -488,7 +499,8 @@ function add() {
                 html_text = "<div " +
                         "style='position: absolute; " +
                                "top:0; " +
-                               "left:0;' " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
                         "' data-type='" + vartype +
@@ -554,7 +566,7 @@ function mysave(data) {
 
             if ( $("#"+key).attr("data-type") == "data" ) {
                 if ( (varname == key) && (varattr == "normal") ) {
-            	    tmp["condition"] = $("#elem_condtion_range").val();
+                    tmp["condition"] = $("#elem_condtion_range").val();
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
@@ -563,8 +575,14 @@ function mysave(data) {
                     } else {
                         tmp["exponential"] = false;
                     }
-            
-            	    header = {};
+            	    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    } 
+                    console.log('Hi');
+                    console.log($("#"+key).css("background-color"));
+                    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = $("#elem_title_size").val();
@@ -574,7 +592,8 @@ function mysave(data) {
                     $(".title", "#"+key).text(header["title"]);
                     $(".title", "#"+key).css("font-size", header["size"] + "px");
                     $(".title", "#"+key).css("font-weight", header["weight"]);
-   
+                    
+ 
             	    unit = {};
             	    unit["title"] = $("#elem_unit_text").val().trim();
             	    //unit["color"] = $(".varval", "#"+key).css("color");
@@ -593,12 +612,12 @@ function mysave(data) {
                     tmp["exponential"] = $("#"+key).attr("data-exponential");
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
-            
-            	    header = {};
+                    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
-
+                    tmp["background_color"] = $("#"+key).css("background-color");
+		    
                     var fontWeight = $(".title", "#"+key).css("font-weight");
                     if (fontWeight == 'bold' || fontWeight == '700') {
             	        header["weight"] = "700";
@@ -662,6 +681,12 @@ function mysave(data) {
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
              	    
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    }
+
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
             	    header["size"] = $("#elem_title_size").val();
@@ -674,7 +699,8 @@ function mysave(data) {
                 } else {
             	    tmp["dict"] = $("#"+key).attr("data-dict");
             	    tmp["cond"] = $("#"+key).attr("data-cond");
-            	    header = {};
+            	    tmp["background_color"] = $("#"+key).css("background-color");
+                    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = $(".title", "#"+key).css("font-size");
@@ -736,7 +762,11 @@ function mysave(data) {
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = $("#elem_title_size").val();
             	    header["weight"] = $("#elem_title_style option:selected").val();
-            
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    } 
                     // update field
                     $(".title", "#"+key).css("font-size", header["size"] + "px");
                     $(".title", "#"+key).css("font-weight", header["weight"] + "px");
@@ -759,7 +789,7 @@ function mysave(data) {
             	    tmp["larger"] = $("#"+key).attr("data-larger");
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
-            
+                    tmp["background_color"] = $("#"+key).css("background-color"); 
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -810,7 +840,11 @@ function mysave(data) {
                     var unit_text = $("#elem_unit_text").val();
                     unit_text = unit_text.trim();
                     var data_condition = $("#elem_condition_range").val();
-
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    }
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
              	    
@@ -826,7 +860,8 @@ function mysave(data) {
                 } else {
             	    tmp["dict"] = $("#"+key).attr("data-dict");
             	    tmp["cond"] = $("#"+key).attr("data-cond");
-            	    header = {};
+            	    tmp["background_color"] = $("#"+key).css("background-color");
+                    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = $(".title", "#"+key).css("font-size");
@@ -851,6 +886,7 @@ function mysave(data) {
     $('[id^=header_]').each(function( index ) {
         tmp = {};
         var hkey = $( this ).attr('id');
+        console.log('Hi');
         console.log(hkey);
         tmp["left"] = $("#"+hkey).css("left");
         tmp["top"] = $("#"+hkey).css("top");
@@ -864,6 +900,11 @@ function mysave(data) {
             //header["color"] = $(".title", "#"+key).css("color");
             header["size"] = $("#elem_title_size").val();
             header["weight"] = $("#elem_title_style option:selected").val();
+            if ($('#background_color').val().length > 0) {
+                tmp["background_color"] = $('#background_color').val();
+            } else {
+                tmp["background_color"] = '#0000ffff';
+            }
 
             // update field
             $(".title", "#"+hkey).css("font-size", header["size"] + "px");
@@ -875,7 +916,8 @@ function mysave(data) {
             //header["color"] = $(".title", "#"+hkey).css("color");
             header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
             header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
-            
+            tmp["background_color"] = $("#"+hkey).css("background-color");
+         
 	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
 	    if (fontWeight == 'bold' || fontWeight == '700') {
 		header["weight"] = "700";
@@ -912,7 +954,13 @@ function mysave(data) {
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = $("#elem_title_size").val();
             	    header["weight"] = $("#elem_title_style option:selected").val();
-            
+                    
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    }
+ 
             	    unit = {};
             	    unit["title"] = $("#elem_unit_text").val().trim();
             	    //unit["color"] = $(".varval", "#"+key).css("color");
@@ -926,7 +974,7 @@ function mysave(data) {
             	    tmp["larger"] = $("#"+key).attr("data-larger");
              	    //tmp["min"] = $("#"+key).attr("min");
            	        //tmp["max"] = $("#"+key).attr("max");
-            
+                    tmp["background_color"] = $("#"+key).css("background-color"); 
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -971,7 +1019,7 @@ function highlight(mydata) {
     varname = $("#varname option:selected").text();
     vartype = $("#"+varname).attr("data-type");
     $("#vartype").val(vartype);
-    //console.log(varname, vartype);
+    console.log(varname, vartype);
 
     // clear values
     $("#elem_title_text").val("");
@@ -983,6 +1031,7 @@ function highlight(mydata) {
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
     $("#virtual_id_text").val("");
+    $("#background_color").val("");
     $('#elem_exponential').prop('checked', false); 
     $('#elem_unit_text').removeClass('glowing_border');  
     $('#elem_title_text').removeClass('glowing_border');
@@ -1003,6 +1052,11 @@ function highlight(mydata) {
         if (fontWeight == 'bold' || fontWeight == '700') {
             $("#elem_unit_style").val("700"); 
         }
+        
+        $("#background_color").val("");
+        if ($("#"+varname).css("background-color") ) {
+            $("#background_color").val($("#"+varname).css("background-color"));
+        }
     } else if (vartype == "data") {
         
         if ($("#"+varname).attr("data-exponential")) {
@@ -1010,7 +1064,7 @@ function highlight(mydata) {
         } else {
             $('#elem_exponential').prop('checked', false); 
         }
-        
+         
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
         if ($("#"+varname + " .title").css("font-size")) {
@@ -1029,6 +1083,10 @@ function highlight(mydata) {
         if ($("#"+varname).attr("data-larger") ) {
             $("#elem_larger_range").val($("#"+varname).attr("data-larger"));
         }
+        $("#background_color").val("");
+        if ($("#"+varname).css("background-color") ) {
+            $("#background_color").val($("#"+varname).css("background-color"));
+        } 
         $("#elem_condition_range").val("");
         if ($("#"+varname).attr("data-cond") ) {
             $("#elem_condition_range").val($("#"+varname).attr("data-cond"));
@@ -1083,6 +1141,10 @@ function highlight(mydata) {
         if ($("#"+varname).attr("data-formula") ) {
             $("#elem_formula").val($("#"+varname).attr("data-formula"));
         }
+        $("#background_color").val("");
+        if ($("#"+varname).css("background-color") ) {
+            $("#background_color").val($("#"+varname).css("background-color"));
+        }
     } else if (vartype == "valve") {
         $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
     } else if (vartype == "commbit") {
@@ -1098,7 +1160,10 @@ function highlight(mydata) {
         if ($("#"+varname).attr("data-cond") ) {
             $("#elem_condition_range").val($("#"+varname).attr("data-cond"));
         }
-        
+        $("#background_color").val("");
+        if ($("#"+varname).css("background-color") ) {
+            $("#background_color").val($("#"+varname).css("background-color"));
+        } 
     }
 
     for(key in mydata) {
@@ -1133,7 +1198,7 @@ jQuery(window).load(function () {
     $("#varname").change(function() {
         varval = $( "#varname option:selected").val();
         varname = $("#varname option:selected").text();
-        console.log(varval, varname);
+        //console.log(varval, varname);
         $("#buttonHighlight").trigger("click"); 
     });
     
@@ -1150,6 +1215,7 @@ jQuery(window).load(function () {
 	        $("#elem_larger_range").val("");
 	        $("#elem_condition_range").val("");
 	        $("#elem_formula").val("");
+                $("#background_color").val("");
         }       
     });
 
