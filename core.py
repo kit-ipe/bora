@@ -75,7 +75,7 @@ def fetchDataADEI():
             #print(yaml.load(stream))
             varname = yaml.load(stream)
         except yaml.YAMLError as exc:
-            print(exc)
+	    print(exc)
     if varname == None:
         print("Error: Empty varname file.")
         return
@@ -100,10 +100,10 @@ def fetchDataADEI():
         #current_timestamp = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
-        time_pattern = "%Y-%m-%d %H:%M:%S"
-        epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
+        #time_pattern = "%Y-%m-%d %H:%M:%S"
+        #epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
     
-
+    """
     with open("cache.yaml",'r') as stream_cache:
         cache_content = {}
         cache_content = yaml.load(stream_cache)
@@ -114,7 +114,7 @@ def fetchDataADEI():
         print("current:", epoch_cur)
         print("previous:", epoch_prev)
 
-    """
+    
     if epoch_cur == epoch_prev:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
@@ -123,7 +123,7 @@ def fetchDataADEI():
         server.sendmail("server.bora@gmail.com", "chanhoonseng3101@gmail.com", msg)
         server.quit()
     """
-
+    
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/.tmp.yaml"
@@ -170,7 +170,7 @@ class StopHandler(tornado.web.RequestHandler):
         rt.stop()
 class SetTimerHandler(tornado.web.RequestHandler):
     def get(self, duration):
-        print "Set interval"
+	print "Set interval"
         rt.setInterval(float(duration))
 
 
@@ -253,7 +253,7 @@ class StatusHandler(tornado.web.RequestHandler):
                 varname_data = yaml.load(vstream)
             except yaml.YAMLError as exc:
                 print(exc)
-        #if varname_data == None:
+       #if varname_data == None:
         #    print("Error: Empty varname data file.")
         #    return
 
@@ -307,7 +307,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         
         data = requests.get(url, auth=(config['username'], config['password']))
 	cr = data.content
-	print("HARRY!")
+	#print("HARRY!")
 	print cr
 	cr = cr.splitlines()
 	cr = ",".join(cr)
@@ -317,7 +317,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 
         # handling the inconsistency on naming convention
 	match_token = params['sensor_name']
-        if params["db_server"] != "lara" and params["db_server"] != "hiu":
+        if params["db_server"] != "lara" and params["db_server"] != "hiu" and params["db_server"] != "safety-first":
             # parameter name stored in ADEI with '-IST_Val' suffix
             if "MOD" in params['sensor_name']:
 	        match_token = params['sensor_name'] + "-MODUS_Val"
@@ -394,7 +394,7 @@ class GetDataHandler(tornado.web.RequestHandler):
         print("GetData:")
         if cache_data == None:
             cache_data = {}
-        print cache_data
+	print cache_data
         self.write(cache_data) 
 
     
