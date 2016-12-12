@@ -127,6 +127,28 @@ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['of
 {% else %}
 {% end %}
 
+{% if data['style'][key]['type'] == "alarm" %}
+{% if "ref" in data['style'][key] %}
+<div tooltip="{{ data['style'][key]['ref'] }}"
+{% else %}
+<div tooltip="{{ key }}"
+{% end %}
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "ref" in data['style'][key] %}
+data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" onclick="window.open('http://pcebessadei.competence-e.kit.edu/adei-battery/#module=graph&{{ data['varname'][data['style'][key]['ref']]}}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
+</div>
+{% else %}
+data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" onclick="window.open('http://pcebessadei.competence-e.kit.edu/adei-battery/#module=graph&{{ data['varname'][key]}}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');" class='databox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
+</div>
+{% end %}
+
+{% else %}
+{% end %}
+
+
+
 {% if data['style'][key]['type'] == "integer-to-string" %}
 <div tooltip="{{ key }}" style='position: absolute; top: {{
     data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
@@ -255,6 +277,16 @@ function myTimer() {
                         if (parseFloat(response[key]) == parseFloat(off_attr)) {
                             $("img", "#" + key).attr("src", "{{ static_url('Bit_red.svg') }}");
                         }
+                    } else if (data_type == "alarm") {
+                        //console.log("alarm");
+                        var on_attr = $("#" + key).attr('data-on');
+                        var off_attr = $("#" + key).attr('data-off');
+                        if (parseFloat(response[key]) == parseFloat(on_attr)) {
+                            $("img", "#" + key).attr("src", "{{ static_url('alarm_active.svg') }}");
+                        }
+                        if (parseFloat(response[key]) == parseFloat(off_attr)) {
+                            $("img", "#" + key).attr("src", "{{ static_url('alarm_inactive.svg') }}");
+                        }
 		    } else if (data_type == "integer-to-string") {
                         //console.log("integer-to-string");
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
@@ -344,6 +376,15 @@ function myTimer() {
                                 }
                                     if (parseFloat(response[ref]) == parseFloat(off_attr)) {
                                         $("img", "#" + key).attr("src", "{{ static_url('Bit_red.svg') }}");
+                                }
+                            } else if (data_type == "alarm") {
+                        var on_attr = $("#" + key).attr('data-on');
+                        var off_attr = $("#" + key).attr('data-off');
+                                    if (parseFloat(response[ref]) == parseFloat(on_attr)) {
+                                        $("img", "#" + key).attr("src", "{{ static_url('alarm_active.svg') }}");
+                                }
+                                    if (parseFloat(response[ref]) == parseFloat(off_attr)) {
+                                        $("img", "#" + key).attr("src", "{{ static_url('alarm_inactive.svg') }}");
                                 }
 
 		            } else if (data_type == "integer-to-string") {
