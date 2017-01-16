@@ -83,7 +83,8 @@ def fetchDataADEI():
     cache_data = {}
     print time.time()
     curtime = int(time.time())
-    time_range = str((curtime-3600)) + "-" + str(curtime)
+    #time_range = str((curtime-3600)) + "-" + str(curtime)
+    time_range = "-1"
     for param in varname:
         dest = config['server'] + config['script']
         url = dest + "?" + varname[param] + "&window=" + time_range

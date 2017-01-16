@@ -53,7 +53,13 @@ data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 {% else %}
 <div tooltip="{{ key }}" 
 {% end %}
-class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' 
+class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
+
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+'
+{% end%}
 {% if "condition" in data['style'][key] %}
 data-cond="{{ data['style'][key]['condition'] }}"
 {% else%}
@@ -74,10 +80,15 @@ data-larger="{{ data['style'][key]['larger'] }}"
 data-exponential="{{ data['style'][key]['exponential'] }}"
 {% else %}
 {% end %}
+{% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 onclick="window.open('http://pcebessadei.competence-e.kit.edu/adei-battery/#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
+{% else %}
+{% end %}
+
+
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span></p>
@@ -169,13 +180,23 @@ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['of
 <div tooltip="{{ key }}" style='position: absolute; top: {{
     data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
     width:{{ data['style'][key]['width'] }}px; height:{{
-    data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' 
+    data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+'
+{% end%}
+
 {% if "cond" in data['style'][key] %}
 data-cond="{{ data['style'][key]['cond'] }}"
 {% else %}
 {% end %}
+
+{% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 onclick="window.open('http://pcebessadei.competence-e.kit.edu/adei-battery/#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+{% else %}
+{% end %}
 {% else %}
 {% end %}
  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
