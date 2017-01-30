@@ -1309,21 +1309,21 @@ function highlight(mydata) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
      } else if (vartype == "valve") {
-        $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
+        $("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
         }
     } else if (vartype == "commbit") {
-        $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
+        $("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
         }
     } else if (vartype == "alarm") {
-        $("#elem_unit_text").val("{'on':"+$("#"+varname).attr("data-on") + ",'off':"+$("#"+varname).attr("data-off")+"}" );
+        $("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
             $('#elem_linkhtml').prop('checked', true);
         } else {
