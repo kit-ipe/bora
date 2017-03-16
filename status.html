@@ -254,13 +254,13 @@ function myTimer() {
                         //console.log("data");
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
-			            if (response[key]) {
+			if (response[key]) {
                             if (formula_attr) {
                                 datavalue = parseFloat(response[key]).toFixed(2);
- 			                    formula = formula_attr.replace("x", datavalue.toString());
+ 			        formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed(2);
-		    	            } else {
+		    	    } else {
                                 if ( ($("#" + key).attr('data-exponential')) == "True" || ($("#" + key).attr('data-exponential')) == "true" ) {
                                     datavalue = parseFloat(response[key]);
                                     datavalue = datavalue.toExponential(2)
@@ -268,22 +268,16 @@ function myTimer() {
                                     datavalue = parseFloat(response[key]).toFixed(2);
                                 }
                             }
- 		    	            set_color = "green";
-		                } else {
-			                datavalue = "---";
-			                set_color = "black";
-		                }
-                        /*if ( ($("#" + key).attr('data-linkhtml')) == "False" || ($("#" + key).attr('data-linkhtml')) == "false" ) {
-                            document.getElementById("{{key}}").removeAttribute("onclick");
-                            console.log("Ash");
-                        } else {
-                            console.log("Jack");
-                        }*/
+ 		    	    set_color = "green";
+		        } else {
+			    datavalue = "---";
+			    set_color = "black";
+		        }
                         $(".varval", "#" + key).text(datavalue);
                         var condition_attr = $("#" + key).attr('data-cond');
                         var lesser_attr = $("#" + key).attr('data-lesser');
                         var larger_attr = $("#" + key).attr('data-larger');
-  		    	        //console.log(condition_attr);
+  		    	//console.log(condition_attr);
                         if (condition_attr) {
  			    if (response[key] == condition_attr) {
  			        set_color = "red";
