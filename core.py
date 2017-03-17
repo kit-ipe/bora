@@ -104,27 +104,6 @@ def fetchDataADEI():
         #time_pattern = "%Y-%m-%d %H:%M:%S"
         #epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
     
-    """
-    with open("cache.yaml",'r') as stream_cache:
-        cache_content = {}
-        cache_content = yaml.load(stream_cache)
-        #print(cache_content)
-        time_prev = cache_content.get('time')
-        #time_pattern = "%Y-%m-%d %H:%M:%S"
-        epoch_prev = int(time.mktime(time.strptime(time_prev, time_pattern)))
-        print("current:", epoch_cur)
-        print("previous:", epoch_prev)
-
-    
-    if epoch_cur == epoch_prev:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login("server.bora@gmail.com", "not2peepinsider")
-        msg = "Katrin is running!"
-        server.sendmail("server.bora@gmail.com", "chanhoonseng3101@gmail.com", msg)
-        server.quit()
-    """
-    
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/.tmp.yaml"
@@ -270,6 +249,11 @@ class StatusHandler(tornado.web.RequestHandler):
             data["title"] = config["title"]
         else:
             data["title"] = "BORA"
+        
+        if "server" in config:
+            data["server"] = config["server"]
+        else:
+            data["server"] = "http://katrin.kit.edu/adei-katrin/"
  
         self.render('status.html', data=data)
 
@@ -308,13 +292,9 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         
         data = requests.get(url, auth=(config['username'], config['password']))
 	cr = data.content
-	#print("HARRY!")
-	print cr
 	cr = cr.splitlines()
 	cr = ",".join(cr)
         cr = cr.split(",")
-        print("HELLO!")
-	print cr, len(cr) 
 
         # handling the inconsistency on naming convention
 	match_token = params['sensor_name']
