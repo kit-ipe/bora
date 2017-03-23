@@ -89,39 +89,102 @@
 {% end %}
 
 
-{% if data['style'][key]['type'] == "valve" %}
+{% if data['style'][key]['type'] == "icon" %}
+{% if data['style'][key]['icon'] == "valve" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
 {% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("ventil_inactive.png") }}'></img>
+<img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['type'] == "commbit" %}
+{% if data['style'][key]['icon'] == "commbit" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
 {% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("Bit_inactive.svg") }}'></img>
+<img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['type'] == "alarm" %}
+{% if data['style'][key]['icon'] == "alarm" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
 <img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "tmp" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("tmp_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
 {% else %}
 {% end %}
 
@@ -175,14 +238,20 @@
 {% end %}
 </select>
 <span class="info">Type</span>
-<select id="vartype" style="font-size:16pt;">
+<select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
   <option value="data">data</option>
-  <option value="valve">valve</option>
-  <option value="commbit">commbit</option>
-  <option value="alarm">alarm</option>
+  <option value="icon">icon</option>
   <option value="integer-to-string">integer-to-string</option>
   <option value="header">header</option>
   <option value="calc">calc</option>
+</select>
+<span class="info">Icon</span>
+<select id="icon" style="font-size:16pt;" disabled="true">
+  <option disabled selected value></option>
+  <option value="valve">valve</option>
+  <option value="commbit">commbit</option>
+  <option value="alarm">alarm</option>
+  <option value="tmp">TMP</option>
 </select>
 <span class="info">Attribute</span>
 <select id="varattr" style="font-size:16pt;">
@@ -191,6 +260,21 @@
 </select>
 <span class="info">Virtual ID</span>
 <input type="text" id="virtual_id_text" placeholder="text" style="font-size:16pt; width=100px;"/>
+<br /><br />
+<span class="info">Condition: on when x </span>
+<select id="onexpression" style="font-size:16pt;" disabled>
+  <option value="onsmaller"><</option>
+  <option value="onequal">=</option>
+  <option value="ongreater">></option>
+</select>
+<input type="text" id="onvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
+<span class="info">&nbsp;&nbsp;&nbsp;&nbsp; off when x </span>
+<select id="offexpression" style="font-size:16pt;" disabled>
+  <option value="offsmaller"><</option>
+  <option value="offequal">=</option>
+  <option value="offgreater">></option>
+</select>
+<input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
 <br /><br />
 <span class="info">Title</span>:
 
@@ -216,15 +300,14 @@
 </select>
 <span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
 <br /><br />
-<span class="info">Background colour</span>
-<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
-<span class="info">Link</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
-<br /><br />
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
+<span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
+<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
+<span class="info">Link</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
 
 </div>
 
@@ -233,6 +316,23 @@
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
 <script>
+
+function inputEnable() {
+    if ($("#vartype option:selected").val()=="icon") {
+        $("#icon").prop("disabled",false);
+        $("#onexpression").prop("disabled",false);
+        $("#onvalue").prop("disabled",false);
+        $("#offexpression").prop("disabled",false);
+        $("#offvalue").prop("disabled",false);
+    } else {
+        $("#icon").prop("disabled",true);
+        $("#onexpression").prop("disabled",true);
+        $("#onvalue").prop("disabled",true);
+        $("#offexpression").prop("disabled",true);
+        $("#offvalue").prop("disabled",true);
+    }
+}
+
 function backup() {
     $.ajax({
         url: '/backup/',
@@ -298,6 +398,11 @@ function add() {
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
     vartype = $("#vartype option:selected").val();
+    icon = $("#icon option:selected").val();
+    onexpression = $("#onexpression option:selected").val();
+    onvalue = $("#onvalue").val();
+    offexpression = $("#offexpression option:selected").val();
+    offvalue = $("#offvalue").val();
     varattr = $("#varattr option:selected").val();
     console.log("Selected");
     console.log(varattr);
@@ -394,7 +499,6 @@ function add() {
             if (data_formula.length > 0) {
                 var clean_text = data_formula.replace(/[^a-zA-Z0-9 ]/g, "")
                 varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
-                console.log('Hi');
                 console.log(varname);
                 html_text = "<div " +
                         "style='position: absolute; " +
@@ -434,134 +538,54 @@ function add() {
                 $('#elem_formula').addClass('glowing_border');
             }
             
-        } else if (vartype == "valve") {
-            
-            if (varattr=="virtual") {
-                virtual_name = "virtual_" + varname + "_" + virtual_id;
-                if ( $("#" + virtual_name).length > 0 ) {
-                    for (i = 0; i < 50; i++) {
-                        virtual_name = "virtual_" + varname + "_" + i.toString();
-                        console.log($("#" + virtual_name).length);
-                        if (!$("#" + virtual_name).length){
-                            break;
-                         }
+        } else if (vartype == "icon") {
+                if (varattr=="virtual") {
+                    virtual_name = "virtual_" + varname + "_" + virtual_id;
+                    if ( $("#" + virtual_name).length > 0 ) {
+                        for (i = 0; i < 50; i++) {
+                            virtual_name = "virtual_" + varname + "_" + i.toString();
+                            console.log($("#" + virtual_name).length);
+                            if (!$("#" + virtual_name).length){
+                                break;
+                            }
+                        }
                     }
+                    varname = virtual_name;
                 }
-                varname = virtual_name;
-            }
-            console.log("Ventil");
-            if (unit_text.length > 0) {
-                var token = JSON.parse(unit_text);
-                data_on = token["on"];
-                data_off = token["off"];
-                 html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " +
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-cond='" + data_condition +
-                    "' data-lesser='" + data_lesser +
-                            "' data-larger='" + data_larger +
-                            "' data-on='" + data_on +
-                            "' data-off='" + data_off +
-                    "' data-linkhtml='" + data_linkhtml +
-                    "'>" +
-                            "<img width='100%' height='100%' " +
-                    "src='{{ static_url("ventil_inactive.png") }}'></img>" +
-                        "</div>";
-                 $('#elem_unit_text').removeClass('glowing_border');
-            } else{
-                console.log("NoInput");
-                html_text = "";
-                $('#elem_unit_text').addClass('glowing_border');
-            }
-        } else if (vartype == "commbit") {
-           
-            if (varattr=="virtual") {
-                virtual_name = "virtual_" + varname + "_" + virtual_id;
-                if ( $("#" + virtual_name).length > 0 ) {
-                    for (i = 0; i < 50; i++) {
-                        virtual_name = "virtual_" + varname + "_" + i.toString();
-                        console.log($("#" + virtual_name).length);
-                        if (!$("#" + virtual_name).length){
-                            break;
-                         }
-                    }
-                }
-                varname = virtual_name;
-            }
-            console.log("commbit");
-            if (unit_text.length > 0) {
-                var token = JSON.parse(unit_text);
-                data_on = token["on"];
-                data_off = token["off"];
-                 html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " +
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-cond='" + data_condition +
-                    "' data-lesser='" + data_lesser +
-                            "' data-larger='" + data_larger +
-                            "' data-on='" + data_on +
-                            "' data-off='" + data_off +
-                    "' data-linkhtml='" + data_linkhtml +
-                    "'>" +
-                            "<img width='100%' height='100%' " +
-                    "src='{{ static_url("Bit_inactive.svg") }}'></img>" +
-                        "</div>";
-                 $('#elem_unit_text').removeClass('glowing_border');
-            } else{
-                console.log("NoInput");
-                html_text = "";
-                $('#elem_unit_text').addClass('glowing_border');
-            }
-        } else if (vartype == "alarm") {
-            if (varattr=="virtual") {
-                virtual_name = "virtual_" + varname + "_" + virtual_id;
-                if ( $("#" + virtual_name).length > 0 ) {
-                    for (i = 0; i < 50; i++) {
-                        virtual_name = "virtual_" + varname + "_" + i.toString();
-                        console.log($("#" + virtual_name).length);
-                        if (!$("#" + virtual_name).length){
-                            break;
-                         }
-                    }
-                }
-                varname = virtual_name;
-            }
-            console.log("alarm");
-            if (unit_text.length > 0) {
-                var token = JSON.parse(unit_text);
-                data_on = token["on"];
-                data_off = token["off"];
-                 html_text = "<div " +
-                    "style='position: absolute; " +
-                           "top:0; " +
-                           "left:0;' " +
-                    "class='varbox box_highlight' " +
-                    "id='" + varname +
-                    "' data-type='" + vartype +
-                    "' data-cond='" + data_condition +
-                    "' data-lesser='" + data_lesser +
-                            "' data-larger='" + data_larger +
-                            "' data-on='" + data_on +
-                            "' data-off='" + data_off +
-                    "' data-linkhtml='" + data_linkhtml +
-                    "'>" +
-                            "<img width='100%' height='100%' " +
-                    "src='{{ static_url("alarm_inactive.svg") }}'></img>" +
-                        "</div>";
-                 $('#elem_unit_text').removeClass('glowing_border');
-            } else{
-                console.log("NoInput");
-                html_text = "";
-                $('#elem_unit_text').addClass('glowing_border');
-            }
+                console.log(icon);
+                if ((onvalue.length > 0)&&(offvalue.length > 0)) {
+                    //var token = JSON.parse(unit_text);
+                    //data_on = token["on"];
+                    //data_off = token["off"];
+                    html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0;' " +
+                        "class='varbox box_highlight' " +
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-icon='" + icon +
+                        "' data-lesser='" + data_lesser +
+                                "' data-larger='" + data_larger +
+                                "' data-onexpression='" + onexpression +
+                                "' data-on='" + onvalue +
+                                "' data-offexpression='" + offexpression +
+                                "' data-off='" + offvalue +
+                        "' data-linkhtml='" + data_linkhtml +
+                        "'>" +
+                                "<img width='100%' height='100%' " +
+                        "src='/static/" + icon + "_inactive.svg' ></img>" +
+                            "</div>";
+                     $('#onvalue').removeClass('glowing_border');
+                     $('#offvalue').removeClass('glowing_border');
+                 } else{
+                     console.log("NoInput");
+                     html_text = "";
+                     $('#onvalue').addClass('glowing_border');
+                     $('#offvalue').addClass('glowing_border');
+                 }
+         
 	} else if (vartype == "integer-to-string") {
             if (varattr=="virtual") {
                 virtual_name = "virtual_" + varname + "_" + virtual_id;
@@ -571,7 +595,7 @@ function add() {
                         console.log($("#" + virtual_name).length);
                         if (!$("#" + virtual_name).length){
                             break;
-                         }
+                        }
                     }
                 }
                 varname = virtual_name;
@@ -626,6 +650,8 @@ function myremove() {
     if($("#" + varname).length > 0) {
         $("#"+varname).remove();
         console.log(varname +" removed.");
+nexpression = $("#onexpression option:selected").val();
+    onvalue = $("#onvalue").val();
     }
 }
 function mysave(data) {
@@ -671,7 +697,6 @@ function mysave(data) {
                     } else {
                         tmp["background_color"] = '#0000ffff';
                     } 
-                    //console.log('Hi');
                     //console.log($("#"+key).css("background-color"));
                     header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -738,13 +763,16 @@ function mysave(data) {
 	    //	header["size"] = $(".title", "#"+key).css("font-size");
 	    //	header["weight"] = $(".title", "#"+key).css("font-weight");
             //	tmp["header"] = header;
-           } else if ( $("#"+key).attr("data-type") == "valve" ) {
+           } else if ( $("#"+key).attr("data-type") == "icon" ) {
                 if ((varname == key) && (varattr == "normal")) {
-                    var unit_text = $("#elem_unit_text").val();
-                    unit_text = unit_text.trim();
-                    var dtoken = JSON.parse(unit_text);
-                    tmp["on"] = dtoken["on"];
-                    tmp["off"] = dtoken["off"];
+                    //var unit_text = $("#elem_unit_text").val();
+                    //unit_text = unit_text.trim();
+                    //var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = $("#onvalue").val();
+                    tmp["on_condition"] = $("#onexpression").val();
+                    tmp["off"] = $("#offvalue").val();
+                    tmp["off_condition"] = $("#offexpression").val();
+                    tmp["icon"] = $("#"+key).attr("data-icon");
                     if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -753,10 +781,14 @@ function mysave(data) {
                         $("#"+key).attr("data-linkhtml","false");
                     }
                 } else {
+                    tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["on_condition"] = $("#"+key).attr("data-onexpression");
                     tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
-                } 
+                }
+           /* 
            } else if ( $("#"+key).attr("data-type") == "commbit" ) {
                 if ((varname == key) && (varattr == "normal")) {
                     var unit_text = $("#elem_unit_text").val();
@@ -794,7 +826,7 @@ function mysave(data) {
                     tmp["on"] = $("#"+key).attr("data-on");
                     tmp["off"] = $("#"+key).attr("data-off");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
-                }
+                }*/
             } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
                 if ((varname == key)&& (varattr == "normal")) {
                     var unit_text = $("#elem_unit_text").val();
@@ -940,13 +972,16 @@ function mysave(data) {
 	    //	        header["size"] = $(".title", "#"+key).css("font-size");
 	    //	        header["weight"] = $(".title", "#"+key).css("font-weight");
             //	tmp["header"] = header;
-            } else if ( $("#"+key).attr("data-type") == "valve" ) {
+            } else if ( $("#"+key).attr("data-type") == "icon" ) {
                 if (varname == key) {
-                    var unit_text = $("#elem_unit_text").val();
-                    unit_text = unit_text.trim();
-                    var dtoken = JSON.parse(unit_text);
-                    tmp["on"] = dtoken["on"];
-                    tmp["off"] = dtoken["off"];
+                    //var unit_text = $("#elem_unit_text").val();
+                    //unit_text = unit_text.trim();
+                    //var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = $("#onvalue").val();
+                    tmp["on_condition"] = $("#onexpression").val();
+                    tmp["off"] = $("#offvalue").val();
+                    tmp["off_condition"] = $("#offexpression").val();
+		    tmp["icon"] = $("#"+key).attr("data-icon");
                     if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -955,10 +990,14 @@ function mysave(data) {
                         $("#"+key).attr("data-linkhtml","false");
                     }
                 } else {
-            	    tmp["on"] = $("#"+key).attr("data-on");
-            	    tmp["off"] = $("#"+key).attr("data-off");
+		    tmp["icon"] = $("#"+key).attr("data-icon");
+                    tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["on_condition"] = $("#"+key).attr("data-onexpression");
+                    tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                 }
+		/*
             } else if ( $("#"+key).attr("data-type") == "commbit" ) {
                 if (varname == key) {
                     var unit_text = $("#elem_unit_text").val();
@@ -996,7 +1035,7 @@ function mysave(data) {
                     tmp["on"] = $("#"+key).attr("data-on");
                     tmp["off"] = $("#"+key).attr("data-off");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
-                }
+                }*/
             } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
                 if (varname == key) {
                     var unit_text = $("#elem_unit_text").val();
@@ -1053,7 +1092,6 @@ function mysave(data) {
     $('[id^=header_]').each(function( index ) {
         tmp = {};
         var hkey = $( this ).attr('id');
-        console.log('Hi');
         console.log(hkey);
         tmp["left"] = $("#"+hkey).css("left");
         tmp["top"] = $("#"+hkey).css("top");
@@ -1178,17 +1216,20 @@ function highlight(mydata) {
     console.log("highlight");
     varname = $("#varname option:selected").text();
     vartype = $("#"+varname).attr("data-type");
+    icon = $("#"+varname).attr("data-icon");
     $("#vartype").val(vartype);
-    console.log(varname, vartype);
+    console.log(varname, vartype,icon);
     // clear values
     $("#elem_title_text").val("");
     $("#elem_title_size").val("");
+    $("#elem_title_style").val("");
     $("#elem_unit_text").val("");
     $("#elem_unit_size").val("");
     $("#elem_lesser_range").val("");
     $("#elem_larger_range").val("");
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
+    $("#varattr").val("normal");
     $("#virtual_id_text").val("");
     $("#background_color").val("");
     $('#elem_exponential').prop('checked', false);
@@ -1196,6 +1237,16 @@ function highlight(mydata) {
     $('#elem_unit_text').removeClass('glowing_border');  
     $('#elem_title_text').removeClass('glowing_border');
     $('#elem_formula').removeClass('glowing_border');
+    $("#icon").val("");
+    $('#icon').prop('disabled', true);
+    $('#onexpression').prop('disabled', true);
+    $('#onvalue').prop('disabled', true);
+    $('#offexpression').prop('disabled', true);
+    $('#offvalue').prop('disabled', true);
+    $('#onexpression').val("");
+    $('#onvalue').val("");
+    $('#offexpression').val('disabled', true);
+    $('#offvalue').val("");
  
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
@@ -1271,6 +1322,12 @@ function highlight(mydata) {
         if (fontWeight == 'bold' || fontWeight == '700') {
             $("#elem_unit_style").val("700"); 
         }
+  
+        if (varname.includes("virtual")){
+            $("#varattr").val("virtual");
+        } else {
+            $("#varattr").val("normal");
+        }
    
     } else if (vartype == "calc") {
         var vid = varname.split("_");
@@ -1308,13 +1365,31 @@ function highlight(mydata) {
         if ($("#"+varname).css("background-color") ) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
-     } else if (vartype == "valve") {
-        $("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
+     } else if (vartype == "icon") {
+        $("#icon").val(icon);
+        $('#icon').prop('disabled', false);
+        $('#onexpression').prop('disabled', false);
+        $('#onvalue').prop('disabled', false);
+        $('#offexpression').prop('disabled', false);
+        $('#offvalue').prop('disabled', false);
+        $('#onvalue').val($("#"+varname).attr("data-on"));
+        $('#onexpression').val($("#"+varname).attr("data-onexpression"))
+        $('#offvalue').val($("#"+varname).attr("data-off"));
+        $('#offexpression').val($("#"+varname).attr("data-offexpression"))
+        //$("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
+
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
         }
+        
+        if (varname.includes("virtual")){
+            $("#varattr").val("virtual");
+        } else {
+            $("#varattr").val("normal");
+        }
+    /*
     } else if (vartype == "commbit") {
         $("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
@@ -1328,7 +1403,7 @@ function highlight(mydata) {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
-        }
+        }*/
     } else if (vartype == "integer-to-string") {
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
