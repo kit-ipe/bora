@@ -210,6 +210,30 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 </div>
 {% end %}
 
+{% if data['style'][key]['icon'] == "bottle" %}
+{% if "ref" in data['style'][key] %}
+<div tooltip="{{ data['style'][key]['ref'] }}"
+{% else %}
+<div tooltip="{{ key }}"
+{% end %}
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if data['style'][key]['linkhtml'] == 'true' %}
+{% if "server" in data %}
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+{% else %}
+{% end %}
+{% else %}
+{% end %}
+{% if "ref" in data['style'][key] %}
+data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
+</div>
+{% else %}
+data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
+<img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
+</div>
+{% end %}
+
 {% else %}
 {% end %}
 {% else %}
