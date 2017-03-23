@@ -162,7 +162,7 @@
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "tmp" %}
+{% if data['style'][key]['icon'] == "TMP" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
@@ -181,7 +181,7 @@
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("tmp_inactive.svg") }}'></img>
+<img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
@@ -251,7 +251,7 @@
   <option value="valve">valve</option>
   <option value="commbit">commbit</option>
   <option value="alarm">alarm</option>
-  <option value="tmp">TMP</option>
+  <option value="TMP">TMP</option>
 </select>
 <span class="info">Attribute</span>
 <select id="varattr" style="font-size:16pt;">
