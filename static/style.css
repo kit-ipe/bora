@@ -132,5 +132,15 @@ span,
     pointer-events: none;
 }
 
+div .popup {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    visibility: hidden;
+}
 
-
+div:hover .popup {
+    visibility: visible;
+    top:0; left:250px;
+    z-index: 1;
+}

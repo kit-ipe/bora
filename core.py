@@ -83,7 +83,7 @@ def fetchDataADEI():
     cache_data = {}
     print time.time()
     curtime = int(time.time())
-    #time_range = str((curtime-3600)) + "-" + str(curtime)
+    time_image_range = str((curtime-3600)) + "-" + str(curtime)
     time_range = "-1"
     for param in varname:
         dest = config['server'] + config['script']
@@ -103,15 +103,21 @@ def fetchDataADEI():
         cache_data['time'] = current_timestamp
         #time_pattern = "%Y-%m-%d %H:%M:%S"
         #epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
-    
+        urlimage = config['server'] + 'services/getimage.php' +  "?" + varname[param] + "&window=" + time_image_range + '&frame_width=300&frame_height=200'
+        image = requests.get(urlimage,
+                            auth=(config['username'],
+                                  config['password']))
+        
+        with open("static/dataimage/" + param + ".png",'wb') as handle:
+            for chunk in image.iter_content():
+                handle.write(chunk)
+            
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/.tmp.yaml"
     dst_file = os.getcwd() + "/cache.yaml"
     shutil.copy(src_file, dst_file)
-    
-    
-    
+
 print "Start torrenting..."
 # it auto-starts, no need of rt.start()
 
