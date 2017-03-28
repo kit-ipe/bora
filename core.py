@@ -103,12 +103,12 @@ def fetchDataADEI():
         cache_data['time'] = current_timestamp
         #time_pattern = "%Y-%m-%d %H:%M:%S"
         #epoch_cur = int(time.mktime(time.strptime(current_timestamp, time_pattern)))
-        urlimage = config['server'] + 'services/getimage.php' +  "?" + varname[param] + "&window=" + time_image_range + '&frame_width=300&frame_height=200'
+        urlimage = config['server'] + 'services/getimage.php' +  "?" + varname[param] + "&window=" + time_image_range + "&frame_width=600&frame_height=400"
         image = requests.get(urlimage,
                             auth=(config['username'],
                                   config['password']))
         
-        with open("static/dataimage/" + param + ".png",'wb') as handle:
+        with open("static/dataimage/" + param + ".png" ,'wb') as handle:
             for chunk in image.iter_content():
                 handle.write(chunk)
             

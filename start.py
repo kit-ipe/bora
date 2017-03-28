@@ -1,12 +1,13 @@
 #!/usr/bin/python
 import yaml
-
+import os
 
 def main():
     # Create yaml files  
     file = open("cache.yaml","w")
     file = open("varname.yaml","w")
     file = open("style.yaml","w")
+    os.makedirs("static/dataimage")
 
     # Define default values and import user input  
     default_name = 'adei'

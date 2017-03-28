@@ -94,11 +94,11 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="" alt="" class="popup"></span></p>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="" alt="" class="popup"></span></p>
 </div>
 {% end %}
 
@@ -122,14 +122,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
@@ -155,14 +155,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
@@ -188,14 +188,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
@@ -221,14 +221,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
@@ -254,14 +254,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span>
+<span><img src="" alt="" class="popup"></span>
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
@@ -300,7 +300,7 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% else %}
 {% end %}
  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span><span><img src="static/dataimage/{{data['style'][key]['ref']}}.png" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span><span><img src="" alt="" class="popup"></span></p>
 </div>
 {% else %}
 {% end %}
@@ -659,6 +659,12 @@ function myTimer() {
 	    var datetime = page_title_cache + " data monitoring page. Last Sync: " + response["time"];
    	    $("#page_info").text(datetime);
             console.log(datetime);
+
+            var timer = setInterval(function(){
+                var imgUrl = "static/dataimage/" + key + ".png?" + new Date().getTime();
+                $('.popup').attr("src",imgUrl);
+            },5000);
+
         },
         error: function () {
             console.log("Error.")
