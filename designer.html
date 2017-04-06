@@ -78,6 +78,10 @@
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
 {% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if "exponential" in data['style'][key] %}
  data-exponential="{{ data['style'][key]['exponential'] }}"
 {% else %}
@@ -94,6 +98,10 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
 {% end %}
 {% if "on_condition" in data['style'][key] %}
@@ -120,6 +128,10 @@
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
 {% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if "on_condition" in data['style'][key] %}
  data-onexpression="{{ data['style'][key]['on_condition'] }}"
 {% else %}
@@ -142,6 +154,10 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
 {% end %}
 {% if "on_condition" in data['style'][key] %}
@@ -168,6 +184,10 @@
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
 {% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if "on_condition" in data['style'][key] %}
  data-onexpression="{{ data['style'][key]['on_condition'] }}"
 {% else %}
@@ -190,6 +210,10 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
 {% end %}
 {% if "on_condition" in data['style'][key] %}
@@ -223,6 +247,10 @@
 {% end%}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
 {% end %}
  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
@@ -333,7 +361,7 @@
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
 <span class="info">Link</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
-
+<span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
 </div>
 
     
@@ -416,6 +444,14 @@ function add() {
         data_linkhtml = false;
         $("#"+key).attr("data-linkhtml", false);
     }
+     
+    if ($('#elem_trend').is(":checked")) {
+        data_trend = true;
+        $("#"+key).attr("data-trend", true);
+    } else {
+        data_trend = false;
+        $("#"+key).attr("data-trend", false);
+    }
  
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
@@ -469,6 +505,7 @@ function add() {
  		            "' data-larger='" + data_larger + 
                     "' data-exponential='" + data_exponential +
                     "' data-linkhtml='" + data_linkhtml +
+                    "' data-trend='" + data_trend +
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -598,6 +635,7 @@ function add() {
                                 "' data-offexpression='" + offexpression +
                                 "' data-off='" + offvalue +
                         "' data-linkhtml='" + data_linkhtml +
+                        "' data-trend='" + data_trend +
                         "'>" +
                                 "<img width='100%' height='100%' " +
                         "src='/static/" + icon + "_inactive.svg' ></img>" +
@@ -639,6 +677,7 @@ function add() {
                         "' data-dict='" + unit_text +
                         "' data-cond='" + data_condition +
                         "' data-linkhtml='" + data_linkhtml +
+                        "' data-trend='" + data_trend +
                         "'>" +
                         "<p>" +
                         "<span style='color: " + title_color + ";" + 
@@ -717,6 +756,13 @@ function mysave(data) {
                         tmp["linkhtml"] = "false";
 			$("#"+key).attr("data-linkhtml","false");
                     }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
             	    if ($('#background_color').val().length > 0) {
                         tmp["background_color"] = $('#background_color').val();
                     } else {
@@ -752,6 +798,7 @@ function mysave(data) {
             	    tmp["larger"] = $("#"+key).attr("data-larger");
                     tmp["exponential"] = $("#"+key).attr("data-exponential");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
                     header = {};
@@ -805,6 +852,13 @@ function mysave(data) {
                         tmp["linkhtml"] = "false";
                         $("#"+key).attr("data-linkhtml","false");
                     }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
                 } else {
                     tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
@@ -812,6 +866,7 @@ function mysave(data) {
                     tmp["off"] = $("#"+key).attr("data-off");
                     tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
                 }
            /* 
            } else if ( $("#"+key).attr("data-type") == "commbit" ) {
@@ -865,6 +920,13 @@ function mysave(data) {
                     } else {
                         tmp["linkhtml"] = "false";
                         $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
                     } 
                     if ($('#background_color').val().length > 0) {
                         tmp["background_color"] = $('#background_color').val();
@@ -885,6 +947,7 @@ function mysave(data) {
             	    tmp["cond"] = $("#"+key).attr("data-cond");
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -948,6 +1011,13 @@ function mysave(data) {
                         tmp["linkhtml"] = "false";
                         $("#"+key).attr("data-linkhtml","false");
                     }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
                     if ($('#background_color').val().length > 0) {
                         tmp["background_color"] = $('#background_color').val();
                     } else {
@@ -976,7 +1046,8 @@ function mysave(data) {
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color");
-                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml"); 
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend"); 
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1014,6 +1085,13 @@ function mysave(data) {
                         tmp["linkhtml"] = "false";
                         $("#"+key).attr("data-linkhtml","false");
                     }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
                 } else {
 		    tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
@@ -1021,6 +1099,7 @@ function mysave(data) {
                     tmp["off"] = $("#"+key).attr("data-off");
                     tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
                 }
 		/*
             } else if ( $("#"+key).attr("data-type") == "commbit" ) {
@@ -1078,6 +1157,13 @@ function mysave(data) {
                         tmp["linkhtml"] = "false";
                         $("#"+key).attr("data-linkhtml","false");
                     }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
              	    
@@ -1095,6 +1181,7 @@ function mysave(data) {
             	    tmp["cond"] = $("#"+key).attr("data-cond");
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1258,7 +1345,8 @@ function highlight(mydata) {
     $("#virtual_id_text").val("");
     $("#background_color").val("");
     $('#elem_exponential').prop('checked', false);
-    $('#elem_linkhtml').prop('checked', false); 
+    $('#elem_linkhtml').prop('checked', false);
+    $('#elem_trend').prop('checked', false); 
     $('#elem_unit_text').removeClass('glowing_border');  
     $('#elem_title_text').removeClass('glowing_border');
     $('#elem_formula').removeClass('glowing_border');
@@ -1304,6 +1392,11 @@ function highlight(mydata) {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
+        }
+        if (($("#"+varname).attr("data-trend")) == "true" || ($("#"+varname).attr("data-trend")) == "true") {
+            $('#elem_trend').prop('checked', true);
+        } else {
+            $('#elem_trend').prop('checked', false);
         } 
         $("#elem_title_text").val($("#"+varname + " .title").text().trim());
         $("#elem_title_size").val("");
@@ -1408,6 +1501,11 @@ function highlight(mydata) {
         } else {
             $('#elem_linkhtml').prop('checked', false);
         }
+        if (($("#"+varname).attr("data-trend")) == "true" || ($("#"+varname).attr("data-trend")) == "true") {
+            $('#elem_trend').prop('checked', true);
+        } else {
+            $('#elem_trend').prop('checked', false);
+        }
         
         if (varname.includes("virtual")){
             $("#varattr").val("virtual");
@@ -1448,6 +1546,11 @@ function highlight(mydata) {
             $('#elem_linkhtml').prop('checked', true);
         } else {
             $('#elem_linkhtml').prop('checked', false);
+        }
+        if (($("#"+varname).attr("data-trend")) == "true" || ($("#"+varname).attr("data-trend")) == "true") {
+            $('#elem_trend').prop('checked', true);
+        } else {
+            $('#elem_trend').prop('checked', false);
         } 
     }
     for(key in mydata) {

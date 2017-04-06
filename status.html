@@ -80,6 +80,10 @@ data-larger="{{ data['style'][key]['larger'] }}"
 data-exponential="{{ data['style'][key]['exponential'] }}"
 {% else %}
 {% end %}
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
@@ -94,11 +98,25 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span>
+{% if "trend" in data['style'][key] %}
+{% if data['style'][key]['trend'] == 'true' %}
+</p>
+{% else %}
+{% end %}
+{% else %}
+{% end %}
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span><span><img src="" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};"> {{ data['style'][key]['unit']['title'] }}</span>
+{% if "trend" in data['style'][key] %}
+{% if data['style'][key]['trend'] == 'true' %}
+</p>
+{% else %}
+{% end %}
+{% else %}
+{% end %}
 </div>
 {% end %}
 
@@ -113,6 +131,10 @@ data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
 <div tooltip="{{ key }}"
 {% end %}
 style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
@@ -122,14 +144,21 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if "trend" in data['style'][key] %}
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
@@ -146,6 +175,10 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}"
 {% end %}
 style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
@@ -155,14 +188,18 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
@@ -179,6 +216,10 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}"
 {% end %}
 style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
@@ -188,14 +229,18 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
@@ -212,6 +257,10 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}"
 {% end %}
 style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
@@ -221,14 +270,18 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
@@ -245,6 +298,10 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}"
 {% end %}
 style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
@@ -254,14 +311,18 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% end %}
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
 data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['icon'] }}" data-off="{{ data['style'][key]['off'] }}" data-offexpression="{{ data['style'][key]['off_condition'] }}" data-on="{{ data['style'][key]['on'] }}" data-onexpression="{{ data['style'][key]['on_condition'] }}" class='databox' id="{{ key }}">
-<span><img src="" alt="" class="popup"></span>
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
 <div class="icon">
 <img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
@@ -289,6 +350,11 @@ data-cond="{{ data['style'][key]['cond'] }}"
 {% else %}
 {% end %}
 
+{% if "trend" in data['style'][key] %}
+data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
@@ -300,7 +366,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% else %}
 {% end %}
  data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span><span><img src="" alt="" class="popup"></span></p>
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">--- </span>
+{% if "trend" in data['style'][key] %}
+{% if data['style'][key]['trend'] == 'true' %}
+{% else %}
+{% end %}
+{% else %}
+{% end %}
+</p>
 </div>
 {% else %}
 {% end %}
@@ -336,6 +409,14 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 <script>
 
 jQuery(window).load(function () {
+
+$(".databox").hover(function(){
+    var key = $(this).attr('id');
+    if ($("#" + key).attr('data-trend') == "true") {
+        $('#'+ key).append('<span class="popup"><img src="static/dataimage/'+key+'.png" width="600px" height="400px"/></span>');
+    }
+});
+
 myTimer();
 var myVar = setInterval(myTimer, 10000);
 function myTimer() {
@@ -659,11 +740,6 @@ function myTimer() {
 	    var datetime = page_title_cache + " data monitoring page. Last Sync: " + response["time"];
    	    $("#page_info").text(datetime);
             console.log(datetime);
-
-            var timer = setInterval(function(){
-                var imgUrl = "static/dataimage/" + key + ".png?" + new Date().getTime();
-                $('.popup').attr("src",imgUrl);
-            },5000);
 
         },
         error: function () {
