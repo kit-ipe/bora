@@ -139,17 +139,14 @@ class SetTimerHandler(tornado.web.RequestHandler):
 
 
 class DesignerHandler(tornado.web.RequestHandler):
-    @tornado.web.authenticated
     def get(self):
+        self.set_current_user(username)
         print "In designer mode."
         with open("cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        if cache_data is None:
-            print("Error: Empty cache data file.")
-            return
 
         with open("style.yaml", 'r') as stream:
             try:
@@ -157,12 +154,22 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        if style_data:
+            index_data = list(set(cache_data) | set(style_data))
+        else:
+            index_data = cache_data
+
         data = {
             "cache": cache_data,
-            "style": style_data
+            "style": style_data,
+            "index": index_data,
         }
 
+        if "background" in config:
+            data["background"] = config["background"]
+
         self.render('designer.html', data=data)
+
 
 
 class VersionHandler(tornado.web.RequestHandler):
@@ -230,6 +237,82 @@ class StatusHandler(tornado.web.RequestHandler):
             data["server"] = "http://katrin.kit.edu/adei-katrin/"
 
         self.render('status.html', data=data)
+
+
+class UpdateHandler(tornado.web.RequestHandler):
+    def get(self):
+        print "Update Sensor Definition"
+        new_data = {}
+        rt.stop()
+        with open("varname.yaml", 'r') as stream:
+            try:
+                #print(yaml.load(stream))
+                cache_data = yaml.load(stream)
+            except yaml.YAMLError as exc:
+                print(exc)
+
+        if config["type"] != "adei":
+            print("Error: Wrong handler.")
+            return
+
+        for item in cache_data:
+            tmp_data = cache_data[item]
+            tmp_str = []
+            tmp_store = []
+            for adei_unit in tmp_data.split("&"):
+                lhs, rhs = adei_unit.split("=")
+                if lhs == "db_mask":
+                    tmp_str.append("db_mask=all")
+                    continue
+                elif lhs == "db_server":
+                    db_server = rhs 
+
+                tmp_str.append(adei_unit)
+                tmp_store.append(adei_unit)
+            tmp_str.append("window=-1")
+        
+            query = "&".join(tmp_str)
+            dest = config['server'] + config['script']
+            url = dest + "?" + query
+
+            data = requests.get(url, auth=(config['username'], config['password']))
+            cr = data.content
+            cr = cr.split(",")
+
+	    match_token = item
+            if db_server != "lara" and db_server != "hiu":
+                # parameter name stored in ADEI with '-IST_Val' suffix
+                if "MOD" in item:
+	            match_token = item + "-MODUS_Val"
+                elif "GRA" in item:
+	            match_token = item + "-GRAD_Val"
+                elif "RPO" in item:
+	            match_token = item + "-ZUST_Val"
+                elif "VYS" in item:
+	            match_token = item + "-ZUST_Val"
+    	        elif "MSS" in item:
+	            match_token = item + "_Val"
+	        else:
+	            match_token = item + "-IST_Val"
+
+            db_mask = None
+            for i, iter_item in enumerate(cr):
+                #print i, iter_item
+                if match_token == iter_item.strip():
+                    db_mask = i - 1
+            if db_mask == None:
+                continue
+
+            tmp_store.append("db_mask="+str(db_mask))
+            #cache_data[item] = "&".join(tmp_str)
+       
+            new_data[item] = "&".join(tmp_store)
+        
+        with open("varname.yaml", 'w') as output:
+            output.write(yaml.dump(new_data, default_flow_style=False))
+            response = {"success": "Data entry inserted."}
+
+        rt.start()
 
 
 class AdeiKatrinHandler(tornado.web.RequestHandler):
