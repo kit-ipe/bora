@@ -24,7 +24,12 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' 
+    height:{{ data['style'][key]['height'] }}px;
+    
+{% if "background_color" in data['style'][key] %}     
+  background-color="{{ data['style'][key]['background_color'] }}"
+{% else%}
+{% end %}
 {% if "condition" in data['style'][key] %}
  data-cond="{{ data['style'][key]['condition'] }}"
 {% else%}position
@@ -56,7 +61,7 @@ data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
 
 {% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
+  background-color:{{ data['style'][key]['background_color'] }};'
 {% else%}
 {% end%}
 
@@ -381,7 +386,12 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; background-color:{{ data['style'][key]['background_color'] }};' data-type="{{
+    height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+data-type="{{
     data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span></p>
 </div>
@@ -413,16 +423,18 @@ jQuery(window).load(function () {
 $(".databox").hover(function(){
     var key = $(this).attr('id');
     if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup"><img src="static/dataimage/'+key+'.png" width="600px" height="400px"/></span>');
+        $('#'+ key).append('<span class="popup"><img src="/static/dataimage/'+key+'.png" width="600px" height="400px"/></span>');
     }
 });
+
 
 myTimer();
 var myVar = setInterval(myTimer, 10000);
 function myTimer() {
     var dataToSend = {};
     $.ajax({
-        url: '/getdata/',
+        url: '/'+$("#page_title_cache").text().toLowerCase()+'/getdata/',
+        //url: '/wgts/getabcddata/',
         type: 'GET',
         data: dataToSend,
         success: function (response) {

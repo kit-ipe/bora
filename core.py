@@ -140,7 +140,6 @@ class SetTimerHandler(tornado.web.RequestHandler):
 
 class DesignerHandler(tornado.web.RequestHandler):
     def get(self):
-        self.set_current_user(username)
         print "In designer mode."
         with open("cache.yaml", 'r') as stream:
             try:
@@ -168,8 +167,12 @@ class DesignerHandler(tornado.web.RequestHandler):
         if "background" in config:
             data["background"] = config["background"]
 
-        self.render('designer.html', data=data)
+        if "title" in config:
+            data["title"] = config["title"]
+        else:
+            data["title"] = "BORA"
 
+        self.render('designer.html', data=data)
 
 
 class VersionHandler(tornado.web.RequestHandler):
@@ -246,7 +249,6 @@ class UpdateHandler(tornado.web.RequestHandler):
         rt.stop()
         with open("varname.yaml", 'r') as stream:
             try:
-                #print(yaml.load(stream))
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
@@ -265,49 +267,48 @@ class UpdateHandler(tornado.web.RequestHandler):
                     tmp_str.append("db_mask=all")
                     continue
                 elif lhs == "db_server":
-                    db_server = rhs 
+                    db_server = rhs
 
                 tmp_str.append(adei_unit)
                 tmp_store.append(adei_unit)
             tmp_str.append("window=-1")
-        
+
             query = "&".join(tmp_str)
             dest = config['server'] + config['script']
             url = dest + "?" + query
 
-            data = requests.get(url, auth=(config['username'], config['password']))
+            data = requests.get(url, auth=(config['username'],
+                                config['password']))
             cr = data.content
             cr = cr.split(",")
 
-	    match_token = item
+            match_token = item
             if db_server != "lara" and db_server != "hiu":
                 # parameter name stored in ADEI with '-IST_Val' suffix
                 if "MOD" in item:
-	            match_token = item + "-MODUS_Val"
+                    match_token = item + "-MODUS_Val"
                 elif "GRA" in item:
-	            match_token = item + "-GRAD_Val"
+                    match_token = item + "-GRAD_Val"
                 elif "RPO" in item:
-	            match_token = item + "-ZUST_Val"
+                    match_token = item + "-ZUST_Val"
                 elif "VYS" in item:
-	            match_token = item + "-ZUST_Val"
-    	        elif "MSS" in item:
-	            match_token = item + "_Val"
-	        else:
-	            match_token = item + "-IST_Val"
+                    match_token = item + "-ZUST_Val"
+                elif "MSS" in item:
+                    match_token = item + "_Val"
+                else:
+                    match_token = item + "-IST_Val"
 
             db_mask = None
             for i, iter_item in enumerate(cr):
-                #print i, iter_item
                 if match_token == iter_item.strip():
                     db_mask = i - 1
-            if db_mask == None:
+            if db_mask is None:
                 continue
 
             tmp_store.append("db_mask="+str(db_mask))
-            #cache_data[item] = "&".join(tmp_str)
-       
+
             new_data[item] = "&".join(tmp_store)
-        
+
         with open("varname.yaml", 'w') as output:
             output.write(yaml.dump(new_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
@@ -499,18 +500,20 @@ rt = RepeatedTimer(int(config["polling"]), fetchDataADEI)
 
 application = tornado.web.Application([
     (r"/auth/login/?", AuthLoginHandler),
-    (r"/version/?", VersionHandler),
-    (r"/list/?", ListHandler),
-    (r"/start/?", StartHandler),
-    (r"/backup/?", BackupHandler),
-    (r"/stop/?", StopHandler),
-    (r"/designer/?", DesignerHandler),
-    (r"/status/?", StatusHandler),
-    (r"/save/?", SaveHandler),
-    (r"/getdata/?", GetDataHandler),
-    (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
-    (r"/add/(?P<db_server>[^\/]+)/?(?P<db_name>[^\/]+)/?"
-     "(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?", AdeiKatrinHandler)
+    (r"/"+config['title'].lower()+"/version/?", VersionHandler),
+    (r"/"+config['title'].lower()+"/list/?", ListHandler),
+    (r"/"+config['title'].lower()+"/start/?", StartHandler),
+    (r"/"+config['title'].lower()+"/backup/?", BackupHandler),
+    (r"/"+config['title'].lower()+"/stop/?", StopHandler),
+    (r"/"+config['title'].lower()+"/designer/?", DesignerHandler),
+    (r"/"+config['title'].lower()+"/status/?", StatusHandler),
+    (r"/"+config['title'].lower()+"/save/?", SaveHandler),
+    (r"/"+config['title'].lower()+"/getdata/?", GetDataHandler),
+    (r"/"+config['title'].lower()+"/timer/(?P<duration>[^\/]+)/?",
+     SetTimerHandler),
+    (r"/"+config['title'].lower()+"/add/(?P<db_server>[^\/]+)/?"
+     "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
+     AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'),
     js_path=os.path.join(root, 'js'), login_url="/auth/login",
     cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
