@@ -32,27 +32,33 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-  background-color:{{ data['style'][key]['background_color'] }};' 
-{% else %}
-{% end %}
-{% if "condition" in data['style'][key] %}
- data-cond="{{ data['style'][key]['condition'] }}"
-{% else%}position
-{% end%}
-{% if "formula" in data['style'][key] %}
- data-formula="{{ data['style'][key]['formula'] }}"
-{% else %}
-{% end %}
-{% if "lesser" in data['style'][key] %}
- data-lesser="{{ data['style'][key]['lesser'] }}"
-{% else %}
-{% end %}
-{% if "larger" in data['style'][key] %}
- data-larger="{{ data['style'][key]['larger'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+
+    {% if "background_color" in data['style'][key] %}
+        background-color:{{ data['style'][key]['background_color'] }};' 
+    {% else %}
+    {% end %}
+
+    {% if "condition" in data['style'][key] %}
+        data-cond="{{ data['style'][key]['condition'] }}"
+    {% else%}position
+    {% end%}
+
+    {% if "formula" in data['style'][key] %}
+        data-formula="{{ data['style'][key]['formula'] }}"
+    {% else %}
+    {% end %}
+
+    {% if "lesser" in data['style'][key] %}
+        data-lesser="{{ data['style'][key]['lesser'] }}"
+    {% else %}
+    {% end %}
+
+    {% if "larger" in data['style'][key] %}
+        data-larger="{{ data['style'][key]['larger'] }}"
+    {% else %}
+    {% end %}
+
+    data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
 {% else %}
@@ -592,10 +598,13 @@ function add() {
                     "class='title'>" + title_text +
                     " </span>" + 
                     "<span style='color: " + unit_color + "; " + 
-                           "font-size:" + unit_size + "px; " +
-                           "font-weight: " + unit_style + ";' " + 
-                    "class='varval'>XXX.XX </span>" + 
-                    "<span class='unit_title'>" + unit_text + "</span></p>" +
+                        "font-size:" + unit_size + "px; " +
+                        "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>XXX.XX </span>" + 
+                    "<span style='color: " + unit_color + "; " + 
+                        "font-size:" + unit_size + "px; " +
+                        "font-weight: " + unit_style + ";' " + 
+                        "class='unit_title'>" + unit_text + "</span></p>" +
         	    "</div>";
         } else if (vartype == "header") {
             console.log("Header");
@@ -663,7 +672,10 @@ function add() {
                                "font-size:" + unit_size + "px; " +
                                "font-weight: " + unit_style + ";' " + 
                         "class='varval'>XXX.XX </span>" + 
-                        "<span class='unit_title'>" + unit_text + "</span></p>" +
+                        "<span style='color: " + unit_color + "; " + 
+                            "font-size:" + unit_size + "px; " +
+                            "font-weight: " + unit_style + ";' " + 
+                            "class='unit_title'>" + unit_text + "</span></p>" +
         	        "</div>";
             
                 $('#varname').append($('<option>', {
@@ -1319,6 +1331,7 @@ function mysave(data) {
         }
         tmp["header"] = header;
         position[hkey] = tmp;
+        tmp["type"] = header;
         //console.log( index + ": " + $( this ).text() );
     });
     
@@ -1394,6 +1407,7 @@ function mysave(data) {
         data: dataToSend,
         success: function (response) {
             var objresponse = JSON.parse(response);
+            alert("Save success!");
             console.log(objresponse);
         },
         error: function () {

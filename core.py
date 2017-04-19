@@ -92,7 +92,7 @@ def fetchDataADEI():
                              auth=(config['username'],
                                    config['password']))
 
-        with open("static/dataimage/" + param + ".png", 'wb') as handle:
+        with open("static/"+config['title'].lower()+"/images/" + param + ".png", 'wb') as handle:
             for chunk in image.iter_content():
                 handle.write(chunk)
 

@@ -505,7 +505,7 @@ jQuery(window).load(function () {
 $(".databox").hover(function(){
     var key = $(this).attr('id');
     if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup"><img src="/static/dataimage/'+key+'.png" width="600px" height="400px"/></span>');
+        $('#'+ key).append('<span class="popup"><img src="/static/'+ $("#page_title_cache").text().toLowerCase() +'/images/'+key+'.png" width="600px" height="400px"/></span>');
     }
 });
 
@@ -604,27 +604,6 @@ function myTimer() {
                                 $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                             }
                         }
-			/*
-                    } else if (data_type == "commbit") {
-                        //console.log("commbit");
-                        var on_attr = $("#" + key).attr('data-on');
-                        var off_attr = $("#" + key).attr('data-off');
-                        if (parseFloat(response[key]) == parseFloat(on_attr)) {
-                            $("img", "#" + key).attr("src", "{{ static_url('commbit_green.svg') }}");
-                        }
-                        if (parseFloat(response[key]) == parseFloat(off_attr)) {
-                            $("img", "#" + key).attr("src", "{{ static_url('commbit_red.svg') }}");
-                        }
-                    } else if (data_type == "alarm") {
-                        //console.log("alarm");
-                        var on_attr = $("#" + key).attr('data-on');
-                        var off_attr = $("#" + key).attr('data-off');
-                        if (parseFloat(response[key]) == parseFloat(on_attr)) {
-                            $("img", "#" + key).attr("src", "{{ static_url('alarm_active.svg') }}");
-                        }
-                        if (parseFloat(response[key]) == parseFloat(off_attr)) {
-                            $("img", "#" + key).attr("src", "{{ static_url('alarm_inactive.svg') }}");
-                        }*/
 		    } else if (data_type == "integer-to-string") {
                         //console.log("integer-to-string");
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
@@ -728,25 +707,6 @@ function myTimer() {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                                     }
                                 }
-                            /*
-                            } else if (data_type == "commbit") {
-                        var on_attr = $("#" + key).attr('data-on');
-                        var off_attr = $("#" + key).attr('data-off');
-                                    if (parseFloat(response[ref]) == parseFloat(on_attr)) {
-                                        $("img", "#" + key).attr("src", "{{ static_url('commbit_green.svg') }}");
-                                }
-                                    if (parseFloat(response[ref]) == parseFloat(off_attr)) {
-                                        $("img", "#" + key).attr("src", "{{ static_url('commbit_red.svg') }}");
-                                }
-                            } else if (data_type == "alarm") {
-                        var on_attr = $("#" + key).attr('data-on');
-                        var off_attr = $("#" + key).attr('data-off');
-                                    if (parseFloat(response[ref]) == parseFloat(on_attr)) {
-                                        $("img", "#" + key).attr("src", "{{ static_url('alarm_active.svg') }}");
-                                }
-                                    if (parseFloat(response[ref]) == parseFloat(off_attr)) {
-                                        $("img", "#" + key).attr("src", "{{ static_url('alarm_inactive.svg') }}");
-                                }*/
 		            } else if (data_type == "integer-to-string") {
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
                         var dict_cond;

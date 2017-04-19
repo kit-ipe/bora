@@ -4,4 +4,4 @@ style.yaml
 .tmp.yaml
 *.yaml
 backup
-static/dataimage/
+images/
