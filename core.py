@@ -196,10 +196,8 @@ class BackupHandler(tornado.web.RequestHandler):
 class SaveHandler(tornado.web.RequestHandler):
 
     def post(self):
-        print self.request.body
         json_obj = json_decode(self.request.body)
-
-        print('Post data received')
+        
         with open("style.yaml", 'w') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
