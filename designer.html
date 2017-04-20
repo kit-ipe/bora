@@ -1345,7 +1345,7 @@ function mysave(data) {
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
             tmp["type"] = $("#"+key).attr("data-type");
-            if ( $("#"+key).attr("data-type") == "calc" ) {
+            //if ( $("#"+key).attr("data-type") == "calc" ) {
                 if (varname == key) {
             	    tmp["condition"] = $("#elem_condtion_range").val();
             	    tmp["formula"] = $("#elem_formula").val();
@@ -1392,7 +1392,8 @@ function mysave(data) {
                 }
             	tmp["header"] = header;
             	tmp["unit"] = unit;
-            }
+            	tmp["type"] = "calc";
+            //}
             position[key] = tmp;
         }
     });
