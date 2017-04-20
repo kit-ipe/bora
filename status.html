@@ -729,8 +729,9 @@ function myTimer() {
             });
             
             $('[id^=calc_]').each(function( index ) {
-                console.log(this.id);
-                console.log($(this).attr('data-formula'));
+                //console.log(this.id);
+                //console.log($(this).attr('data-formula'));
+                if (typeof $(this).attr('data-formula') != "undefined") {
                 var myformula = $(this).attr('data-formula').trim();
                 /*
                 myformula = myformula.replace(/\[.*?\]/g, '__');
@@ -788,7 +789,7 @@ function myTimer() {
 		        }
 		        $(".varval", "#" + this.id).css("color", set_color);
 		        $(".unit_title", "#" + this.id).css("color", set_color);
-                
+                }    
             });
             var page_title_cache = $("#page_title_cache").text();
 	    var datetime = page_title_cache + " data monitoring page. Last Sync: " + response["time"];
