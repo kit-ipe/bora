@@ -1421,12 +1421,15 @@ function highlight(mydata) {
     varname = $("#varname option:selected").text();
     vartype = $("#"+varname).attr("data-type");
     icon = $("#"+varname).attr("data-icon");
-    $("#vartype").val(vartype);
+    if (typeof vartype == "undefined") {
+        $("#vartype").val("data");
+    } else {
+        $("#vartype").val(vartype);
+    }
     console.log(varname, vartype,icon);
     // clear values
     $("#elem_title_text").val("");
     $("#elem_title_size").val("");
-    $("#elem_title_style").val("");
     $("#elem_unit_text").val("");
     $("#elem_unit_size").val("");
     $("#elem_lesser_range").val("");

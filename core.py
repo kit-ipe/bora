@@ -506,6 +506,7 @@ application = tornado.web.Application([
     (r"/"+config['title'].lower()+"/designer/?", DesignerHandler),
     (r"/"+config['title'].lower()+"/status/?", StatusHandler),
     (r"/"+config['title'].lower()+"/save/?", SaveHandler),
+    (r"/"+config['title'].lower()+"/update/?", UpdateHandler),
     (r"/"+config['title'].lower()+"/getdata/?", GetDataHandler),
     (r"/"+config['title'].lower()+"/timer/(?P<duration>[^\/]+)/?",
      SetTimerHandler),
