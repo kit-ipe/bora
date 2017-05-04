@@ -31,7 +31,7 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
 
     {% if "background_color" in data['style'][key] %}
         background-color:{{ data['style'][key]['background_color'] }};' 
@@ -68,7 +68,7 @@
 {% if data['style'][key]['type'] == "data" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
     
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};'
@@ -111,7 +111,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 
 {% if data['style'][key]['type'] == "icon" %}
 {% if data['style'][key]['icon'] == "valve" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -139,7 +139,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "commbit" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -167,7 +167,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "alarm" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -195,7 +195,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "TMP" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -223,7 +223,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "relay" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -251,7 +251,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "switch" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -279,7 +279,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 
 {% if data['style'][key]['icon'] == "bottle" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -312,7 +312,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% if data['style'][key]['type'] == "integer-to-string" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
     
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};' 
@@ -339,7 +339,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
 {% if "background_color" in data['style'][key] %}    
 background-color:{{ data['style'][key]['background_color'] }};'
 {% else%}
@@ -412,6 +412,8 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
   <option value="offgreater">></option>
 </select>
 <input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
+<span class="info">rotate</span>
+<input type="text" id="rotate" placeholder="degree" style="font-size:16pt; width=100px;"/>
 <br /><br />
 <span class="info">Title</span>:
 
@@ -549,6 +551,7 @@ function add() {
     offexpression = $("#offexpression option:selected").val();
     offvalue = $("#offvalue").val();
     varattr = $("#varattr option:selected").val();
+    rotate = $("#rotate").val(); 
     console.log("Selected");
     console.log(varattr);
     console.log(virtual_id);
@@ -579,6 +582,7 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0; " +
+                           "transform:rotate(" + rotate + "deg);" +
 			   "background-color:" + background_color + "'" +
                     "class='varbox box_highlight' " +
                     "id='" + varname +
@@ -615,6 +619,7 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
+                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -653,6 +658,7 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
+                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -712,7 +718,8 @@ function add() {
                     html_text = "<div " +
                         "style='position: absolute; " +
                                "top:0; " +
-                               "left:0;' " +
+                               "left:0; " +
+                               "transform:rotate(" + rotate + "deg);'" +
                         "class='varbox box_highlight' " +
                         "id='" + varname +
                         "' data-type='" + vartype +
@@ -760,6 +767,7 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
+                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -825,6 +833,7 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
+            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             if ( $("#"+key).attr("data-type") == "data" ) {
                 if ( (varname == key) && (varattr == "normal") ) {
@@ -1080,6 +1089,7 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
+            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             
             if ( $("#"+key).attr("data-type") == "data" ) {
@@ -1299,6 +1309,7 @@ function mysave(data) {
         tmp["top"] = $("#"+hkey).css("top");
         tmp["width"] = $("#"+hkey).width();
         tmp["height"] = $("#"+hkey).height();
+        tmp["rotate"] = $("#"+hkey).css("transform");
         tmp["type"] = $("#"+hkey).attr("data-type");
         header = {};
         if (token == hkey) {
@@ -1344,6 +1355,7 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
+            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             //if ( $("#"+key).attr("data-type") == "calc" ) {
                 if (varname == key) {
@@ -1456,6 +1468,7 @@ function highlight(mydata) {
     $('#onvalue').val("");
     $('#offexpression').val('disabled', true);
     $('#offvalue').val("");
+    $("#rotate").val("");
  
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
@@ -1477,6 +1490,11 @@ function highlight(mydata) {
         if ($("#"+varname).css("background-color") ) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
+  
+        var style = $(el).attr('style'),
+        rotation = parseInt(style.substr(style.indexOf("rotate("+7));
+        $("#rotate").val($("#"+varname).css("transform"));
+
     } else if (vartype == "data") {
         
         if (($("#"+varname).attr("data-exponential")) == "true" || ($("#"+varname).attr("data-exponential")) == "true") {
@@ -1542,7 +1560,9 @@ function highlight(mydata) {
         } else {
             $("#varattr").val("normal");
         }
-   
+
+        $("#rotate").val($("#"+varname).css("transform"));
+
     } else if (vartype == "calc") {
         var vid = varname.split("_");
         vid = vid[1];
@@ -1579,6 +1599,9 @@ function highlight(mydata) {
         if ($("#"+varname).css("background-color") ) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
+
+        $("#rotate").val($("#"+varname).css("transform"));
+
      } else if (vartype == "icon") {
         $("#icon").val(icon);
         $('#icon').prop('disabled', false);
@@ -1590,6 +1613,7 @@ function highlight(mydata) {
         $('#onexpression').val($("#"+varname).attr("data-onexpression"))
         $('#offvalue').val($("#"+varname).attr("data-off"));
         $('#offexpression').val($("#"+varname).attr("data-offexpression"))
+        $("#rotate").val($("#"+varname).css("transform"));
         //$("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
 
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {

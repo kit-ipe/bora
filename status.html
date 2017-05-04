@@ -24,7 +24,7 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
     
 {% if "background_color" in data['style'][key] %}     
   background-color="{{ data['style'][key]['background_color'] }}"
@@ -58,7 +58,7 @@ data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 {% else %}
 <div tooltip="{{ key }}" 
 {% end %}
-class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
+class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }}; 
 
 {% if "background_color" in data['style'][key] %}
   background-color:{{ data['style'][key]['background_color'] }};'
@@ -135,7 +135,7 @@ data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -179,7 +179,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -220,7 +220,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -261,7 +261,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -302,7 +302,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -343,7 +343,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -384,7 +384,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -425,7 +425,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}" style='position: absolute; top: {{
     data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
     width:{{ data['style'][key]['width'] }}px; height:{{
-    data['style'][key]['height'] }}px;
+    data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};'
 {% else%}
@@ -468,7 +468,7 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
+    height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
 {% if "background_color" in data['style'][key] %}
   background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
