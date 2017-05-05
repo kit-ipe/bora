@@ -833,7 +833,6 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
-            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             if ( $("#"+key).attr("data-type") == "data" ) {
                 if ( (varname == key) && (varattr == "normal") ) {
@@ -879,7 +878,8 @@ function mysave(data) {
                     $(".title", "#"+key).css("font-size", header["size"] + "px");
                     $(".title", "#"+key).css("font-weight", header["weight"]);
 
- 
+                    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
+
             	    unit = {};
             	    unit["title"] = $("#elem_unit_text").val().trim();
             	    //unit["color"] = $(".varval", "#"+key).css("color");
@@ -905,7 +905,9 @@ function mysave(data) {
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
                     tmp["background_color"] = $("#"+key).css("background-color");
-		    
+		    tmp["rotate"] = $("#"+key).css("transform");
+
+
                     var fontWeight = $(".title", "#"+key).css("font-weight");
                     if (fontWeight == 'bold' || fontWeight == '700') {
             	        header["weight"] = "700";
@@ -944,6 +946,7 @@ function mysave(data) {
                     tmp["off"] = $("#offvalue").val();
                     tmp["off_condition"] = $("#offexpression").val();
                     tmp["icon"] = $("#"+key).attr("data-icon");
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
                     if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -966,6 +969,7 @@ function mysave(data) {
                     tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["rotate"] = $("#"+key).css("transform");
                 }
            /* 
            } else if ( $("#"+key).attr("data-type") == "commbit" ) {
@@ -1013,6 +1017,7 @@ function mysave(data) {
                     var data_condition = $("#elem_condition_range").val();
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
              	    if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -1047,6 +1052,7 @@ function mysave(data) {
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["rotate"] = $("#"+key).css("transform");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1089,7 +1095,6 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
-            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             
             if ( $("#"+key).attr("data-type") == "data" ) {
@@ -1098,6 +1103,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1147,7 +1153,8 @@ function mysave(data) {
            	    //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
-                    tmp["trend"] = $("#"+key).attr("data-trend"); 
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["rotate"] = $("#"+key).css("transform");
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1178,6 +1185,8 @@ function mysave(data) {
                     tmp["off"] = $("#offvalue").val();
                     tmp["off_condition"] = $("#offexpression").val();
 		    tmp["icon"] = $("#"+key).attr("data-icon");
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
+
                     if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -1193,6 +1202,7 @@ function mysave(data) {
                         $("#"+key).attr("data-trend","false");
                     }
                 } else {
+		    tmp["rotate"] = $("#"+key).css("transform");
 		    tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
                     tmp["on_condition"] = $("#"+key).attr("data-onexpression");
@@ -1266,6 +1276,7 @@ function mysave(data) {
                     }
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
              	    
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1282,6 +1293,7 @@ function mysave(data) {
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["rotate"] = $("#"+key).css("transform");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1309,7 +1321,6 @@ function mysave(data) {
         tmp["top"] = $("#"+hkey).css("top");
         tmp["width"] = $("#"+hkey).width();
         tmp["height"] = $("#"+hkey).height();
-        tmp["rotate"] = $("#"+hkey).css("transform");
         tmp["type"] = $("#"+hkey).attr("data-type");
         header = {};
         if (token == hkey) {
@@ -1317,6 +1328,7 @@ function mysave(data) {
             //header["color"] = $(".title", "#"+key).css("color");
             header["size"] = $("#elem_title_size").val();
             header["weight"] = $("#elem_title_style option:selected").val();
+	    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             if ($('#background_color').val().length > 0) {
                 tmp["background_color"] = $('#background_color').val();
             } else {
@@ -1332,6 +1344,7 @@ function mysave(data) {
             header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
             header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
             tmp["background_color"] = $("#"+hkey).css("background-color");
+	    tmp["rotate"] = $("#"+hkey).css("transform");
          
 	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
 	    if (fontWeight == 'bold' || fontWeight == '700') {
@@ -1355,7 +1368,6 @@ function mysave(data) {
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = $("#"+key).width();
             tmp["height"] = $("#"+key).height();
-            tmp["rotate"] = $("#"+key).css("transform");
             tmp["type"] = $("#"+key).attr("data-type");
             //if ( $("#"+key).attr("data-type") == "calc" ) {
                 if (varname == key) {
@@ -1363,6 +1375,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1387,6 +1400,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#"+key).attr("data-formula");
              	    tmp["lesser"] = $("#"+key).attr("data-lesser");
             	    tmp["larger"] = $("#"+key).attr("data-larger");
+		    tmp["rotate"] = $("#"+key).css("transform");
              	    //tmp["min"] = $("#"+key).attr("min");
            	        //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color"); 
@@ -1427,6 +1441,7 @@ function mysave(data) {
             console.log("Error.")
         }
     });
+
 }
     
 function highlight(mydata) {
@@ -1491,8 +1506,6 @@ function highlight(mydata) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
   
-        var style = $(el).attr('style'),
-        rotation = parseInt(style.substr(style.indexOf("rotate("+7));
         $("#rotate").val($("#"+varname).css("transform"));
 
     } else if (vartype == "data") {
