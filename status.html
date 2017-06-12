@@ -24,7 +24,7 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
     
 {% if "background_color" in data['style'][key] %}     
   background-color="{{ data['style'][key]['background_color'] }}"
@@ -58,7 +58,7 @@ data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 {% else %}
 <div tooltip="{{ key }}" 
 {% end %}
-class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }}; 
+class="databox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
 
 {% if "background_color" in data['style'][key] %}
   background-color:{{ data['style'][key]['background_color'] }};'
@@ -135,7 +135,11 @@ data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -156,7 +160,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("valve_inactive.png") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 </div>
 {% else %}
@@ -165,7 +169,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("valve_inactive.png") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 </div>
 {% end %}
@@ -179,7 +183,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -197,7 +205,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("commbit_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -206,7 +214,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("commbit_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -220,7 +228,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -238,7 +250,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("alarm_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -247,7 +259,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("alarm_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -261,7 +273,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -279,7 +295,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("TMP_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -288,7 +304,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("TMP_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -302,7 +318,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -320,7 +340,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("relay_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("relay_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -329,7 +349,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("relay_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("relay_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -343,7 +363,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -361,7 +385,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("switch_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("switch_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -370,7 +394,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("switch_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("switch_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -384,7 +408,11 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 <div tooltip="{{ key }}"
 {% end %}
-style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};'
+style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+  background-color:{{ data['style'][key]['background_color'] }};'
+{% else%}
+{% end%}
 {% if "trend" in data['style'][key] %}
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
@@ -402,7 +430,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("bottle_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
 </div>
 {% else %}
@@ -411,7 +439,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% else %}
 {% end %}
 <div class="icon">
-<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" src='{{ static_url("bottle_inactive.svg") }}'></img>
+<img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
 </div>
 {% end %}
@@ -425,7 +453,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 <div tooltip="{{ key }}" style='position: absolute; top: {{
     data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
     width:{{ data['style'][key]['width'] }}px; height:{{
-    data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
+    data['style'][key]['height'] }}px;
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};'
 {% else%}
@@ -468,7 +496,7 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform: {{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
 {% if "background_color" in data['style'][key] %}
   background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
@@ -493,7 +521,8 @@ data-type="{{
 <img src="{{ static_url( 'background.png' ) }}"></img>
 {% end %}
 
-   
+
+
 <!-- java script -->
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
@@ -503,9 +532,10 @@ data-type="{{
 jQuery(window).load(function () {
 
 $(".databox").hover(function(){
+    var trend_time = Math.floor(Date.now() / 1000);
     var key = $(this).attr('id');
     if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup"><img src="/static/'+ $("#page_title_cache").text().toLowerCase() +'/images/'+key+'.png" width="600px" height="400px"/></span>');
+        $('#'+ key).append('<span class="popup"><img src="/static/'+ $("#page_title_cache").text().toLowerCase() +'/images/'+key+'.png?time='+trend_time+'" width="600px" height="400px"/></span>');
     }
 });
 

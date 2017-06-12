@@ -31,7 +31,7 @@
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
 
     {% if "background_color" in data['style'][key] %}
         background-color:{{ data['style'][key]['background_color'] }};' 
@@ -68,7 +68,7 @@
 {% if data['style'][key]['type'] == "data" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
     
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};'
@@ -111,7 +111,11 @@ background-color:{{ data['style'][key]['background_color'] }};'
 
 {% if data['style'][key]['type'] == "icon" %}
 {% if data['style'][key]['icon'] == "valve" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -133,13 +137,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("valve_inactive.png") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "commbit" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -161,13 +169,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("commbit_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("commbit_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "alarm" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -189,13 +201,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("alarm_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("alarm_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "TMP" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -217,13 +233,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("TMP_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("TMP_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "relay" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -245,13 +265,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("relay_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("relay_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "switch" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -273,13 +297,17 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("switch_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("switch_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['icon'] == "bottle" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};'
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
 {% if "linkhtml" in data['style'][key] %}
  data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
 {% else %}
@@ -301,7 +329,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' src='{{ static_url("bottle_inactive.svg") }}'></img>
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("bottle_inactive.svg") }}'></img>
 </div>
 {% else %}
 {% end %}
@@ -312,7 +340,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% if data['style'][key]['type'] == "integer-to-string" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
     
 {% if "background_color" in data['style'][key] %}
 background-color:{{ data['style'][key]['background_color'] }};' 
@@ -339,7 +367,7 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px; transform:{{ data['style'][key]['rotate'] }};
+    height:{{ data['style'][key]['height'] }}px;
 {% if "background_color" in data['style'][key] %}    
 background-color:{{ data['style'][key]['background_color'] }};'
 {% else%}
@@ -413,7 +441,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 </select>
 <input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
 <span class="info">rotate</span>
-<input type="text" id="rotate" placeholder="degree" style="font-size:16pt; width=100px;"/>
+<input type="text" id="rotate" placeholder="icon rotation angle in deg" style="font-size:16pt; width=100px;"/>
 <br /><br />
 <span class="info">Title</span>:
 
@@ -582,7 +610,6 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0; " +
-                           "transform:rotate(" + rotate + "deg);" +
 			   "background-color:" + background_color + "'" +
                     "class='varbox box_highlight' " +
                     "id='" + varname +
@@ -619,7 +646,6 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
-                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -658,7 +684,6 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
-                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -719,7 +744,7 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
-                               "transform:rotate(" + rotate + "deg);'" +
+                               "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " +
                         "id='" + varname +
                         "' data-type='" + vartype +
@@ -735,6 +760,7 @@ function add() {
                         "' data-trend='" + data_trend +
                         "'>" +
                                 "<img width='100%' height='100%' " +
+                        "style='transform:rotate(" + rotate + ")'" +
                         "src='/static/" + icon + "_inactive.svg' ></img>" +
                             "</div>";
                      $('#onvalue').removeClass('glowing_border');
@@ -767,7 +793,6 @@ function add() {
                         "style='position: absolute; " +
                                "top:0; " +
                                "left:0; " +
-                               "transform:rotate(" + rotate + "deg);" +
                                "background-color:" + background_color + "'" +
                         "class='varbox box_highlight' " + 
                         "id='" + varname +
@@ -786,7 +811,7 @@ function add() {
                         "<span style='color: " + unit_color + "; " + 
                                "font-size:" + unit_size + "px; " +
                                "font-weight: " + unit_style + ";' " + 
-                        "class='varval'>??? </span>" + 
+                        "class='varval'>??? o/soan>" + 
                         "</p>" +
         	            "</div>";
                 $('#elem_unit_text').removeClass('glowing_border');
@@ -878,8 +903,6 @@ function mysave(data) {
                     $(".title", "#"+key).css("font-size", header["size"] + "px");
                     $(".title", "#"+key).css("font-weight", header["weight"]);
 
-                    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
-
             	    unit = {};
             	    unit["title"] = $("#elem_unit_text").val().trim();
             	    //unit["color"] = $(".varval", "#"+key).css("color");
@@ -905,8 +928,6 @@ function mysave(data) {
             	    //header["color"] = $(".title", "#"+key).css("color");
             	    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
                     tmp["background_color"] = $("#"+key).css("background-color");
-		    tmp["rotate"] = $("#"+key).css("transform");
-
 
                     var fontWeight = $(".title", "#"+key).css("font-weight");
                     if (fontWeight == 'bold' || fontWeight == '700') {
@@ -961,6 +982,11 @@ function mysave(data) {
                         tmp["trend"] = "false";
                         $("#"+key).attr("data-trend","false");
                     }
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    }
                 } else {
                     tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
@@ -969,7 +995,8 @@ function mysave(data) {
                     tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
-		    tmp["rotate"] = $("#"+key).css("transform");
+		    tmp["rotate"] = $("#"+key).children().css("transform");
+                    tmp["background_color"] = $("#"+key).css("background-color");
                 }
            /* 
            } else if ( $("#"+key).attr("data-type") == "commbit" ) {
@@ -1017,7 +1044,6 @@ function mysave(data) {
                     var data_condition = $("#elem_condition_range").val();
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
-		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
              	    if ($('#elem_linkhtml').is(":checked")) {
                         tmp["linkhtml"] = "true";
                         $("#"+key).attr("data-linkhtml", "true");
@@ -1052,7 +1078,6 @@ function mysave(data) {
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
-		    tmp["rotate"] = $("#"+key).css("transform");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1103,7 +1128,6 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
-		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1154,7 +1178,6 @@ function mysave(data) {
                     tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
-		    tmp["rotate"] = $("#"+key).css("transform");
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1201,8 +1224,13 @@ function mysave(data) {
                         tmp["trend"] = "false";
                         $("#"+key).attr("data-trend","false");
                     }
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000ffff';
+                    }
                 } else {
-		    tmp["rotate"] = $("#"+key).css("transform");
+		    tmp["rotate"] = $("#"+key).children().css("transform");
 		    tmp["icon"] = $("#"+key).attr("data-icon");
                     tmp["on"] = $("#"+key).attr("data-on");
                     tmp["on_condition"] = $("#"+key).attr("data-onexpression");
@@ -1210,6 +1238,7 @@ function mysave(data) {
                     tmp["off_condition"] = $("#"+key).attr("data-offexpression");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
+                    tmp["background_color"] = $("#"+key).css("background-color");
                 }
 		/*
             } else if ( $("#"+key).attr("data-type") == "commbit" ) {
@@ -1276,7 +1305,6 @@ function mysave(data) {
                     }
             	    tmp["cond"] = data_condition;
             	    tmp["dict"] = unit_text;
-		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
              	    
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1293,7 +1321,6 @@ function mysave(data) {
             	    tmp["background_color"] = $("#"+key).css("background-color");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
-		    tmp["rotate"] = $("#"+key).css("transform");
                     header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
@@ -1328,7 +1355,6 @@ function mysave(data) {
             //header["color"] = $(".title", "#"+key).css("color");
             header["size"] = $("#elem_title_size").val();
             header["weight"] = $("#elem_title_style option:selected").val();
-	    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             if ($('#background_color').val().length > 0) {
                 tmp["background_color"] = $('#background_color').val();
             } else {
@@ -1344,7 +1370,6 @@ function mysave(data) {
             header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
             header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
             tmp["background_color"] = $("#"+hkey).css("background-color");
-	    tmp["rotate"] = $("#"+hkey).css("transform");
          
 	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
 	    if (fontWeight == 'bold' || fontWeight == '700') {
@@ -1375,7 +1400,6 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
-		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1400,7 +1424,6 @@ function mysave(data) {
             	    tmp["formula"] = $("#"+key).attr("data-formula");
              	    tmp["lesser"] = $("#"+key).attr("data-lesser");
             	    tmp["larger"] = $("#"+key).attr("data-larger");
-		    tmp["rotate"] = $("#"+key).css("transform");
              	    //tmp["min"] = $("#"+key).attr("min");
            	        //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color"); 
@@ -1433,9 +1456,10 @@ function mysave(data) {
         type: 'POST',
         data: dataToSend,
         success: function (response) {
-            var objresponse = JSON.parse(response);
+            //var objresponse = JSON.parse(response);
             alert("Save success!");
-            console.log(objresponse);
+            console.log(response);
+            location.reload();
         },
         error: function () {
             console.log("Error.")
@@ -1506,7 +1530,6 @@ function highlight(mydata) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
   
-        $("#rotate").val($("#"+varname).css("transform"));
 
     } else if (vartype == "data") {
         
@@ -1574,7 +1597,6 @@ function highlight(mydata) {
             $("#varattr").val("normal");
         }
 
-        $("#rotate").val($("#"+varname).css("transform"));
 
     } else if (vartype == "calc") {
         var vid = varname.split("_");
@@ -1613,7 +1635,6 @@ function highlight(mydata) {
             $("#background_color").val($("#"+varname).css("background-color"));
         }
 
-        $("#rotate").val($("#"+varname).css("transform"));
 
      } else if (vartype == "icon") {
         $("#icon").val(icon);
@@ -1626,7 +1647,19 @@ function highlight(mydata) {
         $('#onexpression').val($("#"+varname).attr("data-onexpression"))
         $('#offvalue').val($("#"+varname).attr("data-off"));
         $('#offexpression').val($("#"+varname).attr("data-offexpression"))
-        $("#rotate").val($("#"+varname).css("transform"));
+
+        var matrix = $("#"+varname).children().css("transform");
+        if(matrix !== 'none') {
+            var values = matrix.split('(')[1].split(')')[0].split(',');
+            var a = values[0];
+            var b = values[1];
+            var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+        } else {
+            var angle = 0;
+        }
+
+        $("#rotate").val(angle);
+
         //$("#elem_unit_text").val('{"on":'+$("#"+varname).attr("data-on") + ',"off":'+$("#"+varname).attr("data-off")+'}' );
 
         if (($("#"+varname).attr("data-linkhtml")) == "true" || ($("#"+varname).attr("data-linkhtml")) == "true") {
@@ -1639,7 +1672,10 @@ function highlight(mydata) {
         } else {
             $('#elem_trend').prop('checked', false);
         }
-        
+        $("#background_color").val("");
+        if ($("#"+varname).css("background-color") ) {
+            $("#background_color").val($("#"+varname).css("background-color"));
+        } 
         if (varname.includes("virtual")){
             $("#varattr").val("virtual");
         } else {
