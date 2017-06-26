@@ -60,7 +60,7 @@ Before proceeding to data styling, all data need to be registered. Following sho
 The URL for data registration should exhibit the following format and attributes:
 
 ```sh
-http://ipepc57.ipe.kit.edu:<port>/add/<server>/<db_name>/<db_group>/<sensor> 
+http://ipepc57.ipe.kit.edu:<port>/<projectname>/add/<server>/<db_name>/<db_group>/<sensor> 
 ```
 
 A python script has been developed and stored under '/bora/res/adei2rest.py/' to generate the desired format of URL for purpose of data registration. 
