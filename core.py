@@ -161,7 +161,7 @@ class DesignerHandler(tornado.web.RequestHandler):
         data = {
             "cache": cache_data,
             "style": style_data,
-            "index": index_data,
+            "index": sorted(index_data),
         }
 
         if "background" in config:

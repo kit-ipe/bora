@@ -1430,13 +1430,13 @@ function mysave(data) {
             	    header = {};
             	    header["title"] = $(".title", "#"+key).text();
             	    //header["color"] = $(".title", "#"+key).css("color");
-            	    header["size"] = $(".title", "#"+key).css("font-size");
+                    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
             	    header["weight"] = $(".title", "#"+key).css("font-weight");
             
             	    unit = {};
             	    unit["title"] = $(".unit_title", "#"+key).text();
             	    //unit["color"] = $(".varval", "#"+key).css("color");
-            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+                    unit["size"] = parseInt($(".varval", "#"+key).css("font-size")) || 28;
             	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
                 }
             	tmp["header"] = header;
@@ -1633,6 +1633,17 @@ function highlight(mydata) {
         $("#background_color").val("");
         if ($("#"+varname).css("background-color") ) {
             $("#background_color").val($("#"+varname).css("background-color"));
+        }
+        $("#elem_title_style").val("400");
+        var fontWeight = $("#"+varname + " .title").css("font-weight");
+        if (fontWeight == 'bold' || fontWeight == '700') {
+            $("#elem_title_style").val("700");
+        }
+
+        $("#elem_unit_style").val("400");
+        var fontWeight = $("#"+varname + " .varval").css("font-weight");
+        if (fontWeight == 'bold' || fontWeight == '700') {
+            $("#elem_unit_style").val("700");
         }
 
 

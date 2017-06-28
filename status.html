@@ -27,7 +27,7 @@
     height:{{ data['style'][key]['height'] }}px;
     
 {% if "background_color" in data['style'][key] %}     
-  background-color="{{ data['style'][key]['background_color'] }}"
+  background-color:"{{ data['style'][key]['background_color'] }}'
 {% else%}
 {% end %}
 {% if "condition" in data['style'][key] %}
