@@ -46,6 +46,10 @@
  data-larger="{{ data['style'][key]['larger'] }}"
 {% else %}
 {% end %}
+{% if "decimal" in data['style'][key] %}
+ data-decimal="{{ data['style'][key]['decimal'] }}"
+{% else %}
+{% end %}
 data-type="{{ data['style'][key]['type'] }}" class='databox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> --- </span><span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></p>
 </div>
@@ -79,6 +83,10 @@ data-lesser="{{ data['style'][key]['lesser'] }}"
 {% end %}
 {% if "larger" in data['style'][key] %}
 data-larger="{{ data['style'][key]['larger'] }}"
+{% else %}
+{% end %}
+{% if "decimal" in data['style'][key] %}
+data-decimal="{{ data['style'][key]['decimal'] }}"
 {% else %}
 {% end %}
 {% if "exponential" in data['style'][key] %}
@@ -580,16 +588,16 @@ function myTimer() {
                         var formula_attr = $("#" + key).attr('data-formula');
 			if (response[key]) {
                             if (formula_attr) {
-                                datavalue = parseFloat(response[key]).toFixed(2);
+                                datavalue = parseFloat(response[key]).toFixed($("#" + key).attr('data-decimal'));
  			        formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
-                                datavalue = datavalue.toFixed(2);
+                                datavalue = datavalue.toFixed($("#" + key).attr('data-decimal'));
 		    	    } else {
                                 if ( ($("#" + key).attr('data-exponential')) == "True" || ($("#" + key).attr('data-exponential')) == "true" ) {
                                     datavalue = parseFloat(response[key]);
                                     datavalue = datavalue.toExponential(2)
                                 } else {
-                                    datavalue = parseFloat(response[key]).toFixed(2);
+                                    datavalue = parseFloat(response[key]).toFixed($("#" + key).attr('data-decimal'));
                                 }
                             }
  		    	    set_color = "green";
@@ -689,12 +697,12 @@ function myTimer() {
                         var formula_attr = $("#" + key).attr('data-formula');
 			            if (response[ref]) {
                             if (formula_attr) {
-                                datavalue = parseFloat(response[ref]).toFixed(2);
+                                datavalue = parseFloat(response[ref]).toFixed($("#" + key).attr('data-decimal'));
  			                    formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
-                                datavalue = datavalue.toFixed(2);
+                                datavalue = datavalue.toFixed($("#" + key).attr('data-decimal'));
 		    	            } else {
-			                    datavalue = parseFloat(response[ref]).toFixed(2);
+			                    datavalue = parseFloat(response[ref]).toFixed($("#" + key).attr('data-decimal'));
                             }
  		    	            set_color = "green";
 			            } else {
@@ -812,7 +820,7 @@ function myTimer() {
                 finalstring = finalstring.trim();
                 console.log(finalstring);
                 var myvalue = math.round(math.eval(finalstring),2);
-                myvalue = myvalue.toFixed(2);
+                myvalue = myvalue.toFixed($("#" + this.id).attr('data-decimal'));
  		    	set_color = "green";
                 console.log(myvalue);
                 $(".varval", "#" + this.id).text(myvalue);

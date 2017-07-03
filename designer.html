@@ -58,6 +58,11 @@
     {% else %}
     {% end %}
 
+    {% if "decimal" in data['style'][key] %}
+        data-decimal="{{ data['style'][key]['decimal'] }}"
+    {% else %}
+    {% end %}
+
     data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
 </div>
@@ -100,6 +105,10 @@ background-color:{{ data['style'][key]['background_color'] }};'
 {% end %}
 {% if "exponential" in data['style'][key] %}
  data-exponential="{{ data['style'][key]['exponential'] }}"
+{% else %}
+{% end %}
+{% if "decimal" in data['style'][key] %}
+ data-decimal="{{ data['style'][key]['decimal'] }}"
 {% else %}
 {% end %}
  data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
@@ -455,6 +464,8 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
   <option value="400">normal</option>
   <option value="700">bold</option>
 </select>
+
+<input type="text" id="decimal_place" placeholder="decimal place" style="font-size:16pt; width:150px;"/>
 <br /><br />
 <span class="info">Value</span>
 <input type="text" id="elem_unit_text" placeholder="unit" style="font-size:16pt; width=100px;"/>
@@ -569,6 +580,7 @@ function add() {
  
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
+    decimal_place = $("#decimal_place").val();
     background_color = $("#background_color").val(); 
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
@@ -621,6 +633,7 @@ function add() {
                     "' data-exponential='" + data_exponential +
                     "' data-linkhtml='" + data_linkhtml +
                     "' data-trend='" + data_trend +
+		    "' data-decimal='" + decimal_place +
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -692,6 +705,7 @@ function add() {
                         "' data-lesser='" + data_lesser + 
  		                "' data-larger='" + data_larger +
                         "' data-formula='" + data_formula +
+			"' data-decimal='" + decimal_place +
                         "'>" +
                         "<p>" +
                         "<span style='color: " + title_color + ";" + 
@@ -865,6 +879,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["decimal"] = $("#decimal_place").val();
                     if ($('#elem_exponential').is(":checked")) {
                         tmp["exponential"] = "true";
 			$("#"+key).attr("data-exponential", "true");
@@ -921,6 +936,7 @@ function mysave(data) {
                     tmp["exponential"] = $("#"+key).attr("data-exponential");
                     tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
                     tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
                     header = {};
@@ -1128,6 +1144,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["decimal"] = $("#decimal_place").val();
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1173,6 +1190,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#"+key).attr("data-formula");
              	    tmp["lesser"] = $("#"+key).attr("data-lesser");
             	    tmp["larger"] = $("#"+key).attr("data-larger");
+		    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
              	    //tmp["min"] = $("#"+key).attr("min");
            	    //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color");
@@ -1400,6 +1418,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["decimal"] = $("#decimal_place").val();
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1424,6 +1443,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#"+key).attr("data-formula");
              	    tmp["lesser"] = $("#"+key).attr("data-lesser");
             	    tmp["larger"] = $("#"+key).attr("data-larger");
+		    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
              	    //tmp["min"] = $("#"+key).attr("min");
            	        //tmp["max"] = $("#"+key).attr("max");
                     tmp["background_color"] = $("#"+key).css("background-color"); 
@@ -1488,6 +1508,7 @@ function highlight(mydata) {
     $("#elem_larger_range").val("");
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
+    $("#decimal_place").val("");
     $("#varattr").val("normal");
     $("#virtual_id_text").val("");
     $("#background_color").val("");
@@ -1566,6 +1587,10 @@ function highlight(mydata) {
         if ($("#"+varname).attr("data-larger") ) {
             $("#elem_larger_range").val($("#"+varname).attr("data-larger"));
         }
+	$("#decimal_place").val("");
+	if ($("#"+varname).attr("data-decimal") ) {
+            $("#decimal_place").val($("#"+varname).attr("data-decimal"));
+	}
         $("#background_color").val("");
         if ($("#"+varname).css("background-color") ) {
             $("#background_color").val($("#"+varname).css("background-color"));
@@ -1629,6 +1654,10 @@ function highlight(mydata) {
         $("#elem_formula").val("");
         if ($("#"+varname).attr("data-formula") ) {
             $("#elem_formula").val($("#"+varname).attr("data-formula"));
+        }
+        $("#decimal_place").val("");
+        if ($("#"+varname).attr("data-decimal") ) {
+            $("#decimal_place").val($("#"+varname).attr("data-decimal"));
         }
         $("#background_color").val("");
         if ($("#"+varname).css("background-color") ) {

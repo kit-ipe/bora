@@ -7,7 +7,6 @@ def main():
     file = open("cache.yaml","w")
     file = open("varname.yaml","w")
     file = open("style.yaml","w")
-    os.makedirs("static/dataimage")
 
     # Define default values and import user input  
     default_name = 'adei'
@@ -51,7 +50,8 @@ def main():
     if not title:
         title = default_title
 
-    
+    os.makedirs("static/"+title+"/images")
+
     # Define a dictionary for the user input  
     config = {
         'type': name,
