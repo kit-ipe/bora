@@ -379,8 +379,12 @@ background-color:{{ data['style'][key]['background_color'] }};'
     height:{{ data['style'][key]['height'] }}px;
 {% if "background_color" in data['style'][key] %}    
 background-color:{{ data['style'][key]['background_color'] }};'
-{% else%}
-{% end%}
+{% else %}
+{% end %}
+{% if "titlelink" in data['style'][key] %}
+data-titlelink="{{ data['style'][key]['titlelink'] }};"
+{% else %}
+{% end %}
 data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span></p>
 </div>
@@ -485,8 +489,9 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
-<span class="info">Link</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
+<span class="info">Link (adei)</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
 <span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
+<input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
 </div>
 
     
@@ -581,6 +586,7 @@ function add() {
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
     decimal_place = $("#decimal_place").val();
+    titlelink = $("#titlelink").val();
     background_color = $("#background_color").val(); 
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
@@ -664,6 +670,7 @@ function add() {
                         "id='" + varname +
                         "' data-type='" + vartype +
                         "' data-cond='" + data_condition +
+			"' data-titlelink='" + titlelink +
                         "' data-lesser='" + data_lesser + 
  		                "' data-larger='" + data_larger + 
                         "'>" +
@@ -1373,6 +1380,9 @@ function mysave(data) {
             //header["color"] = $(".title", "#"+key).css("color");
             header["size"] = $("#elem_title_size").val();
             header["weight"] = $("#elem_title_style option:selected").val();
+            if ($('#titlelink').val().length > 0) {
+                tmp["titlelink"] = $('#titlelink').val();
+            }
             if ($('#background_color').val().length > 0) {
                 tmp["background_color"] = $('#background_color').val();
             } else {
@@ -1388,7 +1398,9 @@ function mysave(data) {
             header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
             header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
             tmp["background_color"] = $("#"+hkey).css("background-color");
-         
+            if ($('#titlelink').val().length > 0) {
+                tmp["titlelink"] = $("#"+hkey).attr("data-titlelink");
+            } 
 	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
 	    if (fontWeight == 'bold' || fontWeight == '700') {
 		header["weight"] = "700";
@@ -1509,6 +1521,7 @@ function highlight(mydata) {
     $("#elem_condition_range").val("");
     $("#elem_formula").val("");
     $("#decimal_place").val("");
+    $("#titlelink").val("");
     $("#varattr").val("normal");
     $("#virtual_id_text").val("");
     $("#background_color").val("");
@@ -1533,7 +1546,8 @@ function highlight(mydata) {
     if (vartype == "header") {
         $("#elem_title_text").val($("#"+varname + " .title").text());
         $("#elem_title_size").val(parseInt($("#"+varname + " .title").css("font-size")));
-        
+        $("#titlelink").val($("#"+varname).attr("data-titlelink"));
+ 
         $("#elem_title_style").val("400");
         var fontWeight = $("#"+varname + " .title").css("font-weight");
         if (fontWeight == 'bold' || fontWeight == '700') {
