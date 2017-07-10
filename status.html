@@ -692,11 +692,11 @@ function myTimer() {
 		ref.pop();
 		ref = ref.join("_");
 		//ref = ref[1];
-		console.log(ref, key);
+		//console.log(ref, key);
                 data_type = $("#" + key).attr('data-type');
                 if($("#" + key).length > 0) {
                     if (data_type == "data") {
-                        console.log(key);
+                        //console.log(key);
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
 			            if (response[ref]) {
@@ -803,13 +803,13 @@ function myTimer() {
                 for(m = re.exec(data); m; m = re.exec(data)){
                     buffer.push(m[1]);
                 }
-                console.log("Debug:");
-                console.log(buffer);
+                //console.log("Debug:");
+                //console.log(buffer);
                 var finalstring = "";
                 var pattern = /\[(.*?)\]/g;
                 var teststring = myformula.split(/[\[\]]+/);
-                console.log(teststring);
-                console.log(finalstring);
+                //console.log(teststring);
+                //console.log(finalstring);
                 for (var i = 0; i < teststring.length; i++) {
                     var val = "";
                     
@@ -822,7 +822,7 @@ function myTimer() {
                     finalstring += " ";
                 }
                 finalstring = finalstring.trim();
-                console.log(finalstring);
+                //console.log(finalstring);
                 var myvalue = math.round(math.eval(finalstring),2);
                 myvalue = myvalue.toFixed($("#" + this.id).attr('data-decimal'));
  		    	set_color = "green";

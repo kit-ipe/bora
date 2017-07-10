@@ -1398,9 +1398,7 @@ function mysave(data) {
             header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
             header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
             tmp["background_color"] = $("#"+hkey).css("background-color");
-            if ($('#titlelink').val().length > 0) {
-                tmp["titlelink"] = $("#"+hkey).attr("data-titlelink");
-            } 
+            tmp["titlelink"] = $("#"+hkey).attr("data-titlelink");
 	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
 	    if (fontWeight == 'bold' || fontWeight == '700') {
 		header["weight"] = "700";
