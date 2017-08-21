@@ -1,3 +1,5 @@
+import calendar
+import datetime
 import os
 import re
 import sys
@@ -9,8 +11,8 @@ import tornado.ioloop
 import tornado.web
 import tornado.autoreload
 from shutil import copyfile
-from datetime import date, datetime
-from time import strftime
+from datetime import date
+from time import gmtime, strftime
 from tornado.escape import json_decode, json_encode, url_escape
 from threading import Timer
 
@@ -56,6 +58,22 @@ class RepeatedTimer(object):
         self.interval = interval
 
 
+months = {
+    'Jan' : 1,
+    'Feb' : 2,
+    'Mar' : 3,
+    'Apr' : 4,
+    'May' : 5,
+    'Jun' : 6,
+    'Jul' : 7,
+    'Aug' : 8,
+    'Sep' : 9,
+    'Oct' : 10,
+    'Nov' : 11,
+    'Dec' : 12
+}
+
+
 def fetchDataADEI():
 
     with open("varname.yaml", 'r') as stream:
@@ -77,12 +95,25 @@ def fetchDataADEI():
         data = requests.get(url,
                             auth=(config['username'],
                                   config['password'])).content
-        last_value = data.split(",")[-1].strip()
+
+        tmp_data = data.splitlines()[-1]
+        last_value = tmp_data.split(",")[-1].strip()
+        first_value = tmp_data.split(",")[-2].strip()
         try:
             test_x = float(last_value)
         except ValueError:
             last_value = ""
-        cache_data[param] = last_value
+
+        try:
+            time_buffer = first_value.split("-")
+            time_buffer[1] = str(months[time_buffer[1]])
+            first_value = "-".join(time_buffer)
+            first_ts = calendar.timegm(datetime.datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple())
+        except:
+	    first_ts = ""
+
+	cache_data[param] = {'timestamp': first_ts, 'value': last_value}
+
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
         urlimage = (config['server'] + 'services/getimage.php' + "?" +
@@ -219,9 +250,16 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        with open("cache.yaml", 'r') as vstream:
+            try:
+                cache_data = yaml.load(vstream)
+            except yaml.YAMLError as exc:
+                print(exc)
+
         data = {
             "style": style_data,
-            "varname": varname_data
+            "varname": varname_data,
+            "cache": cache_data
         }
 
         if "background" in config:

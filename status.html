@@ -590,18 +590,21 @@ function myTimer() {
                         //console.log("data");
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
-			if (response[key]) {
+                        var delta = (new Date().getTime()/1000.0) - response[key]["timestamp"];
+                        var dateTime = new Date( response[key]["timestamp"]*1000.0 );
+                        $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
+			if (response[key]["value"]) {
                             if (formula_attr) {
-                                datavalue = parseFloat(response[key]).toFixed($("#" + key).attr('data-decimal'));
+                                datavalue = parseFloat(response[key]["value"]).toFixed($("#" + key).attr('data-decimal'));
  			        formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed($("#" + key).attr('data-decimal'));
 		    	    } else {
                                 if ( ($("#" + key).attr('data-exponential')) == "True" || ($("#" + key).attr('data-exponential')) == "true" ) {
-                                    datavalue = parseFloat(response[key]);
+                                    datavalue = parseFloat(response[key]["value"]);
                                     datavalue = datavalue.toExponential(2)
                                 } else {
-                                    datavalue = parseFloat(response[key]).toFixed($("#" + key).attr('data-decimal'));
+                                    datavalue = parseFloat(response[key]["value"]).toFixed($("#" + key).attr('data-decimal'));
                                 }
                             }
  		    	    set_color = "green";
@@ -615,17 +618,17 @@ function myTimer() {
                         var larger_attr = $("#" + key).attr('data-larger');
   		    	//console.log(condition_attr);
                         if (condition_attr) {
- 			    if (response[key] == condition_attr) {
+ 			    if (response[key]["value"] == condition_attr) {
  			        set_color = "red";
       			    }
 		    	}
  		    	if (lesser_attr) {
- 			    if (parseFloat(response[key]) < parseFloat(lesser_attr)) {
+ 			    if (parseFloat(response[key]["value"]) < parseFloat(lesser_attr)) {
  			    	set_color = "red";
       			    }
 		    	}
   		        if (larger_attr) {
- 			    if (parseFloat(response[key]) > parseFloat(larger_attr)) {
+ 			    if (parseFloat(response[key]["value"]) > parseFloat(larger_attr)) {
  			    	set_color = "red";
       			    }
 		    	}
@@ -634,38 +637,44 @@ function myTimer() {
                     
 		    } else if (data_type == "icon") {
                         //console.log("ventil");
+                        var delta = (new Date().getTime()/1000.0) - response[key]["timestamp"];
+                        var dateTime = new Date( response[key]["timestamp"]*1000.0 );
+                        $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
                         var on_attr = $("#" + key).attr('data-on');
                         var off_attr = $("#" + key).attr('data-off');
 			var on_condition = $("#" + key).attr('data-onexpression');
 			var off_condition = $("#" + key).attr('data-offexpression');
                         if (on_condition == 'onequal'){
-		            if (parseFloat(response[key]) == parseFloat(on_attr)) {
+		            if (parseFloat(response[key]["value"]) == parseFloat(on_attr)) {
                                 $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
                             }
                         } else if (on_condition == 'onsmaller'){	 
- 			    if (parseFloat(response[key]) < parseFloat(on_attr)) {
+ 			    if (parseFloat(response[key]["value"]) < parseFloat(on_attr)) {
  			        $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
                             }
       			} else if (on_condition == 'ongreater'){
- 			    if (parseFloat(response[key]) > parseFloat(on_attr)) {
+ 			    if (parseFloat(response[key]["value"]) > parseFloat(on_attr)) {
  			        $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
       			    }
                         }
                         if (off_condition == 'offequal'){
-                            if (parseFloat(response[key]) == parseFloat(off_attr)) {
+                            if (parseFloat(response[key]["value"]) == parseFloat(off_attr)) {
                                 $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                             }
                         } else if (off_condition == 'offsmaller'){
-                            if (parseFloat(response[key]) < parseFloat(off_attr)) {
+                            if (parseFloat(response[key]["value"]) < parseFloat(off_attr)) {
                                 $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                             }
                         } else if (off_condition == 'offgreater'){
-                            if (parseFloat(response[key]) > parseFloat(off_attr)) {
+                            if (parseFloat(response[key]["value"]) > parseFloat(off_attr)) {
                                 $(".icon img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                             }
                         }
 		    } else if (data_type == "integer-to-string") {
                         //console.log("integer-to-string");
+                        var delta = (new Date().getTime()/1000.0) - response[key]["timestamp"];
+                        var dateTime = new Date( response[key]["timestamp"]*1000.0 );
+                        $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
                         var dict_cond;
                         if ($("#"+key).attr("data-cond")) {
@@ -675,13 +684,13 @@ function myTimer() {
                         }
                         var dict_color = "";
                         if (key in response) {
-                            var token = response[key];
+                            var token = response[key]["value"];
                             if (token in dict_cond) {
                                 dict_color = dict_cond[token];
                             }
                         }
                         $(".varval", "#" + key).css("color", dict_color);
-                        $(".varval", "#" + key).text(dict_attr[response[key]]);
+                        $(".varval", "#" + key).text(dict_attr[response[key]["value"]]);
 		    }
 		}
             }
@@ -699,14 +708,17 @@ function myTimer() {
                         //console.log(key);
                         var datavalue, set_color, formula;
                         var formula_attr = $("#" + key).attr('data-formula');
-			            if (response[ref]) {
+                        var delta = (new Date().getTime()/1000.0) - response[ref]["timestamp"];
+                        var dateTime = new Date( response[ref]["timestamp"]*1000.0 );
+                        $("#"+ref).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
+			            if (response[ref]["value"]) {
                             if (formula_attr) {
-                                datavalue = parseFloat(response[ref]).toFixed($("#" + key).attr('data-decimal'));
+                                datavalue = parseFloat(response[ref]["value"]).toFixed($("#" + key).attr('data-decimal'));
  			                    formula = formula_attr.replace("x", datavalue.toString());
                                 datavalue = math.round(math.eval(formula),2);
                                 datavalue = datavalue.toFixed($("#" + key).attr('data-decimal'));
 		    	            } else {
-			                    datavalue = parseFloat(response[ref]).toFixed($("#" + key).attr('data-decimal'));
+			                    datavalue = parseFloat(response[ref]["value"]).toFixed($("#" + key).attr('data-decimal'));
                             }
  		    	            set_color = "green";
 			            } else {
@@ -719,17 +731,17 @@ function myTimer() {
                         var larger_attr = $("#" + key).attr('data-larger');
   		    	        //console.log(condition_attr);
                         if (condition_attr) {
- 			                if (response[ref] == condition_attr) {
+ 			                if (response[ref]["value"] == condition_attr) {
  			    	            set_color = "red";
       			            }
 		    	        }
  		    	        if (lesser_attr) {
- 			                if (parseFloat(response[ref]) < parseFloat(lesser_attr)) {
+ 			                if (parseFloat(response[ref]["value"]) < parseFloat(lesser_attr)) {
  			    	            set_color = "red";
       			            }
 		    	        }
   		                if (larger_attr) {
- 			                if (parseFloat(response[ref]) > parseFloat(larger_attr)) {
+ 			                if (parseFloat(response[ref]["value"]) > parseFloat(larger_attr)) {
  			    	            set_color = "red";
       			            }
 		    	        }
@@ -741,33 +753,39 @@ function myTimer() {
                                 var off_attr = $("#" + key).attr('data-off');
                                 var on_condition = $("#" + key).attr('data-onexpression');
                                 var off_condition = $("#" + key).attr('data-offexpression');
+                                var delta = (new Date().getTime()/1000.0) - response[ref]["timestamp"];
+                                var dateTime = new Date( response[ref]["timestamp"]*1000.0 );
+                                $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
                                 if (on_condition == 'onequal'){
-                                    if (parseFloat(response[ref]) == parseFloat(on_attr)) {
+                                    if (parseFloat(response[ref]["value"]) == parseFloat(on_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
                                     }
                                 } else if (on_condition == 'onsmaller'){
-                                    if (parseFloat(response[ref]) < parseFloat(on_attr)) {
+                                    if (parseFloat(response[ref]["value"]) < parseFloat(on_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
                                     }
                                 } else if (on_condition == 'ongreater'){
-                                    if (parseFloat(response[ref]) > parseFloat(on_attr)) {
+                                    if (parseFloat(response[ref]["value"]) > parseFloat(on_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_green.svg");
                                     }
                                 }
                                 if (off_condition == 'offequal'){
-                                    if (parseFloat(response[ref]) == parseFloat(off_attr)) {
+                                    if (parseFloat(response[ref]["value"]) == parseFloat(off_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                                     }
                                 } else if (off_condition == 'offsmaller'){
-                                    if (parseFloat(response[ref]) < parseFloat(off_attr)) {
+                                    if (parseFloat(response[ref]["value"]) < parseFloat(off_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                                     }
                                 } else if (off_condition == 'offgreater'){
-                                    if (parseFloat(response[ref]) > parseFloat(off_attr)) {
+                                    if (parseFloat(response[ref]["value"]) > parseFloat(off_attr)) {
                                         $("img", "#" + key).attr("src", "/static/" + $("#" + key).attr('data-icon') + "_red.svg");
                                     }
                                 }
 		            } else if (data_type == "integer-to-string") {
+                        var delta = (new Date().getTime()/1000.0) - response[key]["timestamp"];
+                        var dateTime = new Date( response[key]["timestamp"]*1000.0 );
+                        $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
                         var dict_attr = JSON.parse($("#" + key).attr('data-dict'));
                         var dict_cond;
                         if ($("#"+key).attr("data-cond")) {
@@ -777,13 +795,13 @@ function myTimer() {
                         }
                         var dict_color = "";
                         if (ref in response) {
-                            var token = response[ref];
+                            var token = response[ref]["value"];
                             if (token in dict_cond) {
                                 dict_color = dict_cond[token];
                             }
                         }
                         $(".varval", "#" + key).css("color", dict_color);
-                        $(".varval", "#" + key).text(dict_attr[response[ref]]);
+                        $(".varval", "#" + key).text(dict_attr[response[ref]["value"]]);
 		            }
 		        }
             });
@@ -814,7 +832,7 @@ function myTimer() {
                     var val = "";
                     
                     if (teststring[i] in response) {
-                        val = response[teststring[i]];
+                        val = response[teststring[i]]["value"];
                     } else {
                         val = teststring[i];
                     }
