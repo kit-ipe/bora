@@ -189,10 +189,13 @@ class DesignerHandler(tornado.web.RequestHandler):
         else:
             index_data = cache_data
 
+        if index_data is not None:
+	    index_data = sorted(index_data)
+
         data = {
             "cache": cache_data,
             "style": style_data,
-            "index": sorted(index_data),
+            "index": index_data,
         }
 
         if "background" in config:

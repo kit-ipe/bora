@@ -45,12 +45,12 @@ def main():
     port = raw_input("> Please enter the port number: [%s] " %default_port)
     if not port:
         port = default_port    
-    default_title = 'My Project'
+    default_title = 'MyProject'
     title = raw_input("> Please enter the project title: [%s] " %default_title)
     if not title:
         title = default_title
 
-    os.makedirs("static/"+title+"/images")
+    os.makedirs("static/"+title.lower()+"/images")
 
     # Define a dictionary for the user input  
     config = {
