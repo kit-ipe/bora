@@ -100,7 +100,10 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
+{% if data['style'][key]['ref'] in data['varname'] %}
 onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+{% else %}
+{% end %}
 {% else %}
 {% end %}
 {% else %}
