@@ -116,6 +116,8 @@ def fetchDataADEI():
 
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
+
+        """TEMPORARY COMMENT OUT THIS FEATURE
         urlimage = (config['server'] + 'services/getimage.php' + "?" +
                     varname[param] + "&window=" + time_image_range +
                     "&frame_width=600&frame_height=400")
@@ -126,6 +128,7 @@ def fetchDataADEI():
         with open("static/"+config['title'].lower()+"/images/" + param + ".png", 'wb') as handle:
             for chunk in image.iter_content():
                 handle.write(chunk)
+        """
 
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
