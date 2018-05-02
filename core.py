@@ -466,10 +466,12 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
+        cache_data = None
         with open("cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
+        
                 print(exc)
         if cache_data is None:
             cache_data = {}
