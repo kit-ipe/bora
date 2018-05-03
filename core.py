@@ -19,15 +19,6 @@ from threading import Timer
 
 root = os.path.dirname(__file__)
 
-with open("config.yaml", 'r') as stream:
-    try:
-        config = yaml.load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-if config is None:
-    print("Error: Empty configuration file.")
-    sys.exit(1)
-
 
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
@@ -76,7 +67,7 @@ months = {
 
 def fetchDataADEI():
 
-    with open("varname.yaml", 'r') as stream:
+    with open("../varname.yaml", 'r') as stream:
         try:
             varname = yaml.load(stream)
         except yaml.YAMLError as exc:
@@ -90,13 +81,15 @@ def fetchDataADEI():
     time_image_range = str((curtime-3600)) + "-" + str(curtime)
     time_range = "-1"
     for param in varname:
-        dest = config['server'] + config['script']
+        dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
         url = dest + "?" + varname[param] + "&window=" + time_range
         data = requests.get(url,
-                            auth=(config['username'],
-                                  config['password'])).content
+                            auth=(os.environ["BORA_ADEI_USERNAME"],
+                                  os.environ["BORA_ADEI_PASSWORD"])).content
 
         tmp_data = data.splitlines()[-1]
+        if "ERROR" in tmp_data:
+            continue
         last_value = tmp_data.split(",")[-1].strip()
         first_value = tmp_data.split(",")[-2].strip()
         try:
@@ -117,18 +110,17 @@ def fetchDataADEI():
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
 
-        """TEMPORARY COMMENT OUT THIS FEATURE
-        urlimage = (config['server'] + 'services/getimage.php' + "?" +
+        fetch_image_url = (os.environ["BORA_ADEI_SERVER"] + 'services/getimage.php' + "?" +
                     varname[param] + "&window=" + time_image_range +
                     "&frame_width=600&frame_height=400")
-        image = requests.get(urlimage,
-                             auth=(config['username'],
-                                   config['password']))
+        
+        image = requests.get(fetch_image_url,
+                             auth=(os.environ['BORA_ADEI_USERNAME'],
+                                   os.environ['BORA_ADEI_PASSWORD']))
 
-        with open("static/"+config['title'].lower()+"/images/" + param + ".png", 'wb') as handle:
+        with open("static/trends/" + param + ".png", 'wb') as handle:
             for chunk in image.iter_content():
                 handle.write(chunk)
-        """
 
     with open(".tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
@@ -181,7 +173,7 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("style.yaml", 'r') as stream:
+        with open("../style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -201,21 +193,14 @@ class DesignerHandler(tornado.web.RequestHandler):
             "index": index_data,
         }
 
-        if "background" in config:
-            data["background"] = config["background"]
-
-        if "title" in config:
-            data["title"] = config["title"]
-        else:
-            data["title"] = "BORA"
+        data["title"] = os.environ["BORA_TITLE"]
 
         self.render('designer.html', data=data)
 
 
 class VersionHandler(tornado.web.RequestHandler):
     def get(self):
-        response = {'version': '0.0.1',
-                    'last_build': date.today().isoformat()}
+        response = {'version': '1.0.0'}
         self.write(response)
 
 
@@ -224,9 +209,9 @@ class BackupHandler(tornado.web.RequestHandler):
         backup_dst = os.getcwd() + "/backup/"
         fname = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         os.makedirs(backup_dst + fname)
-        copyfile(os.getcwd() + "/varname.yaml", backup_dst +
+        copyfile("../varname.yaml", backup_dst +
                  fname + "/varname.yaml")
-        copyfile(os.getcwd() + "/style.yaml", backup_dst +
+        copyfile("../style.yaml", backup_dst +
                  fname + "/style.yaml")
 
 
@@ -235,7 +220,7 @@ class SaveHandler(tornado.web.RequestHandler):
     def post(self):
         json_obj = json_decode(self.request.body)
         
-        with open("style.yaml", 'w') as output:
+        with open("../style.yaml", 'w') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
         response = {"success": "Data entry inserted."}
@@ -244,13 +229,13 @@ class SaveHandler(tornado.web.RequestHandler):
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
         print "In status mode."
-        with open("style.yaml", 'r') as stream:
+        with open("../style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("varname.yaml", 'r') as vstream:
+        with open("../varname.yaml", 'r') as vstream:
             try:
                 varname_data = yaml.load(vstream)
             except yaml.YAMLError as exc:
@@ -268,18 +253,9 @@ class StatusHandler(tornado.web.RequestHandler):
             "cache": cache_data
         }
 
-        if "background" in config:
-            data["background"] = config["background"]
+        data["title"] = os.environ["BORA_TITLE"]
 
-        if "title" in config:
-            data["title"] = config["title"]
-        else:
-            data["title"] = "BORA"
-
-        if "server" in config:
-            data["server"] = config["server"]
-        else:
-            data["server"] = "http://katrin.kit.edu/adei-katrin/"
+        data["server"] = os.environ["BORA_ADEI_SERVER"]
 
         self.render('status.html', data=data)
 
@@ -289,15 +265,11 @@ class UpdateHandler(tornado.web.RequestHandler):
         print "Update Sensor Definition"
         new_data = {}
         rt.stop()
-        with open("varname.yaml", 'r') as stream:
+        with open("../varname.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-
-        if config["type"] != "adei":
-            print("Error: Wrong handler.")
-            return
 
         for item in cache_data:
             tmp_data = cache_data[item]
@@ -316,11 +288,11 @@ class UpdateHandler(tornado.web.RequestHandler):
             tmp_str.append("window=-1")
 
             query = "&".join(tmp_str)
-            dest = config['server'] + config['script']
+            dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
             url = dest + "?" + query
 
-            data = requests.get(url, auth=(config['username'],
-                                config['password']))
+            data = requests.get(url, auth=(os.environ["BORA_ADEI_USERNAME"],
+                                os.environ["BORA_ADEI_PASSWORD"]))
             cr = data.content
             cr = cr.split(",")
 
@@ -351,7 +323,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 
             new_data[item] = "&".join(tmp_store)
 
-        with open("varname.yaml", 'w') as output:
+        with open("../varname.yaml", 'w') as output:
             output.write(yaml.dump(new_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -368,11 +340,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
          'db_server': u'cscps',
          'control_group': u'320_KRY_Kryo_3K'}
         """
-        if config["type"] != "adei":
-            print("Error: Wrong handler.")
-            return
-
-        dest = config['server'] + config['script']
+        dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
         query_cmds = []
         query_cmds.append("db_server="+str(params['db_server']))
         query_cmds.append("db_name="+str(params['db_name']))
@@ -387,7 +355,11 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         # get the db_masks
         # store the query command in varname
 
-        data = requests.get(url, auth=(config['username'], config['password']))
+        data = requests.get(
+            url,
+            auth=(os.environ["BORA_ADEI_USERNAME"], 
+                os.environ["BORA_ADEI_PASSWORD"])
+        )
         cr = data.content
         cr = cr.splitlines()
         cr = ",".join(cr)
@@ -439,7 +411,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 
         # column name available
         # store in yaml file
-        with open("varname.yaml", 'r') as stream:
+        with open("../varname.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -457,7 +429,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
                 self.write(response)
                 return
 
-        with open("varname.yaml", 'w') as output:
+        with open("../varname.yaml", 'w') as output:
             output.write(yaml.dump(cache_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -478,93 +450,30 @@ class GetDataHandler(tornado.web.RequestHandler):
         self.write(cache_data)
 
 
-class AuthLoginHandler(BaseHandler):
-    def get(self):
-        try:
-            errormessage = self.get_argument("error")
-        except:
-            errormessage = ""
-        print errormessage
-        self.render("login.html", errormessage=errormessage)
-
-    def check_permission(self, password, username):
-        if (username == config["username"] and
-                password == config["pw_designer"]):
-            return True
-        return False
-
-    def post(self):
-        username = self.get_argument("username", "")
-        password = self.get_argument("password", "")
-        auth = self.check_permission(password, username)
-        if auth:
-            self.set_current_user(username)
-            print "In designer mode."
-            with open("cache.yaml", 'r') as stream:
-                try:
-                    cache_data = yaml.load(stream)
-                except yaml.YAMLError as exc:
-                    print(exc)
-
-            with open("style.yaml", 'r') as stream:
-                try:
-                    style_data = yaml.load(stream)
-                except yaml.YAMLError as exc:
-                    print(exc)
-
-            if style_data:
-                index_data = list(set(cache_data) | set(style_data))
-            else:
-                index_data = cache_data
-
-            data = {
-                "cache": cache_data,
-                "style": style_data,
-                "index": index_data,
-            }
-
-            if "background" in config:
-                data["background"] = config["background"]
-
-            self.render('designer.html', data=data)
-        else:
-            error_msg = (u"?error=" +
-                         url_escape("Login incorrect"))
-            self.redirect(u"/auth/login/" + error_msg)
-
-    def set_current_user(self, user):
-        if user:
-            self.set_secure_cookie("user", tornado.escape.json_encode(user))
-        else:
-            self.clear_cookie("user")
-
-
 print "Running..."
-rt = RepeatedTimer(int(config["polling"]), fetchDataADEI)
+rt = RepeatedTimer(int(os.environ["BORA_POLLING"]), fetchDataADEI)
 
 application = tornado.web.Application([
-    (r"/auth/login/?", AuthLoginHandler),
-    (r"/"+config['title'].lower()+"/version/?", VersionHandler),
-    (r"/"+config['title'].lower()+"/list/?", ListHandler),
-    (r"/"+config['title'].lower()+"/start/?", StartHandler),
-    (r"/"+config['title'].lower()+"/backup/?", BackupHandler),
-    (r"/"+config['title'].lower()+"/stop/?", StopHandler),
-    (r"/"+config['title'].lower()+"/designer/?", DesignerHandler),
-    (r"/"+config['title'].lower()+"/status/?", StatusHandler),
-    (r"/"+config['title'].lower()+"/save/?", SaveHandler),
-    (r"/"+config['title'].lower()+"/update/?", UpdateHandler),
-    (r"/"+config['title'].lower()+"/getdata/?", GetDataHandler),
-    (r"/"+config['title'].lower()+"/timer/(?P<duration>[^\/]+)/?",
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/version/?", VersionHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/list/?", ListHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/start/?", StartHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/backup/?", BackupHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/stop/?", StopHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/designer/?", DesignerHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/status/?", StatusHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/save/?", SaveHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/update/?", UpdateHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/getdata/?", GetDataHandler),
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/timer/(?P<duration>[^\/]+)/?",
      SetTimerHandler),
-    (r"/"+config['title'].lower()+"/add/(?P<db_server>[^\/]+)/?"
+    (r"/"+os.environ["BORA_TITLE"].lower()+"/add/(?P<db_server>[^\/]+)/?"
      "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
      AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'),
-    js_path=os.path.join(root, 'js'), login_url="/auth/login",
     cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
 
 
 if __name__ == "__main__":
-    application.listen(int(config["port"]))
+    application.listen(int(os.environ["BORA_PORT"]))
     tornado.autoreload.start()
     tornado.ioloop.IOLoop.instance().start()

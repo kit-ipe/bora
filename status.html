@@ -528,15 +528,7 @@ data-type="{{
 {% else %}
 {% end %}
 
-
-
-{% if "background" in data %}
-<img src="{{ static_url( data['background'] ) }}"></img>    
-{% else %}
 <img src="{{ static_url( 'background.png' ) }}"></img>
-{% end %}
-
-
 
 <!-- java script -->
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
@@ -546,14 +538,13 @@ data-type="{{
 
 jQuery(window).load(function () {
 
-/*
 var win_width = $(document).width();
 var win_height = $(document).height();
 $(".databox").hover(function(){
     var trend_time = Math.floor(Date.now() / 1000);
     var key = $(this).attr('id');
     if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="/static/'+ $("#page_title_cache").text().toLowerCase() +'/images/'+key+'.png?time='+trend_time+'" width="600px" height="400px"/></span>');
+        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="/static/trends/'+key+'.png?time='+trend_time+'" width="600px" height="400px"/></span>');
         var key_left = parseInt($("#" + key).css("left"));
 	var pos_left = key_left + 850;
         var key_top = parseInt($("#" + key).css("top"));
@@ -572,7 +563,6 @@ $(".databox").hover(function(){
         }
     }
 });
-*/
 
 myTimer();
 var myVar = setInterval(myTimer, 10000);

@@ -1,7 +1,7 @@
-config.yaml
 cache.yaml
 style.yaml
 .tmp.yaml
 *.yaml
 backup
 images/
+static/trends/
