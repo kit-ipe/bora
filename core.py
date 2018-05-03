@@ -15,7 +15,7 @@ from datetime import date
 from time import gmtime, strftime
 from tornado.escape import json_decode, json_encode, url_escape
 from threading import Timer
-
+import subprocess
 
 root = os.path.dirname(__file__)
 
@@ -67,7 +67,7 @@ months = {
 
 def fetchDataADEI():
 
-    with open("../varname.yaml", 'r') as stream:
+    with open("varname.yaml", 'r') as stream:
         try:
             varname = yaml.load(stream)
         except yaml.YAMLError as exc:
@@ -113,19 +113,22 @@ def fetchDataADEI():
         fetch_image_url = (os.environ["BORA_ADEI_SERVER"] + 'services/getimage.php' + "?" +
                     varname[param] + "&window=" + time_image_range +
                     "&frame_width=600&frame_height=400")
-        
+       
         image = requests.get(fetch_image_url,
                              auth=(os.environ['BORA_ADEI_USERNAME'],
                                    os.environ['BORA_ADEI_PASSWORD']))
 
-        with open("static/trends/" + param + ".png", 'wb') as handle:
+        if not os.path.isdir("./bora/static/trends/"):
+            subprocess.call(["mkdir", "-p", "./bora/static/trends"])
+
+        with open("bora/static/trends/" + param + ".png", 'wb') as handle:
             for chunk in image.iter_content():
                 handle.write(chunk)
 
-    with open(".tmp.yaml", 'w') as stream_tmp:
+    with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
-    src_file = os.getcwd() + "/.tmp.yaml"
-    dst_file = os.getcwd() + "/cache.yaml"
+    src_file = os.getcwd() + "/bora/.tmp.yaml"
+    dst_file = os.getcwd() + "/bora/cache.yaml"
     shutil.copy(src_file, dst_file)
 
 
@@ -136,7 +139,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class ListHandler(tornado.web.RequestHandler):
     def get(self):
-        with open("cache.yaml", 'r') as stream:
+        with open("./bora/cache.yaml", 'r') as stream:
             try:
                 response = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -167,13 +170,13 @@ class SetTimerHandler(tornado.web.RequestHandler):
 class DesignerHandler(tornado.web.RequestHandler):
     def get(self):
         print "In designer mode."
-        with open("cache.yaml", 'r') as stream:
+        with open("./bora/cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("../style.yaml", 'r') as stream:
+        with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -209,9 +212,9 @@ class BackupHandler(tornado.web.RequestHandler):
         backup_dst = os.getcwd() + "/backup/"
         fname = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         os.makedirs(backup_dst + fname)
-        copyfile("../varname.yaml", backup_dst +
+        copyfile("varname.yaml", backup_dst +
                  fname + "/varname.yaml")
-        copyfile("../style.yaml", backup_dst +
+        copyfile("style.yaml", backup_dst +
                  fname + "/style.yaml")
 
 
@@ -220,7 +223,7 @@ class SaveHandler(tornado.web.RequestHandler):
     def post(self):
         json_obj = json_decode(self.request.body)
         
-        with open("../style.yaml", 'w') as output:
+        with open("style.yaml", 'w') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
         response = {"success": "Data entry inserted."}
@@ -229,19 +232,19 @@ class SaveHandler(tornado.web.RequestHandler):
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
         print "In status mode."
-        with open("../style.yaml", 'r') as stream:
+        with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("../varname.yaml", 'r') as vstream:
+        with open("varname.yaml", 'r') as vstream:
             try:
                 varname_data = yaml.load(vstream)
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("cache.yaml", 'r') as vstream:
+        with open("./bora/cache.yaml", 'r') as vstream:
             try:
                 cache_data = yaml.load(vstream)
             except yaml.YAMLError as exc:
@@ -265,7 +268,7 @@ class UpdateHandler(tornado.web.RequestHandler):
         print "Update Sensor Definition"
         new_data = {}
         rt.stop()
-        with open("../varname.yaml", 'r') as stream:
+        with open("varname.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -323,7 +326,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 
             new_data[item] = "&".join(tmp_store)
 
-        with open("../varname.yaml", 'w') as output:
+        with open("varname.yaml", 'w') as output:
             output.write(yaml.dump(new_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -411,7 +414,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 
         # column name available
         # store in yaml file
-        with open("../varname.yaml", 'r') as stream:
+        with open("varname.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
@@ -429,7 +432,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
                 self.write(response)
                 return
 
-        with open("../varname.yaml", 'w') as output:
+        with open("varname.yaml", 'w') as output:
             output.write(yaml.dump(cache_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -439,7 +442,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         cache_data = None
-        with open("cache.yaml", 'r') as stream:
+        with open("./bora/cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
             except yaml.YAMLError as exc:
