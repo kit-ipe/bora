@@ -461,7 +461,7 @@ application = tornado.web.Application([
     (r"/backup/?", BackupHandler),
     (r"/stop/?", StopHandler),
     (r"/designer/?", DesignerHandler),
-    (r"/status/?", StatusHandler),
+    (r"/", StatusHandler),
     (r"/save/?", SaveHandler),
     (r"/update/?", UpdateHandler),
     (r"/getdata/?", GetDataHandler),
