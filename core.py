@@ -114,17 +114,6 @@ def fetchDataADEI():
                     varname[param] + "&window=" + time_image_range +
                     "&frame_width=600&frame_height=400")
        
-        image = requests.get(fetch_image_url,
-                             auth=(os.environ['BORA_ADEI_USERNAME'],
-                                   os.environ['BORA_ADEI_PASSWORD']))
-
-        if not os.path.isdir("./bora/static/trends/"):
-            subprocess.call(["mkdir", "-p", "./bora/static/trends"])
-
-        with open("bora/static/trends/" + param + ".png", 'wb') as handle:
-            for chunk in image.iter_content():
-                handle.write(chunk)
-
     with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/bora/.tmp.yaml"

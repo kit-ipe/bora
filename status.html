@@ -111,6 +111,8 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 {% else %}
 {% end %}
 
+data-adei="{{ data['server'] }}"
+data-query="{{ data['varname'][data['style'][key]['ref']] }}"
 
 {% if "ref" in data['style'][key] %}
 data-type="{{ data['style'][key]['type'] }}" id="{{ key }}">
@@ -541,10 +543,13 @@ jQuery(window).load(function () {
 var win_width = $(document).width();
 var win_height = $(document).height();
 $(".databox").hover(function(){
-    var trend_time = Math.floor(Date.now() / 1000);
+    var trend_time_end = Math.floor(Date.now() / 1000);
+    var trend_time_start = trend_time_end - 3600;
     var key = $(this).attr('id');
+    var data_adei = $("#" + key).attr('data-adei');
+    var data_query = $("#" + key).attr('data-query');
     if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="/static/trends/'+key+'.png?time='+trend_time+'" width="600px" height="400px"/></span>');
+        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="' + data_adei + '/services/getimage.php?' + data_query + '&window='+ trend_time_start.toString() +'-'+ trend_time_end.toString() + '&frame_width=600&frame_height=400" width="600px" height="400px"/></span>');
         var key_left = parseInt($("#" + key).css("left"));
 	var pos_left = key_left + 850;
         var key_top = parseInt($("#" + key).css("top"));
@@ -865,7 +870,7 @@ function myTimer() {
             });
             var page_title_cache = $("#page_title_cache").text();
 	    var datetime = page_title_cache + " data monitoring page. Last Sync: " + response["time"];
-   	    $("#page_info").text(datetime);
+   	    $("#page_info").text(datetime + " UTC");
             console.log(datetime);
 
         },
