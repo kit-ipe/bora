@@ -79,10 +79,10 @@ def fetchDataADEI():
     cache_data = {}
     curtime = int(time.time())
     time_image_range = str((curtime-3600)) + "-" + str(curtime)
-    time_range = "-1"
+    time_range = "3600,-1"
     for param in varname:
         dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
-        url = dest + "?" + varname[param] + "&window=" + time_range
+        url = dest + "?" + varname[param] + "&window=" + time_range + "&experiment=*-*&rt=full&cache=1"
         data = requests.get(url,
                             auth=(os.environ["BORA_ADEI_USERNAME"],
                                   os.environ["BORA_ADEI_PASSWORD"])).content
@@ -109,10 +109,6 @@ def fetchDataADEI():
 
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
-
-        fetch_image_url = (os.environ["BORA_ADEI_SERVER"] + 'services/getimage.php' + "?" +
-                    varname[param] + "&window=" + time_image_range +
-                    "&frame_width=600&frame_height=400")
        
     with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
@@ -281,7 +277,10 @@ class UpdateHandler(tornado.web.RequestHandler):
 
                 tmp_str.append(adei_unit)
                 tmp_store.append(adei_unit)
-            tmp_str.append("window=-1")
+            tmp_str.append("window=3600,-1")
+            tmp_str.append("experiment=*-*")
+            tmp_str.append("rt=full")
+            tmp_str.append("cache=1")
 
             query = "&".join(tmp_str)
             dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
@@ -343,7 +342,10 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         query_cmds.append("db_group="+str(params['db_group']))
 
         query_cmds.append("db_mask=all")
-        query_cmds.append("window=-1")
+        query_cmds.append("window=3600,-1")
+        query_cmds.append("experiment=*-*")
+        query_cmds.append("rt=full")
+        query_cmds.append("cache=1")
 
         query = "&".join(query_cmds)
         url = dest + "?" + query
