@@ -246,7 +246,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
         if not os.path.isfile("./bora/cache.yaml"): 
             print "BORA is loading data, please refresh the page again in a moment."
-            open("cache.yaml","w")
+            open("./bora/cache.yaml","w")
 
         with open("./bora/cache.yaml", 'r') as vstream:
             try:
