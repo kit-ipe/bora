@@ -578,7 +578,7 @@ var myVar = setInterval(myTimer, 10000);
 function myTimer() {
     var dataToSend = {};
     $.ajax({
-        url: '/'+$("#page_title_cache").text().toLowerCase()+'/getdata/',
+        url: '/getdata/',
         //url: '/wgts/getabcddata/',
         type: 'GET',
         data: dataToSend,

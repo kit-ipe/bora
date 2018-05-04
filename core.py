@@ -455,19 +455,18 @@ print "Running..."
 rt = RepeatedTimer(int(os.environ["BORA_POLLING"]), fetchDataADEI)
 
 application = tornado.web.Application([
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/version/?", VersionHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/list/?", ListHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/start/?", StartHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/backup/?", BackupHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/stop/?", StopHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/designer/?", DesignerHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/status/?", StatusHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/save/?", SaveHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/update/?", UpdateHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/getdata/?", GetDataHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/timer/(?P<duration>[^\/]+)/?",
-     SetTimerHandler),
-    (r"/"+os.environ["BORA_TITLE"].lower()+"/add/(?P<db_server>[^\/]+)/?"
+    (r"/version/?", VersionHandler),
+    (r"/list/?", ListHandler),
+    (r"/start/?", StartHandler),
+    (r"/backup/?", BackupHandler),
+    (r"/stop/?", StopHandler),
+    (r"/designer/?", DesignerHandler),
+    (r"/status/?", StatusHandler),
+    (r"/save/?", SaveHandler),
+    (r"/update/?", UpdateHandler),
+    (r"/getdata/?", GetDataHandler),
+    (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
+    (r"/add/(?P<db_server>[^\/]+)/?"
      "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
      AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'),
