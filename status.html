@@ -172,6 +172,7 @@ data-type="{{ data['style'][key]['type'] }}" data-icon="{{ data['style'][key]['i
 {% end %}
 {% else %}
 {% end %}
+
 <div class="icon">
 <img width="{{ data['style'][key]['width'] }}px" height="{{ data['style'][key]['height'] }}px" style='transform: {{ data['style'][key]['rotate'] }}' src='{{ static_url("valve_inactive.png") }}'></img>
 </div>
@@ -482,6 +483,9 @@ data-cond="{{ data['style'][key]['cond'] }}"
 data-trend="{{ data['style'][key]['trend'] }}"
 {% else %}
 {% end %}
+
+data-adei="{{ data['server'] }}"
+data-query="{{ data['varname'][data['style'][key]['ref']] }}"
 
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
