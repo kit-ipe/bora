@@ -244,6 +244,10 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        if not os.path.isfile("./bora/cache.yaml"): 
+            self.write("BORA is loading data, please refresh the page again in a moment.")
+            return
+
         with open("./bora/cache.yaml", 'r') as vstream:
             try:
                 cache_data = yaml.load(vstream)
