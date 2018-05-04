@@ -446,6 +446,9 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         cache_data = None
+        if not os.path.isfile("./bora/cache.yaml"): 
+            print "BORA is loading data, please refresh the page again in a moment."
+            open("./bora/cache.yaml","w")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
