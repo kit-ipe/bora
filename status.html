@@ -113,7 +113,7 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 
 data-adei="{{ data['server'] }}"
 
-{% if "key" in data['style'] %}
+{% if data['style'][key]['ref'] in data['varname'] %}
 data-query="{{ data['varname'][data['style'][key]['ref']] }}"
 {% else %}
 {% end %}
@@ -489,7 +489,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 
 data-adei="{{ data['server'] }}"
-{% if "key" in data['style'] %}
+{% if data['style'][key]['ref'] in data['varname'] %}
 data-query="{{ data['varname'][data['style'][key]['ref']] }}"
 {% else %}
 {% end %}
