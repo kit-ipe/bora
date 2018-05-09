@@ -195,7 +195,7 @@ class VersionHandler(tornado.web.RequestHandler):
 class BackupHandler(tornado.web.RequestHandler):
     def post(self):
         backup_dst = os.getcwd() + "/backup/"
-        fname = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        fname = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         os.makedirs(backup_dst + fname)
         copyfile("varname.yaml", backup_dst +
                  fname + "/varname.yaml")
