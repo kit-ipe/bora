@@ -514,7 +514,7 @@ function inputEnable() {
 
 function backup() {
     $.ajax({
-        url: '/'+$("#page_title_cache").text().toLowerCase()+'/backup/',
+        url: '/backup/',
         type: 'POST',
         success: function (response) {
             alert("Backup success!");
@@ -1478,7 +1478,7 @@ function mysave(data) {
     var dataToSend = JSON.stringify(position);
     console.log(dataToSend);
     $.ajax({
-        url: '/'+$("#page_title_cache").text().toLowerCase()+'/save/',
+        url: '/save/',
         type: 'POST',
         data: dataToSend,
         success: function (response) {
