@@ -86,7 +86,8 @@ def fetchDataADEI():
         data = requests.get(url,
                             auth=(os.environ["BORA_ADEI_USERNAME"],
                                   os.environ["BORA_ADEI_PASSWORD"])).content
-
+        if data == "":
+            continue
         tmp_data = data.splitlines()[-1]
         if "ERROR" in tmp_data:
             continue
