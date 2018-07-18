@@ -1,3 +1,4 @@
+import logging
 import calendar
 import datetime
 import os
@@ -19,6 +20,22 @@ import subprocess
 
 root = os.path.dirname(__file__)
 
+
+
+def setup_custom_logger(name):
+    formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
+                                  datefmt='%Y-%m-%d %H:%M:%S')
+    handler = logging.FileHandler('log.txt', mode='w')
+    handler.setFormatter(formatter)
+    screen_handler = logging.StreamHandler(stream=sys.stdout)
+    screen_handler.setFormatter(formatter)
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
+    logger.addHandler(handler)
+    logger.addHandler(screen_handler)
+    return logger
+
+logger = setup_custom_logger('BORA')
 
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
@@ -87,9 +104,11 @@ def fetchDataADEI():
                             auth=(os.environ["BORA_ADEI_USERNAME"],
                                   os.environ["BORA_ADEI_PASSWORD"])).content
         if data == "":
+            logger.info(str(param) + ': Empty data!')
             continue
         tmp_data = data.splitlines()[-1]
         if "ERROR" in tmp_data:
+            logger.error(str(param) + ': Query')
             continue
         last_value = tmp_data.split(",")[-1].strip()
         first_value = tmp_data.split(",")[-2].strip()
