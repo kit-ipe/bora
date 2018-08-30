@@ -20,6 +20,7 @@ import subprocess
 
 root = os.path.dirname(__file__)
 
+python_version = sys.version_info.major
 
 
 def setup_custom_logger(name):
@@ -103,9 +104,15 @@ def fetchDataADEI():
         data = requests.get(url,
                             auth=(os.environ["BORA_ADEI_USERNAME"],
                                   os.environ["BORA_ADEI_PASSWORD"])).content
+                            
+        if python_version == 3:
+            data = data.decode("utf-8")
+                         
         if data == "":
             logger.info(str(param) + ': Empty data!')
             continue
+        
+        
         tmp_data = data.splitlines()[-1]
         if "ERROR" in tmp_data:
             logger.error(str(param) + ': Query')
@@ -123,10 +130,10 @@ def fetchDataADEI():
             first_value = "-".join(time_buffer)
             first_ts = calendar.timegm(datetime.datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple())
         except:
-	    first_ts = ""
+            st_ts = ""
 
-	cache_data[param] = {'timestamp': first_ts, 'value': last_value}
-
+        cache_data[param] = {'timestamp': first_ts, 'value': last_value}
+    
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
        
@@ -156,25 +163,25 @@ class ListHandler(tornado.web.RequestHandler):
 
 class StartHandler(tornado.web.RequestHandler):
     def get(self):
-        print "Start fetchData"
+        print ("Start fetchData")
         rt.start()
 
 
 class StopHandler(tornado.web.RequestHandler):
     def get(self):
-        print "Stop fetchData"
+        print ("Stop fetchData")
         rt.stop()
 
 
 class SetTimerHandler(tornado.web.RequestHandler):
     def get(self, duration):
-        print "Set interval"
+        print ("Set interval")
         rt.setInterval(float(duration))
 
 
 class DesignerHandler(tornado.web.RequestHandler):
     def get(self):
-        print "In designer mode."
+        print("In designer mode.")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream)
@@ -193,7 +200,7 @@ class DesignerHandler(tornado.web.RequestHandler):
             index_data = cache_data
 
         if index_data is not None:
-	    index_data = sorted(index_data)
+            index_data = sorted(index_data)
 
         data = {
             "cache": cache_data,
@@ -236,7 +243,7 @@ class SaveHandler(tornado.web.RequestHandler):
 
 class StatusHandler(tornado.web.RequestHandler):
     def get(self):
-        print "In status mode."
+        print( "In status mode.")
         with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream)
@@ -250,7 +257,7 @@ class StatusHandler(tornado.web.RequestHandler):
                 print(exc)
 
         if not os.path.isfile("./bora/cache.yaml"): 
-            print "BORA is loading data, please refresh the page again in a moment."
+            print("BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","w")
 
         with open("./bora/cache.yaml", 'r') as vstream:
@@ -274,7 +281,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class UpdateHandler(tornado.web.RequestHandler):
     def get(self):
-        print "Update Sensor Definition"
+        print( "Update Sensor Definition")
         new_data = {}
         rt.stop()
         with open("varname.yaml", 'r') as stream:
@@ -378,7 +385,12 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
             auth=(os.environ["BORA_ADEI_USERNAME"], 
                 os.environ["BORA_ADEI_PASSWORD"])
         )
+        
         cr = data.content
+        
+        if python_version == 3:
+            cr = cr.decode("utf-8")
+        
         cr = cr.splitlines()
         cr = ",".join(cr)
         cr = cr.split(",")
@@ -458,7 +470,7 @@ class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         cache_data = None
         if not os.path.isfile("./bora/cache.yaml"): 
-            print "BORA is loading data, please refresh the page again in a moment."
+            print( "BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","w")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
@@ -471,7 +483,7 @@ class GetDataHandler(tornado.web.RequestHandler):
         self.write(cache_data)
 
 
-print "Running..."
+print ("Running...")
 rt = RepeatedTimer(int(os.environ["BORA_POLLING"]), fetchDataADEI)
 
 application = tornado.web.Application([
