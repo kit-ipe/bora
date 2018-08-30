@@ -130,7 +130,7 @@ def fetchDataADEI():
             first_value = "-".join(time_buffer)
             first_ts = calendar.timegm(datetime.datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple())
         except:
-            st_ts = ""
+            first_ts = ""
 
         cache_data[param] = {'timestamp': first_ts, 'value': last_value}
     
