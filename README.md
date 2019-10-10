@@ -2,7 +2,7 @@
 BORA is a static monitoring framework, which aims to minimize the maintaining effort on the page and offers a flexible way to add and remove data items. Also, BORA addresses the limitation of ADEI server by building a retrofit interface that is capable of handling concurrent connections.
 
 <br />
-##Installation
+## Installation
 Following demonstrates an example on BORA installation guide in openSUSE operating system. 
 
 **Step 1**: <br />Start up a Terminal session and clone the bora.git list files into the desired path by copying the given web url into the following command line:
@@ -49,7 +49,7 @@ Debugging...
 **Step 9**: <br />After entering the sites, you will be directed into a page with the previously added background image. Now, you are allowed to design the background image with the registered data.
 
 <br />
-##Usage
+## Usage
 
 In principle, there are 2 viewer modes in BORA: designer mode and status mode. In designer mode  (http://localhost:\<port\>/designer), users are allowed to style the data with multifarious features whereas the status mode (http://localhost:\<port\>/status) displays the data styling from the designer mode to the viewers. 
 
