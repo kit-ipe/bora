@@ -1,4 +1,4 @@
-PyYAML==3.12
+PyYAML==5.1
 backports-abc==0.4
 backports.ssl-match-hostname==3.5.0.1
 certifi==2016.8.31
