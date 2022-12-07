@@ -1,7 +1,7 @@
 PyYAML==5.1
 backports-abc==0.4
 backports.ssl-match-hostname==3.5.0.1
-certifi==2016.8.31
+certifi==2022.12.7
 requests==2.20.0
 singledispatch==3.4.0.3
 six==1.10.0
