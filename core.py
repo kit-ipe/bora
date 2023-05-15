@@ -87,7 +87,7 @@ def fetchDataADEI():
 
     with open("varname.yaml", 'r') as stream:
         try:
-            varname = yaml.load(stream)
+            varname = yaml.load(stream, Loader=yaml.Loader)
         except yaml.YAMLError as exc:
             print(exc)
     if varname is None:
@@ -153,7 +153,7 @@ class ListHandler(tornado.web.RequestHandler):
     def get(self):
         with open("./bora/cache.yaml", 'r') as stream:
             try:
-                response = yaml.load(stream)
+                response = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
         if response is None:
@@ -184,13 +184,13 @@ class DesignerHandler(tornado.web.RequestHandler):
         print("In designer mode.")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
-                cache_data = yaml.load(stream)
+                cache_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
         with open("style.yaml", 'r') as stream:
             try:
-                style_data = yaml.load(stream)
+                style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -246,13 +246,13 @@ class StatusHandler(tornado.web.RequestHandler):
         print( "In status mode.")
         with open("style.yaml", 'r') as stream:
             try:
-                style_data = yaml.load(stream)
+                style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
         with open("varname.yaml", 'r') as vstream:
             try:
-                varname_data = yaml.load(vstream)
+                varname_data = yaml.load(vstream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -262,7 +262,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
         with open("./bora/cache.yaml", 'r') as vstream:
             try:
-                cache_data = yaml.load(vstream)
+                cache_data = yaml.load(vstream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -286,7 +286,7 @@ class UpdateHandler(tornado.web.RequestHandler):
         rt.stop()
         with open("varname.yaml", 'r') as stream:
             try:
-                cache_data = yaml.load(stream)
+                cache_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -443,7 +443,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
         # store in yaml file
         with open("varname.yaml", 'r') as stream:
             try:
-                cache_data = yaml.load(stream)
+                cache_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
 
@@ -474,7 +474,7 @@ class GetDataHandler(tornado.web.RequestHandler):
             open("./bora/cache.yaml","w")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
-                cache_data = yaml.load(stream)
+                cache_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
         
                 print(exc)
