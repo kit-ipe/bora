@@ -137,7 +137,7 @@ def fetchDataADEI():
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
        
-    with open("./bora/.tmp.yaml", 'w') as stream_tmp:
+    with open("./bora/.tmp.yaml", 'wb') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/bora/.tmp.yaml"
     dst_file = os.getcwd() + "/bora/cache.yaml"
@@ -235,7 +235,7 @@ class SaveHandler(tornado.web.RequestHandler):
     def post(self):
         json_obj = json_decode(self.request.body)
         
-        with open("style.yaml", 'w') as output:
+        with open("style.yaml", 'wb') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
         response = {"success": "Data entry inserted."}
@@ -258,7 +258,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
         if not os.path.isfile("./bora/cache.yaml"): 
             print("BORA is loading data, please refresh the page again in a moment.")
-            open("./bora/cache.yaml","w")
+            open("./bora/cache.yaml","wb")
 
         with open("./bora/cache.yaml", 'r') as vstream:
             try:
@@ -345,7 +345,7 @@ class UpdateHandler(tornado.web.RequestHandler):
 
             new_data[item] = "&".join(tmp_store)
 
-        with open("varname.yaml", 'w') as output:
+        with open("varname.yaml", 'wb') as output:
             output.write(yaml.dump(new_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -459,7 +459,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
                 self.write(response)
                 return
 
-        with open("varname.yaml", 'w') as output:
+        with open("varname.yaml", 'wb') as output:
             output.write(yaml.dump(cache_data, default_flow_style=False))
             response = {"success": "Data entry inserted."}
 
@@ -471,7 +471,7 @@ class GetDataHandler(tornado.web.RequestHandler):
         cache_data = None
         if not os.path.isfile("./bora/cache.yaml"): 
             print( "BORA is loading data, please refresh the page again in a moment.")
-            open("./bora/cache.yaml","w")
+            open("./bora/cache.yaml","wb")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
                 cache_data = yaml.load(stream, Loader=yaml.Loader)
