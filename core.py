@@ -97,47 +97,54 @@ def fetchDataADEI():
         return
 
     cache_data = {}
+    tmp_cache_data = {}
     curtime = int(time.time())
     time_image_range = str((curtime-3600)) + "-" + str(curtime)
     time_range = "3600,-1"
-    for param in varname:
-        dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
-        url = dest + "?" + varname[param] + "&window=" + time_range + "&experiment=*-*&rt=full&cache=1"
-        data = requests.get(url,
-                            auth=(os.environ["BORA_ADEI_USERNAME"],
-                                  os.environ["BORA_ADEI_PASSWORD"])).content
-                            
-        if python_version == 3:
-            data = data.decode("utf-8")
-                         
-        if data == "":
-            logger.info(str(param) + ': Empty data!')
-            continue
-        
-        
-        tmp_data = data.splitlines()[-1]
-        if "ERROR" in tmp_data:
-            logger.error(str(param) + ': Query')
-            continue
-        last_value = tmp_data.split(",")[-1].strip()
-        first_value = tmp_data.split(",")[-2].strip()
-        try:
-            test_x = float(last_value)
-        except ValueError:
-            last_value = ""
+    for data_source in varname:
+        if data_source == "adei":
+            for param in varname["adei"]:
+                dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
+                url = dest + "?" + varname["adei"][param] + "&window=" + time_range + "&experiment=*-*&rt=full&cache=1"
+                data = requests.get(url,
+                                    auth=(os.environ["BORA_ADEI_USERNAME"],
+                                          os.environ["BORA_ADEI_PASSWORD"])).content
+                                    
+                if python_version == 3:
+                    data = data.decode("utf-8")
+                                 
+                if data == "":
+                    logger.info(str(param) + ': Empty data!')
+                    continue
+                
+                
+                tmp_data = data.splitlines()[-1]
+                if "ERROR" in tmp_data:
+                    logger.error(str(param) + ': Query')
+                    continue
+                last_value = tmp_data.split(",")[-1].strip()
+                first_value = tmp_data.split(",")[-2].strip()
+                try:
+                    test_x = float(last_value)
+                except ValueError:
+                    last_value = ""
 
-        try:
-            time_buffer = first_value.split("-")
-            time_buffer[1] = str(months[time_buffer[1]])
-            first_value = "-".join(time_buffer)
-            first_ts = calendar.timegm(datetime.datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple())
-        except:
-            first_ts = ""
+                try:
+                    time_buffer = first_value.split("-")
+                    time_buffer[1] = str(months[time_buffer[1]])
+                    first_value = "-".join(time_buffer)
+                    first_ts = calendar.timegm(datetime.datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple())
+                except:
+                    first_ts = ""
 
-        cache_data[param] = {'timestamp': first_ts, 'value': last_value}
-    
-        current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
-        cache_data['time'] = current_timestamp
+                tmp_cache_data[param] = {'timestamp': first_ts, 'value': last_value}
+            
+                current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
+                cache_data['time'] = current_timestamp
+                cache_data["adei"] = tmp_cache_data
+        else:
+            print("Other data source not yet implemented [TODO]")
+            print(data_source)
        
     with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
@@ -213,6 +220,19 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        tmp_data = {}
+        for data_source in cache_data:
+            print(data_source)
+            if data_source == "time":
+                tmp_data["time"] = cache_data["time"] 
+            else:
+                print(data_source)
+                for param in cache_data[data_source]:
+                    print(param)
+                    tmp_data[param] = cache_data[data_source][param]
+        
+
+
         with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
@@ -220,15 +240,15 @@ class DesignerHandler(tornado.web.RequestHandler):
                 print(exc)
 
         if style_data:
-            index_data = list(set(cache_data) | set(style_data))
+            index_data = list(set(tmp_data) | set(style_data))
         else:
-            index_data = cache_data
+            index_data = tmp_data
 
         if index_data is not None:
             index_data = sorted(index_data)
 
         data = {
-            "cache": cache_data,
+            "cache": tmp_data,
             "style": style_data,
             "index": index_data,
         }
@@ -301,6 +321,12 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        tmp_data = {}
+        for data_source in varname_data:
+            for param in varname_data[data_source]:
+                tmp_data[param] = varname_data[data_source][param]
+
+
         if not os.path.isfile("./bora/cache.yaml"): 
             print("BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","wb")
@@ -313,9 +339,12 @@ class StatusHandler(tornado.web.RequestHandler):
 
         data = {
             "style": style_data,
-            "varname": varname_data,
+            "varname": tmp_data,
             "cache": cache_data
         }
+
+        print("Status Handler")
+        #print(tmp_data)
 
         data["title"] = os.environ["BORA_TITLE"]
         data["server"] = os.environ["BORA_ADEI_SERVER"]
@@ -524,7 +553,18 @@ class GetDataHandler(tornado.web.RequestHandler):
                 print(exc)
         if cache_data is None:
             cache_data = {}
-        self.write(cache_data)
+
+        tmp_data = {}
+        for data_source in cache_data:
+            print(data_source)
+            if data_source == "time":
+                tmp_data["time"] = cache_data["time"] 
+            else:
+                print(data_source)
+                for param in cache_data[data_source]:
+                    print(param)
+                    tmp_data[param] = cache_data[data_source][param]
+        self.write(tmp_data)
 
 
 print ("Running...")
