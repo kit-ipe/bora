@@ -2,51 +2,7 @@
 BORA is a static monitoring framework, which aims to minimize the maintaining effort on the page and offers a flexible way to add and remove data items. Also, BORA addresses the limitation of ADEI server by building a retrofit interface that is capable of handling concurrent connections.
 
 ## Installation
-Following demonstrates an example on BORA installation guide in openSUSE operating system. 
-
-**Step 1**: <br />Start up a Terminal session and clone the bora.git list files into the desired path by copying the given web url into the following command line:
-
-```sh
-$ git clone https://github.com/kit-ipe/bora.git
-```
-
-**Step 2**: <br />After cloning, add the background image that you wish to design into static file under bora. 
-
-**Step 3**: <br />In order to execute the pip-command, inside the terminal window, first change the directory path into bora.git and then feed in the following command line:
-
-```sh
-$ sudo easy_install pip
-```
-
-**Step 4**: <br />All the missing modules (pyyaml, requests and tornado) have been compiled inside the requirement.txt file. Install them using the following command line:
-
-```sh
-$ pip install -r requirements.txt
-```
-
-**Step 5**: <br />After the installations have finished, run the following python script and key in all the requested information:
-
-```sh
-$ python start.py
-```
-
-**Step 6**: <br />Finally, run the python script below: 
-
-```sh
-$ python core.py
-```
-
-**Step 7**: <br />When the program runs successfully, the following message will be shown:
-
-```sh
-Start torrenting...
-Debugging...
-```
-
-**Step 8**: <br />Start up a web browser and go to the local designer page: http://localhost:\<port\>/designer and the status display page: http://localhost:\<port\>/status. For the access, you will be asked for the username and password, which you have previously defined during step 4. 
-
-**Step 9**: <br />After entering the sites, you will be directed into a page with the previously added background image. Now, you are allowed to design the background image with the registered data.
-
+To be updated...
 
 ## Usage
 
