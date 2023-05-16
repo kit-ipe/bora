@@ -20,6 +20,8 @@ import subprocess
 
 root = os.path.dirname(__file__)
 
+BORA_VERSION = "1.0.0"
+
 python_version = sys.version_info.major
 
 
@@ -137,7 +139,7 @@ def fetchDataADEI():
         current_timestamp = strftime("%Y-%m-%d %H:%M:%S")
         cache_data['time'] = current_timestamp
        
-    with open("./bora/.tmp.yaml", 'wb') as stream_tmp:
+    with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
     src_file = os.getcwd() + "/bora/.tmp.yaml"
     dst_file = os.getcwd() + "/bora/cache.yaml"
@@ -163,14 +165,37 @@ class ListHandler(tornado.web.RequestHandler):
 
 class StartHandler(tornado.web.RequestHandler):
     def get(self):
-        print ("Start fetchData")
-        rt.start()
+        try:
+            rt.start()
+            res = True
+        except:
+            res = False
+        
+        output = {
+            "response": res,
+            "http": "get",
+            "action": "start-fetch",
+            "time": str(datetime.datetime.now())
+        }
+        print(output)
+        self.write(output)
 
 
 class StopHandler(tornado.web.RequestHandler):
     def get(self):
-        print ("Stop fetchData")
-        rt.stop()
+        try:
+            rt.stop()
+            res = True
+        except:
+            res = False
+        output = {
+            "response": res,
+            "http": "get",
+            "action": "stop fetch",
+            "time": str(datetime.datetime.now())
+        }
+        print(output)
+        self.write(output)
 
 
 class SetTimerHandler(tornado.web.RequestHandler):
@@ -215,19 +240,39 @@ class DesignerHandler(tornado.web.RequestHandler):
 
 class VersionHandler(tornado.web.RequestHandler):
     def get(self):
-        response = {'version': '1.0.0'}
+        response = {
+            "version": BORA_VERSION,
+            "response": true,
+            "http": "get",
+            "action": "version",
+            "time": str(datetime.datetime.now())
+        }
+        print(response)
         self.write(response)
 
 
 class BackupHandler(tornado.web.RequestHandler):
     def post(self):
-        backup_dst = os.getcwd() + "/backup/"
-        fname = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        os.makedirs(backup_dst + fname)
-        copyfile("varname.yaml", backup_dst +
-                 fname + "/varname.yaml")
-        copyfile("style.yaml", backup_dst +
-                 fname + "/style.yaml")
+        try:
+            backup_dst = os.getcwd() + "/backup/"
+            fname = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            os.makedirs(backup_dst + fname)
+            copyfile("varname.yaml", backup_dst +
+                fname + "/varname.yaml")
+            copyfile("style.yaml", backup_dst +
+                fname + "/style.yaml")
+            res = True
+        except:
+            res = False
+
+        response = {
+            "response": res,
+            "http": "post",
+            "action": "backup",
+            "time": str(datetime.datetime.now())
+        }
+        print(response)
+        self.write(response)
 
 
 class SaveHandler(tornado.web.RequestHandler):
@@ -273,8 +318,8 @@ class StatusHandler(tornado.web.RequestHandler):
         }
 
         data["title"] = os.environ["BORA_TITLE"]
-
         data["server"] = os.environ["BORA_ADEI_SERVER"]
+        data["version"] = BORA_VERSION
 
         self.render('status.html', data=data)
 
@@ -476,7 +521,6 @@ class GetDataHandler(tornado.web.RequestHandler):
             try:
                 cache_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
-        
                 print(exc)
         if cache_data is None:
             cache_data = {}

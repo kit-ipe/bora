@@ -15,8 +15,9 @@
 
 <body>
 
-<div id="page_info">{{ data['title'] }} data monitoring. Last refreshed</div>
+<div id="page_info">[VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
+<div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>
     
 {% if data['style'] %}
 {% for key in data['style'] %}
@@ -880,7 +881,8 @@ function myTimer() {
                 }    
             });
             var page_title_cache = $("#page_title_cache").text();
-	    var datetime = page_title_cache + " data monitoring page. Last Sync: " + response["time"];
+            var page_version_cache = $("#page_version_cache").text();
+	    var datetime = "[VER " + page_version_cache + "] " + page_title_cache + " data monitoring page. Last Sync: " + response["time"];
    	    $("#page_info").text(datetime + " UTC");
             console.log(datetime);
 
