@@ -92,7 +92,7 @@ def fetchDataADEI():
         except yaml.YAMLError as exc:
             print(exc)
     if varname is None:
-        print("Error: Empty varname file.")
+        print("Warning: Empty varname file. Nothing to read.")
         return
 
     cache_data = {}
