@@ -219,18 +219,18 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        # serialize data
         tmp_data = {}
-        for data_source in cache_data:
-            print(data_source)
-            if data_source == "time":
-                tmp_data["time"] = cache_data["time"] 
-            else:
+        if cache_data:
+            for data_source in cache_data:
                 print(data_source)
-                for param in cache_data[data_source]:
-                    print(param)
-                    tmp_data[param] = cache_data[data_source][param]
-        
-
+                if data_source == "time":
+                    tmp_data["time"] = cache_data["time"] 
+                else:
+                    print(data_source)
+                    for param in cache_data[data_source]:
+                        print(param)
+                        tmp_data[param] = cache_data[data_source][param]
 
         with open("style.yaml", 'r') as stream:
             try:
