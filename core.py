@@ -523,10 +523,10 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
 
         if cache_data is None:
             cache_data = {}
-            cache_data[sensor_name] = query
+            cache_data["adei"][sensor_name] = query
         else:
             if sensor_name not in cache_data:
-                cache_data[sensor_name] = query
+                cache_data["adei"][sensor_name] = query
             else:
                 response = {"Error":
                             "Variable already available in varname file."}
@@ -582,7 +582,7 @@ application = tornado.web.Application([
     (r"/update/?", UpdateHandler),
     (r"/getdata/?", GetDataHandler),
     (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
-    (r"/add/(?P<db_server>[^\/]+)/?"
+    (r"/add/adei/(?P<db_server>[^\/]+)/?"
      "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
      AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'),
