@@ -18,10 +18,9 @@ from tornado.escape import json_decode, json_encode, url_escape
 from threading import Timer
 import subprocess
 
+
 root = os.path.dirname(__file__)
-
 BORA_VERSION = "1.0.0"
-
 python_version = sys.version_info.major
 
 
@@ -322,9 +321,11 @@ class StatusHandler(tornado.web.RequestHandler):
                 print(exc)
 
         tmp_data = {}
-        for data_source in varname_data:
-            for param in varname_data[data_source]:
-                tmp_data[param] = varname_data[data_source][param]
+        # serialize the data
+        if varname_data:
+            for data_source in varname_data:
+                for param in varname_data[data_source]:
+                    tmp_data[param] = varname_data[data_source][param]
 
 
         if not os.path.isfile("./bora/cache.yaml"): 
