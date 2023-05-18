@@ -41,6 +41,13 @@ span,
     left: 0;
     bottom: 0;
 }
+.hide-control {
+    background-color: black;
+    color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
 
 #tool-btn {
     padding: 20px;
@@ -50,6 +57,16 @@ span,
     background-color: rgba(0, 0, 0, 1.0);
     z-index: 100;
 }
+
+#tool-btn2 {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(0, 0, 255, 1.0);
+    z-index: 100;
+}
+
 
 .save,
 .add,
