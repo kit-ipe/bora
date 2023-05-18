@@ -35,8 +35,8 @@ span,
 .button2 {background-color: #008CBA;} /* Blue */
 .button3 {background-color: #f44336;} /* Red */ 
 .showhide {
-    background-color: #e7e7e7;
-    color: black;
+    background-color: black;
+    color: white;
     position: absolute;
     left: 0;
     bottom: 0;
