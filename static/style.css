@@ -110,6 +110,15 @@ span,
     color: darkgray;
 }
 
+#page_designer_info {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: darkgray;
+}
+
 .box_highlight {
     border-color: red;
 }

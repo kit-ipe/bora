@@ -231,6 +231,10 @@ class DesignerHandler(tornado.web.RequestHandler):
                     for param in cache_data[data_source]:
                         print(param)
                         tmp_data[param] = cache_data[data_source][param]
+                        
+        
+        
+        
 
         with open("style.yaml", 'r') as stream:
             try:
@@ -238,6 +242,7 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        # intersect of cache file and style file
         if style_data:
             index_data = list(set(tmp_data) | set(style_data))
         else:
@@ -249,11 +254,14 @@ class DesignerHandler(tornado.web.RequestHandler):
         data = {
             "cache": tmp_data,
             "style": style_data,
-            "index": index_data,
+            "index": index_data, # variable list for the ADEI panel
         }
+        
+        print(data)
 
         data["title"] = os.environ["BORA_TITLE"]
-
+        data["version"] = BORA_VERSION
+        
         self.render('designer.html', data=data)
 
 
