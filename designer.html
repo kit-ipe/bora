@@ -398,7 +398,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <div id="tool-btn3">
   <span class="info">Variable</span>
 
-<select id="varname2" style="font-size:16pt;">
+<select id="varname3" style="font-size:16pt;">
 {% if data['rtsp'] %}
   {% for key in data['rtsp'] %}
     <option value={{ key }}>{{key}}</option>
@@ -407,86 +407,17 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 {% end %}
 </select>
 
-<span class="info">Type</span>
-<select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
-  <option value="data">data</option>
-  <option value="icon">icon</option>
-  <option value="integer-to-string">integer-to-string</option>
-  <option value="header">header</option>
-  <option value="calc">calc</option>
-</select>
-<span class="info">Icon</span>
-<select id="icon" style="font-size:16pt;" disabled="true">
-  <option disabled selected value></option>
-  <option value="valve">valve</option>
-  <option value="commbit">commbit</option>
-  <option value="alarm">alarm</option>
-  <option value="TMP">TMP</option>
-  <option value="bottle">bottle</option>
-  <option value="relay">relay</option>
-  <option value="switch">switch</option>
-</select>
-<span class="info">Attribute</span>
-<select id="varattr" style="font-size:16pt;">
-  <option value="normal">Normal</option>
-  <option value="virtual">Virtual</option>
-</select>
-<span class="info">Virtual ID</span>
-<input type="text" id="virtual_id_text" placeholder="text" style="font-size:16pt; width=100px;"/>
 <br /><br />
-<span class="info">Condition: on when x </span>
-<select id="onexpression" style="font-size:16pt;" disabled>
-  <option value="onsmaller"><</option>
-  <option value="onequal">=</option>
-  <option value="ongreater">></option>
-</select>
-<input type="text" id="onvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
-<span class="info">&nbsp;&nbsp;&nbsp;&nbsp; off when x </span>
-<select id="offexpression" style="font-size:16pt;" disabled>
-  <option value="offsmaller"><</option>
-  <option value="offequal">=</option>
-  <option value="offgreater">></option>
-</select>
-<input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
-<span class="info">rotate</span>
-<input type="text" id="rotate" placeholder="icon rotation angle in deg" style="font-size:16pt; width=100px;"/>
-<br /><br />
-<span class="info">Title</span>:
-
-<input type="text" id="elem_title_text" placeholder="text" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_title_size" placeholder="size" style="font-size:16pt; width=100px;"/>
-
-<input type="text" id="elem_lesser_range" placeholder="smaller than (red)" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_larger_range" placeholder="larger than (red)" style="font-size:16pt; width=100px;"/>
-
-<select id="elem_title_style" style="font-size:16pt;">
-  <option value="400">normal</option>
-  <option value="700">bold</option>
-</select>
-
-<input type="text" id="decimal_place" placeholder="decimal place" style="font-size:16pt; width:150px;"/>
-<br /><br />
-<span class="info">Value</span>
-<input type="text" id="elem_unit_text" placeholder="unit" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_unit_size" placeholder="size" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_formula" placeholder="Equation" style="font-size:16pt; width=100px;"/>
-<select id="elem_unit_style" style="font-size:16pt;">
-  <option value="400">normal</option>
-  <option value="700">bold</option>
-</select>
-<span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
+<span class="info">Width</span>
+<input type="text" id="rtsp_width" placeholder="number" style="font-size:16pt; width=100px;"/>
+<span class="info">Height</span>
+<input type="text" id="rtsp_height" placeholder="number" style="font-size:16pt; width=100px;"/>
 <br /><br />
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
-<button class="button add" onclick="add()">Add</button>
-<button class="button remove" onclick="myremove()">Remove</button>
+<button class="button add" onclick="add_rtsp()">Add</button>
+<button class="button remove" onclick="myremove(2)">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
-<span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
-<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
-<span class="info">Link (adei)</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
-<span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
-<input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
 </div>
 
 <div id="tool-btn2">
@@ -574,7 +505,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
-<button class="button remove" onclick="myremove()">Remove</button>
+<button class="button remove" onclick="myremove(1)">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
@@ -670,7 +601,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
-<button class="button remove" onclick="myremove()">Remove</button>
+<button class="button remove" onclick="myremove(0)">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
@@ -679,7 +610,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
 </div>
 
-    
+
 <!-- java script -->
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
@@ -760,6 +691,28 @@ function showhide() {
         $("#toggle-panel").css("background-color","black");
         control_panel = 0;
     }
+}
+    
+function add_rtsp() {
+    var varname3 = $("#varname3 option:selected").text();
+    
+    if (document.getElementById(varname3)) {
+      alert('this record already exists');
+      console.log("Existed");
+      return;
+    }
+
+    console.log(varname3);
+    console.log($("#rtsp_width").val());
+    console.log($("#rtsp_height").val());
+    //var html_text = "<div id='varname3' style='position: absolute;top:0;left:200px;' class='varbox box_highlight'><iframe src='http://localhost:1984/stream.html?src=test&mode=webrtc' width='400' height='400'></iframe></div>"
+    var html_text = "<div id='camera01' style='position: absolute;top:0;left:200px; width:" + ($("#rtsp_width").val()).toString() + "px; height:" + ($("#rtsp_height").val()).toString() + "px' class='varbox box_highlight' data-type='rtsp'>" + varname3 + "</div>"
+    
+    //<iframe src='' width='400' height='400'></iframe>
+    
+    $( "body" ).append(html_text);
+    $("#camera01").draggable();
+    //$("#camera01").resizable();
 }
     
 function add() {
@@ -856,7 +809,7 @@ function add() {
                     "style='position: absolute; " +
                            "top:0; " +
                            "left:0; " +
-			   "background-color:" + background_color + "'" +
+                           "background-color:" + background_color + "'" +
                     "class='varbox box_highlight' " +
                     "id='" + varname +
                     "' data-type='" + vartype +
@@ -867,7 +820,7 @@ function add() {
                     "' data-exponential='" + data_exponential +
                     "' data-linkhtml='" + data_linkhtml +
                     "' data-trend='" + data_trend +
-		    "' data-decimal='" + decimal_place +
+                    "' data-decimal='" + decimal_place +
                     "'>" +
                     "<p>" +
                     "<span style='color: " + title_color + ";" + 
@@ -898,7 +851,7 @@ function add() {
                         "id='" + varname +
                         "' data-type='" + vartype +
                         "' data-cond='" + data_condition +
-			"' data-titlelink='" + titlelink +
+                        "' data-titlelink='" + titlelink +
                         "' data-lesser='" + data_lesser + 
  		                "' data-larger='" + data_larger + 
                         "'>" +
@@ -921,7 +874,6 @@ function add() {
                 html_text = "";
                 $('#elem_title_text').addClass('glowing_border');
             }
-            
         } else if (vartype == "calc") {
             console.log("Calc");
             if (data_formula.length > 0) {
@@ -940,7 +892,7 @@ function add() {
                         "' data-lesser='" + data_lesser + 
  		                "' data-larger='" + data_larger +
                         "' data-formula='" + data_formula +
-			"' data-decimal='" + decimal_place +
+                        "' data-decimal='" + decimal_place +
                         "'>" +
                         "<p>" +
                         "<span style='color: " + title_color + ";" + 
@@ -1008,10 +960,10 @@ function add() {
                         "' data-linkhtml='" + data_linkhtml +
                         "' data-trend='" + data_trend +
                         "'>" +
-                                "<img width='100%' height='100%' " +
-                        "style='transform:rotate(" + rotate + ")'" +
-                        "src='/static/" + icon + "_inactive.svg' ></img>" +
-                            "</div>";
+                        "<img width='100%' height='100%' " +
+                            "style='transform:rotate(" + rotate + ")'" +
+                            "src='/static/" + icon + "_inactive.svg' ></img>" +
+                        "</div>";
                      $('#onvalue').removeClass('glowing_border');
                      $('#offvalue').removeClass('glowing_border');
                  } else{
@@ -1079,17 +1031,28 @@ function add() {
             $("#"+varname).resizable();
         }
     }
-} 
-function myremove() {
-    varname = $("#varname option:selected").text();
-    vartype = $("#vartype option:selected").val();
+}
+
+function myremove(mode) {
+    var varname;
+    if (mode == 2) {
+        varname = $("#varname3 option:selected").text();
+    } else if (mode == 1) {
+        varname = $("#varname2 option:selected").text();
+    } else {
+        varname = $("#varname option:selected").text();
+    }
+    console.log(varname);
     if($("#" + varname).length > 0) {
         $("#"+varname).remove();
         console.log(varname +" removed.");
-nexpression = $("#onexpression option:selected").val();
-    onvalue = $("#onvalue").val();
+        //onexpression = $("#onexpression option:selected").val();
+        //onvalue = $("#onvalue").val();
     }
 }
+    
+    
+    
 function mysave(data) {
     console.log("saving...");
     varname = $("#varname option:selected").text();
@@ -1340,7 +1303,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
-		    tmp["decimal"] = $("#decimal_place").val();
+                    tmp["decimal"] = $("#decimal_place").val();
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1554,6 +1517,7 @@ function mysave(data) {
         }
         }
     });
+    
     $('[id^=header_]').each(function( index ) {
         tmp = {};
         var hkey = $( this ).attr('id');
@@ -1617,7 +1581,7 @@ function mysave(data) {
             	    tmp["formula"] = $("#elem_formula").val();
              	    tmp["lesser"] = $("#elem_lesser_range").val();
             	    tmp["larger"] = $("#elem_larger_range").val();
-		    tmp["decimal"] = $("#decimal_place").val();
+                    tmp["decimal"] = $("#decimal_place").val();
             
             	    header = {};
             	    header["title"] = $("#elem_title_text").val().trim();
@@ -1664,6 +1628,18 @@ function mysave(data) {
             //}
             position[key] = tmp;
         }
+    });
+    
+    $('*[data-type="rtsp"]').each(function( index ) {
+        tmp = {};
+        var key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        position[key] = tmp;
     });
     
     console.log("Check here");
