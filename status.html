@@ -101,8 +101,8 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-{% if data['style'][key]['ref'] in data['varname'] %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+{% if data['style'][key]['ref'] in data['adei'] %}
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -114,8 +114,8 @@ onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data
 
 data-adei="{{ data['server'] }}"
 
-{% if data['style'][key]['ref'] in data['varname'] %}
-data-query="{{ data['varname'][data['style'][key]['ref']] }}"
+{% if data['style'][key]['ref'] in data['adei'] %}
+data-query="{{ data['adei'][data['style'][key]['ref']] }}"
 {% else %}
 {% end %}
 
@@ -164,7 +164,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -213,7 +213,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -258,7 +258,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -303,7 +303,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -348,7 +348,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -393,7 +393,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -438,7 +438,7 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}
@@ -490,15 +490,15 @@ data-trend="{{ data['style'][key]['trend'] }}"
 {% end %}
 
 data-adei="{{ data['server'] }}"
-{% if data['style'][key]['ref'] in data['varname'] %}
-data-query="{{ data['varname'][data['style'][key]['ref']] }}"
+{% if data['style'][key]['ref'] in data['adei'] %}
+data-query="{{ data['adei'][data['style'][key]['ref']] }}"
 {% else %}
 {% end %}
 
 {% if "linkhtml" in data['style'][key] %}
 {% if data['style'][key]['linkhtml'] == 'true' %}
 {% if "server" in data %}
-onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['varname'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
+onclick="window.open( '{{ data["server"] }}#module=graph&{{ data['adei'][data['style'][key]['ref']] }}&experiment=-&window=86400&module=graph&virtual=srctree&srctree=&infomod=legend', '_blank');"
 {% else %}
 {% end %}
 {% else %}

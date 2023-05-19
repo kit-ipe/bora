@@ -63,7 +63,16 @@ span,
     position: absolute;
     left: 200px;
     bottom: 0;
-    background-color: rgba(0, 0, 255, 1.0);
+    background-color: rgba(38, 42, 86, 1.0);
+    z-index: 100;
+}
+
+#tool-btn3 {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(184, 98, 27, 1.0);
     z-index: 100;
 }
 

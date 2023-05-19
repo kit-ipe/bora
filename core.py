@@ -142,8 +142,7 @@ def fetchDataADEI():
                 cache_data['time'] = current_timestamp
                 cache_data["adei"] = tmp_cache_data
         else:
-            print("Other data source not yet implemented [TODO]")
-            print(data_source)
+            print("Other data source, do nothing: " + data_source)
        
     with open("./bora/.tmp.yaml", 'w') as stream_tmp:
         stream_tmp.write(yaml.dump(cache_data, default_flow_style=False))
@@ -219,6 +218,7 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        """
         # serialize data
         tmp_data = {}
         if cache_data:
@@ -231,11 +231,15 @@ class DesignerHandler(tornado.web.RequestHandler):
                     for param in cache_data[data_source]:
                         print(param)
                         tmp_data[param] = cache_data[data_source][param]
-                        
+        """
         
+        # check other data sources: rtsp or rest
+        with open("varname.yaml", 'r') as stream:
+            try:
+                varname_data = yaml.load(stream, Loader=yaml.Loader)
+            except yaml.YAMLError as exc:
+                print(exc)
         
-        
-
         with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
@@ -244,17 +248,19 @@ class DesignerHandler(tornado.web.RequestHandler):
 
         # intersect of cache file and style file
         if style_data:
-            index_data = list(set(tmp_data) | set(style_data))
+            index_data = list(set(cache_data) | set(style_data))
         else:
-            index_data = tmp_data
+            index_data = cache_data
 
         if index_data is not None:
             index_data = sorted(index_data)
 
         data = {
-            "cache": tmp_data,
+            "cache": cache_data,
             "style": style_data,
             "index": index_data, # variable list for the ADEI panel
+            "rtsp": varname_data["rtsp"],
+            "rest": varname_data["rest"]
         }
         
         print(data)
@@ -328,13 +334,14 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        """
         tmp_data = {}
         # serialize the data
         if varname_data:
             for data_source in varname_data:
                 for param in varname_data[data_source]:
                     tmp_data[param] = varname_data[data_source][param]
-
+        """
 
         if not os.path.isfile("./bora/cache.yaml"): 
             print("BORA is loading data, please refresh the page again in a moment.")
@@ -348,12 +355,11 @@ class StatusHandler(tornado.web.RequestHandler):
 
         data = {
             "style": style_data,
-            "varname": tmp_data,
+            "adei": varname_data["adei"],
             "cache": cache_data
         }
 
         print("Status Handler")
-        #print(tmp_data)
 
         data["title"] = os.environ["BORA_TITLE"]
         data["server"] = os.environ["BORA_ADEI_SERVER"]

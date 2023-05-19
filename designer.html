@@ -395,19 +395,112 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 {% else %}
 {% end %}
 
-<div id="tool-btn2">
-<span class="info">Variable</span>
-<select id="varname" style="font-size:16pt;">
-{% if data['index'] %}  
-  {% for key in data['index'] %}
-    {% if key != "time" %}  
+<div id="tool-btn3">
+  <span class="info">Variable</span>
+
+<select id="varname2" style="font-size:16pt;">
+{% if data['rtsp'] %}
+  {% for key in data['rtsp'] %}
     <option value={{ key }}>{{key}}</option>
-    {% else %}
-    {% end %}
   {% end %}
 {% else %}
 {% end %}
 </select>
+
+<span class="info">Type</span>
+<select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
+  <option value="data">data</option>
+  <option value="icon">icon</option>
+  <option value="integer-to-string">integer-to-string</option>
+  <option value="header">header</option>
+  <option value="calc">calc</option>
+</select>
+<span class="info">Icon</span>
+<select id="icon" style="font-size:16pt;" disabled="true">
+  <option disabled selected value></option>
+  <option value="valve">valve</option>
+  <option value="commbit">commbit</option>
+  <option value="alarm">alarm</option>
+  <option value="TMP">TMP</option>
+  <option value="bottle">bottle</option>
+  <option value="relay">relay</option>
+  <option value="switch">switch</option>
+</select>
+<span class="info">Attribute</span>
+<select id="varattr" style="font-size:16pt;">
+  <option value="normal">Normal</option>
+  <option value="virtual">Virtual</option>
+</select>
+<span class="info">Virtual ID</span>
+<input type="text" id="virtual_id_text" placeholder="text" style="font-size:16pt; width=100px;"/>
+<br /><br />
+<span class="info">Condition: on when x </span>
+<select id="onexpression" style="font-size:16pt;" disabled>
+  <option value="onsmaller"><</option>
+  <option value="onequal">=</option>
+  <option value="ongreater">></option>
+</select>
+<input type="text" id="onvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
+<span class="info">&nbsp;&nbsp;&nbsp;&nbsp; off when x </span>
+<select id="offexpression" style="font-size:16pt;" disabled>
+  <option value="offsmaller"><</option>
+  <option value="offequal">=</option>
+  <option value="offgreater">></option>
+</select>
+<input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
+<span class="info">rotate</span>
+<input type="text" id="rotate" placeholder="icon rotation angle in deg" style="font-size:16pt; width=100px;"/>
+<br /><br />
+<span class="info">Title</span>:
+
+<input type="text" id="elem_title_text" placeholder="text" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_title_size" placeholder="size" style="font-size:16pt; width=100px;"/>
+
+<input type="text" id="elem_lesser_range" placeholder="smaller than (red)" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_larger_range" placeholder="larger than (red)" style="font-size:16pt; width=100px;"/>
+
+<select id="elem_title_style" style="font-size:16pt;">
+  <option value="400">normal</option>
+  <option value="700">bold</option>
+</select>
+
+<input type="text" id="decimal_place" placeholder="decimal place" style="font-size:16pt; width:150px;"/>
+<br /><br />
+<span class="info">Value</span>
+<input type="text" id="elem_unit_text" placeholder="unit" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_unit_size" placeholder="size" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_formula" placeholder="Equation" style="font-size:16pt; width=100px;"/>
+<select id="elem_unit_style" style="font-size:16pt;">
+  <option value="400">normal</option>
+  <option value="700">bold</option>
+</select>
+<span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
+<br /><br />
+<button class="button save" onclick="backup()">Backup</button>
+<button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
+<button class="button add" onclick="add()">Add</button>
+<button class="button remove" onclick="myremove()">Remove</button>
+<button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
+<span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
+<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
+<span class="info">Link (adei)</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
+<span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
+<input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
+</div>
+
+<div id="tool-btn2">
+  <span class="info">Variable</span>
+
+<select id="varname2" style="font-size:16pt;">
+{% if data['rtsp'] %}
+  {% for key in data['rtsp'] %}
+    <option value={{ key }}>{{key}}</option>
+  {% end %}
+{% else %}
+{% end %}
+</select>
+
 <span class="info">Type</span>
 <select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
   <option value="data">data</option>
@@ -591,6 +684,8 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
 <script>
+    
+var control_panel = 0;
 
 function hidecontrol() {
     if ($("#toggle-panel").is(":visible")) {
@@ -598,11 +693,14 @@ function hidecontrol() {
         $("#toggle-panel").hide();
         $("#tool-btn").hide();
         $("#tool-btn2").hide();
+        $("#tool-btn3").hide();
     } else {
         console.log("button not visible");
         $("#toggle-panel").show();
         $("#tool-btn").show();
         $("#tool-btn2").show();
+        $("#tool-btn3").show();
+        control_panel = 0;
         $("#toggle-panel").text("ADEI");
         $("#toggle-panel").css("background-color","black");
     }
@@ -639,15 +737,29 @@ function backup() {
 }    
     
 function showhide() {
-    console.log( $("#toggle-panel").text() );
-    if ( $("#toggle-panel").text() == "ADEI") {
-        $("#toggle-panel").text("CTRL");
-        $("#toggle-panel").css("background-color","blue");
+    
+    if (control_panel == 0) {
+        $("#toggle-panel").text("REST");
+        $("#tool-btn").hide();
+        $("#tool-btn2").show();
+        $("#tool-btn3").hide();
+        $("#toggle-panel").css("background-color","rgba(38, 42, 86, 1.0)");
+        control_panel = 1;
+    } else if (control_panel == 1) {
+        $("#toggle-panel").text("RTSP");
+        $("#tool-btn").hide();
+        $("#tool-btn2").hide();
+        $("#tool-btn3").show();
+        $("#toggle-panel").css("background-color","rgba(184, 98, 27, 1.0)");
+        control_panel = 2;
     } else {
         $("#toggle-panel").text("ADEI");
+        $("#tool-btn").show();
+        $("#tool-btn2").hide();
+        $("#tool-btn3").hide();
         $("#toggle-panel").css("background-color","black");
+        control_panel = 0;
     }
-    $("#tool-btn").toggle();
 }
     
 function add() {
