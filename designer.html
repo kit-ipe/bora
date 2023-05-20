@@ -434,12 +434,12 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
   <span class="info">Variable</span>
 
 <select id="varname2" style="font-size:16pt;">
-{% if data['rtsp'] %}
-  {% for key in data['rtsp'] %}
-    <option value={{ key }}>{{key}}</option>
-  {% end %}
-{% else %}
-{% end %}
+    {% if data['rest'] %}
+      {% for key in data['rest'] %}
+        <option value={{ key }}>{{key}}</option>
+      {% end %}
+    {% else %}
+    {% end %}
 </select>
 
 <span class="info">Type</span>
@@ -633,6 +633,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <script>
     
 var control_panel = 0;
+var varname;
 
 function hidecontrol() {
     if ($("#toggle-panel").is(":visible")) {
@@ -731,9 +732,10 @@ function add_rtsp() {
     //$("#camera01").resizable();
     
     $('#'+varname3).click(function() {
-        //console.log($(this).attr("id"));
+        varname = $(this).attr("id");
         $("#varname3").val($(this).attr("id"));
         $("#buttonHighlight").trigger("click");
+        
     });
 }
     
@@ -1689,6 +1691,12 @@ function mysave(data) {
     
 function highlight(mydata) {
     console.log("highlight");
+    console.log(varname);
+    
+    // switching to current control panel
+    console.log($("#varname option:selected").text());
+    console.log($("#varname2 option:selected").text());
+    console.log($("#varname3 option:selected").text());
     
     
     var varname;
