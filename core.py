@@ -356,7 +356,9 @@ class StatusHandler(tornado.web.RequestHandler):
         data = {
             "style": style_data,
             "adei": varname_data["adei"],
-            "cache": cache_data
+            "cache": cache_data,
+            "rtsp": varname_data["rtsp"],
+            "rest": varname_data["rest"]
         }
 
         print("Status Handler")

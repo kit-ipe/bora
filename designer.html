@@ -25,6 +25,16 @@
 
 {% if data['style'] %}
 {% for key in data['style'] %}
+
+
+{% if data['style'][key]['type'] == "rtsp" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;'>{{ key }}</div>
+
+{% else %}
+{% end %}
+
     
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
@@ -416,7 +426,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add_rtsp()">Add</button>
-<button class="button remove" onclick="myremove(2)">Remove</button>
+<button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 </div>
 
@@ -505,7 +515,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
-<button class="button remove" onclick="myremove(1)">Remove</button>
+<button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
@@ -520,8 +530,14 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <select id="varname" style="font-size:16pt;">
 {% if data['index'] %}  
   {% for key in data['index'] %}
-    {% if key != "time" %}  
-    <option value={{ key }}>{{key}}</option>
+    {% if key != "time" %}
+        {% if data['style'][key]['type'] != "rtsp" %}
+          {% if data['style'][key]['type'] != "rest" %}
+          <option value={{ key }}>{{key}}</option>
+          {% else %}
+          {% end %}
+        {% else %}
+        {% end %}
     {% else %}
     {% end %}
   {% end %}
@@ -601,7 +617,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
 <button class="button add" onclick="add()">Add</button>
-<button class="button remove" onclick="myremove(0)">Remove</button>
+<button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
 <input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
@@ -1033,11 +1049,13 @@ function add() {
     }
 }
 
-function myremove(mode) {
+
+    
+function myremove() {
     var varname;
-    if (mode == 2) {
+    if (control_panel == 2) {
         varname = $("#varname3 option:selected").text();
-    } else if (mode == 1) {
+    } else if (control_panel == 1) {
         varname = $("#varname2 option:selected").text();
     } else {
         varname = $("#varname option:selected").text();
@@ -1665,6 +1683,8 @@ function mysave(data) {
     
 function highlight(mydata) {
     console.log("highlight");
+    
+    
     varname = $("#varname option:selected").text();
     vartype = $("#"+varname).attr("data-type");
     icon = $("#"+varname).attr("data-icon");

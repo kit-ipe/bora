@@ -22,6 +22,15 @@
 {% if data['style'] %}
 {% for key in data['style'] %}
 
+{% if data['style'][key]['type'] == "rtsp" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;'><iframe src='{{ data['rtsp'][key] }}' width='{{ data['style'][key]['width'] }}' height='{{ data['style'][key]['height'] }}'></iframe></div>
+
+{% else %}
+{% end %}
+
+
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
