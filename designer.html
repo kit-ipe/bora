@@ -441,7 +441,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
     {% else %}
     {% end %}
 </select>
-
+<!--
 <span class="info">Type</span>
 <select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
   <option value="data">data</option>
@@ -522,6 +522,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <span class="info">Link (adei)</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
 <span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
 <input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
+--->
 </div>
     
     
@@ -531,13 +532,23 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 {% if data['index'] %}  
   {% for key in data['index'] %}
     {% if key != "time" %}
-        {% if data['style'][key]['type'] != "rtsp" %}
-          {% if data['style'][key]['type'] != "rest" %}
-          <option value={{ key }}>{{key}}</option>
-          {% else %}
-          {% end %}
+    
+    {% if key in data['style'] %}
+        {% if 'type' in data['style'][key] %}
+        
+            {% if data['style'][key]['type'] != "rtsp" %}
+              {% if data['style'][key]['type'] != "rest" %}
+              <option value={{ key }}>{{key}}</option>
+              {% else %}
+              {% end %}
+            {% else %}
+            {% end %}
         {% else %}
         {% end %}
+    {% else %}
+    <option value={{ key }}>{{key}}</option>
+    {% end %}
+        
     {% else %}
     {% end %}
   {% end %}
@@ -795,7 +806,9 @@ function add() {
     background_color = $("#background_color").val(); 
     varval = $( "#varname option:selected").val();
     varname = $("#varname option:selected").text();
+    
     vartype = $("#vartype option:selected").val();
+    
     icon = $("#icon option:selected").val();
     onexpression = $("#onexpression option:selected").val();
     onvalue = $("#onvalue").val();
@@ -1707,10 +1720,12 @@ function highlight(mydata) {
     } else {
         varname = $("#varname option:selected").text();
     }
+    var vartype = $("#vartype option:selected").val();
     
-    console.log(varname);
+    console.log(varname, vartype);
     
     if (control_panel == 0) {
+        console.log("Inside CP = 1");
         //varname = $("#varname option:selected").text();
         vartype = $("#"+varname).attr("data-type");
         icon = $("#"+varname).attr("data-icon");
