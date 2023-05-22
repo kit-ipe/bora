@@ -1728,6 +1728,24 @@ function highlight(mydata) {
         console.log("Inside CP = 1");
         //varname = $("#varname option:selected").text();
         vartype = $("#"+varname).attr("data-type");
+        
+        $("#varname option").each(function()
+        {
+            $("#"+ $(this).val()).removeClass("box_highlight");
+        });
+        $("#varname2 option").each(function()
+        {
+            $("#"+ $(this).val()).removeClass("box_highlight");
+        });
+        $("#varname3 option").each(function()
+        {
+            $("#"+ $(this).val()).removeClass("box_highlight");
+        });
+        
+        $("#"+varname).addClass("box_highlight");
+        
+    
+        
         icon = $("#"+varname).attr("data-icon");
         if (typeof vartype == "undefined") {
             $("#vartype").val("data");
@@ -2001,24 +2019,7 @@ function highlight(mydata) {
             }
         }
         
-        for(key in mydata) {
-            //console.log(key, varname);
-            /*if(($("#" + key).length > 0) && (key == varname) ) {
-                //if (!$("#"+varname).hasClass("box_highlight")) {
-                $("#"+key).addClass("box_highlight");
-                //}
-            } else {
-                $("#"+key).removeClass("box_highlight");
-            }*/
-            if(($("#" + key).length > 0) && (varname.match(key))) {
-                //$("#"+key).addClass("box_highlight");
-                console.log("on", key, varname);
-                $("#"+varname).addClass("box_highlight");
-            } else {
-                //console.log("off");
-                $("div").not(document.getElementById(varname)).removeClass("box_highlight");
-            }
-        }
+        
     } else if (control_panel == 1) {
         
     } else { // control_panel = 2
