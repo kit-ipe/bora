@@ -27,11 +27,20 @@
 {% for key in data['style'] %}
 
 
+{% if data['style'][key]['type'] == "rest" %}
+
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='margin-right: 20px;color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};' class='title'>{{ data['style'][key]['header']['title'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['size'] }};'></div>
+
+{% else %}
+{% end %}
+
+
 {% if data['style'][key]['type'] == "rtsp" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px;' data-type='rtsp'>{{ key }}</div>
-
 {% else %}
 {% end %}
 
@@ -446,9 +455,7 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 
 <input type="text" id="elem_title_text_rest" placeholder="text" style="font-size:16pt; width=100px;"/>
 <input type="text" id="elem_title_size_rest" placeholder="size" style="font-size:16pt; width=100px;"/>
-
 <input type="text" id="elem_input_size_rest" placeholder="input size" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_input_width_rest" placeholder="input width" style="font-size:16pt; width=100px;"/>
 
 <select id="elem_title_style_rest" style="font-size:16pt;">
   <option value="400">normal</option>
@@ -673,7 +680,7 @@ function add_rest() {
 
     var html_text = "<div id='" + varname2 + "' style='position: absolute;top:200px;left:200px' " +
         "background-color:" + $("#background_color_rest").val() + ";' class='varbox' data-type='rest'>" +
-        "<p><span style='margin-right: 20px;color: #000; font-size: " + $("#elem_title_size_rest").val() + "px; font-weight: " + $("#elem_title_style_rest").val() + ";' class='title'>" + $("#elem_title_text_rest").val() + "</span> <input type='text' style='font-size:" + $("#elem_input_size_rest").val() + "pt; width= " + $("#elem_input_width_rest").val() + "px;'>"
+        "<p><span style='margin-right: 20px;color: #000; font-size: " + $("#elem_title_size_rest").val() + "px; font-weight: " + $("#elem_title_style_rest").val() + ";' class='title'>" + $("#elem_title_text_rest").val() + "</span> <input type='text' style='font-size:" + $("#elem_input_size_rest").val() + "px; width= " + $("#elem_input_width_rest").val() + "px;'>"
     
     console.log( $("#background_color_rest").val());
     console.log( $("#elem_title_text_rest").val());
@@ -1680,6 +1687,32 @@ function mysave(data) {
         position[key] = tmp;
     });
     
+    $('*[data-type="rest"]').each(function( index ) {
+        tmp = {};
+        var key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["type"] = $("#"+key).attr("data-type");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["background-color"] = $("#"+key).css("background-color");
+        
+        header = {};
+        header["size"] = $("#"+key+ " > p >span").css("font-size");
+        header["weight"] = $("#"+key + " > p > span").css("font-weight");
+        header["title"] = $("#"+key + " > p > span").text();
+        
+        input = {};
+        input["size"] = $("#"+key + " > p > input").css("font-size");
+        input["weight"] = $("#"+key + " > p > input").css("font-weight");
+        //input["width"] = $("#"+key + " > p > input").css("width");
+        
+        tmp["header"] = header;
+        tmp["input"] = input;
+        position[key] = tmp;
+    });
+    
     console.log("Check here");
     //console.log(position);
     var dataToSend = JSON.stringify(position);
@@ -1723,27 +1756,26 @@ function highlight(mydata) {
     
     console.log(varname, vartype);
     
+    
+    $("#varname option").each(function()
+    {
+        $("#"+ $(this).val()).removeClass("box_highlight");
+    });
+    $("#varname2 option").each(function()
+    {
+        $("#"+ $(this).val()).removeClass("box_highlight");
+    });
+    $("#varname3 option").each(function()
+    {
+        $("#"+ $(this).val()).removeClass("box_highlight");
+    });
+    
     if (control_panel == 0) {
-        console.log("Inside CP = 1");
+        console.log("CP=0");
         //varname = $("#varname option:selected").text();
         vartype = $("#"+varname).attr("data-type");
         
-        $("#varname option").each(function()
-        {
-            $("#"+ $(this).val()).removeClass("box_highlight");
-        });
-        $("#varname2 option").each(function()
-        {
-            $("#"+ $(this).val()).removeClass("box_highlight");
-        });
-        $("#varname3 option").each(function()
-        {
-            $("#"+ $(this).val()).removeClass("box_highlight");
-        });
-        
         $("#"+varname).addClass("box_highlight");
-        
-    
         
         icon = $("#"+varname).attr("data-icon");
         if (typeof vartype == "undefined") {
@@ -2020,9 +2052,25 @@ function highlight(mydata) {
         
         
     } else if (control_panel == 1) {
+        console.log("CP=1");
+        $('*[data-type="rest"]').each(function( index ) {
+            var key = $( this ).attr('id');
+            console.log($( this ).width());
+            if(($("#" + key).length > 0) && (varname.match(key))) {
+                //$("#"+key).addClass("box_highlight");
+                console.log("on", key, varname);
+                $("#"+varname).addClass("box_highlight");
+                $("#rtsp_width").val( Math.round($( this ).width()) );
+                $("#rtsp_height").val( Math.round($( this ).height()) );
+            } else {
+                //console.log("off");
+                $("div").not(document.getElementById(varname)).removeClass("box_highlight");
+            }
+        });
+        
         
     } else { // control_panel = 2
-        console.log("TRIGGER HIGHLIGHT?");
+        console.log("CP=2");
         
         $('*[data-type="rtsp"]').each(function( index ) {
             var key = $( this ).attr('id');
@@ -2044,27 +2092,6 @@ function highlight(mydata) {
     
 
 jQuery(window).load(function () {
-    
-    $("input").keydown(function(e){
-        console.log("Input Keydown");
-        if(e.which == 13) {
-            e.preventDefault();
-
-            console.log("Pressed Enter: " + (this).attr('id'));
-            $(this).css("background-color", "yellow");
-            /*
-            var id = $(this).attr('id');
-            var value = $(this).val();
-
-            alert('Enter pressed for '+id+'\n'+
-              'Value = '+value;
-            )
-             */
-            
-            return false;
-        }
-        
-    });
 
     $("#varname > option").each(function() {
         if ($('#'+this.text).length){
