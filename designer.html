@@ -441,88 +441,28 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
     {% else %}
     {% end %}
 </select>
-<!--
-<span class="info">Type</span>
-<select id="vartype" onchange="inputEnable()" style="font-size:16pt;">
-  <option value="data">data</option>
-  <option value="icon">icon</option>
-  <option value="integer-to-string">integer-to-string</option>
-  <option value="header">header</option>
-  <option value="calc">calc</option>
-</select>
-<span class="info">Icon</span>
-<select id="icon" style="font-size:16pt;" disabled="true">
-  <option disabled selected value></option>
-  <option value="valve">valve</option>
-  <option value="commbit">commbit</option>
-  <option value="alarm">alarm</option>
-  <option value="TMP">TMP</option>
-  <option value="bottle">bottle</option>
-  <option value="relay">relay</option>
-  <option value="switch">switch</option>
-</select>
-<span class="info">Attribute</span>
-<select id="varattr" style="font-size:16pt;">
-  <option value="normal">Normal</option>
-  <option value="virtual">Virtual</option>
-</select>
-<span class="info">Virtual ID</span>
-<input type="text" id="virtual_id_text" placeholder="text" style="font-size:16pt; width=100px;"/>
-<br /><br />
-<span class="info">Condition: on when x </span>
-<select id="onexpression" style="font-size:16pt;" disabled>
-  <option value="onsmaller"><</option>
-  <option value="onequal">=</option>
-  <option value="ongreater">></option>
-</select>
-<input type="text" id="onvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
-<span class="info">&nbsp;&nbsp;&nbsp;&nbsp; off when x </span>
-<select id="offexpression" style="font-size:16pt;" disabled>
-  <option value="offsmaller"><</option>
-  <option value="offequal">=</option>
-  <option value="offgreater">></option>
-</select>
-<input type="text" id="offvalue" placeholder="number" style="font-size:16pt; width=100px;" disabled/>
-<span class="info">rotate</span>
-<input type="text" id="rotate" placeholder="icon rotation angle in deg" style="font-size:16pt; width=100px;"/>
 <br /><br />
 <span class="info">Title</span>:
 
-<input type="text" id="elem_title_text" placeholder="text" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_title_size" placeholder="size" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_title_text_rest" placeholder="text" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_title_size_rest" placeholder="size" style="font-size:16pt; width=100px;"/>
 
-<input type="text" id="elem_lesser_range" placeholder="smaller than (red)" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_larger_range" placeholder="larger than (red)" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_input_size_rest" placeholder="input size" style="font-size:16pt; width=100px;"/>
+<input type="text" id="elem_input_width_rest" placeholder="input width" style="font-size:16pt; width=100px;"/>
 
-<select id="elem_title_style" style="font-size:16pt;">
+<select id="elem_title_style_rest" style="font-size:16pt;">
   <option value="400">normal</option>
   <option value="700">bold</option>
 </select>
+<br /><br />
 
-<input type="text" id="decimal_place" placeholder="decimal place" style="font-size:16pt; width:150px;"/>
-<br /><br />
-<span class="info">Value</span>
-<input type="text" id="elem_unit_text" placeholder="unit" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_unit_size" placeholder="size" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_condition_range" placeholder="condition (red)" style="font-size:16pt; width=100px;"/>
-<input type="text" id="elem_formula" placeholder="Equation" style="font-size:16pt; width=100px;"/>
-<select id="elem_unit_style" style="font-size:16pt;">
-  <option value="400">normal</option>
-  <option value="700">bold</option>
-</select>
-<span class="info">Exp</span><input type="checkbox" id="elem_exponential" style="font-size:16pt; width:20px; height:20px;"/>
-<br /><br />
 <button class="button save" onclick="backup()">Backup</button>
 <button style="display:none;" id="buttonHighlight" class="button highlight" onclick="highlight({{ data['cache'] }})">Highlight</button>
-<button class="button add" onclick="add()">Add</button>
+<button class="button add" onclick="add_rest()">Add</button>
 <button class="button remove" onclick="myremove()">Remove</button>
 <button class="button save" onclick="mysave({{ data['cache'] }})">Save</button>
 <span class="info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Background colour</span>
-<input type="text" id="background_color" placeholder="hex code" style="font-size:16pt; width=100px;"/>
-<span class="info">Link (adei)</span><input type="checkbox" id="elem_linkhtml" style="font-size:16pt; width:20px; height:20px;"/>
-<span class="info">Trend</span><input type="checkbox" id="elem_trend" style="font-size:16pt; width:20px; height:20px;"/>
-<input type="text" id="titlelink" placeholder="header link" style="font-size:16pt; width:150px;"/>
---->
+<input type="text" id="background_color_rest" placeholder="hex code" style="font-size:16pt; width=100px;"/>
 </div>
     
     
@@ -721,6 +661,60 @@ function showhide() {
     }
 }
     
+function add_rest() {
+    var varname2 = $("#varname2 option:selected").text();
+        
+    if (document.getElementById(varname2)) {
+        alert('this record already exists');
+        console.log("Existed");
+        return;
+    }
+    console.log(varname2);
+
+    var html_text = "<div id='" + varname2 + "' style='position: absolute;top:200px;left:200px' " +
+        "background-color:" + $("#background_color_rest").val() + ";' class='varbox' data-type='rest'>" +
+        "<p><span style='margin-right: 20px;color: #000; font-size: " + $("#elem_title_size_rest").val() + "px; font-weight: " + $("#elem_title_style_rest").val() + ";' class='title'>" + $("#elem_title_text_rest").val() + "</span> <input type='text' style='font-size:" + $("#elem_input_size_rest").val() + "pt; width= " + $("#elem_input_width_rest").val() + "px;'>"
+    
+    console.log( $("#background_color_rest").val());
+    console.log( $("#elem_title_text_rest").val());
+    console.log( $("#elem_title_size_rest").val());
+    console.log( $("#elem_input_size_rest").val());
+    console.log( $("#elem_input_width_rest").val());
+    console.log( $("#elem_title_style_rest").val());
+    
+        
+    $( "body" ).append(html_text);
+    $("#"+varname2).draggable();
+    $("#"+varname2).resizable();
+        
+    $('#'+varname2).click(function() {
+        varname = $(this).attr("id");
+        $("#varname2").val($(this).attr("id"));
+        $("#buttonHighlight").trigger("click");
+    });
+    
+    $("#"+varname2+" > input").keydown(function(e){
+        console.log("Input Keydown");
+        if(e.which == 13) {
+            e.preventDefault();
+
+            console.log("Pressed Enter: " + (this).attr('id'));
+            $(this).css("background-color", "yellow");
+            /*
+            var id = $(this).attr('id');
+            var value = $(this).val();
+
+            alert('Enter pressed for '+id+'\n'+
+              'Value = '+value;
+            )
+             */
+            
+            return false;
+        }
+        
+    });
+}
+    
 function add_rtsp() {
     var varname3 = $("#varname3 option:selected").text();
     
@@ -771,33 +765,38 @@ function add() {
     
     data_formula = $("#elem_formula").val();
     
+    //console.log(key);
+    
     virtual_id = $("#virtual_id_text").val();
     virtual_id = virtual_id.trim();
     if (virtual_id == "") {
         virtual_id = "0";
     }
+    
+    
     if ($('#elem_exponential').is(":checked")) {
         data_exponential = true;
-        $("#"+key).attr("data-exponential", true);
+        //$("#"+key).attr("data-exponential", true);
     } else {
         data_exponential = false;
-        $("#"+key).attr("data-exponential", false);
+        //$("#"+key).attr("data-exponential", false);
     }
     if ($('#elem_linkhtml').is(":checked")) {
         data_linkhtml = true;
-        $("#"+key).attr("data-linkhtml", true);
+        //$("#"+key).attr("data-linkhtml", true);
     } else {
         data_linkhtml = false;
-        $("#"+key).attr("data-linkhtml", false);
+        //$("#"+key).attr("data-linkhtml", false);
     }
      
     if ($('#elem_trend').is(":checked")) {
         data_trend = true;
-        $("#"+key).attr("data-trend", true);
+        //$("#"+key).attr("data-trend", true);
     } else {
         data_trend = false;
-        $("#"+key).attr("data-trend", false);
+        //$("#"+key).attr("data-trend", false);
     }
+    
  
     data_lesser = $("#elem_lesser_range").val();
     data_larger = $("#elem_larger_range").val();
@@ -2045,6 +2044,27 @@ function highlight(mydata) {
     
 
 jQuery(window).load(function () {
+    
+    $("input").keydown(function(e){
+        console.log("Input Keydown");
+        if(e.which == 13) {
+            e.preventDefault();
+
+            console.log("Pressed Enter: " + (this).attr('id'));
+            $(this).css("background-color", "yellow");
+            /*
+            var id = $(this).attr('id');
+            var value = $(this).val();
+
+            alert('Enter pressed for '+id+'\n'+
+              'Value = '+value;
+            )
+             */
+            
+            return false;
+        }
+        
+    });
 
     $("#varname > option").each(function() {
         if ($('#'+this.text).length){
