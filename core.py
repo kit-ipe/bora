@@ -20,7 +20,7 @@ import subprocess
 
 
 root = os.path.dirname(__file__)
-BORA_VERSION = "1.0.0"
+BORA_VERSION = "1.1.0"
 python_version = sys.version_info.major
 
 
