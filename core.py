@@ -39,6 +39,7 @@ def setup_custom_logger(name):
 
 logger = setup_custom_logger('BORA')
 
+"""
 class RepeatedTimer(object):
     def __init__(self, interval, function, *args, **kwargs):
         self._timer = None
@@ -82,8 +83,10 @@ months = {
     'Nov' : 11,
     'Dec' : 12
 }
+"""
 
 
+"""
 def fetchDataADEI():
 
     with open("varname.yaml", 'r') as stream:
@@ -149,11 +152,7 @@ def fetchDataADEI():
     src_file = os.getcwd() + "/bora/.tmp.yaml"
     dst_file = os.getcwd() + "/bora/cache.yaml"
     shutil.copy(src_file, dst_file)
-
-
-class BaseHandler(tornado.web.RequestHandler):
-    def get_current(self):
-        return self.get_secure_cookie("user")
+"""
 
 
 class ListHandler(tornado.web.RequestHandler):
@@ -167,7 +166,7 @@ class ListHandler(tornado.web.RequestHandler):
             response = {"error": "No data entry."}
         self.write(response)
 
-
+"""
 class StartHandler(tornado.web.RequestHandler):
     def get(self):
         try:
@@ -184,8 +183,9 @@ class StartHandler(tornado.web.RequestHandler):
         }
         print(output)
         self.write(output)
+"""
 
-
+"""
 class StopHandler(tornado.web.RequestHandler):
     def get(self):
         try:
@@ -201,13 +201,14 @@ class StopHandler(tornado.web.RequestHandler):
         }
         print(output)
         self.write(output)
+"""
 
-
+"""
 class SetTimerHandler(tornado.web.RequestHandler):
     def get(self, duration):
         print ("Set interval")
         rt.setInterval(float(duration))
-
+"""
 
 class DesignerHandler(tornado.web.RequestHandler):
     def get(self):
@@ -369,7 +370,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
         self.render('status.html', data=data)
 
-
+"""
 class UpdateHandler(tornado.web.RequestHandler):
     def get(self):
         print( "Update Sensor Definition")
@@ -441,18 +442,18 @@ class UpdateHandler(tornado.web.RequestHandler):
             response = {"success": "Data entry inserted."}
 
         rt.start()
+"""
 
 
+"""
 class AdeiKatrinHandler(tornado.web.RequestHandler):
     def get(self, **params):
         sensor_name = str(params["sensor_name"])
-        """
-        {'db_group': u'320_KRY_Kryo_4K_CurLead',
-         'db_name': u'ControlSystem_CPS',
-         'sensor_name': u'320-RTP-8-1103',
-         'db_server': u'cscps',
-         'control_group': u'320_KRY_Kryo_3K'}
-        """
+        #{'db_group': u'320_KRY_Kryo_4K_CurLead',
+        # 'db_name': u'ControlSystem_CPS',
+        # 'sensor_name': u'320-RTP-8-1103',
+        # 'db_server': u'cscps',
+        # 'control_group': u'320_KRY_Kryo_3K'}
         dest = os.environ["BORA_ADEI_SERVER"] + 'services/getdata.php'
         query_cmds = []
         query_cmds.append("db_server="+str(params['db_server']))
@@ -555,6 +556,7 @@ class AdeiKatrinHandler(tornado.web.RequestHandler):
             response = {"success": "Data entry inserted."}
 
         self.write(response)
+"""
 
 
 class GetDataHandler(tornado.web.RequestHandler):
@@ -584,24 +586,25 @@ class GetDataHandler(tornado.web.RequestHandler):
         self.write(tmp_data)
 
 
-print ("Running...")
-rt = RepeatedTimer(int(os.environ["BORA_POLLING"]), fetchDataADEI)
+#print ("Running...")
+#rt = RepeatedTimer(int(os.environ["BORA_POLLING"]), fetchDataADEI)
+
 
 application = tornado.web.Application([
-    (r"/version/?", VersionHandler),
-    (r"/list/?", ListHandler),
-    (r"/start/?", StartHandler),
-    (r"/backup/?", BackupHandler),
-    (r"/stop/?", StopHandler),
+    (r"/version/?", VersionHandler), 
+    (r"/list/?", ListHandler), # list sensors in cache
+    #(r"/start/?", StartHandler), # start timer
+    (r"/backup/?", BackupHandler), # save the varname and style yamls into backup folder
+    #(r"/stop/?", StopHandler), # stop timer
     (r"/designer/?", DesignerHandler),
     (r"/", StatusHandler),
-    (r"/save/?", SaveHandler),
-    (r"/update/?", UpdateHandler),
-    (r"/getdata/?", GetDataHandler),
-    (r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler),
-    (r"/add/adei/(?P<db_server>[^\/]+)/?"
-     "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
-     AdeiKatrinHandler)
+    (r"/save/?", SaveHandler), # save the style from frontend to backend yaml file
+    #(r"/update/?", UpdateHandler), # update the cache file with the varname file
+    (r"/getdata/?", GetDataHandler), # get data from cache file
+    #(r"/timer/(?P<duration>[^\/]+)/?", SetTimerHandler)
+    #(r"/add/adei/(?P<db_server>[^\/]+)/?"
+    # "(?P<db_name>[^\/]+)/?(?P<db_group>[^\/]+)/?(?P<sensor_name>[^\/]+)?",
+    # AdeiKatrinHandler)
 ], debug=True, static_path=os.path.join(root, 'static'),
     cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
 
