@@ -588,6 +588,8 @@ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
 <!-- java script -->
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
+<script src="{{ static_url("dat.gui.js") }}"></script>
+
 <script>
     
 var control_panel = 0;
@@ -2089,10 +2091,162 @@ function highlight(mydata) {
         
     }
 }
+
+/*
+var controls = new function() {
+    this.rotationSpeed = 0.02;
+    this.bouncingSpeed = 0.03;
+}
+    
+var gui = new dat.GUI();
+    
+groupADEI = gui.addFolder("ADEI");
+    
+groupADEI.add(controls, 'rotationSpeed', 0, 0.5);
+groupADEI.add(controls, 'bouncingSpeed', 0, 0.5);
+*/
+ 
+ 
+/*
+// Define your config object
+const CONFIG = {
+  Sensor: ,
+  B: {
+    C: {
+      D: 34,
+      E: 48,
+      F: 99
+    }
+  },
+  G: {
+    H: {
+      I: {
+        J: 87
+      }
+    }
+  }
+};
+// Mirror that object in a BOUNDS config
+// This mirrors config but the values are the arguments
+// for each configurable value
+const BOUNDS = {
+  A: [0, 100, 1],
+  B: {
+    C: {
+      D: [0, 100, 1],
+      E: [0, 100, 1],
+      F: [0, 100, 1]
+    }
+  },
+  G: {
+    H: {
+      I: {
+        J: [0, 100, 1]
+      }
+    }
+  }
+};
+
+const GUI = new dat.GUI();
+
+console.info(dat.GUI, GUI);
+
+const digest = (CONFIG_OBJECT, BOUNDS_OBJECT, FOLDER) => {
+  for (const category in BOUNDS_OBJECT) {
+    if (Array.isArray(BOUNDS_OBJECT[category])) {
+      FOLDER.add(
+        CONFIG_OBJECT,
+        category,
+        BOUNDS_OBJECT[category][0],
+        BOUNDS_OBJECT[category][1],
+        BOUNDS_OBJECT[category][2] ? BOUNDS_OBJECT[category][2] : 1
+      ).onChange(console.info);
+    } else {
+      const NEW_FOLDER = FOLDER
+        ? FOLDER.addFolder(category)
+        : GUI.addFolder(category);
+      digest(CONFIG_OBJECT[category], BOUNDS_OBJECT[category], NEW_FOLDER);
+    }
+  }
+};
+digest(CONFIG, BOUNDS, GUI);
+*/
+
+var obj = {
+    select:function(){ console.log("select") },
+    update:function(){ console.log("update") },
+    add:function(){ console.log("add") },
+    remove:function(){ console.log("remove") },
+    save:function(){ console.log("save") },
+    backup:function(){ console.log("backup") }
+};
+
+
+
+var default_values =
+{
+    name: ""
+}
+
+
+gui = new dat.GUI();
+var mygroup;
+var folder;
+
+var params = {}
+
+{% for category in data["typedef"] %}
+    
+    folder = gui.addFolder("{{ category }}");
+    mygroup = {};
+    {% for item in data["vardata"][ category ] %}
+        console.log("{{ item }}");
+        mygroup["{{ item }}"] = "{{ item }}";
+    {% end %}
+    folder.add(default_values, "name", mygroup );
+    folder.add(obj, 'select');
+    
+    // Other params here
+    
+    {% for datatype in data["typedef"][category] %}
+        
+        subfolder = folder.addFolder("{{ datatype }}");
+
+        {% for item in data["typedef"][ category ][ datatype] %}
+            console.log("{{ item }}", '{{ data["typedef"][ category ][ datatype][item] }}');
+            
+            if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "string") {
+                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+            } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "bool") {
+                if ('{{ data["typedef"][ category ][ datatype][item]["value"] }}' == "True") {
+                    params['{{ item }}'] = true;
+                } else {
+                    params['{{ item }}'] = false;
+                }
+            } else {
+                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+            }
+            subfolder.add(params, '{{ item }}');
+        {% end %}
+    {% end %}
+    
+    
+    folder.add(obj, 'update');
+    folder.add(obj, 'add');
+    folder.add(obj, 'remove');
+    folder.add(obj, 'save');
+    folder.add(obj, 'backup');
+{% end %}
+
+//GUI.addFolder(category);
     
 
-jQuery(window).load(function () {
 
+//gui.add(default_values, "name", adei );
+
+
+jQuery(window).load(function () {
+    
     $("#varname > option").each(function() {
         if ($('#'+this.text).length){
             $('#'+this.text).draggable();
@@ -2172,5 +2326,7 @@ jQuery(window).load(function () {
     });
 });
 </script>
+
+
 </body>
 </html>

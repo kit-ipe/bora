@@ -246,7 +246,16 @@ class DesignerHandler(tornado.web.RequestHandler):
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
-
+             
+        print("opening typedef.yaml")
+        with open("typedef.yaml", 'r') as stream:
+            try:
+                typedef_data = yaml.load(stream, Loader=yaml.Loader)
+                print("loading")
+            except yaml.YAMLError as exc:
+                print(exc)
+        print("Done")
+        
         # intersect of cache file and style file
         if style_data:
             index_data = list(set(cache_data) | set(style_data))
@@ -261,10 +270,13 @@ class DesignerHandler(tornado.web.RequestHandler):
             "style": style_data,
             "index": index_data, # variable list for the ADEI panel
             "rtsp": varname_data["rtsp"],
-            "rest": varname_data["rest"]
+            "rest": varname_data["rest"],
+            "adei": varname_data["adei"],
+            "vardata": varname_data,
+            "typedef": typedef_data
         }
         
-        print(data)
+        #print(data)
 
         data["title"] = os.environ["BORA_TITLE"]
         data["version"] = BORA_VERSION
