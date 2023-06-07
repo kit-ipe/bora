@@ -1,0 +1,170 @@
+    "data":
+        "title_name":
+            "value": ""
+            "type": "string"
+        "title_size":
+            "value": ""
+            "type": "string"
+        "title_style":
+            "value": ""
+            "type": "string"
+        "unit_name":
+            "value": ""
+            "type": "string"
+        "unit_size":
+            "value": ""
+            "type": "string"
+        "unit_style":
+            "value": ""
+            "type": "string"
+        "value_smaller_than":
+            "value": ""
+            "type": "string"
+        "value_larger_than":
+            "value": ""
+            "type": "string"
+        "value_equal_to":
+            "value": ""
+            "type": "string"
+        "value_decimal":
+            "value": ""
+            "type": "string"
+        "value_exponential":
+            "value": False
+            "type": "bool"
+        "link_adei":
+            "value": False
+            "type": "bool"
+        "link_trend":
+            "value": False
+            "type": "bool"
+        "virtual_data":
+            "value": False
+            "type": "bool"
+        "virtual_name":
+            "value": ""
+            "type": "string"
+        "background_color":
+            "value":
+                - 255
+                - 255
+                - 255
+                - 0
+            "type": "color"
+    "integer-to-string":
+        "title_name":
+            "value": ""
+            "type": "string"
+        "title_size":
+            "value": ""
+            "type": "string"
+        "title_style":
+            "value": ""
+            "type": "string"
+        "unit_name":
+            "value": ""
+            "type": "string"
+        "unit_size":
+            "value": ""
+            "type": "string"
+        "unit_style":
+            "value": ""
+            "type": "string"
+        "value_equal_to":
+            "value": ""
+            "type": "string"
+        "link_adei":
+            "value": False
+            "type": "bool"
+        "link_trend":
+            "value": False
+            "type": "bool"
+        "background_color":
+            "value":
+                - 255
+                - 255
+                - 255
+                - 0
+            "type": "color"
+    "header":
+        "title_name":
+            "value": ""
+            "type": "string"
+        "title_size":
+            "value": ""
+            "type": "string"
+        "title_style":
+            "value": ""
+            "type": "string"
+        "background_color":
+            "value":
+                - 255
+                - 255
+                - 255
+                - 0
+            "type": "color"
+    "calc":
+        "title_name":
+            "value": ""
+            "type": "string"
+        "title_size":
+            "value": ""
+            "type": "string"
+        "title_style":
+            "value": ""
+            "type": "string"
+        "unit_name":
+            "value": ""
+            "type": "string"
+        "unit_size":
+            "value": ""
+            "type": "string"
+        "unit_style":
+            "value": ""
+            "type": "string"
+        "value_smaller_than":
+            "value": ""
+            "type": "string"
+        "value_larger_than":
+            "value": ""
+            "type": "string"
+        "value_equal_to":
+            "value": ""
+            "type": "string"
+        "value_decimal":
+            "value": ""
+            "type": "string"
+        "value_equation":
+            "value": ""
+            "type": "string"
+        "value_exponential":
+            "value": False
+            "type": "bool"
+        "background_color":
+            "value":
+                - 255
+                - 255
+                - 255
+                - 0
+            "type": "color"
+    "icon":
+        "icon_type":
+            "value": ["valve", "commbit", "alarm", "TMP", "bottle", "relay", "switch"]
+            "type": "list"
+        "on_operator":
+            "value": ["larger_than", "smaller_than", "equal"]
+            "type": "list"
+        "on_value":
+            "value": ""
+            "type": "string"
+        "off_operator":
+            "value": ["larger_than", "smaller_than", "equal"]
+            "type": "list"
+        "off_value":
+            "value": ""
+            "type": "string"
+        "rotate_degree":
+            "value": ""
+            "type": "string"
+
+

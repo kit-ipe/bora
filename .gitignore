@@ -4,7 +4,7 @@ log.txt
 cache.yaml
 style.yaml
 .tmp.yaml
-*.yaml
+settings.yaml
 backup
 images/
 static/trends/

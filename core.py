@@ -246,15 +246,30 @@ class DesignerHandler(tornado.web.RequestHandler):
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
-             
-        print("opening typedef.yaml")
-        with open("typedef.yaml", 'r') as stream:
+        
+        setings_data = None
+        with open("./bora/settings.yaml", 'r') as stream:
             try:
-                typedef_data = yaml.load(stream, Loader=yaml.Loader)
-                print("loading")
+                settings_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
-        print("Done")
+
+        # Prepare typedef yaml
+        print(settings_data)
+        
+        typedef_data = {}
+        for myitem in settings_data["plugins"]:
+            tmp_data = None
+            with open("./bora/typedef/" + str(myitem) + ".yaml", 'r') as stream:
+                try:
+                    tmp_data = yaml.load(stream, Loader=yaml.Loader)
+                except yaml.YAMLError as exc:
+                    print(exc)
+            typedef_data[myitem] = tmp_data
+
+        # TODO: add those non data type definitions
+        #print(typedef_data)
+
         
         # intersect of cache file and style file
         if style_data:

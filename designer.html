@@ -2187,6 +2187,11 @@ var default_values =
 {
     name: ""
 }
+    
+/********
+ Prepare the list beforehand
+ **/
+
 
 
 gui = new dat.GUI();
@@ -2194,26 +2199,29 @@ var mygroup;
 var folder;
 
 var params = {}
+var tmp_color;
 
 {% for category in data["typedef"] %}
     
     folder = gui.addFolder("{{ category }}");
-    mygroup = {};
-    {% for item in data["vardata"][ category ] %}
-        console.log("{{ item }}");
-        mygroup["{{ item }}"] = "{{ item }}";
-    {% end %}
-    folder.add(default_values, "name", mygroup );
-    folder.add(obj, 'select');
     
     // Other params here
     
     {% for datatype in data["typedef"][category] %}
         
         subfolder = folder.addFolder("{{ datatype }}");
+        
+        mygroup = {};
+        {% for item in data["vardata"][ category ] %}
+        if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
+            mygroup["{{ item }}"] = "{{ item }}";
+        }
+        {% end %}
+        subfolder.add(default_values, "name", mygroup );
+        subfolder.add(obj, 'select');
 
         {% for item in data["typedef"][ category ][ datatype] %}
-            console.log("{{ item }}", '{{ data["typedef"][ category ][ datatype][item] }}');
+            console.log("{{ item }}", '{{ data["typedef"][ category ][ datatype][item]["value"] }}', '{{ data["typedef"][ category ][ datatype][item]["type"] }}' );
             
             if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "string") {
                 params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
@@ -2223,6 +2231,9 @@ var params = {}
                 } else {
                     params['{{ item }}'] = false;
                 }
+            } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "color") {
+                
+                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             } else {
                 params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             }

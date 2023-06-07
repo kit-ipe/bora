@@ -1,0 +1,21 @@
+    "data":
+        "title_name":
+            "value": ""
+            "type": "string"
+        "title_size":
+            "value": ""
+            "type": "string"
+        "title_style":
+            "value": ""
+            "type": "string"
+        "input_size":
+            "value": ""
+            "type": "string"
+        "background_color":
+            "value":
+                - 255
+                - 255
+                - 255
+                - 0
+            "type": "color"
+
