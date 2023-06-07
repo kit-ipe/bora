@@ -2175,24 +2175,24 @@ digest(CONFIG, BOUNDS, GUI);
 var obj = {
     select:function(){ console.log("select") },
     update:function(){ console.log("update") },
-    add:function(){ console.log("add") },
+    add:function(...args){
+        console.log(this, ...args);
+        console.log("add")
+    },
     remove:function(){ console.log("remove") },
     save:function(){ console.log("save") },
     backup:function(){ console.log("backup") }
 };
 
+var myobject = {
+    myname: "",
+};
 
 
 var default_values =
 {
     name: ""
 }
-    
-/********
- Prepare the list beforehand
- **/
-
-
 
 gui = new dat.GUI();
 var mygroup;
@@ -2200,6 +2200,7 @@ var folder;
 
 var params = {}
 var tmp_color;
+
 
 {% for category in data["typedef"] %}
     
@@ -2242,8 +2243,9 @@ var tmp_color;
     {% end %}
     
     
+    
     folder.add(obj, 'update');
-    folder.add(obj, 'add');
+    folder.add({add : obj.add.bind(this, '{{ category}}' )}, "add");
     folder.add(obj, 'remove');
     folder.add(obj, 'save');
     folder.add(obj, 'backup');

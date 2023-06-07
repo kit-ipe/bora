@@ -267,7 +267,7 @@ class DesignerHandler(tornado.web.RequestHandler):
                     print(exc)
             typedef_data[myitem] = tmp_data
 
-        # TODO: add those non data type definitions
+        # TODO: add those non data type definitions e.g. Header, Calc 
         #print(typedef_data)
 
         
