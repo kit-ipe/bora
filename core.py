@@ -248,7 +248,7 @@ class DesignerHandler(tornado.web.RequestHandler):
                 print(exc)
         
         setings_data = None
-        with open("./bora/settings.yaml", 'r') as stream:
+        with open("settings.yaml", 'r') as stream:
             try:
                 settings_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
