@@ -2177,7 +2177,9 @@ var obj = {
     update:function(){ console.log("update") },
     add:function(...args){
         console.log(this, ...args);
-        console.log("add")
+        console.log("add");
+        console.log(params);
+        console.log( $(this).closest("li"));
     },
     remove:function(){ console.log("remove") },
     save:function(){ console.log("save") },
@@ -2196,11 +2198,15 @@ var default_values =
 
 gui = new dat.GUI();
 var mygroup;
+var subdata;
 var folder;
 
 var params = {}
 var tmp_color;
 
+
+gui.add(obj, 'save');
+gui.add(obj, 'backup');
 
 {% for category in data["typedef"] %}
     
@@ -2218,37 +2224,38 @@ var tmp_color;
             mygroup["{{ item }}"] = "{{ item }}";
         }
         {% end %}
-        subfolder.add(default_values, "name", mygroup );
+        
+        
+        params[ '{{ category }}' + "-" + '{{ datatype }}' + "-name"] = "";
+        subfolder.add(params,  '{{ category }}' + "-" + '{{ datatype }}' + "-name", mygroup ).name("name");
         subfolder.add(obj, 'select');
 
         {% for item in data["typedef"][ category ][ datatype] %}
             console.log("{{ item }}", '{{ data["typedef"][ category ][ datatype][item]["value"] }}', '{{ data["typedef"][ category ][ datatype][item]["type"] }}' );
             
             if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "string") {
-                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ '{{ category }}' + "-" + '{{ datatype }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "bool") {
                 if ('{{ data["typedef"][ category ][ datatype][item]["value"] }}' == "True") {
-                    params['{{ item }}'] = true;
+                    params[ '{{ category }}' + "-" + '{{ datatype }}' + "-" + '{{ item }}'] = true;
                 } else {
-                    params['{{ item }}'] = false;
+                    params[ '{{ category }}' + "-" + '{{ datatype }}' + "-" + '{{ item }}'] = false;
                 }
             } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "color") {
                 
-                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ '{{ category }}' + "-" + '{{ datatype }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             } else {
-                params['{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ '{{ category }}' + "-" +  '{{ datatype }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             }
-            subfolder.add(params, '{{ item }}');
+            subfolder.add(params,  '{{ category }}' + "-" +  '{{ datatype }}' + "-" + '{{ item }}').name('{{ item }}');
         {% end %}
+        
+        subfolder.add(obj, 'update');
+        subfolder.add({add : obj.add.bind(this, '{{ category}}' + "-" +  '{{ datatype }}'  )}, "add");
+        subfolder.add(obj, 'remove');
+        
     {% end %}
     
-    
-    
-    folder.add(obj, 'update');
-    folder.add({add : obj.add.bind(this, '{{ category}}' )}, "add");
-    folder.add(obj, 'remove');
-    folder.add(obj, 'save');
-    folder.add(obj, 'backup');
 {% end %}
 
 //GUI.addFolder(category);

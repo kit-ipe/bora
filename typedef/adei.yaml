@@ -51,7 +51,7 @@
                 - 255
                 - 0
             "type": "color"
-    "integer-to-string":
+    "dictionary":
         "title_name":
             "value": ""
             "type": "string"
