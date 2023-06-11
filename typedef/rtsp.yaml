@@ -3,9 +3,11 @@
             "value": ""
             "type": "string"
             "container": "div"
+            "optional": "No"
         "height":
             "value": ""
             "type": "string"
             "container": "div"
+            "optional": "No"
 
 

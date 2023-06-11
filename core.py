@@ -17,6 +17,8 @@ from time import gmtime, strftime
 from tornado.escape import json_decode, json_encode, url_escape
 from threading import Timer
 import subprocess
+import json
+
 
 
 root = os.path.dirname(__file__)
@@ -291,12 +293,15 @@ class DesignerHandler(tornado.web.RequestHandler):
             "typedef": typedef_data
         }
         
-        print(typedef_data)
+        #print(typedef_data)
 
         data["title"] = os.environ["BORA_TITLE"]
         data["version"] = BORA_VERSION
         
-        self.render('designer.html', data=data)
+        r = json.dumps(data)
+        loaded_r = json.loads(r)
+        
+        self.render('designer.html', data=loaded_r)
 
 
 class VersionHandler(tornado.web.RequestHandler):

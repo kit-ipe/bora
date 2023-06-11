@@ -2172,15 +2172,23 @@ const digest = (CONFIG_OBJECT, BOUNDS_OBJECT, FOLDER) => {
 digest(CONFIG, BOUNDS, GUI);
 */
     
+// All the new bora2 function will have a "bora_" prefix
+// Older functions will be removed gradually
 function bora_add(prefix) {
-    console.log("BORA ADD:");
-    console.log(prefix);
+    //console.log("BORA ADD:");
+    //console.log(prefix);
 
     for (item in params) {
         if (item.startsWith(prefix)) {
             console.log(item);
+            
+            // Value checking
+            console.log(params[item]);
+            
         }
     }
+    
+    // Value checking
 }
 
 var obj = {
@@ -2224,7 +2232,7 @@ var folder;
 var params = {}
 var tmp_color;
 var bind_param;
-
+var opt = "";
 
 gui.add(obj, 'save');
 gui.add(obj, 'backup');
@@ -2248,8 +2256,8 @@ gui.add(obj, 'backup');
         
         bind_param = '{{ category }}' + "-" + '{{ datatype }}';
         
-        params[ bind_param + "-div-name"] = "";
-        subfolder.add(params,  bind_param + "-div-name", mygroup ).name("name");
+        params[ bind_param + "-div-name-must"] = "";
+        subfolder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
         
         subfolder.add({select : obj.select.bind(this, bind_param  )}, "select");
         subfolder.add({update : obj.update.bind(this, bind_param )}, "update");
@@ -2262,21 +2270,27 @@ gui.add(obj, 'backup');
                 '{{ data["typedef"][ category ][ datatype][item]["container"] }}'
             );
             
+            if ('{{ data["typedef"][ category ][ datatype][item]["optional"] }}' == "True") {
+                opt = "opt"
+            } else {
+                opt = "must"
+            }
+            
             if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "string") {
-                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ bind_param + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "bool") {
                 if ('{{ data["typedef"][ category ][ datatype][item]["value"] }}' == "True") {
-                    params[ bind_param + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'] = true;
+                    params[ bind_param + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt] = true;
                 } else {
-                    params[ bind_param+ + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'] = false;
+                    params[ bind_param+ + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt] = false;
                 }
             } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "color") {
                 
-                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             } else {
-                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
             }
-            subfolder.add(params,  bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}').name('{{ item }}');
+            subfolder.add(params,  bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }}');
         {% end %}
         subfolder.add({add : obj.add.bind(this, bind_param )}, "add");
         subfolder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
