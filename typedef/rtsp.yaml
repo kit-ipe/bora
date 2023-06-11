@@ -2,8 +2,10 @@
         "width":
             "value": ""
             "type": "string"
+            "container": "div"
         "height":
             "value": ""
             "type": "string"
+            "container": "div"
 
 

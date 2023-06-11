@@ -291,7 +291,7 @@ class DesignerHandler(tornado.web.RequestHandler):
             "typedef": typedef_data
         }
         
-        #print(data)
+        print(typedef_data)
 
         data["title"] = os.environ["BORA_TITLE"]
         data["version"] = BORA_VERSION
