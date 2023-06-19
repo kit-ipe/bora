@@ -1731,6 +1731,12 @@ function mysave(data) {
         }
     });
 }
+    
+/******************************
+ *
+ *   bora 2.0 functions
+ *
+ ******************************/
 
 
 var html_final = "";
@@ -1803,13 +1809,19 @@ function bora_add(prefix) {
     }
 }
     
-
+function bora_select(prefix) {
+    console.log("BORA SELECT:");
+    console.log(prefix);
+    
+    console.log(params[prefix+"-div-name-must"]);
+}
     
 
 
 var obj = {
     select:function(...args){
         console.log("select", ...args);
+        bora_select(...args);
     },
     update:function(...args){
         console.log("update", ...args);
