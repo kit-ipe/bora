@@ -2172,24 +2172,69 @@ const digest = (CONFIG_OBJECT, BOUNDS_OBJECT, FOLDER) => {
 digest(CONFIG, BOUNDS, GUI);
 */
     
+
+    
+
+var html_final = "";
+var div_head = "";
+var div_style = " style='position: absolute; " +
+    "top:200px; " +
+    "left:200px; ";
+var div_end = "'>";
+
 // All the new bora2 function will have a "bora_" prefix
 // Older functions will be removed gradually
 function bora_add(prefix) {
     //console.log("BORA ADD:");
     //console.log(prefix);
-
+    var item_array = null;
+    var opt;
+    var varname;
+    
     for (item in params) {
         if (item.startsWith(prefix)) {
             console.log(item);
             
-            // Value checking
-            console.log(params[item]);
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
             
+            if (opt == "must" && !params[item]) {
+                alert("Please enter value for: " + item);
+                return;
+            }
+            
+            if (item_array[2] == "div") {
+                if (item_array[3] == "name") {
+                    
+                    varname = params[item];
+                    div_head = "<div " +
+                           "class='varbox box_highlight' " +
+                           "id=" + params[item] + " " +
+                           " ";
+                } else {
+                    div_style += item_array[3];
+                    div_style += ":";
+                    div_style += params[item];
+                    div_style += "; ";
+                }
+            }
         }
     }
     
-    // Value checking
+    html_final = div_head + div_style + div_end + "</div>"
+    
+    console.log("Adding element");
+    console.log(html_final);
+    if (html_final.length > 0) {
+        $( "body" ).append(html_final);
+        $("#"+varname).draggable();
+        $("#"+varname).resizable();
+    }
 }
+    
+
+    
+
 
 var obj = {
     select:function(...args){
