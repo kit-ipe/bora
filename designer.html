@@ -1794,7 +1794,7 @@ function bora_add(prefix) {
     var ids = new Array();
     $('body [id]').each(function() { //Get elements that have an id=
         //ids.push($(this).attr("id")); //add id to array
-        console.log($(this).attr("id"));
+        //console.log($(this).attr("id"));
         if ($(this).attr("id") == varname) {
             alert("UI element with the same ID already existed!");
             redundant_flag = true;
@@ -1810,10 +1810,46 @@ function bora_add(prefix) {
 }
     
 function bora_select(prefix) {
+    var item_array;
+    var opt;
+    var me;
+    
     console.log("BORA SELECT:");
     console.log(prefix);
-    
     console.log(params[prefix+"-div-name-must"]);
+    console.log(params);
+    
+    $('body [id]').each(function() { //Get elements that have an id=
+        //ids.push($(this).attr("id")); //add id to array
+        //console.log($(this).attr("id"));
+        if ($(this).attr("id") == params[prefix+"-div-name-must"]) {
+            $("#"+ $(this).attr("id")).addClass("box_highlight");
+            me = this;
+        } else {
+            $("#"+ $(this).attr("id")).removeClass("box_highlight");
+        }
+    });
+    
+    for (item in params) {
+        if (item.startsWith(prefix)) {
+            console.log(item);
+            
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
+            
+            if (item_array[2] == "div") {
+                if (item_array[3] == "name") {
+                    console.log("Do nothing.");
+                } else {
+                    params[item] = $("#"+ params[prefix+"-div-name-must"]).css(item_array[3]);
+                }
+            }
+        }
+    }
+    
+    gui.updateDisplay();
+    
+    
 }
     
 
