@@ -1733,7 +1733,6 @@ function mysave(data) {
             console.log("Error.")
         }
     });
-
 }
     
 function highlight(mydata) {
@@ -2210,7 +2209,7 @@ function bora_add(prefix) {
                     div_head = "<div " +
                            "class='varbox box_highlight' " +
                            "id=" + params[item] + " " +
-                           " ";
+                           "data-type='"+ item_array[0] +"'";
                 } else {
                     div_style += item_array[3];
                     div_style += ":";
@@ -2225,7 +2224,20 @@ function bora_add(prefix) {
     
     console.log("Adding element");
     console.log(html_final);
-    if (html_final.length > 0) {
+    
+    var redundant_flag = false;
+    var ids = new Array();
+    $('body [id]').each(function() { //Get elements that have an id=
+      //ids.push($(this).attr("id")); //add id to array
+      console.log($(this).attr("id"));
+      if ($(this).attr("id") == varname) {
+          alert("UI element with the same ID already existed!");
+          redundant_flag = true;
+      }
+    });
+    
+    if ((html_final.length > 0) &&
+        (redundant_flag == false) ) {
         $( "body" ).append(html_final);
         $("#"+varname).draggable();
         $("#"+varname).resizable();
