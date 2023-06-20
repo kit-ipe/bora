@@ -1812,19 +1812,17 @@ function bora_add(prefix) {
 function bora_select(prefix) {
     var item_array;
     var opt;
-    var me;
     
-    console.log("BORA SELECT:");
-    console.log(prefix);
-    console.log(params[prefix+"-div-name-must"]);
-    console.log(params);
+    //console.log("BORA SELECT:");
+    //console.log(prefix);
+    //console.log(params[prefix+"-div-name-must"]);
+    //console.log(params);
     
     $('body [id]').each(function() { //Get elements that have an id=
         //ids.push($(this).attr("id")); //add id to array
         //console.log($(this).attr("id"));
         if ($(this).attr("id") == params[prefix+"-div-name-must"]) {
             $("#"+ $(this).attr("id")).addClass("box_highlight");
-            me = this;
         } else {
             $("#"+ $(this).attr("id")).removeClass("box_highlight");
         }
@@ -1846,11 +1844,40 @@ function bora_select(prefix) {
             }
         }
     }
-    
     gui.updateDisplay();
-    
-    
 }
+
+    
+function bora_update(prefix) {
+    var item_array;
+    var opt;
+        
+    console.log("BORA UPDATE:");
+    //console.log(prefix);
+    //console.log(params[prefix+"-div-name-must"]);
+    //console.log(params);
+        
+    for (item in params) {
+        if (item.startsWith(prefix)) {
+            console.log(item);
+                
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
+                
+            if (item_array[2] == "div") {
+                if (item_array[3] == "name") {
+                    console.log("Do nothing.");
+                } else {
+                    $("#"+ params[prefix+"-div-name-must"]).css(item_array[3], params[item]);
+                }
+            }
+        }
+    }
+    gui.updateDisplay();
+}
+        
+    
+
     
 
 
@@ -1861,6 +1888,7 @@ var obj = {
     },
     update:function(...args){
         console.log("update", ...args);
+        bora_update(...args);
     },
     add:function(...args){
         console.log("add", ...args);
