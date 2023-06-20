@@ -1811,9 +1811,8 @@ function bora_add(prefix) {
     
 function bora_select(prefix) {
     var item_array;
-    var opt;
     
-    //console.log("BORA SELECT:");
+    console.log("BORA SELECT:");
     //console.log(prefix);
     //console.log(params[prefix+"-div-name-must"]);
     //console.log(params);
@@ -1850,7 +1849,6 @@ function bora_select(prefix) {
     
 function bora_update(prefix) {
     var item_array;
-    var opt;
         
     console.log("BORA UPDATE:");
     //console.log(prefix);
@@ -1875,10 +1873,50 @@ function bora_update(prefix) {
     }
     gui.updateDisplay();
 }
+    
+function bora_remove(prefix) {
+    console.log("BORA REMOVE:");
+    $("#"+ params[prefix+"-div-name-must"]).remove();
+}
+    
+function bora_save(prefix) {
+    console.log("BORA SAVE:");
+    var key;
+    var tmp;
+    var position = {};
+    
+    $('*[data-type="rtsp"]').each(function( index ) {
+        tmp = {};
+        key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        position[key] = tmp;
+    });
+    
+    
+    //console.log(position);
+    var dataToSend = JSON.stringify(position);
+    console.log(dataToSend);
+    $.ajax({
+        url: '/save/',
+        type: 'POST',
+        data: dataToSend,
+        success: function (response) {
+            //var objresponse = JSON.parse(response);
+            alert("Save success!");
+            console.log(response);
+            location.reload();
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}
         
-    
-
-    
 
 
 var obj = {
@@ -1896,10 +1934,11 @@ var obj = {
     },
     remove:function(...args){
         console.log("remove ", ...args);
-        //bora_add(...args);
+        bora_remove(...args);
     },
     save:function(...args){
         console.log("save", ...args);
+        bora_save(...args);
     },
     backup:function(...args){
         console.log("backup", ...args);
@@ -1941,10 +1980,15 @@ gui.add(obj, 'backup');
         
         mygroup = {};
         {% for item in data["vardata"][ category ] %}
-        if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
-            mygroup["{{ item }}"] = "{{ item }}";
-        }
+            if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
+                mygroup["{{ item }}"] = "{{ item }}";
+            }
+            $("#" + "{{ item }}").draggable();
+            
         {% end %}
+        
+        console.log("LOL");
+        console.log(mygroup);
         
         bind_param = '{{ category }}' + "-" + '{{ datatype }}';
         
@@ -1990,97 +2034,7 @@ gui.add(obj, 'backup');
     
 {% end %}
 
-//GUI.addFolder(category);
-    
 
-
-//gui.add(default_values, "name", adei );
-
-
-jQuery(window).load(function () {
-    
-    /*
-    $("#varname > option").each(function() {
-        if ($('#'+this.text).length){
-            $('#'+this.text).draggable();
-            $('#'+this.text).resizable(); 
-            $('#'+this.text).click(function() {
-                //console.log($(this).attr("id")); 
-                $("#varname").val($(this).attr("id"));
-                $("#buttonHighlight").trigger("click"); 
-            });
-        }
-        //console.log(this.text + ' ' + this.value);
-    });
-    
-    $("#varname2 > option").each(function() {
-        if ($('#'+this.text).length){
-            $('#'+this.text).draggable();
-            $('#'+this.text).resizable();
-            $('#'+this.text).click(function() {
-                //console.log($(this).attr("id"));
-                $("#varname2").val($(this).attr("id"));
-                $("#buttonHighlight").trigger("click");
-            });
-        }
-        //console.log(this.text + ' ' + this.value);
-    });
-    
-    $("#varname3 > option").each(function() {
-        if ($('#'+this.text).length){
-            $('#'+this.text).draggable();
-            $('#'+this.text).resizable();
-            $('#'+this.text).click(function() {
-                //console.log($(this).attr("id"));
-                $("#varname3").val($(this).attr("id"));
-                $("#buttonHighlight").trigger("click");
-            });
-        }
-        //console.log(this.text + ' ' + this.value);
-    });
-    
-    $("#buttonHighlight").trigger("click"); 
-    $("#varname").change(function() {
-        varval = $( "#varname option:selected").val();
-        varname = $("#varname option:selected").text();
-        //console.log(varval, varname);
-        $("#buttonHighlight").trigger("click"); 
-    });
-    
-    $("#varname2").change(function() {
-        varval = $( "#varname2 option:selected").val();
-        varname = $("#varname2 option:selected").text();
-        //console.log(varval, varname);
-        $("#buttonHighlight").trigger("click");
-    });
-    
-    $("#varname3").change(function() {
-        varval = $( "#varname3 option:selected").val();
-        varname = $("#varname3 option:selected").text();
-        //console.log(varval, varname);
-        $("#buttonHighlight").trigger("click");
-    });
-    */
-    
-    /*
-    $("#vartype").change(function() {
-        vartype = $("#vartype option:selected").val();
-        if ((vartype == "header") || (vartype == "calc")) {
-            $("#varname").val("");
-            // clear values
-	        $("#elem_title_text").val("");
-	        $("#elem_title_size").val("");
-	        $("#elem_unit_text").val("");
-	        $("#elem_unit_size").val("");
-	        $("#elem_lesser_range").val("");
-	        $("#elem_larger_range").val("");
-	        $("#elem_condition_range").val("");
-	        $("#elem_formula").val("");
-            $("#background_color").val("");
-        }       
-    });
-     */
-});
 </script>
 
 
