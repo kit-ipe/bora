@@ -627,19 +627,6 @@ function inputEnable() {
         $("#offvalue").prop("disabled",true);
     }
 }
-
-function backup() {
-    $.ajax({
-        url: '/backup/',
-        type: 'POST',
-        success: function (response) {
-            alert("Backup success!");
-        },
-        error: function () {
-            console.log("Error.")
-        }
-    });
-}    
     
 function showhide() {
     
@@ -1916,6 +1903,19 @@ function bora_save(prefix) {
         }
     });
 }
+    
+function bora_backup() {
+    $.ajax({
+        url: '/backup/',
+        type: 'POST',
+        success: function (response) {
+            alert("Backup success!");
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}
         
 
 
@@ -1942,6 +1942,7 @@ var obj = {
     },
     backup:function(...args){
         console.log("backup", ...args);
+        bora_backup();
     }
 };
 
