@@ -1725,22 +1725,21 @@ function mysave(data) {
  *
  ******************************/
 
-
-var html_final = "";
-var div_head = "";
-var div_style = " style='position: absolute; " +
-    "top:200px; " +
-    "left:200px; ";
-var div_end = "'>";
-
 // All the new bora2 function will have a "bora_" prefix
 // Older functions will be removed gradually
 function bora_add(prefix) {
-    //console.log("BORA ADD:");
-    //console.log(prefix);
+    console.log("BORA ADD:");
+    console.log(prefix);
     var item_array = null;
     var opt;
     var varname;
+    var html_final = "";
+    var div_head = "";
+    var div_style = " style='position: absolute; " +
+        "top:200px; " +
+        "left:200px; ";
+    var div_end = "'>";
+    var div_text = "";
     
     for (item in params) {
         if (item.startsWith(prefix)) {
@@ -1754,7 +1753,11 @@ function bora_add(prefix) {
                 return;
             }
             
-            if (item_array[2] == "div") {
+            console.log(item_array[2]);
+            if (item_array[2] == "div") { // DIV
+                console.log("Inside DIV");
+                console.log(item_array[3]);
+                
                 if (item_array[3] == "name") {
                     
                     varname = params[item];
@@ -1762,6 +1765,8 @@ function bora_add(prefix) {
                            "class='varbox box_highlight' " +
                            "id=" + params[item] + " " +
                            "data-type='"+ item_array[0] +"'";
+                } else if (item_array[3] == "text_name") {
+                    div_text = params[item];
                 } else {
                     div_style += item_array[3];
                     div_style += ":";
@@ -1772,7 +1777,7 @@ function bora_add(prefix) {
         }
     }
     
-    html_final = div_head + div_style + div_end + "</div>"
+    html_final = div_head + div_style + div_end + div_text + "</div>"
     
     console.log("Adding element");
     console.log(html_final);
@@ -1975,63 +1980,75 @@ gui.add(obj, 'backup');
     
     // Other params here
     
+    // category -> rtsp
+    // datatype -> data
+    // element -> div
+    
+    
     {% for datatype in data["typedef"][category] %}
+    
+    console.log("ELEMENT: " + '{{ category }} ' + '{{ datatype }}' );
+    
+    subfolder = folder.addFolder("{{ datatype }} ");
+    
+    mygroup = {};
+    {% for item in data["vardata"][ category ] %}
+        if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
+            mygroup["{{ item }}"] = "{{ item }}";
+        }
+        $("#" + "{{ item }}").draggable();
         
-        subfolder = folder.addFolder("{{ datatype }}");
+    {% end %}
+    
+    console.log("LOL");
+    console.log(mygroup);
+    
+    bind_param = '{{ category }}' + "-" + '{{ datatype }}';
+    
+    params[ bind_param + "-div-name-must"] = "";
+    subfolder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
+    
+    subfolder.add({select : obj.select.bind(this, bind_param  )}, "select");
+    subfolder.add({update : obj.update.bind(this, bind_param )}, "update");
+    
+    {% for element in data["typedef"][category][datatype] %}
         
-        mygroup = {};
-        {% for item in data["vardata"][ category ] %}
-            if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
-                mygroup["{{ item }}"] = "{{ item }}";
-            }
-            $("#" + "{{ item }}").draggable();
-            
-        {% end %}
-        
-        console.log("LOL");
-        console.log(mygroup);
-        
-        bind_param = '{{ category }}' + "-" + '{{ datatype }}';
-        
-        params[ bind_param + "-div-name-must"] = "";
-        subfolder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
-        
-        subfolder.add({select : obj.select.bind(this, bind_param  )}, "select");
-        subfolder.add({update : obj.update.bind(this, bind_param )}, "update");
 
-        {% for item in data["typedef"][ category ][ datatype] %}
+        {% for item in data["typedef"][ category ][datatype][element] %}
             console.log(
                 "{{ item }}",
-                '{{ data["typedef"][ category ][ datatype][item]["value"] }}',
-                '{{ data["typedef"][ category ][ datatype][item]["type"] }}',
-                '{{ data["typedef"][ category ][ datatype][item]["container"] }}'
+                '{{ data["typedef"][ category ][datatype][element][item]["value"] }}',
+                '{{ data["typedef"][ category ][datatype][element][item]["type"] }}',
             );
             
-            if ('{{ data["typedef"][ category ][ datatype][item]["optional"] }}' == "True") {
+            if ('{{ data["typedef"][ category ][datatype][element][item]["optional"] }}' == "True") {
                 opt = "opt"
             } else {
                 opt = "must"
             }
             
-            if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "string") {
-                params[ bind_param + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
-            } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "bool") {
-                if ('{{ data["typedef"][ category ][ datatype][item]["value"] }}' == "True") {
-                    params[ bind_param + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt] = true;
+            if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "string") { // STRING
+                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
+            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "bool") { // BOOL
+                if ('{{ data["typedef"][ category ][datatype][element][item]["value"] }}' == "True") {
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = true;
                 } else {
-                    params[ bind_param+ + "-" + '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt] = false;
+                    params[ bind_param+ + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
                 }
-            } else if ('{{ data["typedef"][ category ][ datatype][item]["type"] }}' == "color") {
+            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "color") {
                 
-                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
             } else {
-                params[ bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][ datatype][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
             }
-            subfolder.add(params,  bind_param + "-"+ '{{ data["typedef"][ category ][ datatype][item]["container"] }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }}');
+            subfolder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
         {% end %}
-        subfolder.add({add : obj.add.bind(this, bind_param )}, "add");
-        subfolder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
     {% end %}
+    
+    subfolder.add({add : obj.add.bind(this, bind_param )}, "add");
+    subfolder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
+    {% end %}
+    
     
 {% end %}
 

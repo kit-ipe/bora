@@ -1,21 +1,29 @@
     "data":
-        "title_name":
-            "value": ""
-            "type": "string"
-        "title_size":
-            "value": ""
-            "type": "string"
-        "title_style":
-            "value": ""
-            "type": "string"
-        "input_size":
-            "value": ""
-            "type": "string"
-        "background_color":
-            "value":
-                - 255
-                - 255
-                - 255
-                - 0
-            "type": "color"
+        "div":
+            "text_name":
+                "value": ""
+                "type": "string"
+                "optional": "No"
+            "font_size":
+                "value": ""
+                "type": "string"
+                "optional": "No"
+            "font_style":
+                "value": ""
+                "type": "string"
+                "optional": "No"
+            "background_color":
+                "value":
+                    - 255
+                    - 255
+                    - 255
+                    - 0
+                "type": "color"
+                "optional": "No"
+        "input":
+            "font_size":
+                "value": ""
+                "type": "string"
+                "optional": "No"
+        
 
