@@ -24,9 +24,9 @@
 
 {% if data['style'][key]['type'] == "rest" %}
 
-<div id='{{ key }}' class='databox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-url='{{ data['rest'][key] }}'  data-type='rest'><p><span style='margin-right: 20px;color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};' class='title'>{{ data['style'][key]['header']['title'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['size'] }};'></div>
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]["div"]['width'] }};
+    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
 
 {% else %}
 {% end %}

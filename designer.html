@@ -31,8 +31,8 @@
 {% if data['style'][key]['type'] == "rest" %}
 
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='margin-right: 20px;color: #000; font-size: {{ data['style'][key]['header']['size'] }}; font-weight: {{ data['style'][key]['header']['weight'] }};' class='title'>{{ data['style'][key]['header']['title'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['size'] }};'></div>
+    data['style'][key]['left'] }}; width:{{ data['style'][key]["div"]['width'] }};
+    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
 
 {% else %}
 {% end %}
@@ -1661,13 +1661,71 @@ function bora_remove(prefix) {
     console.log("BORA REMOVE:");
     $("#"+ params[prefix+"-div-name-must"]).remove();
 }
-    
+
+
 function bora_save(prefix) {
     console.log("BORA SAVE:");
+    console.log(prefix);
+    console.log(category);
     var key;
     var tmp;
     var position = {};
+    var mydiv = {};
+    var myinput = {};
     
+    for (var i = 0; i < category.length; i++) {
+        console.log(category[i]);
+        
+        $('*[data-type="'+ category[i]  +'"]').each(function( index ) {
+            tmp = {};
+            key = $( this ).attr('id');
+            console.log(key, index);
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = Math.round($("#"+key).width());
+            tmp["height"] = Math.round($("#"+key).height());
+            tmp["type"] = $("#"+key).attr("data-type");
+            
+            
+            for (item in params) {
+                if (item.startsWith(category[i])) {
+                    
+                    item_array = item.split("-");
+                    opt = item_array[item_array.length - 1];
+                        
+                    if (item_array[2] == "div") { // div
+                        if (item_array[3] == "name") {
+                            console.log("Do nothing.");
+                        } else if (item_array[3] == "text_name") {
+                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).text();
+                        } else {
+                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).css(item_array[3].replace(/_/g, '-'));
+                        }
+                        
+                    } else if (item_array[2] == "input") { // input
+                        myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :input").css(item_array[3].replace(/_/g, '-'));
+                    }
+                }
+            }
+            
+            tmp["div"] = mydiv;
+            tmp["input"] = myinput;
+            position[key] = tmp;
+        });
+        
+        
+    }
+    
+    /*
+    for (item in params) {
+        //if (item.startsWith(prefix)) {
+        console.log(item);
+    }
+    */
+    
+    
+    
+    /*
     $('*[data-type="rtsp"]').each(function( index ) {
         tmp = {};
         key = $( this ).attr('id');
@@ -1679,8 +1737,44 @@ function bora_save(prefix) {
         tmp["type"] = $("#"+key).attr("data-type");
         position[key] = tmp;
     });
+     */
     
     
+    /*
+    $('*[data-type="rest"]').each(function( index ) {
+        tmp = {};
+        key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        
+        
+        //tmp["background-color"]
+        position[key] = tmp;
+    });*/
+    
+    /*
+    resolution_x:
+      background-color: rgba(0, 0, 0, 0)
+      header:
+        size: 16px
+        title: ''
+        weight: '400'
+      height: 24
+      input:
+        size: 16px
+        weight: '400'
+      left: 234px
+      top: 83px
+      type: rest
+      width: 194
+    */
+    
+    
+
     //console.log(position);
     var dataToSend = JSON.stringify(position);
     console.log(dataToSend);
@@ -1757,7 +1851,8 @@ var mygroup;
 var subdata;
 var folder;
 
-var params = {}
+var params = {};
+var category = [];
 var tmp_color;
 var bind_param;
 var opt = "";
@@ -1769,6 +1864,7 @@ gui.add(obj, 'backup');
     
     folder = gui.addFolder("{{ category }}");
     
+    category.push("{{ category }}");
     // Other params here
     
     // category -> rtsp
@@ -1804,7 +1900,6 @@ gui.add(obj, 'backup');
     
     {% for element in data["typedef"][category][datatype] %}
         
-
         {% for item in data["typedef"][ category ][datatype][element] %}
             console.log(
                 "{{ item }}",
