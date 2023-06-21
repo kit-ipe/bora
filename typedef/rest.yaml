@@ -8,8 +8,8 @@
                 "value": ""
                 "type": "string"
                 "optional": "No"
-            "font_style":
-                "value": ""
+            "font_weight":
+                "value": "normal"
                 "type": "string"
                 "optional": "No"
             "background_color":
