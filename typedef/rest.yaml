@@ -25,5 +25,9 @@
                 "value": ""
                 "type": "string"
                 "optional": "No"
+            "width":
+                "value": ""
+                "type": "string"
+                "optional": "No"
         
 
