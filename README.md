@@ -1,4 +1,4 @@
-# BORA - Build Once Run Always
+# BORA - personalized collaBORAtive data display
 BORA is a static monitoring framework that aims to minimize the maintaining effort on the page and offers a flexible way to add and remove data items.
 
 ## Installation
