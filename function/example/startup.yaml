@@ -1,0 +1,9 @@
+# dependency npm and node
+# assuming python is python3
+
+start:
+    - "npm install -S rtsp-relay express"
+stub:
+    - "python main.py"
+final:
+    - "node index.js"

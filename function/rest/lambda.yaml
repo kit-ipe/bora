@@ -1,0 +1,10 @@
+# lambda.yaml for rest module
+
+install:
+    - null
+setup:
+    - "python main.py"
+run:
+    - null
+teardown:
+    - null

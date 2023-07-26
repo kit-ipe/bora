@@ -1,0 +1,11 @@
+# dependency npm and node
+
+install:
+    - "npm install -S rtsp-relay express"
+    - "mv node_modules ./runtime_env/websocket-streaming/scripts/"
+setup:
+    - "python ./runtime_env/websocket-streaming/scripts/main.py %s"
+run:
+    - "node ./runtime_env/websocket-streaming/scripts/index.js&"
+teardown:
+    - "index.js"

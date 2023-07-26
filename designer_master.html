@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Designer</title>
+  <meta name="description" 
+          content="Designer Drawing Block.">
+  <link rel="stylesheet" href="{{ static_url("style.css") }}">
+  <link rel="stylesheet" href="{{ static_url("jquery-ui.min.css") }}">
+  <!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<div id="page_designer_info">[VER {{ data['version'] }}] {{ data['title'] }}. Designer Block.     </div>
+<div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
+<div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>
+
+<img src="{{ static_url( 'background.png' ) }}"></img>
+
+
+<!--<button class="button hide-control" onclick="hidecontrol()">Control Panel</button>-->
+<!--<button id="toggle-panel" class="button showhide" onclick="showhide()">ADEI</button>-->
+
+{% if data['style'] %}
+{% for key in data['style'] %}
+
+
+{% if data['style'][key]['type'] == "rest" %}
+
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]["div"]['width'] }};
+    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
+
+{% else %}
+{% end %}
+
+
+{% if data['style'][key]['type'] == "rtsp" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='rtsp'>{{ key }}</div>
+{% else %}
+{% end %}
+
+    
+{% if data['style'][key]['type'] == "calc" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;
+
+    {% if "background_color" in data['style'][key] %}
+        background-color:{{ data['style'][key]['background_color'] }};' 
+    {% else %}
+    {% end %}
+
+    {% if "condition" in data['style'][key] %}
+        data-cond="{{ data['style'][key]['condition'] }}"
+    {% else%}position
+    {% end%}
+
+    {% if "formula" in data['style'][key] %}
+        data-formula="{{ data['style'][key]['formula'] }}"
+    {% else %}
+    {% end %}
+
+    {% if "lesser" in data['style'][key] %}
+        data-lesser="{{ data['style'][key]['lesser'] }}"
+    {% else %}
+    {% end %}
+
+    {% if "larger" in data['style'][key] %}
+        data-larger="{{ data['style'][key]['larger'] }}"
+    {% else %}
+    {% end %}
+
+    {% if "decimal" in data['style'][key] %}
+        data-decimal="{{ data['style'][key]['decimal'] }}"
+    {% else %}
+    {% end %}
+
+    data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
+</div>
+{% else %}
+{% end %}
+
+    
+{% if data['style'][key]['type'] == "data" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;
+    
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "condition" in data['style'][key] %}
+ data-cond="{{ data['style'][key]['condition'] }}"
+{% else%}position
+{% end%}
+{% if "formula" in data['style'][key] %}
+ data-formula="{{ data['style'][key]['formula'] }}"
+{% else %}
+{% end %}
+{% if "lesser" in data['style'][key] %}
+ data-lesser="{{ data['style'][key]['lesser'] }}"
+{% else %}
+{% end %}
+{% if "larger" in data['style'][key] %}
+ data-larger="{{ data['style'][key]['larger'] }}"
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "exponential" in data['style'][key] %}
+ data-exponential="{{ data['style'][key]['exponential'] }}"
+{% else %}
+{% end %}
+{% if "decimal" in data['style'][key] %}
+ data-decimal="{{ data['style'][key]['decimal'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
+</div>
+{% else %}
+{% end %}
+
+
+{% if data['style'][key]['type'] == "icon" %}
+{% if data['style'][key]['icon'] == "valve" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("valve_inactive.png") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "commbit" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("commbit_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "alarm" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("alarm_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "TMP" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("TMP_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "relay" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("relay_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "switch" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("switch_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['icon'] == "bottle" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+{% if "on_condition" in data['style'][key] %}
+ data-onexpression="{{ data['style'][key]['on_condition'] }}"
+{% else %}
+{% end %}
+{% if "off_condition" in data['style'][key] %}
+ data-offexpression="{{ data['style'][key]['off_condition'] }}"
+{% else %}
+{% end %}
+{% if "icon" in data['style'][key] %}
+ data-icon="{{ data['style'][key]['icon'] }}"
+{% else %}
+{% end %}
+ data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
+<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("bottle_inactive.svg") }}'></img>
+</div>
+{% else %}
+{% end %}
+{% else %}
+{% end %}
+
+
+{% if data['style'][key]['type'] == "integer-to-string" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;
+    
+{% if "background_color" in data['style'][key] %}
+background-color:{{ data['style'][key]['background_color'] }};' 
+{% else%}
+{% end%}
+{% if "cond" in data['style'][key] %}
+ data-cond="{{ data['style'][key]['cond'] }}"
+{% else%}
+{% end%}
+{% if "linkhtml" in data['style'][key] %}
+ data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
+{% else %}
+{% end %}
+{% if "trend" in data['style'][key] %}
+ data-trend="{{ data['style'][key]['trend'] }}"
+{% else %}
+{% end %}
+ data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">??? </span></p>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['type'] == "header" %}
+<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;
+{% if "background_color" in data['style'][key] %}    
+background-color:{{ data['style'][key]['background_color'] }};'
+{% else %}
+{% end %}
+{% if "titlelink" in data['style'][key] %}
+data-titlelink="{{ data['style'][key]['titlelink'] }}"
+{% else %}
+{% end %}
+data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
+<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span></p>
+</div>
+{% else %}
+{% end %}
+
+
+{% end %}
+
+{% else %}
+{% end %}
+
+
+<!-- java script -->
+<script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
+<script src="{{ static_url("jquery-ui.min.js") }}"></script>
+<script src="{{ static_url("dat.gui.js") }}"></script>
+
+<script>
+
+var varname;
+
+    
+function add_rest() {
+    var varname2 = $("#varname2 option:selected").text();
+        
+    if (document.getElementById(varname2)) {
+        alert('this record already exists');
+        console.log("Existed");
+        return;
+    }
+    console.log(varname2);
+
+    var html_text = "<div id='" + varname2 + "' style='position: absolute;top:200px;left:200px' " +
+        "background-color:" + $("#background_color_rest").val() + ";' class='varbox' data-type='rest'>" +
+        "<p><span style='margin-right: 20px;color: #000; font-size: " + $("#elem_title_size_rest").val() + "px; font-weight: " + $("#elem_title_style_rest").val() + ";' class='title'>" + $("#elem_title_text_rest").val() + "</span> <input type='text' style='font-size:" + $("#elem_input_size_rest").val() + "px; width= " + $("#elem_input_width_rest").val() + "px;'></p></div>"
+    
+    console.log( $("#background_color_rest").val());
+    console.log( $("#elem_title_text_rest").val());
+    console.log( $("#elem_title_size_rest").val());
+    console.log( $("#elem_input_size_rest").val());
+    console.log( $("#elem_input_width_rest").val());
+    console.log( $("#elem_title_style_rest").val());
+    
+        
+    $( "body" ).append(html_text);
+    $("#"+varname2).draggable();
+    $("#"+varname2).resizable();
+        
+    $('#'+varname2).click(function() {
+        varname = $(this).attr("id");
+        $("#varname2").val($(this).attr("id"));
+        $("#buttonHighlight").trigger("click");
+    });
+    
+    $("#"+varname2+" > input").keydown(function(e){
+        console.log("Input Keydown");
+        if(e.which == 13) {
+            e.preventDefault();
+
+            console.log("Pressed Enter: " + (this).attr('id'));
+            $(this).css("background-color", "yellow");
+            /*
+            var id = $(this).attr('id');
+            var value = $(this).val();
+
+            alert('Enter pressed for '+id+'\n'+
+              'Value = '+value;
+            )
+             */
+            
+            return false;
+        }
+        
+    });
+}
+    
+function add_rtsp() {
+    var varname3 = $("#varname3 option:selected").text();
+    
+    if (document.getElementById(varname3)) {
+      alert('this record already exists');
+      console.log("Existed");
+      return;
+    }
+
+    console.log(varname3);
+    console.log($("#rtsp_width").val());
+    console.log($("#rtsp_height").val());
+    //var html_text = "<div id='varname3' style='position: absolute;top:0;left:200px;' class='varbox box_highlight'><iframe src='http://localhost:1984/stream.html?src=test&mode=webrtc' width='400' height='400'></iframe></div>"
+    var html_text = "<div id='" + varname3 + "' style='position: absolute;top:0;left:200px; width:" + ($("#rtsp_width").val()).toString() + "px; height:" + ($("#rtsp_height").val()).toString() + "px' class='varbox' data-type='rtsp'>" + varname3 + "</div>"
+    
+    //<iframe src='' width='400' height='400'></iframe>
+    
+    $( "body" ).append(html_text);
+    $("#"+varname3).draggable();
+    //$("#camera01").resizable();
+    
+    $('#'+varname3).click(function() {
+        varname = $(this).attr("id");
+        $("#varname3").val($(this).attr("id"));
+        $("#buttonHighlight").trigger("click");
+        
+    });
+}
+    
+function add() {
+    console.log("add element");
+    title_text = $("#elem_title_text").val();
+    title_text = title_text.trim();
+    title_color = "#000000";
+    //title_color = $("#elem_title_color").val();
+    title_size = $("#elem_title_size").val();
+    title_style = $("#elem_title_style option:selected").val();
+    
+    unit_text = $("#elem_unit_text").val();
+    unit_text = unit_text.trim();
+    unit_color = "#000";
+    //unit_color = $("#elem_unit_color").val();
+    unit_size = $("#elem_unit_size").val();
+    unit_style = $("#elem_unit_style option:selected").val();
+    
+    data_condition = $("#elem_condition_range").val();
+    //data_max = $("#elem_max_range").val();
+    
+    data_formula = $("#elem_formula").val();
+    
+    //console.log(key);
+    
+    virtual_id = $("#virtual_id_text").val();
+    virtual_id = virtual_id.trim();
+    if (virtual_id == "") {
+        virtual_id = "0";
+    }
+    
+    
+    if ($('#elem_exponential').is(":checked")) {
+        data_exponential = true;
+        //$("#"+key).attr("data-exponential", true);
+    } else {
+        data_exponential = false;
+        //$("#"+key).attr("data-exponential", false);
+    }
+    if ($('#elem_linkhtml').is(":checked")) {
+        data_linkhtml = true;
+        //$("#"+key).attr("data-linkhtml", true);
+    } else {
+        data_linkhtml = false;
+        //$("#"+key).attr("data-linkhtml", false);
+    }
+     
+    if ($('#elem_trend').is(":checked")) {
+        data_trend = true;
+        //$("#"+key).attr("data-trend", true);
+    } else {
+        data_trend = false;
+        //$("#"+key).attr("data-trend", false);
+    }
+    
+ 
+    data_lesser = $("#elem_lesser_range").val();
+    data_larger = $("#elem_larger_range").val();
+    decimal_place = $("#decimal_place").val();
+    titlelink = $("#titlelink").val();
+    background_color = $("#background_color").val(); 
+    varval = $( "#varname option:selected").val();
+    varname = $("#varname option:selected").text();
+    
+    vartype = $("#vartype option:selected").val();
+    
+    icon = $("#icon option:selected").val();
+    onexpression = $("#onexpression option:selected").val();
+    onvalue = $("#onvalue").val();
+    offexpression = $("#offexpression option:selected").val();
+    offvalue = $("#offvalue").val();
+    varattr = $("#varattr option:selected").val();
+    rotate = $("#rotate").val(); 
+    console.log("Selected");
+    console.log(varattr);
+    console.log(virtual_id);
+    console.log(vartype);
+    console.log(title_text, unit_text, background_color, varname, varval, vartype);
+    
+        
+    if(($("#" + varname).length == 0) || (vartype=="header") || (vartype=="calc") || (varattr=="virtual")) {
+        console.log("Must enter here");
+        console.log(vartype);
+        if (vartype == "data") {
+            
+            if (varattr=="virtual") {
+                virtual_name = "virtual_" + varname + "_" + virtual_id;
+                if ( $("#" + virtual_name).length > 0 ) {
+                    for (i = 0; i < 50; i++) { 
+                        virtual_name = "virtual_" + varname + "_" + i.toString();
+                        console.log($("#" + virtual_name).length);
+                        if (!$("#" + virtual_name).length){
+                            break;
+                         }
+                    }
+                }
+                varname = virtual_name;
+            }
+            console.log("Data");
+            html_text = "<div " +
+                    "style='position: absolute; " +
+                           "top:0; " +
+                           "left:0; " +
+                           "background-color:" + background_color + "'" +
+                    "class='varbox box_highlight' " +
+                    "id='" + varname +
+                    "' data-type='" + vartype +
+                    "' data-cond='" + data_condition +
+                    "' data-formula='" + data_formula +
+                    "' data-lesser='" + data_lesser + 
+ 		            "' data-larger='" + data_larger + 
+                    "' data-exponential='" + data_exponential +
+                    "' data-linkhtml='" + data_linkhtml +
+                    "' data-trend='" + data_trend +
+                    "' data-decimal='" + decimal_place +
+                    "'>" +
+                    "<p>" +
+                    "<span style='color: " + title_color + ";" + 
+                    "font-size:" + title_size + "px; " + 
+                    "font-weight: " + title_style + ";' " + 
+                    "class='title'>" + title_text +
+                    " </span>" + 
+                    "<span style='color: " + unit_color + "; " + 
+                        "font-size:" + unit_size + "px; " +
+                        "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>XXX.XX </span>" + 
+                    "<span style='color: " + unit_color + "; " + 
+                        "font-size:" + unit_size + "px; " +
+                        "font-weight: " + unit_style + ";' " + 
+                        "class='unit_title'>" + unit_text + "</span></p>" +
+        	    "</div>";
+        } else if (vartype == "header") {
+            console.log("Header");
+            if (title_text.length > 0) { 
+                var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+                varname = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-titlelink='" + titlelink +
+                        "' data-lesser='" + data_lesser + 
+ 		                "' data-larger='" + data_larger + 
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span></p>" + 
+        	        "</div>";
+            
+                $('#varname').append($('<option>', {
+                    value: varname,
+                    text: varname
+                }));
+                $('#varname').val(varname);
+                $('#elem_title_text').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_title_text').addClass('glowing_border');
+            }
+        } else if (vartype == "calc") {
+            console.log("Calc");
+            if (data_formula.length > 0) {
+                var clean_text = data_formula.replace(/[^a-zA-Z0-9 ]/g, "")
+                varname = "calc_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+                console.log(varname);
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-lesser='" + data_lesser + 
+ 		                "' data-larger='" + data_larger +
+                        "' data-formula='" + data_formula +
+                        "' data-decimal='" + decimal_place +
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span>" + 
+                        "<span style='color: " + unit_color + "; " + 
+                               "font-size:" + unit_size + "px; " +
+                               "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>XXX.XX </span>" + 
+                        "<span style='color: " + unit_color + "; " + 
+                            "font-size:" + unit_size + "px; " +
+                            "font-weight: " + unit_style + ";' " + 
+                            "class='unit_title'>" + unit_text + "</span></p>" +
+        	        "</div>";
+            
+                $('#varname').append($('<option>', {
+                    value: varname,
+                    text: varname
+                }));
+                $('#varname').val(varname);
+                $('#elem_formula').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_formula').addClass('glowing_border');
+            }
+            
+        } else if (vartype == "icon") {
+                if (varattr=="virtual") {
+                    virtual_name = "virtual_" + varname + "_" + virtual_id;
+                    if ( $("#" + virtual_name).length > 0 ) {
+                        for (i = 0; i < 50; i++) {
+                            virtual_name = "virtual_" + varname + "_" + i.toString();
+                            console.log($("#" + virtual_name).length);
+                            if (!$("#" + virtual_name).length){
+                                break;
+                            }
+                        }
+                    }
+                    varname = virtual_name;
+                }
+                console.log(icon);
+                if ((onvalue.length > 0)&&(offvalue.length > 0)) {
+                    //var token = JSON.parse(unit_text);
+                    //data_on = token["on"];
+                    //data_off = token["off"];
+                    html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
+                        "class='varbox box_highlight' " +
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-cond='" + data_condition +
+                        "' data-icon='" + icon +
+                        "' data-lesser='" + data_lesser +
+                                "' data-larger='" + data_larger +
+                                "' data-onexpression='" + onexpression +
+                                "' data-on='" + onvalue +
+                                "' data-offexpression='" + offexpression +
+                                "' data-off='" + offvalue +
+                        "' data-linkhtml='" + data_linkhtml +
+                        "' data-trend='" + data_trend +
+                        "'>" +
+                        "<img width='100%' height='100%' " +
+                            "style='transform:rotate(" + rotate + ")'" +
+                            "src='/static/" + icon + "_inactive.svg' ></img>" +
+                        "</div>";
+                     $('#onvalue').removeClass('glowing_border');
+                     $('#offvalue').removeClass('glowing_border');
+                 } else{
+                     console.log("NoInput");
+                     html_text = "";
+                     $('#onvalue').addClass('glowing_border');
+                     $('#offvalue').addClass('glowing_border');
+                 }
+         
+	} else if (vartype == "integer-to-string") {
+            if (varattr=="virtual") {
+                virtual_name = "virtual_" + varname + "_" + virtual_id;
+                if ( $("#" + virtual_name).length > 0 ) {
+                    for (i = 0; i < 50; i++) {
+                        virtual_name = "virtual_" + varname + "_" + i.toString();
+                        console.log($("#" + virtual_name).length);
+                        if (!$("#" + virtual_name).length){
+                            break;
+                        }
+                    }
+                }
+                varname = virtual_name;
+            }
+            console.log("Integer2String");
+            
+            if (unit_text.length > 0) {
+                html_text = "<div " +
+                        "style='position: absolute; " +
+                               "top:0; " +
+                               "left:0; " +
+                               "background-color:" + background_color + "'" +
+                        "class='varbox box_highlight' " + 
+                        "id='" + varname +
+                        "' data-type='" + vartype +
+                        "' data-dict='" + unit_text +
+                        "' data-cond='" + data_condition +
+                        "' data-linkhtml='" + data_linkhtml +
+                        "' data-trend='" + data_trend +
+                        "'>" +
+                        "<p>" +
+                        "<span style='color: " + title_color + ";" + 
+                        "font-size:" + title_size + "px; " + 
+                        "font-weight: " + title_style + ";' " + 
+                        "class='title'>" + title_text +
+                        " </span><br />" + 
+                        "<span style='color: " + unit_color + "; " + 
+                               "font-size:" + unit_size + "px; " +
+                               "font-weight: " + unit_style + ";' " + 
+                        "class='varval'>??? o/soan>" + 
+                        "</p>" +
+        	            "</div>";
+                $('#elem_unit_text').removeClass('glowing_border');
+            } else {
+                console.log("NoInput");
+                html_text = "";
+                $('#elem_unit_text').addClass('glowing_border');
+            }
+        }
+        
+        console.log("Adding element");
+        console.log(html_text);
+        if (html_text.length > 0) {
+            $( "body" ).append(html_text);
+            $("#"+varname).draggable();
+            $("#"+varname).resizable();
+        }
+    }
+}
+    
+    
+function mysave(data) {
+    console.log("saving...");
+    varname = $("#varname option:selected").text();
+    varattr = $("#varattr option:selected").val();
+    
+    console.log("debug");
+    console.log(varattr);
+    var position = {};
+    for(key in data) {
+        var tmp = {};
+        //console.log(key);
+        if($("#" + key).length > 0 ) {
+            tmp["ref"] = key;
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = $("#"+key).width();
+            tmp["height"] = $("#"+key).height();
+            tmp["type"] = $("#"+key).attr("data-type");
+            if ( $("#"+key).attr("data-type") == "data" ) {
+                if ( (varname == key) && (varattr == "normal") ) {
+                    tmp["condition"] = $("#elem_condtion_range").val();
+            	    tmp["formula"] = $("#elem_formula").val();
+             	    tmp["lesser"] = $("#elem_lesser_range").val();
+            	    tmp["larger"] = $("#elem_larger_range").val();
+		    tmp["decimal"] = $("#decimal_place").val();
+                    if ($('#elem_exponential').is(":checked")) {
+                        tmp["exponential"] = "true";
+			$("#"+key).attr("data-exponential", "true");
+                    } else {
+                        tmp["exponential"] = "false";
+			$("#"+key).attr("data-exponential", "false");
+                    }
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+			$("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+			$("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
+            	    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    } 
+                    //console.log($("#"+key).css("background-color"));
+                    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style").val();
+         
+                    // update field
+                    $(".title", "#"+key).text(header["title"]);
+                    $(".title", "#"+key).css("font-size", header["size"] + "px");
+                    $(".title", "#"+key).css("font-weight", header["weight"]);
+
+            	    unit = {};
+            	    unit["title"] = $("#elem_unit_text").val().trim();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style").val();
+                    $(".varval", "#"+key).css("font-size", unit["size"] + "px");
+                    $(".unit_title", "#"+key).css("font-size", unit["size"] + "px");
+                    $(".unit_title", "#"+key).css("font-weight", unit["weight"]);                    
+                    $(".varval", "#"+key).css("font-weight", unit["weight"]);
+
+                } else {
+            	    tmp["condition"] = $("#"+key).attr("data-cond");
+            	    tmp["formula"] = $("#"+key).attr("data-formula");
+             	    tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	    tmp["larger"] = $("#"+key).attr("data-larger");
+                    tmp["exponential"] = $("#"+key).attr("data-exponential");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+		    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
+             	    //tmp["min"] = $("#"+key).attr("min");
+           	    //tmp["max"] = $("#"+key).attr("max");
+                    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
+                    tmp["background_color"] = $("#"+key).css("background-color");
+
+                    var fontWeight = $(".title", "#"+key).css("font-weight");
+                    if (fontWeight == 'bold' || fontWeight == '700') {
+            	        header["weight"] = "700";
+                    } else {
+            	        header["weight"] = "400";
+                    }
+                    
+            
+            	    unit = {};
+            	    unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = parseInt($(".varval", "#"+key).css("font-size")) || 28;
+                    
+                    fontWeight = $(".varval", "#"+key).css("font-weight");
+                    if (fontWeight == 'bold' || fontWeight == '700') {
+            	        unit["weight"] = "700";
+                    } else {
+            	        unit["weight"] = "400";
+                    }
+                }
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            //} else if ( $("#"+key).attr("data-type") == "header" ) {
+	    //	header = {};
+	    //	header["title"] = $(".title", "#"+key).text();
+	    //	header["size"] = $(".title", "#"+key).css("font-size");
+	    //	header["weight"] = $(".title", "#"+key).css("font-weight");
+            //	tmp["header"] = header;
+           } else if ( $("#"+key).attr("data-type") == "icon" ) {
+                if ((varname == key) && (varattr == "normal")) {
+                    //var unit_text = $("#elem_unit_text").val();
+                    //unit_text = unit_text.trim();
+                    //var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = $("#onvalue").val();
+                    tmp["on_condition"] = $("#onexpression").val();
+                    tmp["off"] = $("#offvalue").val();
+                    tmp["off_condition"] = $("#offexpression").val();
+                    tmp["icon"] = $("#"+key).attr("data-icon");
+		    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    }
+                } else {
+                    tmp["icon"] = $("#"+key).attr("data-icon");
+                    tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["on_condition"] = $("#"+key).attr("data-onexpression");
+                    tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["off_condition"] = $("#"+key).attr("data-offexpression");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+                    tmp["rotate"] = $("#"+key).children().css("transform");
+                    tmp["background_color"] = $("#"+key).css("background-color");
+                }
+            } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
+                if ((varname == key)&& (varattr == "normal")) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var data_condition = $("#elem_condition_range").val();
+            	    tmp["cond"] = data_condition;
+            	    tmp["dict"] = unit_text;
+             	    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    } 
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    }
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style").val();
+            
+            	    unit = {};
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                } else {
+            	    tmp["dict"] = $("#"+key).attr("data-dict");
+            	    tmp["cond"] = $("#"+key).attr("data-cond");
+            	    tmp["background_color"] = $("#"+key).css("background-color");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+                    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $(".title", "#"+key).css("font-size");
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    //unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            }
+            position[key] = tmp;
+        }
+    }
+    
+    var title_text = $("#elem_title_text").val();
+    title_text = title_text.trim();
+    
+    var clean_text = title_text.replace(/[^a-zA-Z0-9 ]/g, "")
+    var token = "header_" + clean_text.replace(/\s+/g, '-').toLowerCase();
+    $('[id^=virtual_]').each(function( index ) {
+        var tmp = {};
+        var key = this.id;
+        var ref = key.split("_");
+        ref.shift();
+        ref.pop();
+        ref = ref.join("_");
+        //ref = ref[1];
+        if (key != "virtual_id_text") {
+            
+        console.log("Check this");
+        console.log(key);
+        if($("#" + key).length > 0 ) {
+            tmp["ref"] = ref;
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = $("#"+key).width();
+            tmp["height"] = $("#"+key).height();
+            tmp["type"] = $("#"+key).attr("data-type");
+            
+            if ( $("#"+key).attr("data-type") == "data" ) {
+                if (varname == key) {
+            	    tmp["condition"] = $("#elem_condtion_range").val();
+            	    tmp["formula"] = $("#elem_formula").val();
+             	    tmp["lesser"] = $("#elem_lesser_range").val();
+            	    tmp["larger"] = $("#elem_larger_range").val();
+                    tmp["decimal"] = $("#decimal_place").val();
+            
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    } 
+                    // update field
+                    $(".title", "#"+key).css("font-size", header["size"] + "px");
+                    $(".title", "#"+key).css("font-weight", header["weight"] + "px");
+            
+            	    unit = {};
+            	    unit["title"] = $("#elem_unit_text").val().trim();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                    
+                    // update field
+                    $(".varval", "#"+key).css("font-size", unit["size"] + "px");
+                    $(".unit_title", "#"+key).css("font-size", unit["size"] + "px");
+                    $(".varval", "#"+key).css("font-weight", unit["weight"] + "px");
+                    
+                } else {
+            	    tmp["condition"] = $("#"+key).attr("data-cond");
+            	    tmp["formula"] = $("#"+key).attr("data-formula");
+             	    tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	    tmp["larger"] = $("#"+key).attr("data-larger");
+                    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
+             	    //tmp["min"] = $("#"+key).attr("min");
+                    //tmp["max"] = $("#"+key).attr("max");
+                    tmp["background_color"] = $("#"+key).css("background-color");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+            	    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
+            	    header["weight"] = parseInt($(".title", "#"+key).css("font-weight")) || 28;
+            
+            	    unit = {};
+            	    unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = parseInt($(".varval", "#"+key).css("font-size")) || 28;
+            	    unit["weight"] = parseInt($(".varval", "#"+key).css("font-weight")) || 28;
+                }
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            //} else if ( $("#"+key).attr("data-type") == "header" ) {
+	    //	        header = {};
+	    //	        header["title"] = $(".title", "#"+key).text();
+	    //	        header["size"] = $(".title", "#"+key).css("font-size");
+	    //	        header["weight"] = $(".title", "#"+key).css("font-weight");
+            //	tmp["header"] = header;
+            } else if ( $("#"+key).attr("data-type") == "icon" ) {
+                if (varname == key) {
+                    //var unit_text = $("#elem_unit_text").val();
+                    //unit_text = unit_text.trim();
+                    //var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = $("#onvalue").val();
+                    tmp["on_condition"] = $("#onexpression").val();
+                    tmp["off"] = $("#offvalue").val();
+                    tmp["off_condition"] = $("#offexpression").val();
+                    tmp["icon"] = $("#"+key).attr("data-icon");
+                    tmp["rotate"] = "rotate(" + $("#rotate").val() + "deg)";
+
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    }
+                } else {
+                    tmp["rotate"] = $("#"+key).children().css("transform");
+                    tmp["icon"] = $("#"+key).attr("data-icon");
+                    tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["on_condition"] = $("#"+key).attr("data-onexpression");
+                    tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["off_condition"] = $("#"+key).attr("data-offexpression");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+                    tmp["background_color"] = $("#"+key).css("background-color");
+                }
+		/*
+            } else if ( $("#"+key).attr("data-type") == "commbit" ) {
+                if (varname == key) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = dtoken["on"];
+                    tmp["off"] = dtoken["off"];
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                } else {
+                    tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                }
+            } else if ( $("#"+key).attr("data-type") == "alarm" ) {
+                if (varname == key) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var dtoken = JSON.parse(unit_text);
+                    tmp["on"] = dtoken["on"];
+                    tmp["off"] = dtoken["off"];
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                } else {
+                    tmp["on"] = $("#"+key).attr("data-on");
+                    tmp["off"] = $("#"+key).attr("data-off");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                }*/
+            } else if ( $("#"+key).attr("data-type") == "integer-to-string" ) {
+                if (varname == key) {
+                    var unit_text = $("#elem_unit_text").val();
+                    unit_text = unit_text.trim();
+                    var data_condition = $("#elem_condition_range").val();
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    }
+                    if ($('#elem_linkhtml').is(":checked")) {
+                        tmp["linkhtml"] = "true";
+                        $("#"+key).attr("data-linkhtml", "true");
+                    } else {
+                        tmp["linkhtml"] = "false";
+                        $("#"+key).attr("data-linkhtml","false");
+                    }
+                    if ($('#elem_trend').is(":checked")) {
+                        tmp["trend"] = "true";
+                        $("#"+key).attr("data-trend", "true");
+                    } else {
+                        tmp["trend"] = "false";
+                        $("#"+key).attr("data-trend","false");
+                    }
+            	    tmp["cond"] = data_condition;
+            	    tmp["dict"] = unit_text;
+             	    
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
+            
+            	    unit = {};
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                } else {
+            	    tmp["dict"] = $("#"+key).attr("data-dict");
+            	    tmp["cond"] = $("#"+key).attr("data-cond");
+            	    tmp["background_color"] = $("#"+key).css("background-color");
+                    tmp["linkhtml"] = $("#"+key).attr("data-linkhtml");
+                    tmp["trend"] = $("#"+key).attr("data-trend");
+                    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $(".title", "#"+key).css("font-size");
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    //unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $(".varval", "#"+key).css("font-size");
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            }
+            position[key] = tmp;
+        }
+        }
+    });
+    
+    $('[id^=header_]').each(function( index ) {
+        tmp = {};
+        var hkey = $( this ).attr('id');
+        console.log(hkey);
+        tmp["left"] = $("#"+hkey).css("left");
+        tmp["top"] = $("#"+hkey).css("top");
+        tmp["width"] = $("#"+hkey).width();
+        tmp["height"] = $("#"+hkey).height();
+        tmp["type"] = $("#"+hkey).attr("data-type");
+        header = {};
+        if (token == hkey) {
+            header["title"] = $("#elem_title_text").val().trim();
+            //header["color"] = $(".title", "#"+key).css("color");
+            header["size"] = $("#elem_title_size").val();
+            header["weight"] = $("#elem_title_style option:selected").val();
+            if ($('#titlelink').val().length > 0) {
+                tmp["titlelink"] = $('#titlelink').val();
+            }
+            if ($('#background_color').val().length > 0) {
+                tmp["background_color"] = $('#background_color').val();
+            } else {
+                tmp["background_color"] = '#0000';
+            }
+            // update field
+            $(".title", "#"+hkey).css("font-size", header["size"] + "px");
+            $(".title", "#"+hkey).css("font-weight", header["weight"]);
+            
+        } else {
+            header["title"] = $(".title", "#"+hkey).text();
+            //header["color"] = $(".title", "#"+hkey).css("color");
+            header["size"] = parseInt($(".title", "#"+hkey).css("font-size")) || 28;
+            header["weight"] = parseInt($(".title", "#"+hkey).css("font-weight")) || 28;
+            tmp["background_color"] = $("#"+hkey).css("background-color");
+            tmp["titlelink"] = $("#"+hkey).attr("data-titlelink");
+	    var fontWeight = $(".title", "#"+hkey).css("font-weight");
+	    if (fontWeight == 'bold' || fontWeight == '700') {
+		header["weight"] = "700";
+	    } else {
+		header["weight"] = "400";
+	    }
+        }
+        tmp["header"] = header;
+        position[hkey] = tmp;
+        tmp["type"] = "header";
+        //console.log( index + ": " + $( this ).text() );
+    });
+    
+    $('[id^=calc_]').each(function( index ) {
+      var tmp = {};
+        var key = this.id;
+        if($("#" + key).length > 0 ) {
+            tmp["ref"] = "";
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = $("#"+key).width();
+            tmp["height"] = $("#"+key).height();
+            tmp["type"] = $("#"+key).attr("data-type");
+            //if ( $("#"+key).attr("data-type") == "calc" ) {
+                if (varname == key) {
+            	    tmp["condition"] = $("#elem_condtion_range").val();
+            	    tmp["formula"] = $("#elem_formula").val();
+             	    tmp["lesser"] = $("#elem_lesser_range").val();
+            	    tmp["larger"] = $("#elem_larger_range").val();
+                    tmp["decimal"] = $("#decimal_place").val();
+            
+            	    header = {};
+            	    header["title"] = $("#elem_title_text").val().trim();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+            	    header["size"] = $("#elem_title_size").val();
+            	    header["weight"] = $("#elem_title_style option:selected").val();
+                    
+                    if ($('#background_color').val().length > 0) {
+                        tmp["background_color"] = $('#background_color').val();
+                    } else {
+                        tmp["background_color"] = '#0000';
+                    }
+ 
+            	    unit = {};
+            	    unit["title"] = $("#elem_unit_text").val().trim();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+            	    unit["size"] = $("#elem_unit_size").val();
+            	    unit["weight"] = $("#elem_unit_style option:selected").val();
+                    
+                } else {
+            	    tmp["condition"] = $("#"+key).attr("data-cond");
+            	    tmp["formula"] = $("#"+key).attr("data-formula");
+             	    tmp["lesser"] = $("#"+key).attr("data-lesser");
+            	    tmp["larger"] = $("#"+key).attr("data-larger");
+		    tmp["decimal"] = $("#"+key).attr("data-decimal") || 2;
+             	    //tmp["min"] = $("#"+key).attr("min");
+           	        //tmp["max"] = $("#"+key).attr("max");
+                    tmp["background_color"] = $("#"+key).css("background-color"); 
+            	    header = {};
+            	    header["title"] = $(".title", "#"+key).text();
+            	    //header["color"] = $(".title", "#"+key).css("color");
+                    header["size"] = parseInt($(".title", "#"+key).css("font-size")) || 28;
+            	    header["weight"] = $(".title", "#"+key).css("font-weight");
+            
+            	    unit = {};
+            	    unit["title"] = $(".unit_title", "#"+key).text();
+            	    //unit["color"] = $(".varval", "#"+key).css("color");
+                    unit["size"] = parseInt($(".varval", "#"+key).css("font-size")) || 28;
+            	    unit["weight"] = $(".varval", "#"+key).css("font-weight");
+                }
+            	tmp["header"] = header;
+            	tmp["unit"] = unit;
+            	tmp["type"] = "calc";
+            //}
+            position[key] = tmp;
+        }
+    });
+    
+    $('*[data-type="rtsp"]').each(function( index ) {
+        tmp = {};
+        var key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        position[key] = tmp;
+    });
+    
+    $('*[data-type="rest"]').each(function( index ) {
+        tmp = {};
+        var key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["type"] = $("#"+key).attr("data-type");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["background-color"] = $("#"+key).css("background-color");
+        
+        header = {};
+        header["size"] = $("#"+key+ " > p >span").css("font-size");
+        header["weight"] = $("#"+key + " > p > span").css("font-weight");
+        header["title"] = $("#"+key + " > p > span").text();
+        
+        input = {};
+        input["size"] = $("#"+key + " > p > input").css("font-size");
+        input["weight"] = $("#"+key + " > p > input").css("font-weight");
+        //input["width"] = $("#"+key + " > p > input").css("width");
+        
+        tmp["header"] = header;
+        tmp["input"] = input;
+        position[key] = tmp;
+    });
+    
+    console.log("Check here");
+    //console.log(position);
+    var dataToSend = JSON.stringify(position);
+    console.log(dataToSend);
+    $.ajax({
+        url: '/save/',
+        type: 'POST',
+        data: dataToSend,
+        success: function (response) {
+            //var objresponse = JSON.parse(response);
+            alert("Save success!");
+            console.log(response);
+            location.reload();
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}
+    
+/******************************
+ *
+ *   bora 2.0 functions
+ *
+ ******************************/
+
+// All the new bora2 function will have a "bora_" prefix
+// Older functions will be removed gradually
+function bora_add(prefix) {
+    console.log("BORA ADD:");
+    console.log(prefix);
+    var item_array = null;
+    var opt;
+    var tmp;
+    var varname;
+    var html_final = "";
+    
+    var div_head = "";
+    var div_style = " style='position: absolute; " +
+        "top:200px; " +
+        "left:200px; ";
+    var div_end = "'>";
+    var div_text = "";
+    
+    var input_head = "<input ";
+    var input_style = " style='";
+    var input_end = "'></input>";
+    var input_text = "";
+    
+    var input_flag = false;
+    
+    for (item in params) {
+        if (item.startsWith(prefix)) {
+            console.log(item);
+            
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
+            
+            if (opt == "must" && !params[item]) {
+                alert("Please enter value for: " + item);
+                return;
+            }
+            
+            console.log(item_array[2]);
+            if (item_array[2] == "div") { // DIV
+                console.log("Inside DIV");
+                console.log(item_array[3]);
+                
+                if (item_array[3] == "name") {
+                    
+                    varname = params[item];
+                    div_head = "<div " +
+                           "class='varbox box_highlight' " +
+                           "id=" + params[item] + " " +
+                           "data-type='"+ item_array[0] +"'";
+                } else if (item_array[3] == "text_name") {
+                    div_text = params[item];
+                } else {
+                    
+                    tmp = item_array[3].replace(/_/g, '-');
+                    
+                    div_style += tmp;
+                    div_style += ":";
+                    div_style += params[item];
+                    div_style += "; ";
+                }
+            } else if (item_array[2] == "input") { // INPUT
+                tmp = item_array[3].replace(/_/g, '-');
+                
+                input_style += tmp;
+                input_style += ":";
+                input_style += params[item];
+                input_style += "; ";
+                
+                input_flag = true;
+            }
+        }
+    }
+    
+    html_final = div_head + div_style + div_end + div_text
+    
+    if (input_flag) {
+        html_final += input_head;
+        html_final += input_style;
+        html_final += input_end;
+    }
+    
+    html_final += "</div>";
+    
+    console.log("Adding element");
+    console.log(html_final);
+    
+    var redundant_flag = false;
+    var ids = new Array();
+    $('body [id]').each(function() { //Get elements that have an id=
+        //ids.push($(this).attr("id")); //add id to array
+        //console.log($(this).attr("id"));
+        if ($(this).attr("id") == varname) {
+            alert("UI element with the same ID already existed!");
+            redundant_flag = true;
+        }
+    });
+    
+    if ((html_final.length > 0) &&
+        (redundant_flag == false) ) {
+        $( "body" ).append(html_final);
+        $("#"+varname).draggable();
+        $("#"+varname).resizable();
+    }
+}
+    
+function bora_select(prefix) {
+    var item_array;
+    
+    console.log("BORA SELECT:");
+    //console.log(prefix);
+    //console.log(params[prefix+"-div-name-must"]);
+    //console.log(params);
+    
+    $('body [id]').each(function() { //Get elements that have an id=
+        //ids.push($(this).attr("id")); //add id to array
+        //console.log($(this).attr("id"));
+        if ($(this).attr("id") == params[prefix+"-div-name-must"]) {
+            $("#"+ $(this).attr("id")).addClass("box_highlight");
+        } else {
+            $("#"+ $(this).attr("id")).removeClass("box_highlight");
+        }
+    });
+    
+    for (item in params) {
+        if (item.startsWith(prefix)) {
+            console.log(item);
+            
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
+            
+            if (item_array[2] == "div") { // DIV
+                if (item_array[3] == "name") {
+                    console.log("Do nothing.");
+                } else if (item_array[3] == "text_name") {
+                    params[item] = $("#"+ params[prefix+"-div-name-must"]).text();
+                } else {
+                    params[item] = $("#"+ params[prefix+"-div-name-must"]).css(item_array[3].replace(/_/g, '-'));
+                }
+            } else if (item_array[2] == "input") { // input
+                params[item] = $("#"+ params[prefix+"-div-name-must"] + " :input").css(item_array[3].replace(/_/g, '-'));
+            }
+        }
+    }
+    gui.updateDisplay();
+}
+
+    
+function bora_update(prefix) {
+    var item_array;
+    var input_tmp;
+        
+    console.log("BORA UPDATE:");
+    //console.log(prefix);
+    //console.log(params[prefix+"-div-name-must"]);
+    //console.log(params);
+        
+    for (item in params) {
+        if (item.startsWith(prefix)) {
+            console.log(item);
+                
+            item_array = item.split("-");
+            opt = item_array[item_array.length - 1];
+                
+            if (item_array[2] == "div") { // div
+                if (item_array[3] == "name") {
+                    console.log("Do nothing.");
+                } else if (item_array[3] == "text_name") {
+                    input_tmp = $("#"+ params[prefix+"-div-name-must"] + " :input");
+                    $("#"+ params[prefix+"-div-name-must"]).text(params[item]);
+                    input_tmp.appendTo("#"+ params[prefix+"-div-name-must"]);
+                } else {
+                    $("#"+ params[prefix+"-div-name-must"]).css(item_array[3].replace(/_/g, '-'), params[item]);
+                }
+            } else if (item_array[2] == "input") { // input
+                $("#"+ params[prefix+"-div-name-must"] + " :input").css(item_array[3].replace(/_/g, '-'), params[item]);
+            }
+        }
+    }
+    gui.updateDisplay();
+}
+    
+function bora_remove(prefix) {
+    console.log("BORA REMOVE:");
+    $("#"+ params[prefix+"-div-name-must"]).remove();
+}
+
+
+function bora_save(prefix) {
+    console.log("BORA SAVE:");
+    console.log(prefix);
+    console.log(category);
+    var key;
+    var tmp;
+    var position = {};
+    var mydiv = {};
+    var myinput = {};
+    
+    for (var i = 0; i < category.length; i++) {
+        console.log(category[i]);
+        
+        $('*[data-type="'+ category[i]  +'"]').each(function( index ) {
+            tmp = {};
+            key = $( this ).attr('id');
+            console.log(key, index);
+            tmp["left"] = $("#"+key).css("left");
+            tmp["top"] = $("#"+key).css("top");
+            tmp["width"] = Math.round($("#"+key).width());
+            tmp["height"] = Math.round($("#"+key).height());
+            tmp["type"] = $("#"+key).attr("data-type");
+            
+            
+            for (item in params) {
+                if (item.startsWith(category[i])) {
+                    
+                    item_array = item.split("-");
+                    opt = item_array[item_array.length - 1];
+                        
+                    if (item_array[2] == "div") { // div
+                        if (item_array[3] == "name") {
+                            console.log("Do nothing.");
+                        } else if (item_array[3] == "text_name") {
+                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).text();
+                        } else {
+                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).css(item_array[3].replace(/_/g, '-'));
+                        }
+                        
+                    } else if (item_array[2] == "input") { // input
+                        myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :input").css(item_array[3].replace(/_/g, '-'));
+                    }
+                }
+            }
+            
+            tmp["div"] = mydiv;
+            tmp["input"] = myinput;
+            position[key] = tmp;
+        });
+        
+        
+    }
+    
+    /*
+    for (item in params) {
+        //if (item.startsWith(prefix)) {
+        console.log(item);
+    }
+    */
+    
+    
+    
+    /*
+    $('*[data-type="rtsp"]').each(function( index ) {
+        tmp = {};
+        key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        position[key] = tmp;
+    });
+     */
+    
+    
+    /*
+    $('*[data-type="rest"]').each(function( index ) {
+        tmp = {};
+        key = $( this ).attr('id');
+        console.log(key, index);
+        tmp["left"] = $("#"+key).css("left");
+        tmp["top"] = $("#"+key).css("top");
+        tmp["width"] = Math.round($("#"+key).width());
+        tmp["height"] = Math.round($("#"+key).height());
+        tmp["type"] = $("#"+key).attr("data-type");
+        
+        
+        //tmp["background-color"]
+        position[key] = tmp;
+    });*/
+    
+    /*
+    resolution_x:
+      background-color: rgba(0, 0, 0, 0)
+      header:
+        size: 16px
+        title: ''
+        weight: '400'
+      height: 24
+      input:
+        size: 16px
+        weight: '400'
+      left: 234px
+      top: 83px
+      type: rest
+      width: 194
+    */
+    
+
+    //console.log(position);
+    var dataToSend = JSON.stringify(position);
+    console.log(dataToSend);
+    $.ajax({
+        url: '/save/',
+        type: 'POST',
+        data: dataToSend,
+        success: function (response) {
+            //var objresponse = JSON.parse(response);
+            alert("Save success!");
+            console.log(response);
+            location.reload();
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}
+    
+function bora_backup() {
+    $.ajax({
+        url: '/backup/',
+        type: 'POST',
+        success: function (response) {
+            alert("Backup success!");
+        },
+        error: function () {
+            console.log("Error.")
+        }
+    });
+}
+        
+
+
+var obj = {
+    select:function(...args){
+        console.log("select", ...args);
+        bora_select(...args);
+    },
+    update:function(...args){
+        console.log("update", ...args);
+        bora_update(...args);
+    },
+    add:function(...args){
+        console.log("add", ...args);
+        bora_add(...args);
+    },
+    remove:function(...args){
+        console.log("remove ", ...args);
+        bora_remove(...args);
+    },
+    save:function(...args){
+        console.log("save", ...args);
+        bora_save(...args);
+    },
+    backup:function(...args){
+        console.log("backup", ...args);
+        bora_backup();
+    }
+};
+
+var myobject = {
+    myname: "",
+};
+
+
+var default_values =
+{
+    name: ""
+}
+
+gui = new dat.GUI();
+var mygroup;
+var subdata;
+var folder;
+
+var params = {};
+var category = [];
+var tmp_color;
+var bind_param;
+var opt = "";
+
+gui.add(obj, 'save');
+gui.add(obj, 'backup');
+
+{% for category in data["typedef"] %}
+    
+    folder = gui.addFolder("{{ category }}");
+    
+    category.push("{{ category }}");
+    // Other params here
+    
+    // category -> rtsp
+    // datatype -> data
+    // element -> div
+    
+    
+    {% for datatype in data["typedef"][category] %}
+    
+    console.log("ELEMENT: " + '{{ category }} ' + '{{ datatype }}' );
+    
+    subfolder = folder.addFolder("{{ datatype }} ");
+    
+    mygroup = {};
+    {% for item in data["vardata"][ category ] %}
+        if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
+            mygroup["{{ item }}"] = "{{ item }}";
+        }
+        $("#" + "{{ item }}").draggable();
+        
+    {% end %}
+    
+    console.log("LOL");
+    console.log(mygroup);
+    
+    bind_param = '{{ category }}' + "-" + '{{ datatype }}';
+    
+    params[ bind_param + "-div-name-must"] = "";
+    subfolder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
+    
+    subfolder.add({select : obj.select.bind(this, bind_param  )}, "select");
+    subfolder.add({update : obj.update.bind(this, bind_param )}, "update");
+    
+    {% for element in data["typedef"][category][datatype] %}
+        
+        {% for item in data["typedef"][ category ][datatype][element] %}
+            console.log(
+                "{{ item }}",
+                '{{ data["typedef"][ category ][datatype][element][item]["value"] }}',
+                '{{ data["typedef"][ category ][datatype][element][item]["type"] }}',
+            );
+            
+            if ('{{ data["typedef"][ category ][datatype][element][item]["optional"] }}' == "True") {
+                opt = "opt"
+            } else {
+                opt = "must"
+            }
+            
+            if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "string") { // STRING
+                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
+            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "bool") { // BOOL
+                if ('{{ data["typedef"][ category ][datatype][element][item]["value"] }}' == "True") {
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = true;
+                } else {
+                    params[ bind_param+ + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
+                }
+            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "color") {
+                tmp_color = "rgba(";
+                {% for subcolor in data["typedef"][ category ][datatype][element][item]["value"] %}
+                    tmp_color += "{{ subcolor }}";
+                    tmp_color += ",";
+                {% end %}
+                tmp_color = tmp_color.slice(0, -1);
+                tmp_color += ")";
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = tmp_color;
+                
+            } else {
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
+            }
+            subfolder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
+        {% end %}
+    {% end %}
+    
+    subfolder.add({add : obj.add.bind(this, bind_param )}, "add");
+    subfolder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
+    {% end %}
+    
+    
+{% end %}
+
+
+</script>
+
+
+</body>
+</html>

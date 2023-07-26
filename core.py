@@ -1,29 +1,141 @@
 import logging
 import calendar
-import datetime
 import os
 import re
 import sys
 import yaml
-import time
 import requests
-import shutil
-import tornado.ioloop
-import tornado.web
-import tornado.autoreload
-from shutil import copyfile
-from datetime import date
-from time import gmtime, strftime
-from tornado.escape import json_decode, json_encode, url_escape
-from threading import Timer
 import subprocess
 import json
 
+import datetime
+from datetime import date
+import time
+from time import gmtime, strftime
+
+import shutil
+from shutil import copyfile, rmtree
+
+import tornado.ioloop
+import tornado.web
+import tornado.autoreload
+from tornado.escape import json_decode, json_encode, url_escape
+
+from threading import Timer
+from pathlib import Path
+from distutils.dir_util import copy_tree
+
+from string import Template
 
 
 root = os.path.dirname(__file__)
 BORA_VERSION = "1.1.0"
 python_version = sys.version_info.major
+
+
+###########################
+#  Loading setup data     #
+###########################
+setings_data = None
+with open("settings.yaml", 'r') as stream:
+    try:
+        settings_data = yaml.load(stream, Loader=yaml.Loader)
+    except yaml.YAMLError as exc:
+        print(exc)
+print(settings_data)
+
+
+varname_data = None
+with open("varname.yaml", 'r') as stream:
+    try:
+        varname_data = yaml.load(stream, Loader=yaml.Loader)
+    except yaml.YAMLError as exc:
+        print(exc)
+
+
+###########################
+#  Copy Master files      #
+###########################
+shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
+shutil.copyfile("./bora/status_master.html", "./bora/status.html")
+
+
+###########################
+#  Setup Plugins          #
+###########################
+
+# init :-> create fresh runtime_env folder
+rmtree("./runtime_env")
+Path("./runtime_env").mkdir(parents=True, exist_ok=True)
+
+
+# init :-> copy the plugins to the user space
+for plugin in settings_data["plugins"]:
+    print("copy: " + plugin)
+    # load lambda.yaml
+    if settings_data["plugins"][plugin]["function"]:
+        print("    fn: " + settings_data["plugins"][plugin]["function"])
+
+        copy_tree(
+            "./bora/function/" + settings_data["plugins"][plugin]["function"],
+            "./runtime_env/" + settings_data["plugins"][plugin]["function"]
+        )
+
+### plugin :-> install
+for plugin in settings_data["plugins"]:
+    print("install: " + plugin)
+    # load lambda.yaml
+    
+    if settings_data["plugins"][plugin]["function"]:
+        print("    fn: " + settings_data["plugins"][plugin]["function"])
+
+        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
+            try:
+                lambda_data = yaml.load(stream, Loader=yaml.Loader)
+                #print(lambda_data["install"])
+                for item in lambda_data["install"]:
+                    if item:
+                        os.system(item)
+            except yaml.YAMLError as exc:
+                print(exc)
+
+
+### plugin :-> setup
+for plugin in settings_data["plugins"]:
+    print("setup: " + plugin)
+    # load lambda.yaml
+    if settings_data["plugins"][plugin]["function"]:
+        print("    fn: " + settings_data["plugins"][plugin]["function"])
+        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
+            try:
+                lambda_data = yaml.load(stream, Loader=yaml.Loader)
+                #print(lambda_data["install"])
+                for item in lambda_data["setup"]:
+                    if item:
+                        cmd = item %(plugin)
+                        os.system(cmd)
+            except yaml.YAMLError as exc:
+                print(exc)
+
+
+### plugin :-> run
+for plugin in settings_data["plugins"]:
+    print("run: " + plugin)
+    # load lambda.yaml
+    if settings_data["plugins"][plugin]["function"]:
+        print("    fn: " + settings_data["plugins"][plugin]["function"])
+    
+        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
+            
+            try:
+                lambda_data = yaml.load(stream, Loader=yaml.Loader)
+                print(lambda_data["run"])
+                for item in lambda_data["run"]:
+                    print(item)
+                    if item:
+                        os.system(item)
+            except yaml.YAMLError as exc:
+                print(exc)
 
 
 def setup_custom_logger(name):
@@ -40,6 +152,7 @@ def setup_custom_logger(name):
     return logger
 
 logger = setup_custom_logger('BORA')
+
 
 """
 class RepeatedTimer(object):
@@ -237,11 +350,6 @@ class DesignerHandler(tornado.web.RequestHandler):
         """
         
         # check other data sources: rtsp or rest
-        with open("varname.yaml", 'r') as stream:
-            try:
-                varname_data = yaml.load(stream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
         
         with open("style.yaml", 'r') as stream:
             try:
@@ -249,12 +357,6 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
         
-        setings_data = None
-        with open("settings.yaml", 'r') as stream:
-            try:
-                settings_data = yaml.load(stream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
 
         # Prepare typedef yaml
         print(settings_data)
@@ -295,7 +397,7 @@ class DesignerHandler(tornado.web.RequestHandler):
         
         #print(typedef_data)
 
-        data["title"] = os.environ["BORA_TITLE"]
+        data["title"] = settings_data["title"]
         data["version"] = BORA_VERSION
         
         r = json.dumps(data)
@@ -361,21 +463,6 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
-        with open("varname.yaml", 'r') as vstream:
-            try:
-                varname_data = yaml.load(vstream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
-
-        """
-        tmp_data = {}
-        # serialize the data
-        if varname_data:
-            for data_source in varname_data:
-                for param in varname_data[data_source]:
-                    tmp_data[param] = varname_data[data_source][param]
-        """
-
         if not os.path.isfile("./bora/cache.yaml"): 
             print("BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","wb")
@@ -396,8 +483,8 @@ class StatusHandler(tornado.web.RequestHandler):
 
         print("Status Handler")
 
-        data["title"] = os.environ["BORA_TITLE"]
-        data["server"] = os.environ["BORA_ADEI_SERVER"]
+        data["title"] = settings_data["title"]
+        #data["server"] = os.environ["BORA_ADEI_SERVER"]
         data["version"] = BORA_VERSION
 
         self.render('status.html', data=data)
@@ -642,6 +729,6 @@ application = tornado.web.Application([
 
 
 if __name__ == "__main__":
-    application.listen(int(os.environ["BORA_PORT"]))
+    application.listen(int(settings_data["port"]))
     tornado.autoreload.start()
     tornado.ioloop.IOLoop.instance().start()
