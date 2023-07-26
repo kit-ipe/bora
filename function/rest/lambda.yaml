@@ -3,8 +3,8 @@
 install:
     - null
 setup:
-    - "python main.py"
+    - "python ./runtime_env/rest/scripts/main.py %s"
 run:
     - null
-teardown:
-    - null
+javascript:
+    - "rest.js"

@@ -126,16 +126,37 @@ for plugin in settings_data["plugins"]:
         print("    fn: " + settings_data["plugins"][plugin]["function"])
     
         with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
-            
             try:
                 lambda_data = yaml.load(stream, Loader=yaml.Loader)
+                print("Checking...")
                 print(lambda_data["run"])
                 for item in lambda_data["run"]:
                     print(item)
                     if item:
+                        print("run?!")
                         os.system(item)
             except yaml.YAMLError as exc:
                 print(exc)
+
+
+### plugin :-> javascript
+for plugin in settings_data["plugins"]:
+    print("javascript: " + plugin)
+    # load lambda.yaml
+    if settings_data["plugins"][plugin]["function"]:
+        print("    fn: " + settings_data["plugins"][plugin]["function"])
+    
+        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
+            try:
+                lambda_data = yaml.load(stream, Loader=yaml.Loader)
+                print(lambda_data["javascript"])
+                for item in lambda_data["javascript"]:
+                    if item:
+                        print("Copy Javascript")
+            except yaml.YAMLError as exc:
+                print(exc)
+
+
 
 
 def setup_custom_logger(name):

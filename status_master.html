@@ -28,15 +28,6 @@
 <!-- BORA END -->
 
 
-{% if data['style'][key]['type'] == "rest" %}
-
-<div id='{{ key }}' class='varbox' data-url='{{ data['rest'][key]['source'] }}' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]["div"]['width'] }};
-    height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
-
-{% else %}
-{% end %}
-
 
 {% if data['style'][key]['type'] == "calc" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
@@ -564,6 +555,10 @@ data-type="{{
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
 <script src="{{ static_url("math.min.js") }}"></script>
+<!-- BORA-JS -->
+
+
+<!-- BORA-JS -->
 <script>
 
 jQuery(window).load(function () {
@@ -572,18 +567,6 @@ var win_width = $(document).width();
 var win_height = $(document).height();
     
     
-$("input").on('keypress',function(e) {
-    if(e.which == 13) {
-        console.log($(this).closest('div').attr('id'));
-        console.log($(this).closest('div').attr('data-url'));
-        console.log($(this).val());
-        var id = $(this).closest('div').attr('id');
-        var url = $(this).closest('div').attr('data-url');
-        var value = $(this).val();
-        rest_set_query(id, url, value);
-    }
-});
-
     
 $(".databox").hover(function(){
     var trend_time_end = Math.floor(Date.now() / 1000);
@@ -931,22 +914,6 @@ function myTimer() {
 });
 
 
-function rest_set_query(id, url, value) {
-    
-    var myurl = url + "?v=" + value;
-    
-    $.ajax({
-        url: myurl,
-        type: 'GET',
-        crossDomain: true,
-        success: function (response) {
-            console.log(response);
-        },
-        error: function () {
-            console.log("Error.")
-        }
-    });
-}
 </script>
 </body>
 </html>

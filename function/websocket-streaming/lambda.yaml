@@ -7,5 +7,5 @@ setup:
     - "python ./runtime_env/websocket-streaming/scripts/main.py %s"
 run:
     - "node ./runtime_env/websocket-streaming/scripts/index.js&"
-teardown:
-    - "index.js"
+javascript:
+    - null
