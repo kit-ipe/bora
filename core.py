@@ -56,6 +56,8 @@ with open("varname.yaml", 'r') as stream:
 ###########################
 #  Copy Master files      #
 ###########################
+shutil.copyfile("background.png", "./bora/static/background.png")
+
 shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
 shutil.copyfile("./bora/status_master.html", "./bora/status.html")
 
@@ -395,13 +397,17 @@ class DesignerHandler(tornado.web.RequestHandler):
         # TODO: add those non data type definitions e.g. Header, Calc 
         #print(typedef_data)
 
-        
-        # intersect of cache file and style file
-        if style_data:
-            index_data = list(set(cache_data) | set(style_data))
-        else:
-            index_data = cache_data
 
+        
+        index_data = None
+        # intersect of cache file and style file
+        if cache_data:
+            if style_data:
+                index_data = list(set(cache_data) | set(style_data))
+            else:
+                index_data = cache_data
+
+        
         if index_data is not None:
             index_data = sorted(index_data)
 
