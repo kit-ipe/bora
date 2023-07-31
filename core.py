@@ -67,7 +67,8 @@ shutil.copyfile("./bora/status_master.html", "./bora/status.html")
 ###########################
 
 # init :-> create fresh runtime_env folder
-rmtree("./runtime_env")
+if os.path.isdir('./runtime_env'):
+    rmtree("./runtime_env")
 Path("./runtime_env").mkdir(parents=True, exist_ok=True)
 
 
