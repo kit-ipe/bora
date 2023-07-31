@@ -8,4 +8,4 @@ setup:
 run:
     - "node ./runtime_env/websocket-streaming/scripts/index.js&"
 javascript:
-    - null
+    - "websocket-streaming.js"

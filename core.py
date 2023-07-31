@@ -62,6 +62,23 @@ shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
 shutil.copyfile("./bora/status_master.html", "./bora/status.html")
 
 
+if os.path.isdir('./bora/static'):
+    rmtree("./bora/static")
+Path("./bora/static").mkdir(parents=True, exist_ok=True)
+
+# Providing the folder path
+origin_static = "./bora/static_master/"
+target_static = "./bora/static/"
+
+# Fetching the list of all the files
+origin_static_files = os.listdir(origin_static)
+
+# Fetching all the files to directory
+for static_file in origin_static_files:
+   shutil.copy(origin_static + static_file, target_static + static_file)
+
+
+
 ###########################
 #  Setup Plugins          #
 ###########################

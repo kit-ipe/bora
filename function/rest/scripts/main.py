@@ -12,7 +12,13 @@ import sys
 import yaml
 from string import Template
 
-template = """<script src="{{ static_url("$key.js") }}"></script>"""
+
+# js template for local static folder
+js_template_local = """<script src="{{ static_url("$key.js") }}"></script>"""
+
+# js template for local static folder
+js_template_external = """<script src="$key"></script>"""
+
 
 varname_data = None
 with open("varname.yaml", 'r') as stream:
@@ -72,7 +78,7 @@ def main(arguments):
             break
     anchor += 1
 
-    temp_obj = Template(template)
+    temp_obj = Template(js_template_local)
     contents.insert(
         anchor,
         temp_obj.substitute(key=plugin_type))
