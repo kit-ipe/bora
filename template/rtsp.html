@@ -2,8 +2,8 @@
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px;' data-type='rtsp'>
-    <iframe src='{{ data['rtsp'][key] }}' width='{{ data['style'][key]['width'] }}' height='{{ data['style'][key]['height'] }}'>
-    </iframe>
+    <canvas id='{{ key }}' width='{{ data['style'][key]['width'] }}' height='{{ data['style'][key]['height'] }}'>
+    </canvas>
 </div>
 {% else %}
 {% end %}

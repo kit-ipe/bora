@@ -56,15 +56,22 @@ with open("varname.yaml", 'r') as stream:
 ###########################
 #  Copy Master files      #
 ###########################
-shutil.copyfile("background.png", "./bora/static/background.png")
 
+if os.path.isfile("./bora/designer.html"):
+   os.remove("./bora/designer.html")
 shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
-shutil.copyfile("./bora/status_master.html", "./bora/status.html")
 
+if os.path.isfile("./bora/status.html"):
+   os.remove("./bora/status.html")
+shutil.copyfile("./bora/status_master.html", "./bora/status.html")
 
 if os.path.isdir('./bora/static'):
     rmtree("./bora/static")
 Path("./bora/static").mkdir(parents=True, exist_ok=True)
+
+if os.path.isfile("./bora/static/background.png"):
+   os.remove("./bora/static/background.png")
+shutil.copyfile("background.png", "./bora/static/background.png")
 
 # Providing the folder path
 origin_static = "./bora/static_master/"
@@ -130,10 +137,15 @@ for plugin in settings_data["plugins"]:
             try:
                 lambda_data = yaml.load(stream, Loader=yaml.Loader)
                 #print(lambda_data["install"])
+                for item in lambda_data["javascript"]:
+                    if item:
+                        shutil.copy("./bora/js_plugins/" + item, "./bora/static/" + item)
                 for item in lambda_data["setup"]:
                     if item:
-                        cmd = item %(plugin)
+                        #cmd = item % (settings_data["plugins"][plugin]["function"])
+                        cmd = item % (plugin)
                         os.system(cmd)
+                
             except yaml.YAMLError as exc:
                 print(exc)
 

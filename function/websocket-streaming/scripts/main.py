@@ -22,6 +22,21 @@ const $key = proxy({
 app.ws('/websocket-streaming/$key', $key);
 """
 
+# js template for local static folder
+js_template_local = """<script src="{{ static_url("$key.js") }}"></script>"""
+
+# js template for local static folder
+js_template_external = """<script src="$key"></script>"""
+
+js_template_load_player = """
+loadPlayer({
+    url: 'ws://localhost:2000/$key/$value',
+    canvas: document.getElementById('$value')
+});
+"""
+
+print("Websocket Streaming ")
+
 varname_data = None
 with open("varname.yaml", 'r') as stream:
     try:
@@ -110,7 +125,80 @@ def main(arguments):
     with open("./bora/status.html", "w") as f:
         contents = "".join(contents)
         f.write(contents)
+
+    ### ASDF
+    #for varname in varname_data[plugin_type]:
+    #    print(varname)
+    #print("check this")   
+
     
+    js_template_items = [] 
+    for style_item in style_data:
+        if style_item in varname_data[plugin_type]:
+            print(style_item)
+            js_template_items.append(style_item)
+
+    ### CANVAS
+    with open("./bora/static/" + plugin_type + ".js", "r") as f:
+        status_js = f.readlines()
+    
+    for item in js_template_items:
+        temp_obj = Template(js_template_load_player)
+        status_js.insert(
+            0,
+            temp_obj.substitute(key=plugin_type, value=item))
+
+    with open("./bora/static/" + plugin_type + ".js", "w") as f:
+        status_js = "".join(status_js)
+        f.write(status_js)
+
+    ###
+    with open("./bora/status.html", "r") as f:
+        contents = f.readlines()
+
+    # stub code
+    anchor = 0
+    for num, line in enumerate(contents):
+        if "<!-- BORA-JS -->" in line:
+            anchor = num
+            break
+    anchor += 1
+
+    temp_obj = Template(js_template_local)
+    contents.insert(
+        anchor,
+        temp_obj.substitute(key=plugin_type))
+
+    with open("./bora/status.html", "w") as f:
+        contents = "".join(contents)
+        f.write(contents)
+
+
+    #### external JS TODO NTJ
+    with open("./bora/status.html", "r") as f:
+        contents = f.readlines()
+
+    # stub code
+    anchor = 0
+    for num, line in enumerate(contents):
+        if "<!-- BORA-JS -->" in line:
+            anchor = num
+            break
+    anchor += 1
+
+    temp_obj = Template(js_template_external)
+    contents.insert(
+        anchor,
+        temp_obj.substitute(key="https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js"))
+    
+    temp_obj = Template(js_template_external)
+    contents.insert(
+        anchor,
+        temp_obj.substitute(key="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"))
+
+    with open("./bora/status.html", "w") as f:
+        contents = "".join(contents)
+        f.write(contents)
 
 
 if __name__ == '__main__':
