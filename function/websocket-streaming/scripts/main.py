@@ -30,7 +30,7 @@ js_template_external = """<script src="$key"></script>"""
 
 js_template_load_player = """
 loadPlayer({
-    url: 'ws://localhost:2000/$key/$value',
+    url: 'ws://ipepdvcompute1.ipe.kit.edu:2000/$key/$value',
     canvas: document.getElementById('$value')
 });
 """
