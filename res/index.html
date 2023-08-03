@@ -1,0 +1,15 @@
+<html>
+    <head>
+	<script src="https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js"></script>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+	<script src="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"></script>
+	<script>
+	    loadPlayer({
+	        url: 'ws://localhost:2000/websocket-streaming/camera01',
+		canvas: document.getElementById('canvas')
+	    });
+	</script>
+    </body>
+</html>

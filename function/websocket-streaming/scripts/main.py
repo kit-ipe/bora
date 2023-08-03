@@ -142,11 +142,19 @@ def main(arguments):
     with open("./bora/static/" + plugin_type + ".js", "r") as f:
         status_js = f.readlines()
     
+    # stub code
+    anchor = 0
+    for num, line in enumerate(status_js):
+        if "/** BORA-JS **/" in line:
+            anchor = num
+            break
+    anchor += 1
+    
     for item in js_template_items:
         temp_obj = Template(js_template_load_player)
         status_js.insert(
-            0,
-            temp_obj.substitute(key=plugin_type, value=item))
+            anchor,
+            temp_obj.substitute(key="websocket-streaming", value=item))
 
     with open("./bora/static/" + plugin_type + ".js", "w") as f:
         status_js = "".join(status_js)
@@ -185,16 +193,17 @@ def main(arguments):
             anchor = num
             break
     anchor += 1
+    
+    temp_obj = Template(js_template_external)
+    contents.insert(
+        anchor,
+        temp_obj.substitute(key="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"))
 
     temp_obj = Template(js_template_external)
     contents.insert(
         anchor,
         temp_obj.substitute(key="https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js"))
     
-    temp_obj = Template(js_template_external)
-    contents.insert(
-        anchor,
-        temp_obj.substitute(key="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"))
 
     with open("./bora/status.html", "w") as f:
         contents = "".join(contents)
