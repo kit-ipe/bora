@@ -353,6 +353,8 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
+        print(varname_data)
+
         data = {
             "style": style_data,
             "adei": varname_data["adei"],
