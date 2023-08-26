@@ -1617,6 +1617,8 @@ function bora_select(prefix) {
             
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
+                    
+            var tmp_css_property = item_array[3].replace(/_/g, '-');
             
             if (item_array[2] == "div") { // DIV
                 if (item_array[3] == "name") {
@@ -1624,10 +1626,48 @@ function bora_select(prefix) {
                 } else if (item_array[3] == "text_name") {
                     params[item] = $("#"+ params[prefix+"-div-name-must"]).text();
                 } else {
-                    params[item] = $("#"+ params[prefix+"-div-name-must"]).css(item_array[3].replace(/_/g, '-'));
+                    // inputs
+                    var tmp_param_item = $("#"+ params[prefix+"-div-name-must"]).css(tmp_css_property);
+
+                    if (tmp_param_item.indexOf("px") > 0) {
+                        params[item] = parseInt(tmp_param_item);
+                    } else {
+                        if (tmp_css_property.localeCompare("font-weight") == 0 ) {
+                            if (parseInt(tmp_param_item) == 400) {
+                                params[item] = "normal";
+                            } else  if (parseInt(tmp_param_item) == 700) {
+                                params[item] = "bold";
+                            } else {
+                                alert("Error");
+                            }
+                        } else {
+                            params[item] = tmp_param_item;
+                        }
+                    }
                 }
             } else if (item_array[2] == "input") { // input
-                params[item] = $("#"+ params[prefix+"-div-name-must"] + " :input").css(item_array[3].replace(/_/g, '-'));
+                    // inputs
+                    var tmp_param_item = $("#"+ params[prefix+"-div-name-must"]).css(tmp_css_property);
+
+                    if (tmp_param_item.indexOf("px") > 0) {
+                        params[item] = parseInt(tmp_param_item);
+                    } else {
+                        if (tmp_css_property.localeCompare("font-weight") == 0 ) {
+                            if (parseInt(tmp_param_item) == 400) {
+                                params[item] = "normal";
+                            } else  if (parseInt(tmp_param_item) == 700) {
+                                params[item] = "bold";
+                            } else {
+                                alert("Error");
+                            }
+                        } else {
+                            params[item] = tmp_param_item;
+                        }
+                    }
+                // inputs
+                //params[item] = $("#"+ params[prefix+"-div-name-must"] + " :input").css(tmp_css_property);
+                //console.log("CHECK THIS");
+                //console.log(params[item]);
             }
         }
     }
