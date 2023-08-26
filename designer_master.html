@@ -31,7 +31,7 @@
 {% if data['style'][key]['type'] == "rest" %}
 
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]["div"]['width'] }};
+    data['style'][key]['left'] }};
     height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
 
 {% else %}
@@ -1469,6 +1469,10 @@ function mysave(data) {
         }
     });
 }
+
+function isNumeric(value) {
+    return /^\d+$/.test(value);
+}
     
 /******************************
  *
@@ -1512,6 +1516,12 @@ function bora_add(prefix) {
                 alert("Please enter value for: " + item);
                 return;
             }
+
+            var tmp_params = params[item];
+            // if params[item] is numeric -> append px
+            if (isNumeric(tmp_params)) {
+                tmp_params = tmp_params + "px";
+            }
             
             console.log(item_array[2]);
             if (item_array[2] == "div") { // DIV
@@ -1520,20 +1530,22 @@ function bora_add(prefix) {
                 
                 if (item_array[3] == "name") {
                     
-                    varname = params[item];
+                    varname = tmp_params;
                     div_head = "<div " +
                            "class='varbox box_highlight' " +
-                           "id=" + params[item] + " " +
+                           "id=" + tmp_params + " " +
                            "data-type='"+ item_array[0] +"'";
                 } else if (item_array[3] == "text_name") {
-                    div_text = params[item];
+                    div_text = tmp_params;
                 } else {
-                    
+        
+                    console.log(tmp_params);
                     tmp = item_array[3].replace(/_/g, '-');
                     
+
                     div_style += tmp;
                     div_style += ":";
-                    div_style += params[item];
+                    div_style += tmp_params;
                     div_style += "; ";
                 }
             } else if (item_array[2] == "input") { // INPUT
@@ -1541,7 +1553,7 @@ function bora_add(prefix) {
                 
                 input_style += tmp;
                 input_style += ":";
-                input_style += params[item];
+                input_style += tmp_params;
                 input_style += "; ";
                 
                 input_flag = true;
@@ -1677,6 +1689,7 @@ function bora_save(prefix) {
         console.log(category[i]);
         
         $('*[data-type="'+ category[i]  +'"]').each(function( index ) {
+            console.log("KEY:");
             tmp = {};
             key = $( this ).attr('id');
             console.log(key, index);
@@ -1688,6 +1701,8 @@ function bora_save(prefix) {
             
             
             for (item in params) {
+                console.log("CHECK THIS");
+                console.log(item);
                 if (item.startsWith(category[i])) {
                     
                     item_array = item.split("-");
@@ -1774,6 +1789,7 @@ function bora_save(prefix) {
     */
     
 
+    /*
     //console.log(position);
     var dataToSend = JSON.stringify(position);
     console.log(dataToSend);
@@ -1791,6 +1807,7 @@ function bora_save(prefix) {
             console.log("Error.")
         }
     });
+    */
 }
     
 function bora_backup() {

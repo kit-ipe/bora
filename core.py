@@ -100,95 +100,81 @@ Path("./runtime_env").mkdir(parents=True, exist_ok=True)
 for plugin in settings_data["plugins"]:
     print("copy: " + plugin)
     # load lambda.yaml
-    if settings_data["plugins"][plugin]["function"]:
-        print("    fn: " + settings_data["plugins"][plugin]["function"])
-
-        copy_tree(
-            "./bora/function/" + settings_data["plugins"][plugin]["function"],
-            "./runtime_env/" + settings_data["plugins"][plugin]["function"]
-        )
+    copy_tree(
+        "./bora/function/" + plugin,
+        "./runtime_env/" + plugin
+    )
 
 ### plugin :-> install
 for plugin in settings_data["plugins"]:
     print("install: " + plugin)
     # load lambda.yaml
     
-    if settings_data["plugins"][plugin]["function"]:
-        print("    fn: " + settings_data["plugins"][plugin]["function"])
-
-        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
-            try:
-                lambda_data = yaml.load(stream, Loader=yaml.Loader)
-                #print(lambda_data["install"])
-                for item in lambda_data["install"]:
-                    if item:
-                        os.system(item)
-            except yaml.YAMLError as exc:
-                print(exc)
+    with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
+        try:
+            lambda_data = yaml.load(stream, Loader=yaml.Loader)
+            #print(lambda_data["install"])
+            for item in lambda_data["install"]:
+                if item:
+                    os.system(item)
+        except yaml.YAMLError as exc:
+            print(exc)
 
 
 ### plugin :-> setup
 for plugin in settings_data["plugins"]:
     print("setup: " + plugin)
     # load lambda.yaml
-    if settings_data["plugins"][plugin]["function"]:
-        print("    fn: " + settings_data["plugins"][plugin]["function"])
-        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
-            try:
-                lambda_data = yaml.load(stream, Loader=yaml.Loader)
-                #print(lambda_data["install"])
-                for item in lambda_data["javascript"]:
-                    if item:
-                        shutil.copy("./bora/js_plugins/" + item, "./bora/static/" + item)
-                for item in lambda_data["setup"]:
-                    if item:
-                        #cmd = item % (settings_data["plugins"][plugin]["function"])
-                        cmd = item % (plugin)
-                        os.system(cmd)
-                
-            except yaml.YAMLError as exc:
-                print(exc)
+        
+    with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
+        try:
+            lambda_data = yaml.load(stream, Loader=yaml.Loader)
+            #print(lambda_data["install"])
+            for item in lambda_data["javascript"]:
+                if item:
+                    shutil.copy("./bora/js_plugins/" + item, "./bora/static/" + item)
+            for item in lambda_data["setup"]:
+                if item:
+                    #cmd = item % (settings_data["plugins"][plugin]["function"])
+                    cmd = item % (plugin)
+                    os.system(cmd)    
+        except yaml.YAMLError as exc:
+            print(exc)
 
 
 ### plugin :-> run
 for plugin in settings_data["plugins"]:
     print("run: " + plugin)
     # load lambda.yaml
-    if settings_data["plugins"][plugin]["function"]:
-        print("    fn: " + settings_data["plugins"][plugin]["function"])
     
-        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
-            try:
-                lambda_data = yaml.load(stream, Loader=yaml.Loader)
-                print("Checking...")
-                print(lambda_data["run"])
-                for item in lambda_data["run"]:
-                    print(item)
-                    if item:
-                        print("run?!")
-                        os.system(item)
-            except yaml.YAMLError as exc:
-                print(exc)
+    with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
+        try:
+            lambda_data = yaml.load(stream, Loader=yaml.Loader)
+            #print(lambda_data["run"])
+            for item in lambda_data["run"]:
+                #print(item)
+                if item:
+                    #print("run?!")
+                    os.system(item)
+        except yaml.YAMLError as exc:
+            print(exc)
 
 
 ### plugin :-> javascript
 for plugin in settings_data["plugins"]:
     print("javascript: " + plugin)
     # load lambda.yaml
-    if settings_data["plugins"][plugin]["function"]:
-        print("    fn: " + settings_data["plugins"][plugin]["function"])
     
-        with open("./bora/function/" + settings_data["plugins"][plugin]["function"] + "/lambda.yaml" , 'r') as stream:
-            try:
-                lambda_data = yaml.load(stream, Loader=yaml.Loader)
-                print(lambda_data["javascript"])
-                for item in lambda_data["javascript"]:
-                    if item:
-                        print("Copy Javascript")
-            except yaml.YAMLError as exc:
-                print(exc)
-
-
+    with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
+        try:
+            lambda_data = yaml.load(stream, Loader=yaml.Loader)
+            #print(lambda_data["javascript"])
+            for item in lambda_data["javascript"]:
+                if item:
+                    #print("Copy Javascript")
+                    pass
+        except yaml.YAMLError as exc:
+            print(exc)
 
 
 def setup_custom_logger(name):

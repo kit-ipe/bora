@@ -1,0 +1,10 @@
+# dependency npm and node
+
+install:
+    - null
+setup:
+    - "python ./runtime_env/websocket-streaming/scripts/main.py %s"
+run:
+    - null
+javascript:
+    - "rtsp.js"

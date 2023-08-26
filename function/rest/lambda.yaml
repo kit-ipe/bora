@@ -3,7 +3,7 @@
 install:
     - null
 setup:
-    - "python ./runtime_env/rest/scripts/main.py %s"
+    - "python runtime_env/rest/scripts/main.py %s"
 run:
     - null
 javascript:
