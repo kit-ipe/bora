@@ -1717,8 +1717,8 @@ function bora_remove(prefix) {
 
 function bora_save(prefix) {
     console.log("BORA SAVE:");
-    console.log(prefix);
-    console.log(category);
+    //console.log(prefix);
+    //console.log(category);
     var key;
     var tmp;
     var position = {};
@@ -1729,20 +1729,22 @@ function bora_save(prefix) {
         console.log(category[i]);
         
         $('*[data-type="'+ category[i]  +'"]').each(function( index ) {
-            console.log("KEY:");
+            //console.log("KEY:");
             tmp = {};
             key = $( this ).attr('id');
-            console.log(key, index);
+            //console.log(key, index);
             tmp["left"] = $("#"+key).css("left");
             tmp["top"] = $("#"+key).css("top");
             tmp["width"] = Math.round($("#"+key).width());
             tmp["height"] = Math.round($("#"+key).height());
             tmp["type"] = $("#"+key).attr("data-type");
             
+            mydiv = {};
+            myinput = {};
             
             for (item in params) {
-                console.log("CHECK THIS");
-                console.log(item);
+                //console.log(item);
+                //console.log(params[item]);
                 if (item.startsWith(category[i])) {
                     
                     item_array = item.split("-");
@@ -1754,6 +1756,10 @@ function bora_save(prefix) {
                         } else if (item_array[3] == "text_name") {
                             mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).text();
                         } else {
+                            console.log("What is my value");
+                            console.log(key);
+                            console.log()
+                            // I think key is the problem here
                             mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).css(item_array[3].replace(/_/g, '-'));
                         }
                         
@@ -1762,13 +1768,10 @@ function bora_save(prefix) {
                     }
                 }
             }
-            
             tmp["div"] = mydiv;
             tmp["input"] = myinput;
             position[key] = tmp;
         });
-        
-        
     }
     
     /*
@@ -1777,8 +1780,6 @@ function bora_save(prefix) {
         console.log(item);
     }
     */
-    
-    
     
     /*
     $('*[data-type="rtsp"]').each(function( index ) {
@@ -1793,7 +1794,6 @@ function bora_save(prefix) {
         position[key] = tmp;
     });
      */
-    
     
     /*
     $('*[data-type="rest"]').each(function( index ) {
@@ -1828,8 +1828,6 @@ function bora_save(prefix) {
       width: 194
     */
     
-
-    /*
     //console.log(position);
     var dataToSend = JSON.stringify(position);
     console.log(dataToSend);
@@ -1847,7 +1845,6 @@ function bora_save(prefix) {
             console.log("Error.")
         }
     });
-    */
 }
     
 function bora_backup() {
