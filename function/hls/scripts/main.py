@@ -133,7 +133,7 @@ def main(arguments):
     #    print(varname)
     #print("check this")   
 
-    
+
     js_template_items = [] 
     for style_item in style_data:
         if not plugin_type in varname_data:
@@ -186,7 +186,7 @@ def main(arguments):
         contents = "".join(contents)
         f.write(contents)
 
-
+    """
     #### external JS TODO NTJ
     with open("./bora/status.html", "r") as f:
         contents = f.readlines()
@@ -213,7 +213,7 @@ def main(arguments):
     with open("./bora/status.html", "w") as f:
         contents = "".join(contents)
         f.write(contents)
-
+    """
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

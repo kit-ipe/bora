@@ -29,9 +29,7 @@ function error(err) {
 
 
 function rest_get_query(id, url) {
-    
     $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
-
 
     var xhr = new XMLHttpRequest(); //invoke a new instance of the XMLHttpRequest
     xhr.onload = success; // call success function if request is successful
@@ -39,7 +37,6 @@ function rest_get_query(id, url) {
     //xhr.open('GET', 'https://api.github.com/users/manishmshiva'); // open a GET request
     xhr.open('GET', 'http://localhost:18080/api/v1/dma/' + id ); // open a GET request
     xhr.send(); // send the request to the server.
-
 }
 
 
