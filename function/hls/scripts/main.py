@@ -42,15 +42,43 @@ js_template_load_player = """
     console.log($key.currentTime);
     console.log("Mouse-X: " + (e.clientX + window.pageXOffset));
     console.log("Mouse-Y: " + (e.clientY + window.pageYOffset));
+    document.getElementById("position_x_input").value = e.clientX + window.pageXOffset - $key.parentNode.offsetLeft + 1;
+    document.getElementById("position_y_input").value = e.clientY + window.pageYOffset - $key.parentNode.offsetTop + 1;
     e.preventDefault();
   }, false);
   
   $key.addEventListener("mousedown", function(e) {
-    console.log("LOLOLOLOLOLOLOLOLOL");
-    //console.log("Mouse-X: " + (e.clientX + window.pageXOffset));
-    //console.log("Mouse-Y: " + (e.clientY + window.pageYOffset));
+    capture();
     e.preventDefault();
   }, false);
+
+function capture() {
+  var canvas = document.getElementById("canvas");
+  var video = document.getElementById("$key");
+  //var video = document.querySelector("$key");
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas
+    .getContext("2d")
+    .drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+  /** Code to merge image **/
+  /** For instance, if I want to merge a play image on center of existing image **/
+  const playImage = new Image();
+  playImage.src = "path to image asset";
+  playImage.onload = () => {
+    const startX = video.videoWidth / 2 - playImage.width / 2;
+    const startY = video.videoHeight / 2 - playImage.height / 2;
+    canvas
+      .getContext("2d")
+      .drawImage(playImage, startX, startY, playImage.width, playImage.height);
+    canvas.toBlob() = (blob) => {
+      const img = new Image();
+      img.src = window.URL.createObjectUrl(blob);
+    };
+  };
+  /** End **/
+}
 
 """
 
