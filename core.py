@@ -335,6 +335,17 @@ class SaveHandler(tornado.web.RequestHandler):
 
 
 class StatusHandler(tornado.web.RequestHandler):
+
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+
+    def options(self, *args):
+        self.set_header("Access-Control-Allow-Methods", "*")
+        self.set_header("Access-Control-Request-Credentials", "true")
+        self.set_header("Access-Control-Allow-Private-Network", "true")
+        self.set_header("Access-Control-Allow-Headers", "*")
+        self.set_status(204)  # No Content
+
     def get(self):
         print( "In status mode.")
         with open("style.yaml", 'r') as stream:

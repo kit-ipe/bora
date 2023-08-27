@@ -14,22 +14,34 @@ function rest_set_query(id, url, value) {
     });
 }
 
+// function to handle success
+function success() {
+    var data = JSON.parse(this.responseText); //parse the string to JSON
+    console.log(data);
+    $( "#" + data["device_parameter"] ).find( "img" ).attr("src","/static/commbit_green.svg");
+    $( "#" + data["device_parameter"] ).find( "input" ).val(data["value"]);
+}
+
+// function to handle error
+function error(err) {
+    console.log('Request Failed', err); //error details will be in the "err" object
+}
+
 
 function rest_get_query(id, url) {
+    
+    $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
 
-    $.ajax({
-        url: url,
-        type: 'GET',
-        crossDomain: true,
-        contentType:'application/json',
-        success: function (response) {
-            console.log(response);
-        },
-        error: function () {
-            console.log("Error.")
-        }
-    });
+
+    var xhr = new XMLHttpRequest(); //invoke a new instance of the XMLHttpRequest
+    xhr.onload = success; // call success function if request is successful
+    xhr.onerror = error;  // call error function if request failed
+    //xhr.open('GET', 'https://api.github.com/users/manishmshiva'); // open a GET request
+    xhr.open('GET', 'http://localhost:18080/api/v1/dma/' + id ); // open a GET request
+    xhr.send(); // send the request to the server.
+
 }
+
 
 $("input").on('keypress',function(e) {
     if(e.which == 13) {
