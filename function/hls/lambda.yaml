@@ -1,0 +1,10 @@
+# dependency npm and node
+
+install:
+    - null 
+setup:
+    - "python ./runtime_env/hls/scripts/main.py %s"
+run:
+    - null
+javascript:
+    - "hls.js"

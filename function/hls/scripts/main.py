@@ -13,14 +13,6 @@ import yaml
 from string import Template
 
 
-template = """
-const $key = proxy({
-  url: `$value`,
-  verbose: false,
-});
-
-app.ws('/websocket-streaming/$key', $key);
-"""
 
 # js template for local static folder
 js_template_local = """<script src="{{ static_url("$key.js") }}"></script>"""
@@ -29,13 +21,40 @@ js_template_local = """<script src="{{ static_url("$key.js") }}"></script>"""
 js_template_external = """<script src="$key"></script>"""
 
 js_template_load_player = """
-loadPlayer({
-    url: 'ws://ipepdvcompute1.ipe.kit.edu:2000/$key/$value',
-    canvas: document.getElementById('$value')
-});
+  var $key = document.getElementById('$key');
+  if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource('$value');
+    hls.attachMedia($key);
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.play();
+    });
+  }
+  else if ($key.canPlayType('application/vnd.apple.mpegurl')) {
+    $key.src = '$value';
+    $key.addEventListener('canplay',function() {
+      $key.play();
+    });
+  }
+
+
+  $key.addEventListener("mousemove", function(e) {
+    console.log($key.currentTime);
+    console.log("Mouse-X: " + (e.clientX + window.pageXOffset));
+    console.log("Mouse-Y: " + (e.clientY + window.pageYOffset));
+    e.preventDefault();
+  }, false);
+  
+  $key.addEventListener("mousedown", function(e) {
+    console.log("LOLOLOLOLOLOLOLOLOL");
+    //console.log("Mouse-X: " + (e.clientX + window.pageXOffset));
+    //console.log("Mouse-Y: " + (e.clientY + window.pageYOffset));
+    e.preventDefault();
+  }, false);
+
 """
 
-print("Websocket Streaming ")
+#print("HLS Streaming ")
 
 varname_data = None
 with open("varname.yaml", 'r') as stream:
@@ -53,56 +72,11 @@ with open("style.yaml", 'r') as stream:
 
 
 def main(arguments):
-    print(arguments)
+    #print(arguments)
     
     plugin_type = arguments[0]
 
-    print(plugin_type)
-
-    with open("./runtime_env/websocket-streaming/scripts/index.js", "r") as f:
-        contents = f.readlines()
-
-    # clear stub section
-    tmp_contents = []
-    del_flag = False
-    for num, line in enumerate(contents):
-        if del_flag == False:
-            tmp_contents.append(line)
-
-        if "//** BORA START **//" in line:
-            del_flag = True
-
-        if "//** BORA END **//" in line:
-            del_flag = False
-            tmp_contents.append(line)
-        
-    contents = tmp_contents
-
-    # stub code
-    anchor = 0
-    for num, line in enumerate(contents):
-        if "//** BORA START **//" in line:
-            anchor = num
-            break
-    anchor += 1
-
-    for key, value in varname_data[plugin_type].items():
-        print(anchor, value["source"])
-        temp_obj = Template(template)
-        contents.insert(
-            anchor,
-            temp_obj.substitute(
-                key=key,
-                value=value["source"]
-            )
-        )
-
-    with open("./runtime_env/websocket-streaming/scripts/index.js", "w") as f:
-        contents = "".join(contents)
-        f.write(contents)
-    #print("stub index.js")
-    #print("stub status.html")
-
+    #print(plugin_type)
     
     with open("./bora/status.html", "r") as f:
         contents = f.readlines()
@@ -134,8 +108,10 @@ def main(arguments):
     
     js_template_items = [] 
     for style_item in style_data:
+        if not plugin_type in varname_data:
+            continue
         if style_item in varname_data[plugin_type]:
-            print(style_item)
+            #print(style_item)
             js_template_items.append(style_item)
 
     ### CANVAS
@@ -149,12 +125,13 @@ def main(arguments):
             anchor = num
             break
     anchor += 1
-    
+
     for item in js_template_items:
+        #print(item)
         temp_obj = Template(js_template_load_player)
         status_js.insert(
             anchor,
-            temp_obj.substitute(key="websocket-streaming", value=item))
+            temp_obj.substitute(key=item, value=varname_data[plugin_type][item]["source"]))
 
     with open("./bora/static/" + plugin_type + ".js", "w") as f:
         status_js = "".join(status_js)

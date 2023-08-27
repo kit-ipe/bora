@@ -37,6 +37,13 @@
 {% else %}
 {% end %}
 
+{% if data['style'][key]['type'] == "hls" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='hls'>{{ key }}</div>
+{% else %}
+{% end %}
+
 
 {% if data['style'][key]['type'] == "rtsp" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
@@ -1932,6 +1939,9 @@ gui.add(obj, 'backup');
     subfolder = folder.addFolder("{{ datatype }} ");
     
     mygroup = {};
+
+{% if category in data["vardata"] %}
+    
     {% for item in data["vardata"][ category ] %}
         if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
             mygroup["{{ item }}"] = "{{ item }}";
@@ -1939,8 +1949,13 @@ gui.add(obj, 'backup');
         $("#" + "{{ item }}").draggable();
         
     {% end %}
+
+{% else %}
+{% end %}
+
+
+
     
-    console.log("LOL");
     console.log(mygroup);
     
     bind_param = '{{ category }}' + "-" + '{{ datatype }}';

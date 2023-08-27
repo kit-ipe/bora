@@ -1,5 +1,5 @@
 {% if data['style'][key]['type'] == "rest" %}
-<div id='{{ key }}'  data-url='{{ data['rest'][key]['source'] }}' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+<div id='{{ key }}'  data-url='{{ data['varname']['rest'][key]['source'] }}' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }};
     height:{{ data['style'][key]['height'] }}px;' data-type='rest'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></input>&nbsp;&nbsp;<img src = '{{ static_url("commbit_red.svg") }}' height=20px /></div>
 {% else %}

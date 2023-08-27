@@ -36,11 +36,11 @@ with open("style.yaml", 'r') as stream:
 
 
 def main(arguments):
-    print(arguments)
+    #print(arguments)
     
     plugin_type = arguments[0]
 
-    print(plugin_type)
+    #print(plugin_type)
 
     with open("./bora/status.html", "r") as f:
         contents = f.readlines()
@@ -63,9 +63,6 @@ def main(arguments):
     with open("./bora/status.html", "w") as f:
         contents = "".join(contents)
         f.write(contents)
-    
-    
-
 
     with open("./bora/status.html", "r") as f:
         contents = f.readlines()

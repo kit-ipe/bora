@@ -42,7 +42,7 @@ with open("settings.yaml", 'r') as stream:
         settings_data = yaml.load(stream, Loader=yaml.Loader)
     except yaml.YAMLError as exc:
         print(exc)
-print(settings_data)
+#print(settings_data)
 
 
 varname_data = None
@@ -98,7 +98,7 @@ Path("./runtime_env").mkdir(parents=True, exist_ok=True)
 
 # init :-> copy the plugins to the user space
 for plugin in settings_data["plugins"]:
-    print("copy: " + plugin)
+    #print("copy: " + plugin)
     # load lambda.yaml
     copy_tree(
         "./bora/function/" + plugin,
@@ -107,7 +107,7 @@ for plugin in settings_data["plugins"]:
 
 ### plugin :-> install
 for plugin in settings_data["plugins"]:
-    print("install: " + plugin)
+    #print("install: " + plugin)
     # load lambda.yaml
     
     with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
@@ -123,7 +123,7 @@ for plugin in settings_data["plugins"]:
 
 ### plugin :-> setup
 for plugin in settings_data["plugins"]:
-    print("setup: " + plugin)
+    #print("setup: " + plugin)
     # load lambda.yaml
         
     with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
@@ -144,7 +144,7 @@ for plugin in settings_data["plugins"]:
 
 ### plugin :-> run
 for plugin in settings_data["plugins"]:
-    print("run: " + plugin)
+    #print("run: " + plugin)
     # load lambda.yaml
     
     with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
@@ -162,7 +162,7 @@ for plugin in settings_data["plugins"]:
 
 ### plugin :-> javascript
 for plugin in settings_data["plugins"]:
-    print("javascript: " + plugin)
+    #print("javascript: " + plugin)
     # load lambda.yaml
     
     with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
@@ -224,24 +224,16 @@ class DesignerHandler(tornado.web.RequestHandler):
 
         
         # Prepare filtered varname_data
-        print("CHECK THIS")
-        print(settings_data["plugins"])
-        print(list(settings_data["plugins"].keys()))
-        print(varname_data)
+        #print(settings_data["plugins"])
+        #print(list(settings_data["plugins"].keys()))
+        #print(varname_data)
         
         varname_filter_data = {}
-        for item in list(settings_data["plugins"].keys()):
-            print(item)
+        for item in list(settings_data["plugins"]):
+            if not item in varname_data:
+                continue
             varname_filter_data[item] = varname_data[item]
 
-        """
-        style_filter_data = {}
-        for item in list(settings_data["plugins"].keys()):
-            print(item)
-            varname_filter_data[item] = varname_data[item]
-
-        print(varname_filter_data)
-        """
         # Prepare a list of sensor names from the filtered varname
         sensor_name_filter = []
         for key,item in varname_filter_data.items():
@@ -251,7 +243,7 @@ class DesignerHandler(tornado.web.RequestHandler):
         
         # Prepare filtered style_data
         style_filter_data = {}
-        print(style_data)
+        #print(style_data)
         for item in list(style_data.keys()):
             if item in sensor_name_filter:
                 style_filter_data[item] = style_data[item]
@@ -295,7 +287,7 @@ class VersionHandler(tornado.web.RequestHandler):
             "action": "version",
             "time": str(datetime.datetime.now())
         }
-        print(response)
+        #print(response)
         self.write(response)
 
 
@@ -319,7 +311,7 @@ class BackupHandler(tornado.web.RequestHandler):
             "action": "backup",
             "time": str(datetime.datetime.now())
         }
-        print(response)
+        #print(response)
         self.write(response)
 
 
@@ -347,7 +339,7 @@ class StatusHandler(tornado.web.RequestHandler):
         self.set_status(204)  # No Content
 
     def get(self):
-        print( "In status mode.")
+        #print( "In status mode.")
         with open("style.yaml", 'r') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
@@ -355,7 +347,7 @@ class StatusHandler(tornado.web.RequestHandler):
                 print(exc)
 
         if not os.path.isfile("./bora/cache.yaml"): 
-            print("BORA is loading data, please refresh the page again in a moment.")
+            #print("BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","wb")
 
         with open("./bora/cache.yaml", 'r') as vstream:
@@ -368,13 +360,14 @@ class StatusHandler(tornado.web.RequestHandler):
 
         data = {
             "style": style_data,
-            "adei": varname_data["adei"],
+            #"adei": varname_data["adei"],
             "cache": cache_data,
-            "rtsp": varname_data["rtsp"],
-            "rest": varname_data["rest"]
+            #"rtsp": varname_data["rtsp"],
+            #"rest": varname_data["rest"]
+            "varname": varname_data
         }
 
-        print("Status Handler")
+        #print("Status Handler")
 
         data["title"] = settings_data["title"]
         #data["server"] = os.environ["BORA_ADEI_SERVER"]
@@ -387,7 +380,7 @@ class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         cache_data = None
         if not os.path.isfile("./bora/cache.yaml"): 
-            print( "BORA is loading data, please refresh the page again in a moment.")
+            #print( "BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","wb")
         with open("./bora/cache.yaml", 'r') as stream:
             try:
@@ -399,13 +392,13 @@ class GetDataHandler(tornado.web.RequestHandler):
 
         tmp_data = {}
         for data_source in cache_data:
-            print(data_source)
+            #print(data_source)
             if data_source == "time":
                 tmp_data["time"] = cache_data["time"] 
             else:
-                print(data_source)
+                #print(data_source)
                 for param in cache_data[data_source]:
-                    print(param)
+                    #print(param)
                     tmp_data[param] = cache_data[data_source][param]
         self.write(tmp_data)
 
