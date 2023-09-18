@@ -6,5 +6,3 @@ setup:
     - "python ./runtime_env/hls/scripts/main.py %s"
 run:
     - null
-javascript:
-    - "hls.js"

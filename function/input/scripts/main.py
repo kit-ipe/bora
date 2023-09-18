@@ -11,28 +11,19 @@ Usage: python main.py
 import sys
 import yaml
 from string import Template
+from function_helper import get_data, copy_template_to_status
 
 
-varname_data = None
-with open("varname.yaml", 'r') as stream:
-    try:
-        varname_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-style_data = None
-with open("style.yaml", 'r') as stream:
-    try:
-        style_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
+varname_data = get_data("varname.yaml")
+style_data = get_data("style.yaml")
 
 
 def main(arguments):
     
     plugin_type = arguments[0]
+    copy_template_to_status(plugin_type)
 
-
+    """
     with open("./bora/status.html", "r") as f:
         contents = f.readlines()
      
@@ -54,6 +45,7 @@ def main(arguments):
     with open("./bora/status.html", "w") as f:
         contents = "".join(contents)
         f.write(contents)
+    """
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

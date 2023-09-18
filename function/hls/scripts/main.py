@@ -1,24 +1,8 @@
-"""
-This script reads the varname.yaml for rtsp and 
-register the rtsp links in the index.js with the 
-endpoint being the key from the list.
-
-Also, it stubs javascript codes in the status.html 
-to load the rtsp streams
-
-Usage: python main.py
-"""
 import sys
 import yaml
 from string import Template
+from function_helper import get_data, copy_template_to_status, copy_custom_code_to_js, copy_javascript_local_import_to_status
 
-
-
-# js template for local static folder
-js_template_local = """<script src="{{ static_url("$key.js") }}"></script>"""
-
-# js template for local static folder
-js_template_external = """<script src="$key"></script>"""
 
 js_template_load_player = """
   var $key = document.getElementById('$key');
@@ -36,7 +20,6 @@ js_template_load_player = """
       $key.play();
     });
   }
-
 
   $key.addEventListener("mousemove", function(e) {
     console.log($key.currentTime);
@@ -82,138 +65,36 @@ function capture() {
 
 """
 
-#print("HLS Streaming ")
-
-varname_data = None
-with open("varname.yaml", 'r') as stream:
-    try:
-        varname_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-style_data = None
-with open("style.yaml", 'r') as stream:
-    try:
-        style_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
+varname_data = get_data("varname.yaml")
+style_data = get_data("style.yaml")
 
 
 def main(arguments):
-    #print(arguments)
     
     plugin_type = arguments[0]
+    copy_template_to_status(plugin_type)
 
-    #print(plugin_type)
-    
-    with open("./bora/status.html", "r") as f:
-        contents = f.readlines()
-     
-    # stub code
-    anchor = 0
-    for num, line in enumerate(contents):
-        if "<!-- BORA START -->" in line:
-            anchor = num
-            break
-    anchor += 1
-
-    ####
-    with open("./bora/template/" + plugin_type + ".html", "r") as f:
-        status_template_stub = f.readlines()
-    
-    for num, line in enumerate(status_template_stub):
-        contents.insert(anchor+num, line)
-
-    with open("./bora/status.html", "w") as f:
-        contents = "".join(contents)
-        f.write(contents)
-
-    ### ASDF
-    #for varname in varname_data[plugin_type]:
-    #    print(varname)
-    #print("check this")   
-
-
+    # This list the available variable names in style.yaml
+    # Then it only appends variable names that are present in varname.yaml
     js_template_items = [] 
     for style_item in style_data:
         if not plugin_type in varname_data:
             continue
         if style_item in varname_data[plugin_type]:
-            #print(style_item)
             js_template_items.append(style_item)
 
-    ### CANVAS
-    with open("./bora/static/" + plugin_type + ".js", "r") as f:
-        status_js = f.readlines()
-    
-    # stub code
-    anchor = 0
-    for num, line in enumerate(status_js):
-        if "/** BORA-JS **/" in line:
-            anchor = num
-            break
-    anchor += 1
-
     for item in js_template_items:
-        #print(item)
-        temp_obj = Template(js_template_load_player)
-        status_js.insert(
-            anchor,
-            temp_obj.substitute(key=item, value=varname_data[plugin_type][item]["source"]))
+        copy_custom_code_to_js(
+                plugin_type,
+                item,
+                varname_data[plugin_type][item]["source"],
+                js_template_load_player)
 
-    with open("./bora/static/" + plugin_type + ".js", "w") as f:
-        status_js = "".join(status_js)
-        f.write(status_js)
+    copy_javascript_local_import_to_status(plugin_type)
 
-    ###
-    with open("./bora/status.html", "r") as f:
-        contents = f.readlines()
+    #copy_javascript_external_import_to_status(plugin_type, "https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js")
+    #copy_javascript_external_import_to_status(plugin_type, "https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js")
 
-    # stub code
-    anchor = 0
-    for num, line in enumerate(contents):
-        if "<!-- BORA-JS -->" in line:
-            anchor = num
-            break
-    anchor += 1
-
-    temp_obj = Template(js_template_local)
-    contents.insert(
-        anchor,
-        temp_obj.substitute(key=plugin_type))
-
-    with open("./bora/status.html", "w") as f:
-        contents = "".join(contents)
-        f.write(contents)
-
-    """
-    #### external JS TODO NTJ
-    with open("./bora/status.html", "r") as f:
-        contents = f.readlines()
-
-    # stub code
-    anchor = 0
-    for num, line in enumerate(contents):
-        if "<!-- BORA-JS -->" in line:
-            anchor = num
-            break
-    anchor += 1
-    
-    temp_obj = Template(js_template_external)
-    contents.insert(
-        anchor,
-        temp_obj.substitute(key="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"))
-
-    temp_obj = Template(js_template_external)
-    contents.insert(
-        anchor,
-        temp_obj.substitute(key="https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js"))
-    
-
-    with open("./bora/status.html", "w") as f:
-        contents = "".join(contents)
-        f.write(contents)
-    """
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

@@ -26,6 +26,7 @@ from pathlib import Path
 from distutils.dir_util import copy_tree
 
 from string import Template
+from bora_helper import load_data, bora_init
 
 
 root = os.path.dirname(__file__)
@@ -33,58 +34,10 @@ BORA_VERSION = "2.0.0"
 python_version = sys.version_info.major
 
 
-###########################
-#  Loading setup data     #
-###########################
-setings_data = None
-with open("settings.yaml", 'r') as stream:
-    try:
-        settings_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
-#print(settings_data)
+settings_data = load_data("settings.yaml")
+varname_data = load_data("varname.yaml")
 
-
-varname_data = None
-with open("varname.yaml", 'r') as stream:
-    try:
-        varname_data = yaml.load(stream, Loader=yaml.Loader)
-    except yaml.YAMLError as exc:
-        print(exc)
-
-
-###########################
-#  Copy Master files      #
-###########################
-
-if os.path.isfile("./bora/designer.html"):
-   os.remove("./bora/designer.html")
-shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
-
-if os.path.isfile("./bora/status.html"):
-   os.remove("./bora/status.html")
-shutil.copyfile("./bora/status_master.html", "./bora/status.html")
-
-if os.path.isdir('./bora/static'):
-    rmtree("./bora/static")
-Path("./bora/static").mkdir(parents=True, exist_ok=True)
-
-if os.path.isfile("./bora/static/background.png"):
-   os.remove("./bora/static/background.png")
-shutil.copyfile("background.png", "./bora/static/background.png")
-
-# Providing the folder path
-origin_static = "./bora/static_master/"
-target_static = "./bora/static/"
-
-# Fetching the list of all the files
-origin_static_files = os.listdir(origin_static)
-
-# Fetching all the files to directory
-for static_file in origin_static_files:
-   shutil.copy(origin_static + static_file, target_static + static_file)
-
-
+bora_init()
 
 ###########################
 #  Setup Plugins          #
@@ -125,14 +78,17 @@ for plugin in settings_data["plugins"]:
 for plugin in settings_data["plugins"]:
     #print("setup: " + plugin)
     # load lambda.yaml
-        
+    
+    # plugin
+    shutil.copy("./bora/js_plugins/" +  plugin + ".js", "./bora/static/" + plugin + ".js")
+
     with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
         try:
             lambda_data = yaml.load(stream, Loader=yaml.Loader)
             #print(lambda_data["install"])
-            for item in lambda_data["javascript"]:
-                if item:
-                    shutil.copy("./bora/js_plugins/" + item, "./bora/static/" + item)
+            #for item in lambda_data["javascript"]:
+            #    if item:
+            #        shutil.copy("./bora/js_plugins/" + item, "./bora/static/" + item)
             for item in lambda_data["setup"]:
                 if item:
                     #cmd = item % (settings_data["plugins"][plugin]["function"])
@@ -140,7 +96,6 @@ for plugin in settings_data["plugins"]:
                     os.system(cmd)    
         except yaml.YAMLError as exc:
             print(exc)
-
 
 ### plugin :-> run
 for plugin in settings_data["plugins"]:
@@ -156,23 +111,6 @@ for plugin in settings_data["plugins"]:
                 if item:
                     #print("run?!")
                     os.system(item)
-        except yaml.YAMLError as exc:
-            print(exc)
-
-
-### plugin :-> javascript
-for plugin in settings_data["plugins"]:
-    #print("javascript: " + plugin)
-    # load lambda.yaml
-    
-    with open("./bora/function/" + plugin + "/lambda.yaml" , 'r') as stream:
-        try:
-            lambda_data = yaml.load(stream, Loader=yaml.Loader)
-            #print(lambda_data["javascript"])
-            for item in lambda_data["javascript"]:
-                if item:
-                    #print("Copy Javascript")
-                    pass
         except yaml.YAMLError as exc:
             print(exc)
 
