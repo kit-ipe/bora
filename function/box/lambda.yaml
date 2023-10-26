@@ -3,6 +3,6 @@
 install:
     - null 
 setup:
-    - "python runtime_env/box/scripts/main.py %s"
+    - "python runtime_env/box/scripts/base.py %s"
 run:
     - null
