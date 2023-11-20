@@ -18,9 +18,15 @@
 
 <div id="page_info">
     <button id="btn_page1">Main</button>
-    <button id="btn_page2">Notebook</button>
-    <button id="btn_page3">Config</button>
-    [VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
+{% if data["tab2"] %}
+    <button id="btn_page2">{{ data["tab2"] }}</button>
+{% else%}
+{% end %}
+{% if data["tab3"] %}
+    <button id="btn_page3">{{ data["tab3"] }}</button>
+{% else%}
+{% end %}
+    [VER {{ data['version'] }}]    {{ data['title'] }}</div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
 <div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>
 
