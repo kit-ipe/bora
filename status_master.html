@@ -16,22 +16,9 @@
 
 <body>
 
-<div id="page_info">
-    <button id="btn_page1">Main</button>
-{% if data["tab2"] %}
-    <button id="btn_page2">{{ data["tab2"] }}</button>
-{% else%}
-{% end %}
-{% if data["tab3"] %}
-    <button id="btn_page3">{{ data["tab3"] }}</button>
-{% else%}
-{% end %}
-    [VER {{ data['version'] }}]    {{ data['title'] }}</div>
+<div id="page_info">[VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
 <div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>
-
-
-<div id="page1">
 
 {% if data['style'] %}
 {% for key in data['style'] %}
@@ -565,8 +552,6 @@ data-type="{{
 
 <img src="{{ static_url( 'background.png' ) }}"></img>
 
-</div>
-
 <!-- java script -->
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
@@ -619,46 +604,6 @@ $(".databox").hover(function(){
     }
 });
 */
-
-// Function to be executed on button click
-function handleClickPage1() {
-    $("#page1").show();
-    $("#page2").hide();
-    $("#page3").hide();
-    $("#btn_page1").css("color", "black");
-    $("#btn_page2").css("color", "#e0e0e0");
-    $("#btn_page3").css("color", "#e0e0e0");
-}
-function handleClickPage2() {
-    $("#page2").show();
-    $("#page1").hide();
-    $("#page3").hide();
-    $("#btn_page2").css("color", "black");
-    $("#btn_page1").css("color", "#e0e0e0");
-    $("#btn_page3").css("color", "#e0e0e0");
-}
-function handleClickPage3() {
-    $("#page3").show();
-    $("#page2").hide();
-    $("#page1").hide();
-    $("#btn_page3").css("color", "black");
-    $("#btn_page2").css("color", "#e0e0e0");
-    $("#btn_page1").css("color", "#e0e0e0");
-}
-
-// Get the button element by its ID
-const button1 = document.getElementById("btn_page1");
-const button2 = document.getElementById("btn_page2");
-const button3 = document.getElementById("btn_page3");
-
-// Add a click event listener to the button
-button1.addEventListener("click", handleClickPage1);
-button2.addEventListener("click", handleClickPage2);
-button3.addEventListener("click", handleClickPage3);
-
-$("#btn_page1").css("color", "black");
-$("#btn_page2").css("color", "#e0e0e0");
-$("#btn_page3").css("color", "#e0e0e0");
 </script>
 </body>
 </html>
