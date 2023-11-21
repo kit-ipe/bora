@@ -307,6 +307,17 @@ class StatusHandler(tornado.web.RequestHandler):
 
         #print("Status Handler")
 
+        data["tab1"] = False
+        data["tab2"] = False
+        data["tab3"] = False
+       
+        if settings_data["tabs"]["main"]:
+            data["tab1"] = "Main"
+        if settings_data["tabs"]["notebook"]:
+            data["tab2"] = "Notebook"
+        if settings_data["tabs"]["config"]:
+            data["tab3"] = "Config"
+
         data["title"] = settings_data["title"]
         #data["server"] = os.environ["BORA_ADEI_SERVER"]
         data["version"] = BORA_VERSION
