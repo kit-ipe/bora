@@ -72,6 +72,7 @@ style_data = get_data("style.yaml")
 def main(arguments):
     
     plugin_type = arguments[0]
+    copy_template_to_status(plugin_type)
 
     # This list the available variable names in style.yaml
     # Then it only appends variable names that are present in varname.yaml
