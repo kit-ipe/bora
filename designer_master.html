@@ -27,6 +27,15 @@
 {% if data['style'] %}
 {% for key in data['style'] %}
 
+{% if data['style'][key]['type'] == "button" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }};
+    height:{{ data['style'][key]['height'] }}px;' data-type='button'>
+    <button style='font-size:{{ data['style'][key]['button']['font-size'] }}; width:{{ data['style'][key]['button']['width'] }}'><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span></button>
+</div>
+{% else %}
+{% end %}
+
 {% if data['style'][key]['type'] == "input" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }};
@@ -1519,8 +1528,13 @@ function bora_add(prefix) {
     var input_style = " style='";
     var input_end = "'></input>";
     var input_text = "";
-    
     var input_flag = false;
+    
+    var button_head = "<button ";
+    var button_style = " style='";
+    var button_end = "'></button>";
+    var button_text = "";
+    var button_flag = false;
     
     for (item in params) {
         if (item.startsWith(prefix)) {
@@ -1574,6 +1588,15 @@ function bora_add(prefix) {
                 input_style += "; ";
                 
                 input_flag = true;
+            } else if (item_array[2] == "button") { // INPUT
+                tmp = item_array[3].replace(/_/g, '-');
+                
+                button_style += tmp;
+                button_style += ":";
+                button_style += tmp_params;
+                button_style += "; ";
+                
+                button_flag = true;
             }
         }
     }
@@ -1584,6 +1607,11 @@ function bora_add(prefix) {
         html_final += input_head;
         html_final += input_style;
         html_final += input_end;
+    }
+    if (button_flag) {
+        html_final += button_head;
+        html_final += button_style;
+        html_final += button_end;
     }
     
     html_final += "</div>";
@@ -1741,6 +1769,7 @@ function bora_save(prefix) {
     var position = {};
     var mydiv = {};
     var myinput = {};
+    var subparam;
     
     for (var i = 0; i < category.length; i++) {
         console.log(category[i]);
@@ -1782,72 +1811,24 @@ function bora_save(prefix) {
                         
                     } else if (item_array[2] == "input") { // input
                         myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :input").css(item_array[3].replace(/_/g, '-'));
+                        subparam = "input";
+                    } else if (item_array[2] == "button") { // input
+                              myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :button").css(item_array[3].replace(/_/g, '-'));
+                        subparam = "button";
                     }
                 }
             }
             tmp["div"] = mydiv;
-            tmp["input"] = myinput;
+            if (subparam == "input" || subparam == "button") {
+                tmp[subparam] = myinput;
+            }
             position[key] = tmp;
         });
     }
     
-    /*
-    for (item in params) {
-        //if (item.startsWith(prefix)) {
-        console.log(item);
-    }
-    */
-    
-    /*
-    $('*[data-type="rtsp"]').each(function( index ) {
-        tmp = {};
-        key = $( this ).attr('id');
-        console.log(key, index);
-        tmp["left"] = $("#"+key).css("left");
-        tmp["top"] = $("#"+key).css("top");
-        tmp["width"] = Math.round($("#"+key).width());
-        tmp["height"] = Math.round($("#"+key).height());
-        tmp["type"] = $("#"+key).attr("data-type");
-        position[key] = tmp;
-    });
-     */
-    
-    /*
-    $('*[data-type="rest"]').each(function( index ) {
-        tmp = {};
-        key = $( this ).attr('id');
-        console.log(key, index);
-        tmp["left"] = $("#"+key).css("left");
-        tmp["top"] = $("#"+key).css("top");
-        tmp["width"] = Math.round($("#"+key).width());
-        tmp["height"] = Math.round($("#"+key).height());
-        tmp["type"] = $("#"+key).attr("data-type");
-        
-        
-        //tmp["background-color"]
-        position[key] = tmp;
-    });*/
-    
-    /*
-    resolution_x:
-      background-color: rgba(0, 0, 0, 0)
-      header:
-        size: 16px
-        title: ''
-        weight: '400'
-      height: 24
-      input:
-        size: 16px
-        weight: '400'
-      left: 234px
-      top: 83px
-      type: rest
-      width: 194
-    */
-    
     //console.log(position);
     var dataToSend = JSON.stringify(position);
-    console.log(dataToSend);
+    //console.log(dataToSend);
     $.ajax({
         url: '/save/',
         type: 'POST',
