@@ -22,6 +22,7 @@ LUT = {
     "dma": {
         "resolution_x": 512,
         "resolution_y": 512,
+        "resolution_z": 512,
         "num_images": 8,
         "bits_per_pixel": 8,
         "exposure_time": 1,
