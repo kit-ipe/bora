@@ -27,6 +27,15 @@
 {% if data['style'] %}
 {% for key in data['style'] %}
 
+{% if data['style'][key]['type'] == "text" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='text'>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> 
+</div>
+{% else %}
+{% end %}
+
 {% if data['style'][key]['type'] == "button" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }};
@@ -39,7 +48,7 @@
 {% if data['style'][key]['type'] == "input" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }};
-    height:{{ data['style'][key]['height'] }}px;' data-type='input'><p><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
+    height:{{ data['style'][key]['height'] }}px;' data-type='input'><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> <input type='text' style='font-size:{{ data['style'][key]['input']['font-size'] }}; width:{{ data['style'][key]['input']['width'] }}'></div>
 {% else %}
 {% end %}
 
