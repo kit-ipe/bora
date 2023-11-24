@@ -587,7 +587,9 @@ Page 2
 </div>
 
 <div id="page3" style="display:none;">
-Page 3
+<textarea id="config_input" rows="40" cols="100" style="margin-top: 40px;">
+</textarea>
+<button id="config_save">Save</button>
 </div>
 
 <!-- java script -->
@@ -674,15 +676,45 @@ function handleClickPage3() {
 const button1 = document.getElementById("btn_page1");
 const button2 = document.getElementById("btn_page2");
 const button3 = document.getElementById("btn_page3");
+const button_config = document.getElementById("config_save");
 
 // Add a click event listener to the button
 button1.addEventListener("click", handleClickPage1);
 button2.addEventListener("click", handleClickPage2);
 button3.addEventListener("click", handleClickPage3);
+button_config.addEventListener("click", handleClickConfig);
 
 $("#btn_page1").css("color", "black");
 $("#btn_page2").css("color", "#e0e0e0");
 $("#btn_page3").css("color", "#e0e0e0");
+
+// function to handle success
+function config_success() {
+    var data = JSON.parse(this.responseText); //parse the string to JSON
+    console.log(data);
+}
+
+function config_error(err) {
+    console.log('Request Failed', err); //error details will be in the "err" object
+}
+
+function handleClickConfig() {
+    var url = "http://localhost:5617/config";
+
+    //var data = {};
+    //data.value = value;
+    //var json = JSON.stringify(data);
+
+    var data = document.getElementById('config_input').value;
+    var json = JSON.stringify(data);
+    //var json = JSON.parse(input);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = config_success;
+    xhr.onerror = config_error;
+    xhr.open('PUT', url);
+    xhr.send(json);
+}
 
 </script>
 </body>

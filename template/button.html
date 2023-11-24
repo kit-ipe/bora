@@ -2,6 +2,6 @@
 <div id='{{ key }}'  data-url='{{ data['varname']['button'][key]['source'] }}' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }};
     height:{{ data['style'][key]['height'] }}px;' data-type='button'>
-    <button style='font-size:{{ data['style'][key]['button']['font-size'] }}; width:{{ data['style'][key]['button']['width'] }}'><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span></button>&nbsp;&nbsp;<img src = '{{ static_url("commbit_inactive.svg") }}' height=20px /></div>
+    <button class="button-rest" style='font-size:{{ data['style'][key]['button']['font-size'] }}; width:{{ data['style'][key]['button']['width'] }}'><span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span></button>&nbsp;&nbsp;<img src = '{{ static_url("commbit_inactive.svg") }}' height=20px /></div>
 {% else %}
 {% end %}

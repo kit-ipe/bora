@@ -14,6 +14,8 @@ from datetime import date
 from time import gmtime, strftime
 from tornado.escape import json_decode, json_encode, url_escape
 
+import json
+
 
 root = os.path.dirname(__file__)
 
@@ -92,8 +94,45 @@ class RestHandler(tornado.web.RequestHandler):
         })
 
 
+class ConfigHandler(tornado.web.RequestHandler):
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+
+    def options(self, **args):
+        self.set_header("Access-Control-Allow-Methods", "*")
+        self.set_header("Access-Control-Request-Credentials", "true")
+        self.set_header("Access-Control-Allow-Private-Network", "true")
+        self.set_header("Access-Control-Allow-Headers", "*")
+        self.set_status(204)  # No Content
+
+    def get(self, **params):
+        print("GET CONFIG");
+        self.write({
+            "response": True,
+            "time": str(datetime.datetime.now())
+        })
+
+    def put(self, **params):
+        print("PUT CONFIG");
+
+        data = tornado.escape.json_decode(self.request.body)
+
+        # json variant
+        # python dict
+        #json_object = json.loads(data)
+
+        # yaml variant
+        yaml_object = yaml.load(data, Loader=yaml.FullLoader)
+        print(yaml_object["name"])
+
+        self.write({
+            "response": True,
+            "time": str(datetime.datetime.now())
+        })
+
 application = tornado.web.Application([
     (r"/version/?", VersionHandler),
+    (r"/config/?", ConfigHandler),
     (r"/api/v1/(?P<group>[^\/]+)/?"
      "(?P<parameter>[^\/]+)/?", RestHandler)
 ], debug=True)
