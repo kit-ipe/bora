@@ -17,9 +17,29 @@
 <body>
 
 <div id="page_info">
-    <button id="btn_page1">Main</button>
-    <button id="btn_page2">Notebook</button>
-    <button id="btn_page3">Config</button>
+    <button id="btn_page1"
+    {% if data['tabs']['main'] %}
+            style="display:inline;"
+    {% else %}
+            style="display:none;"
+    {% end %}    
+        >Main</button>
+    <button id="btn_page2"
+    {% if data['tabs']['notebook'] %}
+            style="display:inline;"
+    {% else %}
+            style="display:none;"
+    {% end %}    
+        >Notebook</button>
+    <button id="btn_page3"
+    {% if data['tabs']['config'] %}
+            style="display:inline;"
+    {% else %}
+            style="display:none;"
+    {% end %}    
+        >Config</button>
+    
+
     [VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
 <div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>

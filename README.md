@@ -177,6 +177,13 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+We follow the guidelines and conventions below:
+
+1. [Javascript - Mozilla](https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/JavaScript)
+2. [HTML - Mozilla](https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/HTML)
+3. [CSS - Mozilla](https://developer.mozilla.org/en-US/docs/MDN/Writing_guidelines/Writing_style_guide/Code_style_guide/CSS)
+4. [Python - PEP8](https://peps.python.org/pep-0008/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
