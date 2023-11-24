@@ -20,7 +20,7 @@ function restb_get_query(id, url) {
     xhr.send();
 }
 
-$('button').on('click', function(){
+$('.button-rest').on('click', function(){
     var id = $(this).parent().attr('id');
     var url = $(this).closest('div').attr('data-url');
     console.log(id, url);

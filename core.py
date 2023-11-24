@@ -285,7 +285,6 @@ class StatusHandler(tornado.web.RequestHandler):
                 print(exc)
 
         if not os.path.isfile("./bora/cache.yaml"): 
-            #print("BORA is loading data, please refresh the page again in a moment.")
             open("./bora/cache.yaml","wb")
 
         with open("./bora/cache.yaml", 'r') as vstream:
@@ -298,17 +297,12 @@ class StatusHandler(tornado.web.RequestHandler):
 
         data = {
             "style": style_data,
-            #"adei": varname_data["adei"],
             "cache": cache_data,
-            #"rtsp": varname_data["rtsp"],
-            #"rest": varname_data["rest"]
-            "varname": varname_data
+            "varname": varname_data,
+            "tabs": settings_data["tabs"]
         }
 
-        #print("Status Handler")
-
         data["title"] = settings_data["title"]
-        #data["server"] = os.environ["BORA_ADEI_SERVER"]
         data["version"] = BORA_VERSION
 
         self.render('status.html', data=data)
