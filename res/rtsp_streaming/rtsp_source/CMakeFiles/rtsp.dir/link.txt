@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/rtsp.dir/rtsp.c.o  -o rtsp  -lgstvideo-1.0 -lgstbase-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lgstrtspserver-1.0 -lgstbase-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 -lcairo -lm -lgstrtspserver-1.0 -lcairo -lm 

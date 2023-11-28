@@ -1,0 +1,166 @@
+bits-per-pixel:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 233px
+  top: 180px
+  type: rest
+  width: 194
+camera01:
+  height: 400
+  left: 55.9983px
+  top: 414.995px
+  type: rtsp
+  width: 400
+camera02:
+  height: 300
+  left: 523px
+  top: 49px
+  type: rtsp
+  width: 1000
+exposure-time:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 233.993px
+  top: 145.995px
+  type: rest
+  width: 194
+frame-rate:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 231px
+  top: 213px
+  type: rest
+  width: 194
+gain:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 232px
+  top: 245px
+  type: rest
+  width: 194
+header_bitsperpixel:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: '16'
+    title: bits_per_pixel
+    weight: '400'
+  height: 22
+  left: 122.995px
+  top: 180.995px
+  type: header
+  width: 102
+header_exposuretime:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: 16
+    title: 'exposure_time     '
+    weight: '400'
+  height: 22
+  left: 122.998px
+  titlelink: ''
+  top: 148.998px
+  type: header
+  width: 110
+header_framerate:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: 16
+    title: 'frame_rate     '
+    weight: '400'
+  height: 22
+  left: 121.993px
+  titlelink: ''
+  top: 212.995px
+  type: header
+  width: 82
+header_gain:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: 16
+    title: 'gain  '
+    weight: '400'
+  height: 22
+  left: 122.991px
+  top: 243.993px
+  type: header
+  width: 31
+header_numberimages:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: 16
+    title: 'number_images     '
+    weight: '400'
+  height: 22
+  left: 123.997px
+  titlelink: ''
+  top: 117.995px
+  type: header
+  width: 120
+header_resolution:
+  background_color: rgba(0, 0, 0, 0)
+  header:
+    size: 16
+    title: 'resolution   '
+    weight: '400'
+  height: 22
+  left: 126.99px
+  top: 83.9913px
+  type: header
+  width: 76
+num_images:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 235px
+  top: 115px
+  type: rest
+  width: 194
+  
+resolution_x:
+  background-color: rgba(0, 0, 0, 0)
+  header:
+    size: 16px
+    title: ''
+    weight: '400'
+  height: 24
+  input:
+    size: 16px
+    weight: '400'
+  left: 234px
+  top: 83px
+  type: rest
+  width: 194

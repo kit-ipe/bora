@@ -1,0 +1,16 @@
+<html>
+    <head>
+	<script src="https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js"></script>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+	<script src="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"></script>
+	<script>
+	    loadPlayer({
+	        url: 'ws://localhost:2000/api/stream',
+		    canvas: document.getElementById('canvas'),
+            audio: false
+	    });
+	</script>
+    </body>
+</html>
