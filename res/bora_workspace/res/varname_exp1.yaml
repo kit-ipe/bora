@@ -1,0 +1,42 @@
+adei:
+    311-RBY-1-5052:
+        source: db_server=cscryo&db_name=ControlSystem_DPS&db_group=310DPS_Magnetsteuerung&db_mask=42
+        type: data
+    320-FLW-2-8010:
+        source: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_KRY_Kryo_4K&db_mask=0
+        type: integer-to-string
+    320-FLW-2-9026:
+        source: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_KRY_Kryo_3K&db_mask=0
+        type: data
+    320-MOD-0-0001:
+        source: db_server=cscps&db_name=ControlSystem_CPS&db_group=320_SYS&db_mask=0
+        type: data
+rtsp:
+    camera01:
+        source: http://localhost:1984/stream.html?src=test&mode=webrtc
+        type: data
+    camera02:
+        source: http://localhost:1984/stream.html?src=test&mode=webrtc
+        type: data
+rest:
+    resolution_x:
+        source: http://localhost:5617/dma/resolution_x
+        type: data
+    resolution_y:
+        source: http://localhost:5617/dma/resolution_y
+        type: data
+    num_images:
+        source: http://localhost:5617/dma/num_images
+        type: data
+    bits-per-pixel:
+        source: http://localhost:5617/dma/bits_per_pixel
+        type: data
+    exposure-time:
+        source: http://localhost:5617/dma/exposure_time
+        type: data
+    frame-rate:
+        source: http://localhost:5617/dma/frame_rate
+        type: data
+    gain:
+        source: http://localhost:5617/dma/gain
+        type: data
