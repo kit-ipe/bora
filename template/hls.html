@@ -2,7 +2,7 @@
 <div id="{{ key }}_div" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px;' data-type='hls'>
-    <video id="{{ key }}" controls autoplay muted></video>
+    <video id="{{ key }}" src="{{ data['varname']['hls'][key]['source']}}"  controls autoplay muted></video>
 </div>
 {% else %}
 {% end %}
