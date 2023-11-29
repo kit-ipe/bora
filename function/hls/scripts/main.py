@@ -25,13 +25,23 @@ js_template_load_player = """
     console.log($key.currentTime);
     console.log("Mouse-X: " + (e.clientX + window.pageXOffset));
     console.log("Mouse-Y: " + (e.clientY + window.pageYOffset));
+    var x = document.getElementById("horizontal");
+    var y = document.getElementById("vertical");
     document.getElementById("position_x_input").value = e.clientX + window.pageXOffset - $key.parentNode.offsetLeft + 1;
     document.getElementById("position_y_input").value = e.clientY + window.pageYOffset - $key.parentNode.offsetTop + 1;
+    x.style.top = e.clientY + window.pageYOffset - 1 + "px";
+    x.style.left = $key.parentNode.offsetLeft + "px";
+    x.style.width = $key.offsetWidth + "px";
+    
+    y.style.left = e.clientX + window.pageXOffset - 1 + "px";
+    y.style.top = $key.parentNode.offsetTop + "px";
+    y.style.height = $key.offsetHeight + "px";
     e.preventDefault();
   }, false);
   
   $key.addEventListener("mousedown", function(e) {
-    capture();
+    //capture();
+    toggle_lines();
     e.preventDefault();
   }, false);
 
@@ -61,6 +71,23 @@ function capture() {
     };
   };
   /** End **/
+}
+
+function toggle_lines() {
+  var x = document.getElementById("horizontal");
+  var y = document.getElementById("vertical");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+  
+  if (y.style.display === "none") {
+    y.style.display = "block";
+  } else {
+    y.style.display = "none";
+  }
+
 }
 
 """
