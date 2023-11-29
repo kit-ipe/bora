@@ -177,3 +177,19 @@ div:hover .popup {
     visibility: visible;
     z-index: 1;
 }
+
+.vertical {
+    border-left: 1px solid red;
+    height: 200px;
+    position:absolute;
+    left: 50%;
+    z-index: 999;
+}
+
+.horizontal {
+    border-top: 1px solid red;
+    width: 200px;
+    position:absolute;
+    top: 50%;
+    z-index: 999;
+}
