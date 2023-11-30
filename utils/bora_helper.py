@@ -15,11 +15,11 @@ def load_data(data_file):
 def bora_init():
     if os.path.isfile("./bora/designer.html"):
        os.remove("./bora/designer.html")
-    shutil.copyfile("./bora/designer_master.html", "./bora/designer.html")
+    shutil.copyfile("./bora/blueprint/designer.html", "./bora/designer.html")
 
     if os.path.isfile("./bora/status.html"):
        os.remove("./bora/status.html")
-    shutil.copyfile("./bora/status_master.html", "./bora/status.html")
+    shutil.copyfile("./bora/blueprint/status.html", "./bora/status.html")
 
     if os.path.isdir('./bora/static'):
         shutil.rmtree("./bora/static")
@@ -30,7 +30,7 @@ def bora_init():
     shutil.copyfile("background.png", "./bora/static/background.png")
 
     # Providing the folder path
-    origin_static = "./bora/static_master/"
+    origin_static = "./bora/blueprint/static/"
     target_static = "./bora/static/"
 
     # Fetching the list of all the files
