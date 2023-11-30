@@ -26,7 +26,7 @@ from pathlib import Path
 from distutils.dir_util import copy_tree
 
 from string import Template
-from bora_helper import load_data, bora_init
+from utils.bora_helper import load_data, bora_init
 
 
 root = os.path.dirname(__file__)
