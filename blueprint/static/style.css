@@ -1,0 +1,195 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+html,
+body {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+span,
+.varval {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.button2 {background-color: #008CBA;} /* Blue */
+.button3 {background-color: #f44336;} /* Red */ 
+.showhide {
+    background-color: black;
+    color: white;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.hide-control {
+    background-color: black;
+    color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#tool-btn {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 1.0);
+    z-index: 100;
+}
+
+#tool-btn2 {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(38, 42, 86, 1.0);
+    z-index: 100;
+}
+
+#tool-btn3 {
+    padding: 20px;
+    position: absolute;
+    left: 200px;
+    bottom: 0;
+    background-color: rgba(184, 98, 27, 1.0);
+    z-index: 100;
+}
+
+
+.save,
+.add,
+.remove,
+.highlight {
+    background-color: #e7e7e7;
+    color: black;
+}
+
+.info {
+    color:ghostwhite;
+}
+
+.button5 {background-color: #555555;} /* Black */
+
+.varbox {
+    position: absolute;
+    border: dashed 5px #ccc;
+}
+
+.databox {
+    border: dashed 5px rgba(0,0,0,0);
+}
+.databox:hover {
+    z-index: 9999 !important;
+}
+
+.statusbox {
+    position: absolute;
+    width: 50px;
+    padding: 5px;
+}
+
+#page_info {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: darkgray;
+}
+
+#page_designer_info {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: darkgray;
+}
+
+.box_highlight {
+    border-color: red;
+}
+
+.glowing_border {
+    border: 2px solid #FF0000;
+    border-radius: 7px;
+}
+
+[tooltip]:before {
+    /* needed - do not touch */
+    content: attr(tooltip);
+    position: absolute;
+    opacity: 0;
+    
+    /* customizable */
+    transition: all 0.15s ease;
+    padding: 10px;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 1px silver;
+    font-family: 'Open Sans', sans-serif;
+    text-align:center;
+}
+
+[tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 1;
+    
+    /* customizable */
+    background: black;
+    width: 150px;
+    margin-top: -50px;
+    margin-left: 20px;
+}
+
+[tooltip]:not([tooltip-persistent]):before {
+    pointer-events: none;
+}
+
+div .popup {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    visibility: hidden;
+}
+
+div:hover .popup {
+    visibility: visible;
+    z-index: 1;
+}
+
+.vertical {
+    border-left: 1px solid red;
+    height: 200px;
+    position:absolute;
+    left: 50%;
+    z-index: 999;
+}
+
+.horizontal {
+    border-top: 1px solid red;
+    width: 200px;
+    position:absolute;
+    top: 50%;
+    z-index: 999;
+}

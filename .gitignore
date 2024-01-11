@@ -1,5 +1,6 @@
 __pycache__
-static
+static/
+!blueprint/static/
 env
 .DS_Store
 log.txt
