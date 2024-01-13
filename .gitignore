@@ -1,4 +1,6 @@
 __pycache__
+static.html
+designer.html
 static/
 !blueprint/static/
 env

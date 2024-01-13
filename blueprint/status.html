@@ -18,28 +18,9 @@
 
 
 <div id="page_info">
-    <button id="btn_page1"
-    {% if data['tabs']['main'] %}
-            style="display:inline;"
-    {% else %}
-            style="display:none;"
-    {% end %}    
-        >Main</button>
-    <button id="btn_page2"
-    {% if data['tabs']['notebook'] %}
-            style="display:inline;"
-    {% else %}
-            style="display:none;"
-    {% end %}    
-        >Notebook</button>
-    <button id="btn_page3"
-    {% if data['tabs']['config'] %}
-            style="display:inline;"
-    {% else %}
-            style="display:none;"
-    {% end %}    
-        >Config</button>
-    
+    <button id="btn_page1" style="display:inline;">Main</button>
+    <button id="btn_page2" style="display:none;">Notebook</button>
+    <button id="btn_page3" style="display:none;">Config</button>
 
     [VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
@@ -598,6 +579,7 @@ Page 2
 <script src="{{ static_url("jquery-1.12.3.min.js") }}"></script>
 <script src="{{ static_url("jquery-ui.min.js") }}"></script>
 <script src="{{ static_url("math.min.js") }}"></script>
+<script src="{{ static_url("dat.gui.js") }}"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/rtsp-relay@1.7.0/browser/index.js"></script>-->
 <!-- BORA-JS -->
 
@@ -689,6 +671,15 @@ button_config.addEventListener("click", handleClickConfig);
 $("#btn_page1").css("color", "black");
 $("#btn_page2").css("color", "#e0e0e0");
 $("#btn_page3").css("color", "#e0e0e0");
+
+var gui = new dat.GUI();
+var obj = {
+    notebook: function(){ $("#btn_page2").toggle() },
+    settings: function(){ $("#btn_page3").toggle() }
+};
+gui.add(obj, 'notebook');
+gui.add(obj, 'settings');
+gui.hide();
 
 // function to handle success
 function config_success() {
