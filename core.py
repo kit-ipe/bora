@@ -298,8 +298,7 @@ class StatusHandler(tornado.web.RequestHandler):
         data = {
             "style": style_data,
             "cache": cache_data,
-            "varname": varname_data,
-            "tabs": settings_data["tabs"]
+            "varname": varname_data
         }
 
         data["title"] = settings_data["title"]

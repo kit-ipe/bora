@@ -1,7 +1,8 @@
 __pycache__
-static
 status.html
 designer.html
+static/
+!blueprint/static/
 env
 .DS_Store
 log.txt
