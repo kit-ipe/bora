@@ -1,5 +1,12 @@
 <a name="readme-top"></a>
 
+# BORA: A Personalized Data Display for Large-scale Experiments
+ 
+<p align="left">
+  <img src="./assets/katrin.png" width="100%" />
+</p>
+
+
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -16,29 +23,11 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
-
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
 
-  <h3 align="center">BORA</h3>
-
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/nicolaisi/bora"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <!--
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-    -->
-  </p>
-</div>
-
+## What is BORA?
+BORA is an open source visualization framework supporting large-scale experiments by generating personalized data displays and enabling the human-in-the-loop concept within the experiment. Despite the complex experiment setup, BORA allows scientists to build their desired data displays with no programming knowledge. There are two facets to the framework, with the first facet being a read-only data displays where it helps scientists to monitor the health of the experiment subsystems. The second facet enables scientists to control the systems and data acquisition parameters. It enables feedback for multiple data processing pipelines that interact with the large volume of data in real-time. Bora is built around RESTful APIs and offers support for various standard protocols through plugin extensions for databases (e.g., Redis) and for control protocols (e.g., OPC). Furthermore, we implemented experiment-specific protocols used in our projects, such as ORCA. One unique feature of BORA is that it supports video streaming analysis of experimental data, allowing visual representation of the subsystem, e.g., surface temperature monitoring, detector heatmap.
 
 
 <!-- TABLE OF CONTENTS -->
@@ -46,19 +35,13 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#gallery">Gallery</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -68,96 +51,48 @@
 </details>
 
 
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-BORA is a customizable data monitoring framework that helps scientists to build data monitoring displays without any coding knowledge. The framework is widely used in the KATRIN experiment for many years.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-### Built With
-
-The framework is built using the technologies as follow:
-
-* Python Tornado
-* jQuery
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
 TODO
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
 TODO
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
 
 ### Installation
 
 TODO
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Gallery
 
-TODO
+<p align="left">
+  <img src="./assets/cps.png" width="100%" />
+</p>
+<p align="left">
+  <img src="./assets/dps.png" width="100%" />
+</p>
+<p align="left">
+  <img src="./assets/wgts.png" width="100%" />
+</p>
+<p align="left">
+  <img src="./assets/wgts_magnet.png" width="100%" />
+</p>
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-TODO
+- [ ] Add BORA 1.0 visual widgets
+- [ ] Add documentations
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/kit-ipe/bora/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,9 +144,7 @@ Nicholas Tan Jerome - nicholas.tanjerome@kit.edu
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Template](https://github.com/othneildrew/Best-README-Template/tree/master)
+* [The KATRIN Experiment](https://www.katrin.kit.edu/index.php)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
