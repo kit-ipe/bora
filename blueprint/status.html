@@ -675,10 +675,16 @@ $("#btn_page3").css("color", "#e0e0e0");
 var gui = new dat.GUI();
 var obj = {
     notebook: function(){ $("#btn_page2").toggle() },
-    settings: function(){ $("#btn_page3").toggle() }
+    settings: function(){ $("#btn_page3").toggle() },
+    designer: function(){ 
+        window.open( window.location.origin + "/designer", "_blank"); 
+    }
 };
-gui.add(obj, 'notebook');
-gui.add(obj, 'settings');
+var folder1 = gui.addFolder('Navigate to Page');
+folder1.add(obj, 'designer');
+var folder2 = gui.addFolder('Activate/Deactivate Tab');
+folder2.add(obj, 'notebook');
+folder2.add(obj, 'settings');
 gui.hide();
 
 // function to handle success
