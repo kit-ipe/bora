@@ -36,7 +36,7 @@ function error(err) {
 }
 
 function rest_get_query(id, url) {
-    $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
+    $( "#" + id ).find( "img" ).attr("src","/static/commbit_inactive.svg");
     
     /*
     var xhr = new XMLHttpRequest();
@@ -55,6 +55,7 @@ function rest_get_query(id, url) {
         },
         error: function (xhr, status) {
             $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
+            console.log("error");
         }
     });
 }
