@@ -1,0 +1,8 @@
+{% if data['style'][key]['type'] == "graph" %}
+<div id="{{ key }}" class="hover-box" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='graph'>
+    <canvas id="myChart"></canvas>
+</div>
+{% else %}
+{% end %}

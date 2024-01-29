@@ -1,0 +1,8 @@
+{% if data['style'][key]['type'] == "readonly" %}
+<div id="{{ key }}" class="varbox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='box'>
+    <canvas id="canvas" style="overflow:auto"></canvas>
+</div>
+{% else %}
+{% end %}

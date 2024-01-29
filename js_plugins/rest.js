@@ -36,12 +36,28 @@ function error(err) {
 }
 
 function rest_get_query(id, url) {
-    $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
+    $( "#" + id ).find( "img" ).attr("src","/static/commbit_inactive.svg");
+    
+    /*
     var xhr = new XMLHttpRequest();
     xhr.onload = success;
     xhr.onerror = error;
     xhr.open('GET', url );
     xhr.send();
+    */
+
+    $.ajax({
+        url: url,
+        type: "GET",
+        crossDomain: true,
+        success: function (response) {
+            $("#" + id ).find( "img" ).attr("src","/static/commbit_green.svg");
+        },
+        error: function (xhr, status) {
+            $( "#" + id ).find( "img" ).attr("src","/static/commbit_red.svg");
+            console.log("error");
+        }
+    });
 }
 
 $("input").on('keypress',function(e) {
@@ -49,10 +65,12 @@ $("input").on('keypress',function(e) {
         var id = $(this).closest('div').attr('id');
         var url = $(this).closest('div').attr('data-url');
         var value = $(this).val();
-        rest_set_query(id, url, value);
+        //rest_set_query(id, url, value);
+        rest_get_query(id, url + value);
     }
 });
 
+/*
 $(window).on("load", function() {
     $('[data-type="rest"]').each(function(){
         var id = $(this).closest('div').attr('id');
@@ -60,3 +78,4 @@ $(window).on("load", function() {
         rest_get_query(id, url);
     });
 });
+*/

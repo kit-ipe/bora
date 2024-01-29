@@ -27,6 +27,31 @@
 {% if data['style'] %}
 {% for key in data['style'] %}
 
+{% if data['style'][key]['type'] == "graph" %}
+<div id="{{ key }}" class="varbox hover-box" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='graph'>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['type'] == "iframe" %}
+<div id="{{ key }}" class="varbox hover-box" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='iframe'>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['type'] == "readonly" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='text'>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> 
+</div>
+{% else %}
+{% end %}
+
 {% if data['style'][key]['type'] == "text" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
@@ -1544,7 +1569,13 @@ function bora_add(prefix) {
     var button_end = "'></button>";
     var button_text = "";
     var button_flag = false;
-    
+   
+    var icon_head = "<img ";
+    var icon_style = " src='";
+    var icon_end = "' width='100%' height='100%'></img>";
+    var icon_src = "";
+    var icon_flag = false;
+
     for (item in params) {
         if (item.startsWith(prefix)) {
             console.log(item);
@@ -1576,12 +1607,18 @@ function bora_add(prefix) {
                            "id=" + tmp_params + " " +
                            "data-type='"+ item_array[0] +"'";
                 } else if (item_array[3] == "text_name") {
-                    div_text = tmp_params;
+                    div_text += tmp_params;
+                } else if (item_array[3] == "unit_name") {
+                    div_text += " XXX.XX ";
+                    div_text += tmp_params;
+                } else if (item_array[3] == "int_to_str") {
+                    div_text += " ??? ";
+                } else if (item_array[3] == "icon_type") {
+                    icon_src = window.location.origin + "/static/"  + tmp_params + ".png";
+                    icon_flag = true;
                 } else {
-        
                     console.log(tmp_params);
                     tmp = item_array[3].replace(/_/g, '-');
-                    
 
                     div_style += tmp;
                     div_style += ":";
@@ -1622,9 +1659,23 @@ function bora_add(prefix) {
         html_final += button_style;
         html_final += button_end;
     }
+   
+    console.log("YOYYOO");
+
+    if (icon_flag) {
+        console.log("ICON INSIDE?");
+        html_final += icon_head;
+        html_final += icon_style;
+        html_final += icon_src;
+        html_final += icon_end;
+    }
+    console.log("YOYYOO");
     
     html_final += "</div>";
-    
+  
+
+    console.log(html_final);
+
     console.log("Adding element");
     console.log(html_final);
     
@@ -1813,7 +1864,6 @@ function bora_save(prefix) {
                         } else {
                             console.log("What is my value");
                             console.log(key);
-                            console.log()
                             // I think key is the problem here
                             mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).css(item_array[3].replace(/_/g, '-'));
                         }

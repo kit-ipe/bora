@@ -34,6 +34,7 @@ BORA is an open source visualization framework supporting large-scale experiment
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <!--
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -41,6 +42,7 @@ BORA is an open source visualization framework supporting large-scale experiment
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    -->
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
@@ -51,7 +53,7 @@ BORA is an open source visualization framework supporting large-scale experiment
 </details>
 
 
-<!-- GETTING STARTED -->
+<!-- GETTING STARTED
 ## Getting Started
 
 TODO
@@ -65,6 +67,7 @@ TODO
 TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+-->
 
 <!-- USAGE EXAMPLES -->
 ## Gallery

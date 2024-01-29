@@ -4,6 +4,10 @@
             "value": ""
             "type": "string"
             "optional": "No"
+        "unit_name":
+            "value": ""
+            "type": "string"
+            "optional": "No"
         "font_size":
             "value": ""
             "type": "string"
@@ -20,14 +24,4 @@
                 - 0
             "type": "color"
             "optional": "No"
-    "input":
-        "font_size":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "width":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-    
 

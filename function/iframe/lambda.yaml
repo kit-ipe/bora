@@ -1,0 +1,8 @@
+# dependency npm and node
+
+install:
+    - null 
+setup:
+    - "python ./runtime_env/iframe/scripts/main.py %s"
+run:
+    - null
