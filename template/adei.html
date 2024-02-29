@@ -1,0 +1,8 @@
+{% if data['style'][key]['type'] == "adei" %}
+<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
+    height:{{ data['style'][key]['height'] }}px;' data-type='text'>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span>
+</div>
+{% else %}
+{% end %}
