@@ -1,27 +1,25 @@
-"data":
-    "div":
-        "text_name":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "unit_name":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "font_size":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "font_weight":
-            "value": "normal"
-            "type": "string"
-            "optional": "No"
-        "background_color":
-            "value":
-                - 255
-                - 255
-                - 255
-                - 0
-            "type": "color"
-            "optional": "No"
-
+"div":
+    "text_name":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "unit_name":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "font_size":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "font_weight":
+        "value": "normal"
+        "type": "string"
+        "optional": "No"
+    "background_color":
+        "value":
+            - 255
+            - 255
+            - 255
+            - 0
+        "type": "color"
+        "optional": "No"

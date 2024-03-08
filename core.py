@@ -37,6 +37,15 @@ root = os.path.dirname(__file__)
 BORA_VERSION = "2.0.0"
 
 
+# Plugins data
+plugin_settings = {}
+for filename in os.listdir(os.path.join(root, 'typedef')):
+    plugin_settings[filename.split(".")[0]] = None
+
+plugins_data = {
+    "plugins": plugin_settings
+}
+
 widget_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
@@ -59,7 +68,7 @@ Path("./runtime_env").mkdir(parents=True, exist_ok=True)
 
 
 # init :-> copy the plugins to the user space
-for plugin in settings_data["plugins"]:
+for plugin in plugins_data["plugins"]:
     #print("copy: " + plugin)
     # load lambda.yaml
     copy_tree(
@@ -68,7 +77,7 @@ for plugin in settings_data["plugins"]:
     )
 
 ### plugin :-> install
-for plugin in settings_data["plugins"]:
+for plugin in plugins_data["plugins"]:
     #print("install: " + plugin)
     # load lambda.yaml
     
@@ -84,7 +93,7 @@ for plugin in settings_data["plugins"]:
 
 
 ### plugin :-> setup
-for plugin in settings_data["plugins"]:
+for plugin in plugins_data["plugins"]:
     #print("setup: " + plugin)
     # load lambda.yaml
     
@@ -107,7 +116,7 @@ for plugin in settings_data["plugins"]:
             print(exc)
 
 ### plugin :-> run
-for plugin in settings_data["plugins"]:
+for plugin in plugins_data["plugins"]:
     #print("run: " + plugin)
     # load lambda.yaml
     
@@ -125,14 +134,14 @@ for plugin in settings_data["plugins"]:
 
 
 ### plugin :-> start timer
-for plugin in settings_data["plugins"]:
-    #print("timer: " + plugin)
-    if not isinstance(settings_data["plugins"][plugin], Iterable):
-        continue
-    if "timer" in settings_data["plugins"][plugin]:
-        #print("timer: " + plugin)
-        if settings_data["plugins"][plugin]["timer"]:
-            widget_queue.append(plugin)
+
+
+#for plugin in plugins_data["plugins"]:
+#    #print("timer: " + plugin)
+if isinstance(settings_data["timer"]["plugins"], Iterable):
+    for plugin in settings_data["timer"]["plugins"]:
+        widget_queue.append(plugin)
+
 
 def setup_custom_logger(name):
     formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
@@ -275,7 +284,7 @@ class DesignerHandler(tornado.web.RequestHandler):
         #print(varname_data)
         
         varname_filter_data = {}
-        for item in list(settings_data["plugins"]):
+        for item in list(plugins_data["plugins"]):
             if not item in varname_data:
                 continue
             varname_filter_data[item] = varname_data[item]
@@ -298,7 +307,7 @@ class DesignerHandler(tornado.web.RequestHandler):
 
         # Prepare typedef yaml
         typedef_data = {}
-        for myitem in settings_data["plugins"]:
+        for myitem in plugins_data["plugins"]:
             tmp_data = None
             with open("./bora/typedef/" + str(myitem) + ".yaml", 'r') as stream:
                 try:
