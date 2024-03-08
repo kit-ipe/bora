@@ -1,3 +1,4 @@
+import redis
 import logging
 import calendar
 import os
@@ -8,10 +9,11 @@ import requests
 import subprocess
 import json
 
-import datetime
-from datetime import date
+#import datetime
+from datetime import date, datetime
 import time
 from time import gmtime, strftime
+from time import strptime
 
 import shutil
 from shutil import copyfile, rmtree
@@ -27,11 +29,13 @@ from distutils.dir_util import copy_tree
 
 from string import Template
 from utils.bora_helper import load_data, bora_init
+from collections.abc import Iterable
+from threading import Thread, Event
 
 
 root = os.path.dirname(__file__)
 BORA_VERSION = "2.0.0"
-python_version = sys.version_info.major
+
 
 # Plugins data
 plugin_settings = {}
@@ -42,10 +46,16 @@ plugins_data = {
     "plugins": plugin_settings
 }
 
+widget_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
 
 bora_init()
+
+# init redis connection
+if "redis" in settings_data:
+    r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
+
 
 ###########################
 #  Setup Plugins          #
@@ -123,6 +133,16 @@ for plugin in plugins_data["plugins"]:
             print(exc)
 
 
+### plugin :-> start timer
+
+
+#for plugin in plugins_data["plugins"]:
+#    #print("timer: " + plugin)
+if isinstance(settings_data["timer"]["plugins"], Iterable):
+    for plugin in settings_data["timer"]["plugins"]:
+        widget_queue.append(plugin)
+
+
 def setup_custom_logger(name):
     formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
                                   datefmt='%Y-%m-%d %H:%M:%S')
@@ -137,6 +157,97 @@ def setup_custom_logger(name):
     return logger
 
 logger = setup_custom_logger('BORA')
+
+# Start Timer
+class TimerThread(Thread):
+    def __init__(self, event):
+        Thread.__init__(self)
+        self.stopped = event
+
+    def run(self):
+        while not self.stopped.wait( settings_data["timer"]["server"] / 1000.0 ):
+            current_datetime = datetime.now()
+            str_current_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S.%f")
+            dt_obj = datetime.strptime(str_current_datetime, '%Y-%m-%d %H:%M:%S.%f')
+            millisec = dt_obj.timestamp() * 1000
+            print("##################")
+            print("##" , str_current_datetime)
+            print("##" , millisec)
+            print("-> Timer is running for:", widget_queue)
+
+
+            write_data_to_redis()
+            #ts.add("yoyoyo", 1657265437756, 1, retention_msecs=86400000)
+            # call a function
+            print("\r\n")
+
+stop_flag = Event()
+thread = TimerThread(stop_flag)
+thread.start()
+# this will stop the timer
+#stop_flag.set()
+
+
+def write_data_to_redis():
+    if r.ping():
+        print("-> Ping to redis server is successful.")
+    ts = r.ts()
+
+    sync_timestamp = time.time() * 1000.0
+
+    for plugin in varname_data:
+        if plugin in widget_queue:
+            print(plugin)
+            for sensor in varname_data[plugin]:
+                print(sensor)
+                print(varname_data[plugin][sensor]["source"])
+                url = varname_data[plugin][sensor]["source"]
+                data = requests.get(
+                    url,
+                    auth=(os.environ["BORA_ADEI_USERNAME"],
+                          os.environ["BORA_ADEI_PASSWORD"])
+                ).content
+
+                data = data.decode("utf-8")
+
+                if data == "":
+                    logger.info(str(plugin) + ': Empty data!')
+                    print(str(plugin) + ': Empty data!')
+                    continue
+
+
+                if "ERROR" in data.splitlines()[-1]:
+                    logger.error(str(param) + ': Query')
+                    print("ERROR: " + str(param) + ': Query')
+                    continue
+
+                tmp_data = data.splitlines()[-1]
+
+                last_value = tmp_data.split(",")[-1].strip()
+                first_value = tmp_data.split(",")[-2].strip()
+                
+                try:
+                    test_x = float(last_value)
+                except ValueError:
+                    logger.error(str(param) + ': Last value is not a float')
+                    print("ERROR: " + str(param) + ': Last value is not a float')
+                    continue
+
+                try:
+                    time_buffer = first_value.split("-")
+                    time_buffer[1] = str(strptime(time_buffer[1],'%b').tm_mon).zfill(2)
+                    first_value = "-".join(time_buffer)
+                    first_ts = calendar.timegm(datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple()) * 1000
+                except:
+                    logger.error(str(param) + ': Last value is not a float')
+                    print("ERROR: " + str(param) + ': Last value is not a float')
+                    continue
+
+                #print(first_ts)
+                #print(last_value)
+                ts.add(sensor, int(sync_timestamp), last_value, retention_msecs=86400000)
+
+    print("-> Writing data to redis.")
 
 
 class ListHandler(tornado.web.RequestHandler):
@@ -166,8 +277,6 @@ class DesignerHandler(tornado.web.RequestHandler):
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
-        
-
         
         # Prepare filtered varname_data
         #print(settings_data["plugins"])

@@ -1,24 +1,21 @@
-
-    "div":
-        "text_name":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "font_size":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "font_weight":
-            "value": "normal"
-            "type": "string"
-            "optional": "No"
-        "width":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-        "height":
-            "value": ""
-            "type": "string"
-            "optional": "No"
-
-
+"div":
+    "text_name":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "font_size":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "font_weight":
+        "value": "normal"
+        "type": "string"
+        "optional": "No"
+    "width":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "height":
+        "value": ""
+        "type": "string"
+        "optional": "No"
