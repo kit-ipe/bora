@@ -1976,6 +1976,24 @@ var tmp_color;
 var bind_param;
 var opt = "";
 
+
+// Get the plugin names from the Python data
+//var plugin_settings = plugins_data.plugins;
+
+// Initialize the plugin_arrays based on the plugin names
+//var plugin_arrays = {};
+//for (const plugin in plugin_settings) {
+//    plugin_arrays[plugin] = true;
+//}
+
+var plugin_arrays = {};
+
+var plugin_folder = gui.addFolder("plugins");
+
+
+
+
+
 gui.add(obj, 'save');
 gui.add(obj, 'backup');
 
@@ -1984,27 +2002,23 @@ gui.add(obj, 'backup');
     folder = gui.addFolder("{{ category }}");
     
     category.push("{{ category }}");
+
+    plugin_arrays.{{ category }} = true;
+
     // Other params here
     
     // category -> rtsp
     // datatype -> data
     // element -> div
     
-    
-    {% for datatype in data["typedef"][category] %}
-    
-    console.log("ELEMENT: " + '{{ category }} ' + '{{ datatype }}' );
-    
-    subfolder = folder.addFolder("{{ datatype }} ");
+
     
     mygroup = {};
 
 {% if category in data["vardata"] %}
     
     {% for item in data["vardata"][ category ] %}
-        if ('{{ data["vardata"][ category ][item]["type"] }}' == '{{ datatype }}') {
             mygroup["{{ item }}"] = "{{ item }}";
-        }
         $("#" + "{{ item }}").draggable();
         
     {% end %}
@@ -2017,40 +2031,40 @@ gui.add(obj, 'backup');
     
     console.log(mygroup);
     
-    bind_param = '{{ category }}' + "-" + '{{ datatype }}';
+    bind_param = '{{ category }}';
     
     params[ bind_param + "-div-name-must"] = "";
-    subfolder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
+    folder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
     
-    subfolder.add({select : obj.select.bind(this, bind_param  )}, "select");
-    subfolder.add({update : obj.update.bind(this, bind_param )}, "update");
+    folder.add({select : obj.select.bind(this, bind_param  )}, "select");
+    folder.add({update : obj.update.bind(this, bind_param )}, "update");
     
-    {% for element in data["typedef"][category][datatype] %}
+    {% for element in data["typedef"][category] %}
         
-        {% for item in data["typedef"][ category ][datatype][element] %}
+        {% for item in data["typedef"][ category ][element] %}
             console.log(
                 "{{ item }}",
-                '{{ data["typedef"][ category ][datatype][element][item]["value"] }}',
-                '{{ data["typedef"][ category ][datatype][element][item]["type"] }}',
+                '{{ data["typedef"][ category ][element][item]["value"] }}',
+                '{{ data["typedef"][ category ][element][item]["type"] }}',
             );
             
-            if ('{{ data["typedef"][ category ][datatype][element][item]["optional"] }}' == "True") {
+            if ('{{ data["typedef"][ category ][element][item]["optional"] }}' == "True") {
                 opt = "opt"
             } else {
                 opt = "must"
             }
             
-            if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "string") { // STRING
-                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
-            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "bool") { // BOOL
-                if ('{{ data["typedef"][ category ][datatype][element][item]["value"] }}' == "True") {
+            if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "string") { // STRING
+                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+            } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "bool") { // BOOL
+                if ('{{ data["typedef"][ category ][element][item]["value"] }}' == "True") {
                     params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = true;
                 } else {
                     params[ bind_param+ + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
                 }
-            } else if ('{{ data["typedef"][ category ][datatype][element][item]["type"] }}' == "color") {
+            } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "color") {
                 tmp_color = "rgba(";
-                {% for subcolor in data["typedef"][ category ][datatype][element][item]["value"] %}
+                {% for subcolor in data["typedef"][ category ][element][item]["value"] %}
                     tmp_color += "{{ subcolor }}";
                     tmp_color += ",";
                 {% end %}
@@ -2059,19 +2073,38 @@ gui.add(obj, 'backup');
                 params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = tmp_color;
                 
             } else {
-                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][datatype][element][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
             }
-            subfolder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
+            folder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
         {% end %}
     {% end %}
     
-    subfolder.add({add : obj.add.bind(this, bind_param )}, "add");
-    subfolder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
+    folder.add({add : obj.add.bind(this, bind_param )}, "add");
+    folder.add({remove : obj.remove.bind(this, bind_param )}, "remove");
     {% end %}
     
     
-{% end %}
+// Object to store dat.GUI controllers for plugin checkboxes
+var controllers = {};
 
+// Loop through each plugin and create a checkbox
+for (const [plugin, visibility] of Object.entries(plugin_arrays)) {
+    // Create a checkbox controller for the plugin
+    controllers[plugin] = plugin_folder.add(plugin_arrays, plugin).onChange(function (value) {
+        console.log(plugin + " checkbox", value);
+        // Call the function to toggle the visibility of the plugin folder
+        togglePluginFolder(plugin, value);
+    });
+}
+
+// Function to toggle plugin folder visibility
+function togglePluginFolder(plugin, visibility) {
+    // Check if the folder exists in dat.GUI
+    if (gui.__folders[plugin]) {
+        // Set the display style property based on the checkbox value
+        gui.__folders[plugin].domElement.style.display = visibility ? '' : 'none';
+    }
+}
 
 </script>
 
