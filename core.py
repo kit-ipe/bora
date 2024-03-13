@@ -265,11 +265,6 @@ class ListHandler(tornado.web.RequestHandler):
 class DesignerHandler(tornado.web.RequestHandler):
     def get(self):
         print("In designer mode.")
-        with open("./bora/cache.yaml", 'r') as stream:
-            try:
-                cache_data = yaml.load(stream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
         
         # check other data sources: rtsp or rest
         with open("style.yaml", 'r') as stream:
@@ -318,7 +313,6 @@ class DesignerHandler(tornado.web.RequestHandler):
 
 
         data = {
-            "cache": cache_data,
             "style": style_filter_data,
             "vardata": varname_filter_data,
             "typedef": typedef_data
@@ -404,17 +398,8 @@ class StatusHandler(tornado.web.RequestHandler):
         if not os.path.isfile("./bora/cache.yaml"): 
             open("./bora/cache.yaml","wb")
 
-        with open("./bora/cache.yaml", 'r') as vstream:
-            try:
-                cache_data = yaml.load(vstream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
-
-        print(varname_data)
-
         data = {
             "style": style_data,
-            "cache": cache_data,
             "varname": varname_data
         }
 
