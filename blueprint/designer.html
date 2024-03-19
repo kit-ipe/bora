@@ -1553,7 +1553,6 @@ function bora_add(prefix) {
     for (item in params) {
         if (item.startsWith(prefix)) {
             
-            
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
             
@@ -1567,53 +1566,30 @@ function bora_add(prefix) {
             if (isNumeric(tmp_params)) {
                 tmp_params = tmp_params + "px";
             }
-            
-            if (item_array[2] == "div") { // DIV
                 
-                if (item_array[3] == "name") {
-                    
-                    varname = tmp_params;
-                    div_head = "<div " +
-                           "class='varbox box_highlight' " +
-                           "id=" + tmp_params + " " +
-                           "data-type='"+ item_array[0] +"'";
-                } else if (item_array[3] == "text_name") {
-                    div_text += tmp_params;
-                } else if (item_array[3] == "unit_name") {
-                    div_text += " XXX.XX ";
-                    div_text += tmp_params;
-                } else if (item_array[3] == "int_to_str") {
-                    div_text += " ??? ";
-                } else if (item_array[3] == "icon_type") {
-                    icon_src = window.location.origin + "/static/"  + tmp_params + ".png";
-                    icon_flag = true;
-                } else {
-                    
-                    tmp = item_array[3].replace(/_/g, '-');
+            if (item_array[2] == "name") {
+                varname = tmp_params;
+                div_head = "<div " +
+                        "class='varbox box_highlight' " +
+                        "id=" + tmp_params + " " +
+                        "data-type='"+ item_array[0] +"'";
+            } else if (item_array[2] == "text_name") {
+                div_text += tmp_params;
+            } else if (item_array[2] == "unit_name") {
+                div_text += " XXX.XX ";
+                div_text += tmp_params;
+            } else if (item_array[2] == "int_to_str") {
+                div_text += " ??? ";
+            } else if (item_array[2] == "icon_type") {
+                icon_src = window.location.origin + "/static/"  + tmp_params + ".png";
+                icon_flag = true;
+            } else {
+                tmp = item_array[2].replace(/_/g, '-');
 
-                    div_style += tmp;
-                    div_style += ":";
-                    div_style += tmp_params;
-                    div_style += "; ";
-                }
-            } else if (item_array[2] == "input") { // INPUT
-                tmp = item_array[3].replace(/_/g, '-');
-                
-                input_style += tmp;
-                input_style += ":";
-                input_style += tmp_params;
-                input_style += "; ";
-                
-                input_flag = true;
-            } else if (item_array[2] == "button") { // INPUT
-                tmp = item_array[3].replace(/_/g, '-');
-                
-                button_style += tmp;
-                button_style += ":";
-                button_style += tmp_params;
-                button_style += "; ";
-                
-                button_flag = true;
+                div_style += tmp;
+                div_style += ":";
+                div_style += tmp_params;
+                div_style += "; ";
             }
         }
     }
