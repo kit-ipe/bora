@@ -1550,28 +1550,38 @@ function bora_add(prefix) {
     var icon_src = "";
     var icon_flag = false;
 
+
     for (item in params) {
         if (item.startsWith(prefix)) {
             
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
             
-            if (opt == "must" && !params[item]) {
-                alert("Please enter value for: " + item);
-                return;
+            var tmp_params;
+            if (prefix != "text") {
+                tmp_params = params[item]; // text_name[div]
+                varname = tmp_params;
+                if (opt == "must" && !params[item]) {
+                    alert("Please enter value for: " + item);
+                
+                    return;
+                }
+            } else {
+                tmp_params = params[prefix+"-div-text_name-must"];
+                varname = prefix + "_" + tmp_params;
             }
+            
 
-            var tmp_params = params[item];
             // if params[item] is numeric -> append px
             if (isNumeric(tmp_params)) {
                 tmp_params = tmp_params + "px";
             }
                 
             if (item_array[2] == "name") {
-                varname = tmp_params;
+                
                 div_head = "<div " +
                         "class='varbox box_highlight' " +
-                        "id=" + tmp_params + " " +
+                        "id=" + prefix + "_" + tmp_params + " " +
                         "data-type='"+ item_array[0] +"'";
             } else if (item_array[2] == "text_name") {
                 div_text += tmp_params;
@@ -1593,9 +1603,9 @@ function bora_add(prefix) {
             }
         }
     }
-    
+
     html_final = div_head + div_style + div_end + div_text
-    
+
     if (input_flag) {
         html_final += input_head;
         html_final += input_style;
@@ -1618,9 +1628,11 @@ function bora_add(prefix) {
     
     
     html_final += "</div>";
+
     
     var redundant_flag = false;
     var ids = new Array();
+
     $('body [id]').each(function() { //Get elements that have an id=
         //ids.push($(this).attr("id")); //add id to array
         
@@ -1636,6 +1648,7 @@ function bora_add(prefix) {
         $("#"+varname).draggable();
         $("#"+varname).resizable();
     }
+    
 }
     
 function bora_select(prefix) {
@@ -1897,9 +1910,9 @@ gui.add(obj, 'backup');
     
     mygroup = {};
 
-    {% if category in data["vardata"] %}
+    {% if category in data["style"] %}
         
-        {% for item in data["vardata"][ category ] %}
+        {% for item in data["style"][ category ] %}
                 mygroup["{{ item }}"] = "{{ item }}";
             $("#" + "{{ item }}").draggable();
             
