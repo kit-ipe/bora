@@ -273,32 +273,6 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
         
-        # Prepare filtered varname_data
-        #print(settings_data["plugins"])
-        #print(list(settings_data["plugins"].keys()))
-        #print(varname_data)
-        
-        varname_filter_data = {}
-        for item in list(plugins_data["plugins"]):
-            if not item in varname_data:
-                continue
-            varname_filter_data[item] = varname_data[item]
-
-        # Prepare a list of sensor names from the filtered varname
-        sensor_name_filter = []
-        for key,item in varname_filter_data.items():
-            #print(key, item)
-            for grain in item.items():
-                sensor_name_filter.append(grain[0])
-        
-        # Prepare filtered style_data
-        style_filter_data = {}
-        #print(style_data)
-        for item in list(style_data.keys()):
-            if item in sensor_name_filter:
-                style_filter_data[item] = style_data[item]
-
-
 
         # Prepare typedef yaml
         typedef_data = {}
@@ -312,9 +286,11 @@ class DesignerHandler(tornado.web.RequestHandler):
             typedef_data[myitem] = tmp_data
 
 
+        print(style_data)
+
         data = {
-            "style": style_filter_data,
-            "vardata": varname_filter_data,
+            "style": style_data,
+            #"vardata": varname_filter_data,
             "typedef": typedef_data
         }
 
