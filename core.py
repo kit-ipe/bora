@@ -54,7 +54,9 @@ bora_init()
 
 # init redis connection
 if "redis" in settings_data:
-    r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
+    if settings_data["redis"]:
+        if settings_data["redis"]["host"] and settings_data["redis"]["port"]:
+            r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
 
 
 ###########################
@@ -272,7 +274,6 @@ class DesignerHandler(tornado.web.RequestHandler):
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
                 print(exc)
-        
 
         # Prepare typedef yaml
         typedef_data = {}
@@ -290,7 +291,6 @@ class DesignerHandler(tornado.web.RequestHandler):
 
         data = {
             "style": style_data,
-            #"vardata": varname_filter_data,
             "typedef": typedef_data
         }
 

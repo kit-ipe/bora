@@ -1,4 +1,8 @@
 "div":
+    "text_name":
+        "value": ""
+        "type": "string"
+        "optional": "No"
     "width":
         "value": ""
         "type": "string"

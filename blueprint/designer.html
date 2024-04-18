@@ -64,8 +64,8 @@
 {% if data['style'][key]['type'] == "text" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-type='text'>
-<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> 
+    height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' data-type='text'>
+{{ data['style'][key]['div']['text-name'] }}
 </div>
 {% else %}
 {% end %}
@@ -1552,33 +1552,56 @@ function bora_add(prefix) {
 
 
     for (item in params) {
+        
         if (item.startsWith(prefix)) {
-            
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
-            
+
             var tmp_params;
-            if (prefix != "text") {
-                tmp_params = params[item]; // text_name[div]
+            if (prefix != "text" && prefix != "box") {
+                tmp_params = params[item];
                 varname = tmp_params;
                 if (opt == "must" && !params[item]) {
                     alert("Please enter value for: " + item);
+                    return;
+                }
+            } else if (prefix == "box") {
+                tmp_params = params[prefix + "-div-text_name-must"];
+                varname = prefix + "_" + tmp_params;
                 
+                if (opt == "must" && !params[item] && item.localeCompare("box-div-name-must")) {
+                    alert("Please enter value for: " + item);
                     return;
                 }
             } else {
-                tmp_params = params[prefix+"-div-text_name-must"];
+                tmp_params = params[prefix + "-div-text_name-must"];
                 varname = prefix + "_" + tmp_params;
+                if (opt == "must" && !params[item] && item.localeCompare("text-div-name-must")) {
+                    alert("Please enter value for: " + item);
+                    return;
+                }
             }
-            
 
             // if params[item] is numeric -> append px
-            if (isNumeric(tmp_params)) {
-                tmp_params = tmp_params + "px";
-            }
+            if (isNumeric(params[item])) {
+                tmp_params = params[item] + "px";
+            } else {
+                if (item == "text-div-font_weight-must") {
+                    tmp_params = params[item];
+                    if (tmp_params == "normal") {
+                        tmp_params = "400";
+                        
+                    } else if (tmp_params == "bold") {
+                        tmp_params = "700";
+                    } else {
+                        alert("Invalid input for font_weight!! Please enter 'normal' or 'bold' only !!");
+                        return;
+                    }
+                }
+            }    
                 
             if (item_array[2] == "name") {
-                
+                varname = tmp_params;
                 div_head = "<div " +
                         "class='varbox box_highlight' " +
                         "id=" + prefix + "_" + tmp_params + " " +
@@ -1666,29 +1689,30 @@ function bora_select(prefix) {
     });
     
     for (item in params) {
+
         if (item.startsWith(prefix)) {
-            
+
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
                     
-            var tmp_css_property = item_array[3].replace(/_/g, '-');
+            var tmp_css_property = item_array[2].replace(/_/g, '-');
             
-            if (item_array[2] == "div") { // DIV
-                if (item_array[3] == "name") {
+            if (item_array[1] == "div") { // DIV
+                if (item_array[2] == "name") {
                     
-                } else if (item_array[3] == "text_name") {
+                } else if (item_array[2] == "text_name") {
                     params[item] = $("#"+ params[prefix+"-div-name-must"]).text();
                 } else {
-                    // inputs
                     var tmp_param_item = $("#"+ params[prefix+"-div-name-must"]).css(tmp_css_property);
 
                     if (tmp_param_item.indexOf("px") > 0) {
                         params[item] = parseInt(tmp_param_item);
                     } else {
                         if (tmp_css_property.localeCompare("font-weight") == 0 ) {
-                            if (parseInt(tmp_param_item) == 400) {
+                            
+                            if (tmp_param_item == 400) {
                                 params[item] = "normal";
-                            } else  if (parseInt(tmp_param_item) == 700) {
+                            } else if (tmp_param_item == 700) {
                                 params[item] = "bold";
                             } else {
                                 alert("Error");
@@ -1698,28 +1722,7 @@ function bora_select(prefix) {
                         }
                     }
                 }
-            } else if (item_array[2] == "input") { // input
-                    // inputs
-                    var tmp_param_item = $("#"+ params[prefix+"-div-name-must"]).css(tmp_css_property);
-
-                    if (tmp_param_item.indexOf("px") > 0) {
-                        params[item] = parseInt(tmp_param_item);
-                    } else {
-                        if (tmp_css_property.localeCompare("font-weight") == 0 ) {
-                            if (parseInt(tmp_param_item) == 400) {
-                                params[item] = "normal";
-                            } else  if (parseInt(tmp_param_item) == 700) {
-                                params[item] = "bold";
-                            } else {
-                                alert("Error");
-                            }
-                        } else {
-                            params[item] = tmp_param_item;
-                        }
-                    }
-                // inputs
-                //params[item] = $("#"+ params[prefix+"-div-name-must"] + " :input").css(tmp_css_property);
-            }
+            } 
         }
     }
     gui.updateDisplay();
@@ -1727,42 +1730,43 @@ function bora_select(prefix) {
 
     
 function bora_update(prefix) {
+    
     var item_array;
     var input_tmp;
         
     for (item in params) {
+
         if (item.startsWith(prefix)) {
-            
-                
+
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
                 
-            if (item_array[2] == "div") { // div
-                if (item_array[3] == "name") {
+            if (item_array[1] == "div") { // div
+                if (item_array[2] == "name") {
                     
-                } else if (item_array[3] == "text_name") {
+                } else if (item_array[2] == "text_name") {
                     input_tmp = $("#"+ params[prefix+"-div-name-must"] + " :input");
                     $("#"+ params[prefix+"-div-name-must"]).text(params[item]);
                     input_tmp.appendTo("#"+ params[prefix+"-div-name-must"]);
+                } else if (item_array[2] == "font_size") {
+                    $("#" + params[prefix + "-div-name-must"]).css(item_array[2].replace(/_/g, '-'), params[item] + "px");
                 } else {
-                    $("#"+ params[prefix+"-div-name-must"]).css(item_array[3].replace(/_/g, '-'), params[item]);
+                    $("#"+ params[prefix+"-div-name-must"]).css(item_array[2].replace(/_/g, '-'), params[item]);
                 }
-            } else if (item_array[2] == "input") { // input
-                $("#"+ params[prefix+"-div-name-must"] + " :input").css(item_array[3].replace(/_/g, '-'), params[item]);
             }
         }
     }
     gui.updateDisplay();
 }
     
+
 function bora_remove(prefix) {
     
     $("#"+ params[prefix+"-div-name-must"]).remove();
 }
 
 
-function bora_save(prefix) {
-    
+function bora_save() {
     var key;
     var tmp;
     var position = {};
@@ -1792,30 +1796,27 @@ function bora_save(prefix) {
                     
                     item_array = item.split("-");
                     opt = item_array[item_array.length - 1];
+                    
+                    if (item_array[1] == "div") { // div
                         
-                    if (item_array[2] == "div") { // div
-                        if (item_array[3] == "name") {
-                            
-                        } else if (item_array[3] == "text_name") {
-                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).text();
+                        if (item_array[2] == "name") {
+                        } else if (item_array[2] == "text_name") {
+                            mydiv[item_array[2].replace(/_/g, '-')] = $("#"+ key).text().trim();
+                        } else if (item_array[2] == "font_size") {
+                            mydiv["font-size"] = $("#"+ key).css("font-size");
+                        } else if (item_array[2] == "font_weight") {
+                            mydiv["font-weight"] = parseInt($("#"+ key).css("font-weight"));
                         } else {
-                            mydiv[item_array[3].replace(/_/g, '-')] = $("#"+ key).css(item_array[3].replace(/_/g, '-'));
-                        }
-                        
-                    } else if (item_array[2] == "input") { // input
-                        myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :input").css(item_array[3].replace(/_/g, '-'));
-                        subparam = "input";
-                    } else if (item_array[2] == "button") { // input
-                              myinput[item_array[3].replace(/_/g, '-')] = $("#"+ key + " :button").css(item_array[3].replace(/_/g, '-'));
-                        subparam = "button";
-                    }
+                            mydiv[item_array[2].replace(/_/g, '-')] = $("#"+ key).css(item_array[2].replace(/_/g, '-'));
+                        }    
+                    } 
                 }
             }
+
+            tmp["widget"] = category[i];
             tmp["div"] = mydiv;
-            if (subparam == "input" || subparam == "button") {
-                tmp[subparam] = myinput;
-            }
             position[key] = tmp;
+
         });
     }
     
@@ -1910,23 +1911,28 @@ gui.add(obj, 'backup');
     
     mygroup = {};
 
-    {% if category in data["style"] %}
+    mygroup["{{ category }}"] = [];
+
+    {% for item in data["style"] %}
         
-        {% for item in data["style"][ category ] %}
-                mygroup["{{ item }}"] = "{{ item }}";
+        
+        {% if category in data["style"][ item ]["widget"] %}
+            mygroup["{{ category }}"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
-            
+        {% else %}
         {% end %}
+    {% end %}
 
-    {% else %}
+    
+    
 
-{% end %}
+    
 
     
     bind_param = '{{ category }}';
-    
     params[ bind_param + "-div-name-must"] = "";
-    folder.add(params,  bind_param + "-div-name-must", mygroup ).name("name");
+
+    folder.add(params,  bind_param + "-div-name-must", mygroup[bind_param] ).name("name");
     
     folder.add({select : obj.select.bind(this, bind_param  )}, "select");
     folder.add({update : obj.update.bind(this, bind_param )}, "update");
