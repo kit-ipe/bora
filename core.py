@@ -160,6 +160,7 @@ def setup_custom_logger(name):
 
 logger = setup_custom_logger('BORA')
 
+"""
 # Start Timer
 class TimerThread(Thread):
     def __init__(self, event):
@@ -186,6 +187,7 @@ class TimerThread(Thread):
 stop_flag = Event()
 thread = TimerThread(stop_flag)
 thread.start()
+"""
 # this will stop the timer
 #stop_flag.set()
 
