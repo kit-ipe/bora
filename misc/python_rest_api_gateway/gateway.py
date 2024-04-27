@@ -20,7 +20,7 @@ root = os.path.dirname(__file__)
 
 
 LUT = {
-    "adei-data": {
+    "adei": {
         "311-RBY-1-5052": "http://localhost:18080/api/v1/get-data/311-rby-1-5052",
         "320-FLW-2-8010": "http://localhost:18080/api/v1/get-data/320-flw-2-8010"
     },

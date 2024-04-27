@@ -46,7 +46,7 @@ plugins_data = {
     "plugins": plugin_settings
 }
 
-widget_queue = []
+interface_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
 
@@ -56,7 +56,11 @@ bora_init()
 if "redis" in settings_data:
     if settings_data["redis"]:
         if settings_data["redis"]["host"] and settings_data["redis"]["port"]:
-            r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
+            try:
+                r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
+            except:
+                print("Redis connection failed.")
+                stop_flag.set()
 
 
 ###########################
@@ -140,9 +144,9 @@ for plugin in plugins_data["plugins"]:
 
 #for plugin in plugins_data["plugins"]:
 #    #print("timer: " + plugin)
-if isinstance(settings_data["timer"]["plugins"], Iterable):
-    for plugin in settings_data["timer"]["plugins"]:
-        widget_queue.append(plugin)
+if isinstance(settings_data["timer"]["interfaces"], Iterable):
+    for plugin in settings_data["timer"]["interfaces"]:
+        interface_queue.append(plugin)
 
 
 def setup_custom_logger(name):
@@ -160,7 +164,6 @@ def setup_custom_logger(name):
 
 logger = setup_custom_logger('BORA')
 
-"""
 # Start Timer
 class TimerThread(Thread):
     def __init__(self, event):
@@ -176,7 +179,7 @@ class TimerThread(Thread):
             print("##################")
             print("##" , str_current_datetime)
             print("##" , millisec)
-            print("-> Timer is running for:", widget_queue)
+            print("-> Timer is running for:", interface_queue)
 
 
             write_data_to_redis()
@@ -187,20 +190,24 @@ class TimerThread(Thread):
 stop_flag = Event()
 thread = TimerThread(stop_flag)
 thread.start()
-"""
 # this will stop the timer
 #stop_flag.set()
 
 
 def write_data_to_redis():
-    if r.ping():
-        print("-> Ping to redis server is successful.")
+    try:
+        if r.ping():
+            print("-> Ping to redis server is successful.")
+    except:
+        print("-> Ping to redis server failed:" + str(settings_data["redis"]["host"]) + ":" + str(settings_data["redis"]["port"]))
+        stop_flag.set()
+        return
     ts = r.ts()
 
     sync_timestamp = time.time() * 1000.0
 
     for plugin in varname_data:
-        if plugin in widget_queue:
+        if plugin in interface_queue:
             print(plugin)
             for sensor in varname_data[plugin]:
                 print(sensor)
