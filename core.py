@@ -1,3 +1,5 @@
+from parser import Factory
+
 import redis
 import logging
 import calendar
@@ -46,7 +48,7 @@ plugins_data = {
     "plugins": plugin_settings
 }
 
-interface_queue = []
+timer_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
 
@@ -57,7 +59,11 @@ if "redis" in settings_data:
     if settings_data["redis"]:
         if settings_data["redis"]["host"] and settings_data["redis"]["port"]:
             try:
-                r = redis.Redis(host=settings_data["redis"]["host"], port=settings_data["redis"]["port"])
+                r = redis.Redis(
+                    host=settings_data["redis"]["host"],
+                    port=settings_data["redis"]["port"]
+                )
+                print("Redis connection successful.")
             except:
                 print("Redis connection failed.")
                 stop_flag.set()
@@ -144,9 +150,9 @@ for plugin in plugins_data["plugins"]:
 
 #for plugin in plugins_data["plugins"]:
 #    #print("timer: " + plugin)
-if isinstance(settings_data["timer"]["interfaces"], Iterable):
-    for plugin in settings_data["timer"]["interfaces"]:
-        interface_queue.append(plugin)
+if isinstance(settings_data["timer"]["group"], Iterable):
+    for plugin in settings_data["timer"]["group"]:
+        timer_queue.append(plugin)
 
 
 def setup_custom_logger(name):
@@ -179,7 +185,7 @@ class TimerThread(Thread):
             print("##################")
             print("##" , str_current_datetime)
             print("##" , millisec)
-            print("-> Timer is running for:", interface_queue)
+            print("-> Timer is running for:", timer_queue)
 
 
             write_data_to_redis()
@@ -195,6 +201,11 @@ thread.start()
 
 
 def write_data_to_redis():
+    
+    default_interface = settings_data["interface"]
+    current_interface = None
+    current_url = None
+
     try:
         if r.ping():
             print("-> Ping to redis server is successful.")
@@ -202,61 +213,26 @@ def write_data_to_redis():
         print("-> Ping to redis server failed:" + str(settings_data["redis"]["host"]) + ":" + str(settings_data["redis"]["port"]))
         stop_flag.set()
         return
+
     ts = r.ts()
 
     sync_timestamp = time.time() * 1000.0
 
-    for plugin in varname_data:
-        if plugin in interface_queue:
-            print(plugin)
-            for sensor in varname_data[plugin]:
-                print(sensor)
-                print(varname_data[plugin][sensor]["source"])
-                url = varname_data[plugin][sensor]["source"]
-                data = requests.get(
-                    url,
-                    auth=(os.environ["BORA_ADEI_USERNAME"],
-                          os.environ["BORA_ADEI_PASSWORD"])
-                ).content
+    for key_varname in varname_data:
+        if "interface" in varname_data[key_varname]:
+            current_interface = varname_data[key_varname]["interface"]
+            current_url = varname_data[key_varname]["url"]
+        else:
+            current_url = varname_data[key_varname]
+            current_interface = default_interface
 
-                data = data.decode("utf-8")
+        current_parser = Factory(current_interface)
 
-                if data == "":
-                    logger.info(str(plugin) + ': Empty data!')
-                    print(str(plugin) + ': Empty data!')
-                    continue
-
-
-                if "ERROR" in data.splitlines()[-1]:
-                    logger.error(str(param) + ': Query')
-                    print("ERROR: " + str(param) + ': Query')
-                    continue
-
-                tmp_data = data.splitlines()[-1]
-
-                last_value = tmp_data.split(",")[-1].strip()
-                first_value = tmp_data.split(",")[-2].strip()
-                
-                try:
-                    test_x = float(last_value)
-                except ValueError:
-                    logger.error(str(param) + ': Last value is not a float')
-                    print("ERROR: " + str(param) + ': Last value is not a float')
-                    continue
-
-                try:
-                    time_buffer = first_value.split("-")
-                    time_buffer[1] = str(strptime(time_buffer[1],'%b').tm_mon).zfill(2)
-                    first_value = "-".join(time_buffer)
-                    first_ts = calendar.timegm(datetime.strptime(first_value, "%d-%m-%y %H:%M:%S.%f").timetuple()) * 1000
-                except:
-                    logger.error(str(param) + ': Last value is not a float')
-                    print("ERROR: " + str(param) + ': Last value is not a float')
-                    continue
-
-                #print(first_ts)
-                #print(last_value)
-                ts.add(sensor, int(sync_timestamp), last_value, retention_msecs=86400000)
+        ts.add(
+            key_varname,
+            int(sync_timestamp),
+            current_parser.parse(current_url),
+            retention_msecs=86400000)
 
     print("-> Writing data to redis.")
 
