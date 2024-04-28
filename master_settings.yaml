@@ -1,0 +1,16 @@
+title: msu
+port: 8005
+default_interface: "adei"
+redis:
+    host: "127.0.0.1"
+    port: 6379
+timer:
+    interfaces:
+        - "adei"
+    server: 60000
+    retention: 86400000
+    client: 1000
+tabs:
+    main: true
+    notebook: true
+    config: true
