@@ -271,12 +271,20 @@ class DesignerHandler(tornado.web.RequestHandler):
                     print(exc)
             typedef_data[myitem] = tmp_data
 
+        # Load varname data
+        vardata = {}
+        with open("varname.yaml", 'r') as stream:
+            try:
+                vardata = yaml.load(stream, Loader=yaml.Loader)
+            except yaml.YAMLError as exc:
+                print(exc)
 
         print(style_data)
 
         data = {
             "style": style_data,
-            "typedef": typedef_data
+            "typedef": typedef_data,
+            "vardata": vardata
         }
 
         data["title"] = settings_data["title"]

@@ -1552,7 +1552,7 @@ function bora_add(prefix) {
 
 
     for (item in params) {
-        
+        console.log(params)
         if (item.startsWith(prefix)) {
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
@@ -1902,7 +1902,7 @@ gui.add(obj, 'save');
 gui.add(obj, 'backup');
 
 {% for category in data["typedef"] %}
-    
+    console.log(category)
     folder = gui.addFolder("{{ category }}");
     
     category.push("{{ category }}");
@@ -1915,28 +1915,30 @@ gui.add(obj, 'backup');
 
     {% for item in data["style"] %}
         
-        
         {% if category in data["style"][ item ]["widget"] %}
             mygroup["{{ category }}"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
         {% else %}
         {% end %}
     {% end %}
+    
+    // Pushing the key to div-name-must to all plugins except box & text
+    params["{{ category }}" + "-div-name-must"] = [];
+    {% for key, value in data["vardata"].items() %}
+        {% if category not in ['box', 'text'] %}
+            params["{{ category }}" + "-div-name-must"].push("{{ key }}");
+            folder.__controllers[0].updateDisplay();
+        {% end %}
+    {% end %}
 
-    
-    
-
-    
-
-    
     bind_param = '{{ category }}';
-    params[ bind_param + "-div-name-must"] = "";
+    
 
     folder.add(params,  bind_param + "-div-name-must", mygroup[bind_param] ).name("name");
     
     folder.add({select : obj.select.bind(this, bind_param  )}, "select");
     folder.add({update : obj.update.bind(this, bind_param )}, "update");
-    
+
     {% for element in data["typedef"][category] %}
         
         {% for item in data["typedef"][ category ][element] %}
