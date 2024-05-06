@@ -1552,7 +1552,7 @@ function bora_add(prefix) {
 
 
     for (item in params) {
-        
+
         if (item.startsWith(prefix)) {
             item_array = item.split("-");
             opt = item_array[item_array.length - 1];
@@ -1576,6 +1576,7 @@ function bora_add(prefix) {
             } else {
                 tmp_params = params[prefix + "-div-text_name-must"];
                 varname = prefix + "_" + tmp_params;
+                
                 if (opt == "must" && !params[item] && item.localeCompare("text-div-name-must")) {
                     alert("Please enter value for: " + item);
                     return;
@@ -1902,7 +1903,7 @@ gui.add(obj, 'save');
 gui.add(obj, 'backup');
 
 {% for category in data["typedef"] %}
-    
+
     folder = gui.addFolder("{{ category }}");
     
     category.push("{{ category }}");
@@ -1911,32 +1912,29 @@ gui.add(obj, 'backup');
     
     mygroup = {};
 
-    mygroup["{{ category }}"] = [];
+    mygroup["{{ category }}" + "-div-name-must"] = [];
 
     {% for item in data["style"] %}
-        
-        
-        {% if category in data["style"][ item ]["widget"] %}
-            mygroup["{{ category }}"].push("{{item}}");
+        {% if category in ['box', 'text'] %}
+            mygroup["{{ category }}" + "-div-name-must"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
-        {% else %}
+        {% end %}    
+    {% end %}
+
+    {% for key, value in data["vardata"].items() %}
+        {% if category not in ['box', 'text'] %}
+            mygroup["{{ category }}" + "-div-name-must"].push("{{ key }}");
         {% end %}
     {% end %}
 
-    
-    
-
-    
-
-    
     bind_param = '{{ category }}';
     params[ bind_param + "-div-name-must"] = "";
 
-    folder.add(params,  bind_param + "-div-name-must", mygroup[bind_param] ).name("name");
+    folder.add(params,  bind_param + "-div-name-must", mygroup["{{ category }}" + "-div-name-must"] ).name("name");
     
     folder.add({select : obj.select.bind(this, bind_param  )}, "select");
     folder.add({update : obj.update.bind(this, bind_param )}, "update");
-    
+
     {% for element in data["typedef"][category] %}
         
         {% for item in data["typedef"][ category ][element] %}
