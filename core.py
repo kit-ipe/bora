@@ -150,9 +150,9 @@ for plugin in plugins_data["plugins"]:
 
 #for plugin in plugins_data["plugins"]:
 #    #print("timer: " + plugin)
-'''if isinstance(settings_data["timer"]["group"], Iterable):
+if isinstance(settings_data["timer"]["group"], Iterable):
     for plugin in settings_data["timer"]["group"]:
-        timer_queue.append(plugin)'''
+        timer_queue.append(plugin)
 
 
 def setup_custom_logger(name):
