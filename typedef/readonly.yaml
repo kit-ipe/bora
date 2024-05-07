@@ -12,8 +12,10 @@
         "type": "string"
         "optional": "No"
     "font_weight":
-        "value": "normal"
-        "type": "string"
+        "value": 
+            - "normal"
+            - "bold"
+        "type": "select"
         "optional": "No"
     "background_color":
         "value":

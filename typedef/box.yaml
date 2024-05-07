@@ -3,6 +3,12 @@
         "value": ""
         "type": "string"
         "optional": "No"
+    "font_weight":
+        "value": 
+            - "normal"
+            - "bold"
+        "type": "select"
+        "optional": "No"
     "width":
         "value": ""
         "type": "string"

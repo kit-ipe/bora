@@ -295,7 +295,6 @@ class DesignerHandler(tornado.web.RequestHandler):
         
         self.render('designer.html', data=loaded_r)
 
-
 class VersionHandler(tornado.web.RequestHandler):
     def get(self):
         response = {
