@@ -30,8 +30,8 @@
 {% if data['style'][key]['type'] == "adei" %}
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-type='text'>
-<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='title'>{{ data['style'][key]['div']['text-name'] }}</span> 
+    height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }}; background-color: {{ data['style'][key]['div']['background-color'] }};' data-type='adei'>
+{{ data['style'][key]['div']['text-name'] }}
 </div>
 {% else %}
 {% end %}
@@ -1520,8 +1520,7 @@ function isNumeric(value) {
 
 
 
-/************ Adding an html element to the page ************/
-
+/*********** Adding an html element to the page ***********/
 // Helper function: Verifies that the required fields are filled
 function verifyRequiredFields(item, prefix) {
     if (!["text", "box"].includes(prefix)) {
@@ -1540,10 +1539,11 @@ function verifyRequiredFields(item, prefix) {
 
 // Helper function: Creates a unique ID for each HTML element
 function createItemId(item, prefix) {
-    if (!["text", "box"].includes(prefix)) {
-        return params[item];
+    if (["text", "box"].includes(prefix)) {
+        // For "box" and "text" plugins
+        return prefix + "_" + (params[prefix + "-div-text_name-must"]);
     } else {
-        return prefix + "_" + params[prefix + "-div-text_name-must"];
+        return params[prefix + "-div-name-must"];
     }
 }
 
@@ -1560,8 +1560,10 @@ function createDivText(item, div_text, item_array){
             div_text += params[item];
             break;
         case "unit_name":
-            div_text += " XXX.XX ";
-            div_text += params[item];
+            if (params[item]) {
+                div_text += " XXX.XX ";
+                div_text += params[item];
+            }
             break;
         case "int_to_str":
             div_text += " ??? ";
@@ -1615,7 +1617,6 @@ function createHtmlElement(div_head, div_style, div_text, prefix){
     return html_element += "</div>";
 }
 
-
 // Helper function: Checks if an element with the same ID already exists
 function checkExistingElement(item_id) {
     var exists = false;
@@ -1631,7 +1632,6 @@ function checkExistingElement(item_id) {
 // Helper function: Adds the HTML element to the page if it doesn't exist
 function addHtmlElement(html_element, item_id) {
     var elementExists = checkExistingElement(item_id);
-
     // If an element with the same ID doesn't exist, append the HTML element to the body
     if (!elementExists) {
         $("body").append(html_element);
@@ -1642,34 +1642,29 @@ function addHtmlElement(html_element, item_id) {
     }
 }
 
-
 // Main function: bora_add
 function bora_add(prefix) {
     var item_id;
     var div_text = "";
     var div_style = " style='position: absolute; top:200px; left:200px; ";
 
-
     for (item in params) {
-        
-    if (item.startsWith(prefix)) {
-            if (!verifyRequiredFields(item, prefix)) { return; }
-            var item_array = item.split('-'), item_id = createItemId(item,prefix);
-            handleNumericValues(item);
-            handleFontWeight(item,item_array);
-            div_head = createDivHead(item, item_id, item_array);
-            div_text = createDivText(item, div_text, item_array);
-            div_style = createDivStyle(item, div_style, item_array);
+        if (item.startsWith(prefix)) {
+                if (!verifyRequiredFields(item, prefix)) { return; }
+                var item_array = item.split('-'), item_id = createItemId(item,prefix);
+                handleNumericValues(item);
+                handleFontWeight(item,item_array);
+                div_head = createDivHead(item, item_id, item_array);
+                div_text = createDivText(item, div_text, item_array);
+                div_style = createDivStyle(item, div_style, item_array);
         }
     }
     html_element = createHtmlElement(div_head, div_style, div_text);
     addHtmlElement(html_element, item_id);
-
 }
 
 
-/************ Selecting an html element from the page ************/
-
+/*********** Selecting an html element from the page ***********/
 // Helper function: changes the color of the selected element
 function highlightSelectedElement(element_id){
     $('body [id]').each(function() {
@@ -1679,7 +1674,25 @@ function highlightSelectedElement(element_id){
 
 // Helper function: fetches the text of the selected element
 function getElementText(element_id, item){
-    return params[item] = $("#" + element_id).text();
+    var fullText = $("#" + element_id).text();
+    var parts = fullText.split(' ');
+    // Return the part of the text expected to be the value, excluding 'XXX.XX' and 'unit'
+    if (parts.length > 2) {
+        return params[item] = parts.slice(0, -2).join(' ');  // Removes last two segments assuming they are 'XXX.XX' and 'unit'
+    } else {
+        return params[item] = fullText;
+    }
+}
+
+function getElementUnit(element_id, item){
+    var fullUnit = $("#" + element_id).text();
+    var parts = fullUnit.split(' ');
+    // Check if the last segment is a reasonable unit (not just a leftover or empty)
+    if (parts.length > 2 && parts[parts.length - 1].trim() !== '') {
+        return params[item] = parts[parts.length - 1];
+    } else {
+        return params[item] = '';  // Return empty if no valid unit is discernible
+    }
 }
 
 // Helper function: changes the font_weight value from numeric to string
@@ -1688,21 +1701,28 @@ function interpretFontWeight(font_weight_value) {
         case "400": return "normal";
         case "700": return "bold";
     return font_weight_value;
-}
+    }
 }
 
 // Helper function: fetches the css style properties of the element
 function getElementStyle(element_id, item, item_array) {
     var css_property = item_array[2].replace(/_/g, '-');
-    var css_property_value = $("#"+ element_id).css(css_property);
-
-    if (css_property_value.indexOf("px") > 0) {
-        return params[item] = parseInt(css_property_value);
-    } else
-        { if (css_property.localeCompare("font-weight")==0) {
-            return params[item] = interpretFontWeight(css_property_value);
-        } else {
+    if (css_property == "unit-name") {
+        if (params[item].trim() !== "") {
+            var css_property_value = $("#"+ element_id).css(css_property);
             return params[item] = css_property_value;
+        }
+    } else {
+        var css_property_value = $("#"+ element_id).css(css_property);
+        
+        if (css_property_value.indexOf("px") > 0) {
+            return params[item] = parseInt(css_property_value);
+        } else {
+            if (css_property.localeCompare("font-weight")==0) {
+                return params[item] = interpretFontWeight(css_property_value);
+            } else {
+                return params[item] = css_property_value;
+            }
         }
     }
 }
@@ -1710,16 +1730,16 @@ function getElementStyle(element_id, item, item_array) {
 // Main Function: bora_select
 function bora_select(prefix) {
     var element_id = params[prefix + "-div-name-must"];
-
     highlightSelectedElement(element_id);
-
     for (item in params) {
-    if (item.startsWith(prefix)) {
+        if (item.startsWith(prefix)) {
             var item_array = item.split("-");
             if (item_array[1] == "div") {
                 if (item_array[2] == "name") {
                 } else if (item_array[2] == "text_name") {
-                    params[item] = getElementText(element_id, item);
+                    params[item] = getElementText(element_id, item);   
+                } else if (item_array[2] == "unit_name") {
+                    params[item] = getElementUnit(element_id, item);
                 } else {
                     params[item] = getElementStyle(element_id, item, item_array);
                 }
@@ -1729,14 +1749,41 @@ function bora_select(prefix) {
     gui.updateDisplay();
 }
 
-/************ Updates the properties of an html element ************/
 
-
+/*********** Updates the properties of an html element ***********/
 // Helper Function: updates the text
 function updateElementText(item, element_id) {
-    var element_input_value = $("#" + element_id + " :input");
-    $("#" + element_id).text(params[item]);
-    element_input_value.appendTo("#" + element_id);
+    if (params[item].trim() !== "") {  // Check if there is a non-empty value
+        var currentParts = $("#" + element_id).text().split(' ');
+        if (currentParts.length > 2) {
+            // Maintain the "XXX.XX" and unit part
+            $("#" + element_id).text(params[item] + " " + currentParts[currentParts.length - 2] + " " + currentParts[currentParts.length - 1]);
+        } else {
+            $("#" + element_id).text(params[item]);
+        }
+    }
+}
+
+// Helper Function: updates the unit part of the text
+function updateElementUnit(item, element_id) {
+    var parts = $("#" + element_id).text().split(' ');
+    if (params[item].trim() !== "") {  // Check if there is a value for unit
+        if (parts.length >= 3) {
+            // Update the unit and maintain the "XXX.XX"
+            parts[parts.length - 1] = params[item];
+            parts[parts.length - 2] = "XXX.XX";
+        } else {
+            // If currently no "XXX.XX" and unit, add them
+            parts.push("XXX.XX");
+            parts.push(params[item]);
+        }
+    } else {
+        // If unit is empty, remove the last two parts (assumed "XXX.XX" and unit)
+        if (parts.length >= 3) {
+            parts.splice(-2, 2);  // Remove the last two elements
+        }
+    }
+    $("#" + element_id).text(parts.join(' '));
 }
 
 // Helper Function: updates the font_size
@@ -1765,6 +1812,9 @@ function bora_update(prefix) {
                     case "text_name":
                         updateElementText(item, element_id);
                         break;
+                    case "unit_name":
+                        updateElementUnit(item, element_id);
+                        break;
                     case "font_size":
                         updateElementFontSize(item, element_id);
                         break;
@@ -1779,14 +1829,14 @@ function bora_update(prefix) {
 }
 
 
-/********** removes an html element from the page ***********/
+/********* Removes an html element from the page **********/
 // Main Function: bora_remove
 function bora_remove(prefix) {
     $("#"+ params[prefix+"-div-name-must"]).remove();
 }
 
-/********** save the elements created *********/
 
+/********* Save the elements created ********/
 // Helper Function: gets the element position and type
 function extractElementAttributes(element_id) {
     return {
@@ -1802,6 +1852,7 @@ function extractElementAttributes(element_id) {
 function collectCssStyles(element_id, category) {
     let mydiv = {};
     for (item in params) {
+        
         if (item.startsWith(category)) {
             var item_array = item.split("-");
             var css_property = item_array[2].replace(/_/g, '-')
@@ -1809,6 +1860,9 @@ function collectCssStyles(element_id, category) {
                 switch (item_array[2]) {
                 case "text_name":
                     mydiv[css_property] = $("#" + element_id).text().trim();
+                    break;
+                case "unit_name":
+                    mydiv["unit-name"] = $("#"+ element_id).css("unit-name");
                     break;
                 case "font_size":
                     mydiv["font-size"] = $("#"+ element_id).css("font-size");
@@ -1845,7 +1899,8 @@ function sendDataToServer(dataToSend) {
 // Main function: bora_save
 function bora_save() {
     var position = {};
-    category.forEach(function(cat) {
+    category.forEach(function(cat)
+    {
         $('*[data-type="' + cat + '"]').each(function() {
             var element_id = $(this).attr('id');
             var attributes = extractElementAttributes(element_id);
@@ -1860,6 +1915,8 @@ function bora_save() {
     sendDataToServer(dataToSend);
 }
 
+
+/********* Backup the elements created ********/
 // Main Function: bora_backup
 function bora_backup() {
     $.ajax({
@@ -1872,7 +1929,6 @@ function bora_backup() {
         }
     });
 }
-
 
 
 var obj = {
@@ -1940,7 +1996,7 @@ gui.add(obj, 'backup');
     {% end %}
 
     bind_param = '{{ category }}';
-    params[ bind_param + "-div-name-must"] = "";
+    params[ bind_param + "-div-name-must"] = "";    
 
     folder.add(params,  bind_param + "-div-name-must", mygroup["{{ category }}" + "-div-name-must"] ).name("name");
     
@@ -1951,7 +2007,7 @@ gui.add(obj, 'backup');
         
         {% for item in data["typedef"][ category ][element] %}
             
-            if ('{{ data["typedef"][ category ][element][item]["optional"] }}' == "True") {
+            if ('{{ data["typedef"][ category ][element][item]["optional"] }}' == "Yes") {
                 opt = "opt"
             } else {
                 opt = "must"
