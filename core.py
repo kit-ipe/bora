@@ -404,6 +404,34 @@ class GetDataHandler(tornado.web.RequestHandler):
         self.write(tmp_data)
 
 
+######################### data viusalization ##################################
+#fetches the data from Redis and returns it as JSON
+
+class RedisDataHandler(tornado.web.RequestHandler):
+    def get(self):
+        try:
+            ts = r.ts()
+            keys = varname_data.keys()
+            data = {}
+            for key in keys:
+                try:
+                    latest_data = ts.get(key)
+                    if latest_data:
+                        data[key] = {
+                            "timestamp": latest_data[0],
+                            "value": latest_data[1]
+                        }
+                except Exception as e:
+                    logging.error(f"Error fetching data for {key}: {e}")
+            self.write(json.dumps(data))
+        except Exception as e:
+            self.write({"error": str(e)})
+
+
+class RedisDataPageHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render('redis.html')
+
 application = tornado.web.Application([
     (r"/version/?", VersionHandler), 
     (r"/list/?", ListHandler), # list sensors in cache
@@ -412,6 +440,8 @@ application = tornado.web.Application([
     (r"/", StatusHandler),
     (r"/save/?", SaveHandler), # save the style from frontend to backend yaml file
     (r"/getdata/?", GetDataHandler), # get data from cache file
+    (r"/get-redis-data/?", RedisDataHandler),
+    (r"/redis-data/?", RedisDataPageHandler), 
 ], debug=True, static_path=os.path.join(root, 'static'),
     cookie_secret='L8LwECiNRxq2N0N2eGxx9MZlrpmuMEimlydNX/vt1LM=')
 
