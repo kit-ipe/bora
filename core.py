@@ -227,11 +227,13 @@ def write_data_to_redis():
             current_interface = default_interface
 
         current_parser = Factory(current_interface)
+        print("-> Parsing data from: " + current_url)
+        print(current_parser.parse(current_url))
 
         ts.add(
             key_varname,
-            int(sync_timestamp),
-            current_parser.parse(current_url),
+            current_parser.parse(current_url)["timestamp"],
+            current_parser.parse(current_url)["value"],
             retention_msecs=86400000)
 
     print("-> Writing data to redis.")
