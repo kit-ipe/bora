@@ -33,7 +33,7 @@ class RestParser:
              'time': '2024-04-28 10:52:26.795386'}
         """
         r = requests.get(url)
-        return { "value", r.json()['value'], "timestamp": r.json()['time'] }
+        return { "value": r.json()['value'], "timestamp": r.json()['time'] }
  
 
 class AdeiParser:
