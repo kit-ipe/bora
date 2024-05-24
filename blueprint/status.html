@@ -720,6 +720,24 @@ function handleClickConfig() {
     xhr.send(json);
 }
 
+setInterval(function() {
+    console.log("Inside set interval")
+    $.ajax({
+        url: '/getdata/',
+        type: 'GET',
+        success: function (response) {
+            console.log(response);
+            console.log(response["response"]);
+            console.log("SUCCESS");
+        },
+        error: function () {
+
+        }
+    });
+}, {{ data["delay"] }}); // update about every second
+
+
+
 </script>
 </body>
 </html>

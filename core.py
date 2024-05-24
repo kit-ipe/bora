@@ -227,11 +227,13 @@ def write_data_to_redis():
             current_interface = default_interface
 
         current_parser = Factory(current_interface)
+        print("-> Parsing data from: " + current_url)
+        print(current_parser.parse(current_url))
 
         ts.add(
             key_varname,
-            int(sync_timestamp),
-            current_parser.parse(current_url),
+            current_parser.parse(current_url)["timestamp"],
+            current_parser.parse(current_url)["value"],
             retention_msecs=86400000)
 
     print("-> Writing data to redis.")
@@ -281,10 +283,11 @@ class DesignerHandler(tornado.web.RequestHandler):
 
         print(style_data)
 
+
         data = {
             "style": style_data,
             "typedef": typedef_data,
-            "vardata": vardata
+            "vardata": vardata,
         }
 
         data["title"] = settings_data["title"]
@@ -363,12 +366,10 @@ class StatusHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
-        if not os.path.isfile("./bora/cache.yaml"): 
-            open("./bora/cache.yaml","wb")
-
         data = {
             "style": style_data,
-            "varname": varname_data
+            "varname": varname_data,
+            "delay": settings_data["timer"]["client"]
         }
 
         data["title"] = settings_data["title"]
@@ -379,29 +380,15 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
-        cache_data = None
-        if not os.path.isfile("./bora/cache.yaml"): 
-            #print( "BORA is loading data, please refresh the page again in a moment.")
-            open("./bora/cache.yaml","wb")
-        with open("./bora/cache.yaml", 'r') as stream:
-            try:
-                cache_data = yaml.load(stream, Loader=yaml.Loader)
-            except yaml.YAMLError as exc:
-                print(exc)
-        if cache_data is None:
-            cache_data = {}
-
-        tmp_data = {}
-        for data_source in cache_data:
-            #print(data_source)
-            if data_source == "time":
-                tmp_data["time"] = cache_data["time"] 
-            else:
-                #print(data_source)
-                for param in cache_data[data_source]:
-                    #print(param)
-                    tmp_data[param] = cache_data[data_source][param]
-        self.write(tmp_data)
+        ts = r.ts()
+        data = {}
+        for key_varname in varname_data:
+            latest_data = ts.get(key_varname)
+            data[key_varname] = {
+                "timestamp": latest_data[0],
+                "value": latest_data[1]
+            }
+        self.write(data)
 
 
 ######################### data viusalization ##################################
