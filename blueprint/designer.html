@@ -31,7 +31,7 @@
 <div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }}; background-color: {{ data['style'][key]['div']['background-color'] }};' data-type='adei'>
-{{ data['style'][key]['div']['text-name'] }}
+    <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
 </div>
 {% else %}
 {% end %}
@@ -1553,12 +1553,12 @@ function createDivHead(item, item_id, item_array){
 function createDivText(item, div_text, item_array){
     switch (item_array[2]){
         case "text_name":
-            div_text += params[item];
+            div_text += "<span class='text_name'>" + params[item] + "</span> ";
             break;
         case "unit_name":
             if (params[item]) {
-                div_text += " XXX.XX ";
-                div_text += params[item];
+                div_text += "<span class='value'>XXX.XX</span> ";
+                div_text += "<span class='unit_name'>" + params[item] + "</span> ";
             }
             break;
         case "int_to_str":
@@ -1855,10 +1855,10 @@ function collectCssStyles(element_id, category) {
             if (item_array[1] == "div") {
                 switch (item_array[2]) {
                 case "text_name":
-                    mydiv[css_property] = $("#" + element_id).text().trim();
+                    mydiv[css_property] = $("#" + element_id + "> .text_name").text().trim();
                     break;
                 case "unit_name":
-                    mydiv["unit-name"] = $("#"+ element_id).css("unit-name");
+                    mydiv["unit-name"] = $("#"+ element_id + "> .unit_name").text().trim();
                     break;
                 case "font_size":
                     mydiv["font-size"] = $("#"+ element_id).css("font-size");
