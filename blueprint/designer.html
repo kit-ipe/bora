@@ -1553,13 +1553,10 @@ function createDivHead(item, item_id, item_array){
 function createDivText(item, div_text, item_array){
     switch (item_array[2]){
         case "text_name":
-            //div_text += params[item];
             div_text += "<span class='text_name'>" + params[item] + "</span> ";
             break;
         case "unit_name":
             if (params[item]) {
-                //div_text += " XXX.XX ";
-                //div_text += params[item];
                 div_text += "<span class='value'>XXX.XX</span> ";
                 div_text += "<span class='unit_name'>" + params[item] + "</span> ";
             }
@@ -1659,7 +1656,6 @@ function bora_add(prefix) {
         }
     }
     html_element = createHtmlElement(div_head, div_style, div_text);
-    console.log(html_element);
     addHtmlElement(html_element, item_id);
 }
 
@@ -1862,7 +1858,6 @@ function collectCssStyles(element_id, category) {
                     mydiv[css_property] = $("#" + element_id + "> .text_name").text().trim();
                     break;
                 case "unit_name":
-                    
                     mydiv["unit-name"] = $("#"+ element_id + "> .unit_name").text().trim();
                     break;
                 case "font_size":
@@ -1906,7 +1901,6 @@ function bora_save() {
             var element_id = $(this).attr('id');
             var attributes = extractElementAttributes(element_id);
             var styles = collectCssStyles(element_id, cat);
-            console.log(styles);
             attributes["widget"] = cat;
             attributes["div"] = styles;
             position[element_id] = attributes;
