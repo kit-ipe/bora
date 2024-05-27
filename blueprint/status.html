@@ -22,8 +22,8 @@
     <button id="btn_page1" style="display:inline;">Main</button>
     <button id="btn_page2" style="display:none;">Notebook</button>
     <button id="btn_page3" style="display:none;">Config</button>
-
-    [VER {{ data['version'] }}] {{ data['title'] }} data monitoring. Last refreshed</div>
+    <span>[VER {{ data['version'] }}] {{ data['title'] }} data monitoring.</span>
+    Last refreshed: <span class="time_info"></span></div>
 <div id="page_title_cache" style="display:none;">{{ data['title'] }}</div>
 <div id="page_version_cache" style="display:none;">{{ data['version'] }}</div>
 
@@ -727,8 +727,20 @@ setInterval(function() {
         type: 'GET',
         success: function (response) {
             console.log(response);
-            console.log(response["response"]);
             console.log("SUCCESS");
+            let currentTime = new Date();
+            let currentTimeMillis = currentTime.getTime();
+            let currentUTCTime = currentTime.toUTCString();
+
+            console.log("Current time in milliseconds: " + currentTimeMillis);
+            
+            $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
+            
+            for (var key in response) {
+                console.log(key);
+                console.log(response[key]["value"]);
+                $("#" + key + " > .value").text(response[key]["value"]);
+            }
         },
         error: function () {
 
