@@ -2015,8 +2015,9 @@ gui.add(obj, 'backup');
                 if ('{{ data["typedef"][ category ][element][item]["value"] }}' == "True") {
                     params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = true;
                 } else {
-                    params[ bind_param+ + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
                 }
+                folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt).name('{{ item }} ' +  "[" + "{{ element }}" + "]");
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "color") {
                 tmp_color = "rgba(";
                 {% for subcolor in data["typedef"][ category ][element][item]["value"] %}
@@ -2034,8 +2035,9 @@ gui.add(obj, 'backup');
             } else {
                 params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
             }
-            if (('{{ data["typedef"][ category ][element][item]["type"] }}' != "select")){
-            folder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
+
+            if (('{{ data["typedef"][ category ][element][item]["type"] }}' != "select") && ('{{ data["typedef"][ category ][element][item]["type"] }}' != "bool")){
+                folder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
             }
         {% end %}
     {% end %}

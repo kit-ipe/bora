@@ -17,6 +17,26 @@
             - "bold"
         "type": "select"
         "optional": "No"
+    "smaller_than":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "larger_than":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+    "exp":
+        "value": ""
+        "type": "bool"
+        "optional": "No"
+    "link_adei":
+        "value": ""
+        "type": "bool"
+        "optional": "No"
+    "trend":
+        "value": ""
+        "type": "bool"
+        "optional": "No"
     "background_color":
         "value":
             - 255
