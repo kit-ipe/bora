@@ -3,16 +3,19 @@
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "font_size":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "font_weight":
         "value": 
             - "normal"
             - "bold"
         "type": "select"
         "optional": "No"
+        "data": "No"
     "background_color":
         "value":
             - 255
@@ -21,12 +24,15 @@
             - 0
         "type": "color"
         "optional": "No"
+        "data": "No"
 "input":
     "font_size":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "width":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"

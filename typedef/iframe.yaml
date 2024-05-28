@@ -3,7 +3,9 @@
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "height":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"

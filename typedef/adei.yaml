@@ -3,40 +3,54 @@
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "unit_name":
         "value": ""
         "type": "string"
         "optional": "Yes"
+        "data": "No"
     "font_size":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "font_weight":
         "value": 
             - "normal"
             - "bold"
         "type": "select"
         "optional": "No"
+        "data": "No"
+    "decimal_numbers":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"
     "smaller_than":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "Yes"
     "larger_than":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "Yes"
     "exp":
         "value": ""
         "type": "bool"
         "optional": "No"
+        "data": "Yes"
     "link_adei":
         "value": ""
         "type": "bool"
         "optional": "No"
+        "data": "Yes"
     "trend":
         "value": ""
         "type": "bool"
         "optional": "No"
+        "data": "Yes"
     "background_color":
         "value":
             - 255
@@ -45,3 +59,4 @@
             - 0
         "type": "color"
         "optional": "No"
+        "data": "No"

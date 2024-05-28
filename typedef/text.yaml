@@ -3,21 +3,26 @@
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "font_size":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "font_weight":
         "value": 
             - "normal"
             - "bold"
         "type": "select"
         "optional": "No"
+        "data": "No"
     "width":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
     "height":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "No"
