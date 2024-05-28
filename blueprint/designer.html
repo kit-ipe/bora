@@ -1520,12 +1520,12 @@ function isNumeric(value) {
 // Helper function: Verifies that the required fields are filled
 function verifyRequiredFields(item, prefix) {
     if (!["text", "box"].includes(prefix)) {
-        if (item.endsWith("must") && !params[item]){
+        if ( (item.endsWith("must-data") && !params[item]) || (item.endsWith("must-nodata") && !params[item]) ){
             alert("please enter value for " + item);
         return false;
         }
     } else {
-        if (item.endsWith("must") && !params[item] && item != prefix +"-div-name-must") {
+        if ( (item.endsWith("must-data") && !params[item] && item != prefix +"-div-name-must-data") ||(item.endsWith("must-nodata") && !params[item] && item != prefix +"-div-name-must-nodata")  ) {
             alert("please enter value for " + item);
             return false;
          }
@@ -1537,15 +1537,15 @@ function verifyRequiredFields(item, prefix) {
 function createItemId(item, prefix) {
     if (["text", "box"].includes(prefix)) {
         // For "box" and "text" plugins
-        return prefix + "_" + (params[prefix + "-div-text_name-must"]);
+        return prefix + "_" + (params[prefix + "-div-text_name-must-nodata"]);
     } else {
-        return params[prefix + "-div-name-must"];
+        return params[prefix + "-div-name-must-nodata"];
     }
 }
 
 // Helper function: Creates the div head of the HTML element
 function createDivHead(item, item_id, item_array){
-    div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0] +"'";
+    div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0] +"' ";
     return div_head;
 }
 
@@ -1570,17 +1570,37 @@ function createDivText(item, div_text, item_array){
 
 // Helper function: Creates the CSS style of the HTML element
 function createDivStyle(item, div_style, item_array) {
-    if (["name", "text_name", "unit_name", "int_to_str","icon_type"].indexOf(item_array[2]) === -1) {
-        css_property = item_array[2].replace(/_/g, '-');
-        div_style += css_property + ":" + params[item] + "; ";
+   
+    if (item_array[item_array.length -1] == "nodata") {
+    
+        if (["name", "text_name", "unit_name", "int_to_str","icon_type"].indexOf(item_array[2]) === -1) {
+            css_property = item_array[2].replace(/_/g, '-');
+            div_style += css_property + ":" + params[item] + "; ";
+        }
     }
     return div_style;
 }
 
+// Helper function: Creates the data attributes to be encoded into the HTML element
+function createDivData(item, div_data, item_array) {
+    if (item_array[item_array.length -1] == "data") {
+    
+            data_property = item_array[2].replace(/_/g, '-');
+            div_data += "data-" + data_property + '="' + params[item] + '" ';
+    }
+    return div_data;
+}
+
+
 // Helper function: Adds 'px' to the numeric values
 function handleNumericValues(item) {
-    if (isNumeric(params[item])) {
-        params[item] += "px";
+    var item_array = item.split('-');
+    encode_data = item_array[item_array.length - 1]; 
+
+    if (encode_data == "nodata") {
+        if (isNumeric(params[item])) {
+            params[item] += "px";
+        }
     }
 }
 
@@ -1596,8 +1616,8 @@ function handleFontWeight(item, item_array ) {
 }
 
 // Helper function: Assemebels the html element 
-function createHtmlElement(div_head, div_style, div_text, prefix){
-    var html_element = div_head + div_style + "'>" + div_text;
+function createHtmlElement(div_head, div_data, div_style, div_text, prefix){
+    var html_element = div_head + div_data + div_style + "'>" + div_text;
     switch (prefix){
         case "input":
             html_element += input_head + input_style + input_end + input_text;
@@ -1642,6 +1662,7 @@ function addHtmlElement(html_element, item_id) {
 function bora_add(prefix) {
     var item_id;
     var div_text = "";
+    var div_data = "";
     var div_style = " style='position: absolute; top:200px; left:200px; ";
 
     for (item in params) {
@@ -1651,11 +1672,13 @@ function bora_add(prefix) {
                 handleNumericValues(item);
                 handleFontWeight(item,item_array);
                 div_head = createDivHead(item, item_id, item_array);
+                div_data = createDivData(item, div_data, item_array);
                 div_text = createDivText(item, div_text, item_array);
                 div_style = createDivStyle(item, div_style, item_array);
         }
     }
-    html_element = createHtmlElement(div_head, div_style, div_text);
+
+    html_element = createHtmlElement(div_head, div_data, div_style, div_text, prefix);
     addHtmlElement(html_element, item_id);
 }
 
@@ -1703,14 +1726,9 @@ function interpretFontWeight(font_weight_value) {
 // Helper function: fetches the css style properties of the element
 function getElementStyle(element_id, item, item_array) {
     var css_property = item_array[2].replace(/_/g, '-');
-    if (css_property == "unit-name") {
-        if (params[item].trim() !== "") {
-            var css_property_value = $("#"+ element_id).css(css_property);
-            return params[item] = css_property_value;
-        }
-    } else {
-        var css_property_value = $("#"+ element_id).css(css_property);
-        
+    var css_property_value = $("#"+ element_id).css(css_property);
+
+    if (css_property_value !== undefined) {
         if (css_property_value.indexOf("px") > 0) {
             return params[item] = parseInt(css_property_value);
         } else {
@@ -1720,12 +1738,14 @@ function getElementStyle(element_id, item, item_array) {
                 return params[item] = css_property_value;
             }
         }
+    } else {
+        return params[item] = css_property_value;
     }
 }
 
 // Main Function: bora_select
 function bora_select(prefix) {
-    var element_id = params[prefix + "-div-name-must"];
+    var element_id = params[prefix + "-div-name-must-nodata"];
     highlightSelectedElement(element_id);
     for (item in params) {
         if (item.startsWith(prefix)) {
@@ -1797,7 +1817,7 @@ function bora_update(prefix) {
     for (var item in params) {
         if (item.startsWith(prefix)) {
             var item_array = item.split("-");
-            var element_id = params[prefix + "-div-name-must"];
+            var element_id = params[prefix + "-div-name-must-nodata"];
             var css_property = item_array[2].replace(/_/g, '-');
 
             if (item_array[1] == "div") {
@@ -1828,7 +1848,7 @@ function bora_update(prefix) {
 /********* Removes an html element from the page **********/
 // Main Function: bora_remove
 function bora_remove(prefix) {
-    $("#"+ params[prefix+"-div-name-must"]).remove();
+    $("#"+ params[prefix+"-div-name-must-nodata"]).remove();
 }
 
 
@@ -1852,22 +1872,21 @@ function collectCssStyles(element_id, category) {
         if (item.startsWith(category)) {
             var item_array = item.split("-");
             var css_property = item_array[2].replace(/_/g, '-')
+         
             if (item_array[1] == "div") {
                 switch (item_array[2]) {
                 case "text_name":
                     mydiv[css_property] = $("#" + element_id + "> .text_name").text().trim();
                     break;
                 case "unit_name":
-                    mydiv["unit-name"] = $("#"+ element_id + "> .unit_name").text().trim();
-                    break;
-                case "font_size":
-                    mydiv["font-size"] = $("#"+ element_id).css("font-size");
-                    break;
-                case "font_weight":
-                    mydiv["font-weight"] = parseInt($("#"+ element_id).css("font-weight"));
+                    mydiv[css_property] = $("#"+ element_id + "> .unit_name").text().trim();
                     break;
                 default:
-                    mydiv[css_property] = $("#" + element_id).css(css_property);
+                    if (item_array[item_array.length - 1] == "nodata") {
+                        mydiv[css_property] = $("#" + element_id).css(css_property);
+                    } else {
+                        mydiv["data-" + css_property] = $("#" + element_id).attr("data-" + css_property);
+                    }
                     break;
                 }
             }
@@ -1959,6 +1978,7 @@ var category = [];
 var tmp_color;
 var bind_param;
 var opt = "";
+var encode_data = "";
 
 var plugin_arrays = {};
 var plugin_folder = gui.addFolder("plugins");
@@ -1976,25 +1996,25 @@ gui.add(obj, 'backup');
     
     mygroup = {};
 
-    mygroup["{{ category }}" + "-div-name-must"] = [];
+    mygroup["{{ category }}" + "-div-name-must-nodata"] = [];
 
     {% for item in data["style"] %}
         {% if category in ['box', 'text'] %}
-            mygroup["{{ category }}" + "-div-name-must"].push("{{item}}");
+            mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
         {% end %}    
     {% end %}
 
     {% for key, value in data["vardata"].items() %}
         {% if category not in ['box', 'text'] %}
-            mygroup["{{ category }}" + "-div-name-must"].push("{{ key }}");
+            mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{ key }}");
         {% end %}
     {% end %}
 
     bind_param = '{{ category }}';
-    params[ bind_param + "-div-name-must"] = "";    
+    params[ bind_param + "-div-name-must-nodata"] = "";    
 
-    folder.add(params,  bind_param + "-div-name-must", mygroup["{{ category }}" + "-div-name-must"] ).name("name");
+    folder.add(params,  bind_param + "-div-name-must-nodata", mygroup["{{ category }}" + "-div-name-must-nodata"] ).name("name");
     
     folder.add({select : obj.select.bind(this, bind_param  )}, "select");
     folder.add({update : obj.update.bind(this, bind_param )}, "update");
@@ -2009,14 +2029,21 @@ gui.add(obj, 'backup');
                 opt = "must"
             }
             
+            if ('{{ data["typedef"][ category ][element][item]["data"] }}' == "Yes") {
+                encode_data = "data";
+            } else {
+                encode_data = "nodata"
+            }
+            
             if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "string") { // STRING
-                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "bool") { // BOOL
                 if ('{{ data["typedef"][ category ][element][item]["value"] }}' == "True") {
-                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = true;
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt + "-" + encode_data] = true;
                 } else {
-                    params[ bind_param+ + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt] = false;
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}'  + "-" + opt + "-" + encode_data] = false;
                 }
+                folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data).name('{{ item }} ' +  "[" + "{{ element }}" + "]");
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "color") {
                 tmp_color = "rgba(";
                 {% for subcolor in data["typedef"][ category ][element][item]["value"] %}
@@ -2025,17 +2052,18 @@ gui.add(obj, 'backup');
                 {% end %}
                 tmp_color = tmp_color.slice(0, -1);
                 tmp_color += ")";
-                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = tmp_color;
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = tmp_color;
                 
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "select"){
                 var weightOptions = ["normal", "bold"];
-                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
-                folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt, weightOptions).name('{{ item }} ' + "{{ element }}");
+                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+                folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data, weightOptions).name('{{ item }} ' + "{{ element }}");
             } else {
-                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+                params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
             }
-            if (('{{ data["typedef"][ category ][element][item]["type"] }}' != "select")){
-            folder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
+
+            if (('{{ data["typedef"][ category ][element][item]["type"] }}' != "select") && ('{{ data["typedef"][ category ][element][item]["type"] }}' != "bool")){
+                folder.add(params,  bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}'  + "-" + opt + "-" + encode_data).name('{{ item }} ' + "[" + "{{ element }}"+ "]");
             }
         {% end %}
     {% end %}
