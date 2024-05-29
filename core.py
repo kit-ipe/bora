@@ -106,7 +106,6 @@ for plugin in plugins_data["plugins"]:
 
 ### plugin :-> setup
 for plugin in plugins_data["plugins"]:
-    #print("setup: " + plugin)
     # load lambda.yaml
     
     # plugin
@@ -281,9 +280,6 @@ class DesignerHandler(tornado.web.RequestHandler):
             except yaml.YAMLError as exc:
                 print(exc)
 
-        print(style_data)
-
-
         data = {
             "style": style_data,
             "typedef": typedef_data,
@@ -382,11 +378,14 @@ class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
         ts = r.ts()
         data = {}
+        
+        
         for key_varname in varname_data:
             latest_data = ts.get(key_varname)
             data[key_varname] = {
                 "timestamp": latest_data[0],
-                "value": latest_data[1]
+                "value": latest_data[1],
+                "interface": varname_data[key_varname]["interface"]
             }
         self.write(data)
 

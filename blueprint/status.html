@@ -29,18 +29,19 @@
 
 
 <div id="page1">
+<img src="{{ static_url( 'background.png' ) }}"></img>
     <div id="horizontal" class="horizontal" style="display: none;"></div>
     <div id="vertical" class="vertical" style="display:none;"></div>
 
 {% if data['style'] %}
 {% for key in data['style'] %}
-
 <!-- BORA START -->
 
 
 <!-- BORA END -->
+{% end %}
+{% end %}
 
-<img src="{{ static_url( 'background.png' ) }}"></img>
 
 </div>
 
@@ -69,50 +70,6 @@
 
 <!-- BORA-JS -->
 <script>
-/*
-jQuery(window).load(function () {
-
-var win_width = $(document).width();
-var win_height = $(document).height();
-*/
-/*
-loadPlayer({
-    url: 'ws://localhost:2000/websocket-streaming/camera01',
-    canvas: document.getElementById('camera01')
-});
-*/
-
-    
-/*    
-$(".databox").hover(function(){
-    var trend_time_end = Math.floor(Date.now() / 1000);
-    var trend_time_start = trend_time_end - 3600;
-    var key = $(this).attr('id');
-    var data_adei = $("#" + key).attr('data-adei');
-    var data_query = $("#" + key).attr('data-query');
-    if ($("#" + key).attr('data-trend') == "true") {
-        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="' + data_adei + '/services/getimage.php?' + data_query + '&window='+ trend_time_start.toString() +'-'+ trend_time_end.toString() + '&frame_width=600&frame_height=400" width="600px" height="400px"/></span>');
-        var key_left = parseInt($("#" + key).css("left"));
-        var pos_left = key_left + 850;
-        var key_top = parseInt($("#" + key).css("top"));
-        var pos_top = key_top + 400;
-        if(pos_left > win_width) {
-            $("#" + key + " .popup").css({
-                'right':'250px',
-                'left': ''
-            });
-        }
-        if(pos_top > win_height) {
-            $("#" + key + " .popup").css({
-                'bottom':'0px',
-                'top': ''
-            });
-        }
-    }
-});
-*/
-
-
 // Function to be executed on button click
 function handleClickPage1() {
     $("#page1").show();
@@ -199,25 +156,22 @@ function handleClickConfig() {
 }
 
 setInterval(function() {
-    console.log("Inside set interval")
     $.ajax({
         url: '/getdata/',
         type: 'GET',
         success: function (response) {
-            console.log(response);
-            console.log("SUCCESS");
+            //console.log(response);
             let currentTime = new Date();
             let currentTimeMillis = currentTime.getTime();
             let currentUTCTime = currentTime.toUTCString();
 
-            console.log("Current time in milliseconds: " + currentTimeMillis);
+            //console.log("Current time in milliseconds: " + currentTimeMillis);
             
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
-                console.log(key);
-                console.log(response[key]["value"]);
-                $("#" + key + " > .value").text(response[key]["value"]);
+                var retval = eval( "parse_" + response[key]["interface"] + "('" + key + "','" + response[key]['value'] + "')" );
+                $("#" + key + " > .value").text(retval);
             }
         },
         error: function () {
