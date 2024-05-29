@@ -1,5 +1,4 @@
 $(function(){
 
 /** BORA-JS **/
-	
 });

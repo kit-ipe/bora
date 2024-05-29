@@ -28,7 +28,7 @@
 {% for key in data['style'] %}
 
 {% if data['style'][key]['type'] == "adei" %}
-<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" data-exp="{{ data['style'][key]['div']['data-exp'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }}; background-color: {{ data['style'][key]['div']['background-color'] }};' data-type='adei'>
     <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
@@ -1679,6 +1679,7 @@ function bora_add(prefix) {
     }
 
     html_element = createHtmlElement(div_head, div_data, div_style, div_text, prefix);
+    console.log(html_element);
     addHtmlElement(html_element, item_id);
 }
 
@@ -1757,11 +1758,20 @@ function bora_select(prefix) {
                 } else if (item_array[2] == "unit_name") {
                     params[item] = getElementUnit(element_id, item);
                 } else {
-                    params[item] = getElementStyle(element_id, item, item_array);
+                    if (item_array[item_array.length - 1] == "nodata") {
+                        params[item] = getElementStyle(element_id, item, item_array);
+                    } else {
+                        console.log("check this");
+                        console.log(item);
+                        var myvalue = $("#" + element_id).attr("data-" + item_array[2].replace(/_/g, '-'));
+                        myvalue = (myvalue === 'true');
+                        params[item] = myvalue;
+                    }
                 }
             }
         }
     }
+    console.log(params);
     gui.updateDisplay();
 }
 
