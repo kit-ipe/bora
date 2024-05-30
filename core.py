@@ -385,7 +385,8 @@ class GetDataHandler(tornado.web.RequestHandler):
             data[key_varname] = {
                 "timestamp": latest_data[0],
                 "value": latest_data[1],
-                "interface": varname_data[key_varname]["interface"]
+                "interface": varname_data[key_varname]["interface"],
+                "invalid": settings_data["timer"]["invalid"]
             }
         self.write(data)
 
