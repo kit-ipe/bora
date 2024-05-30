@@ -160,18 +160,17 @@ setInterval(function() {
         url: '/getdata/',
         type: 'GET',
         success: function (response) {
-            //console.log(response);
+            console.log(response);
             let currentTime = new Date();
-            let currentTimeMillis = currentTime.getTime();
             let currentUTCTime = currentTime.toUTCString();
 
-            //console.log("Current time in milliseconds: " + currentTimeMillis);
-            
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
-                var retval = eval( "parse_" + response[key]["interface"] + "('" + key + "','" + response[key]['value'] + "')" );
+                var retval = eval( "parse_" + response[key]["interface"] + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
                 $("#" + key + " > .value").text(retval);
+                console.log(key + " : " + retval);
+                //$("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
             }
         },
         error: function () {
