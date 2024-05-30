@@ -3,6 +3,8 @@ $(function(){
 /** BORA-JS **/
 
 
+
+
 });
 
 /*
@@ -67,3 +69,39 @@ function parse_adei(key, value, timestamp, invalid) {
     return value;
 }
 
+
+var win_width = $(document).width();
+var win_height = $(document).height();
+$(".databox").hover(function(){
+    var trend_time_end = Math.floor(Date.now() / 1000);
+    var trend_time_start = trend_time_end - 3600;
+    var key = $(this).attr('id');
+    var data_adei = "https://adei-katrin.kaas.kit.edu/adei/";
+    var data_query = $("#" + key).attr('data-query');
+
+    data_query = data_query.split("?")[1];
+
+    const urlParams = new URLSearchParams("?"+data_query);
+
+    var output_query = "db_server="+urlParams.get('db_server')+"&db_name="+urlParams.get('db_name')+"&db_group="+urlParams.get('db_group')+"&db_mask="+urlParams.get('db_mask'); 
+
+    if ($("#" + key).attr('data-trend') == "true") {
+        $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="' + data_adei + 'services/getimage.php?' + output_query + '&window='+ trend_time_start.toString() +'-'+ trend_time_end.toString() + '&frame_width=600&frame_height=400" width="600px" height="400px"/></span>');
+        var key_left = parseInt($("#" + key).css("left"));
+	var pos_left = key_left + 850;
+        var key_top = parseInt($("#" + key).css("top"));
+        var pos_top = key_top + 400;
+        if(pos_left > win_width) {
+            $("#" + key + " .popup").css({
+	        'right':'250px',
+	        'left': ''
+	    });
+        }
+        if(pos_top > win_height) {
+            $("#" + key + " .popup").css({
+                'bottom':'0px',
+                'top': ''
+            });
+        }
+    }
+});

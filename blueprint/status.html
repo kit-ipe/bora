@@ -164,6 +164,7 @@ setInterval(function() {
             let currentTime = new Date();
             let currentUTCTime = currentTime.toUTCString();
 
+
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
