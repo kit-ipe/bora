@@ -381,13 +381,16 @@ class GetDataHandler(tornado.web.RequestHandler):
         
         
         for key_varname in varname_data:
-            latest_data = ts.get(key_varname)
-            data[key_varname] = {
-                "timestamp": latest_data[0],
-                "value": latest_data[1],
-                "interface": varname_data[key_varname]["interface"],
-                "invalid": settings_data["timer"]["invalid"]
-            }
+            if r.exists(key_varname):
+                latest_data = ts.get(key_varname)
+                data[key_varname] = {
+                    "timestamp": latest_data[0],
+                    "value": latest_data[1],
+                    "interface": varname_data[key_varname]["interface"],
+                    "invalid": settings_data["timer"]["invalid"]
+                }
+            else:
+                print("No data for: " + key_varname)
         self.write(data)
 
 
