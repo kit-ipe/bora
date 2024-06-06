@@ -156,55 +156,6 @@
 {% else %}
 {% end %}
 
-    
-{% if data['style'][key]['type'] == "data" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
-    
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "condition" in data['style'][key] %}
- data-cond="{{ data['style'][key]['condition'] }}"
-{% else%}position
-{% end%}
-{% if "formula" in data['style'][key] %}
- data-formula="{{ data['style'][key]['formula'] }}"
-{% else %}
-{% end %}
-{% if "lesser" in data['style'][key] %}
- data-lesser="{{ data['style'][key]['lesser'] }}"
-{% else %}
-{% end %}
-{% if "larger" in data['style'][key] %}
- data-larger="{{ data['style'][key]['larger'] }}"
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "exponential" in data['style'][key] %}
- data-exponential="{{ data['style'][key]['exponential'] }}"
-{% else %}
-{% end %}
-{% if "decimal" in data['style'][key] %}
- data-decimal="{{ data['style'][key]['decimal'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
-</div>
-{% else %}
-{% end %}
-
-
 {% if data['style'][key]['type'] == "icon" %}
 {% if data['style'][key]['icon'] == "valve" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
