@@ -166,14 +166,15 @@ span,
     pointer-events: none;
 }
 
-div .popup {
+.databox .popup {
     position: absolute;
     width: 600px;
     height: 400px;
     visibility: hidden;
 }
 
-div:hover .popup {
+.databox:hover .popup {
+    display: block;
     visibility: visible;
     z-index: 1;
 }

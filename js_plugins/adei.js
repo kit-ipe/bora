@@ -74,6 +74,7 @@ function parse_adei(key, value, timestamp, invalid) {
 
 var win_width = $(document).width();
 var win_height = $(document).height();
+
 $(".databox").hover(function(){
     var trend_time_end = Math.floor(Date.now() / 1000);
     var trend_time_start = trend_time_end - 3600;
@@ -91,7 +92,7 @@ $(".databox").hover(function(){
         $('#'+key + '> .popup').remove();
         $('#'+ key).append('<span class="popup" style="top:0; left:250px;"><img src="' + data_adei + 'services/getimage.php?' + output_query + '&window='+ trend_time_start.toString() +'-'+ trend_time_end.toString() + '&frame_width=600&frame_height=400" width="600px" height="400px"/></span>');
         var key_left = parseInt($("#" + key).css("left"));
-	var pos_left = key_left + 850;
+	    var pos_left = key_left + 850;
         var key_top = parseInt($("#" + key).css("top"));
         var pos_top = key_top + 400;
         if(pos_left > win_width) {
