@@ -1,0 +1,26 @@
+"div":
+    "unit_name":
+        "value": ""
+        "type": "string"
+        "optional": "Yes"
+        "data": "No"
+    "formula":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"    
+    "decimal_numbers":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"
+    "smaller_than":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"
+    "larger_than":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"

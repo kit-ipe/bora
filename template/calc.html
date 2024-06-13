@@ -1,0 +1,9 @@
+{% if data['style'][key]['type'] == "calc" %}
+<div id='{{ key }}' onclick="open_adei_page('{{ key }}')" class="databox" tooltip="" data-query="{{ data['varname'][key]['url'] }}" data-type="{{ data['style'][key]['type'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }};
+    font-size:14px; font-weight: {{ data['style'][key]['div']['font-weight'] }};' data-type='calc'>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='value'>XXX.XX</span>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='unit-name'>{{ data['style'][key]['div']['unit-name'] }}</span>
+</div>
+{% else %}
+{% end %}

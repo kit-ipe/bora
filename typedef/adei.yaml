@@ -39,17 +39,17 @@
     "exp":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "link_adei":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "trend":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "background_color":
         "value":
