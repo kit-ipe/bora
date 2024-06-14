@@ -16,11 +16,6 @@
         "type": "string"
         "optional": "No"
         "data": "Yes"
-    "offCondition":
-        "value": ""
-        "type": "string"
-        "optional": "No"
-        "data": "Yes"
     "link_adei":
         "value": ""
         "type": "bool"
