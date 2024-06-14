@@ -125,7 +125,7 @@
 
 {% if data['style'][key]['type'] == "icon" %}
 {% if data['style'][key]['icon-type'] == "valve" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -134,7 +134,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "commbit" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -143,7 +143,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "alarm" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -152,7 +152,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "TMP" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -161,7 +161,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "relay" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -170,7 +170,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "switch" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -179,7 +179,7 @@
 {% end %}
 
 {% if data['style'][key]['icon-type'] == "bottle" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-nullCondition="{{ data['style'][key]['div']['data-nullCondition'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -1463,11 +1463,6 @@ function getOffCondition(element_id, item) {
     return params[item] = condition || "";
 }
 
-function getNullCondition(element_id, item) {
-    var condition = $("#" + element_id).attr("data-nullCondition");
-    return params[item] = condition || "";
-}
-
 function getFormula(element_id, item) {
     var formula = $("#" + element_id).attr("data-formula");
     return params[item] = formula || "";
@@ -1541,8 +1536,6 @@ function bora_select(prefix) {
                     params[item] = getOnCondition(element_id, item);
                 } else if (item_array[2] == "offCondition") {
                     params[item] = getOffCondition(element_id, item);
-                } else if (item_array[2] == "nullCondition") {
-                    params[item] = getNullCondition(element_id, item);
                 } else if (item_array[2] == "formula") {
                     params[item] = getFormula(element_id, item);
                 } else if (item_array[2] == "decimal_numbers") {
@@ -1594,10 +1587,6 @@ function updateOnCondition(item, element_id) {
 
 function updateOffCondition(item, element_id) {
     $("#" + element_id).attr('data-offCondition', params[item]);
-}
-
-function updateNullCondition(item, element_id) {
-    $("#" + element_id).attr('data-nullCondition', params[item]);
 }
 
 function updateFormula(item, element_id) {
@@ -1664,9 +1653,6 @@ function bora_update(prefix) {
                         break;
                     case "offCondition":
                         updateOffCondition(item, element_id);
-                        break;
-                    case "nullCondition":
-                        updateNullCondition(item, element_id);
                         break;
                     case "formula":
                         updateFormula(item, element_id);

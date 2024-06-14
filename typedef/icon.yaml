@@ -21,10 +21,15 @@
         "type": "string"
         "optional": "No"
         "data": "Yes"
-    "nullCondition":
+    "link_adei":
         "value": ""
-        "type": "string"
-        "optional": "No"
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "trend":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
         "data": "Yes"
     "rotate":
         "value": "180deg"

@@ -2,7 +2,7 @@
     "text_name":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "No"
     "int_to_str":
         "value": ""

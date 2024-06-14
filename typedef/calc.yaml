@@ -17,10 +17,10 @@
     "smaller_than":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "larger_than":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
