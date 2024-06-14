@@ -51,6 +51,9 @@ plugins_data = {
 timer_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
+# Style might change dynamically, so we need to load it every time
+#style_data = load_data("style.yaml")
+
 
 bora_init()
 
@@ -376,19 +379,28 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
+        with open("style.yaml", 'r') as stream:
+            try:
+                style_data = yaml.load(stream, Loader=yaml.Loader)
+            except yaml.YAMLError as exc:
+                print(exc)
+
         ts = r.ts()
         data = {}
-        
-        
+       
+
         for key_varname in varname_data:
             if r.exists(key_varname):
-                latest_data = ts.get(key_varname)
-                data[key_varname] = {
-                    "timestamp": latest_data[0],
-                    "value": latest_data[1],
-                    "interface": varname_data[key_varname]["interface"],
-                    "invalid": settings_data["timer"]["invalid"]
-                }
+                if key_varname in style_data:
+                    latest_data = ts.get(key_varname)
+                    data[key_varname] = {
+                        "timestamp": latest_data[0],
+                        "value": latest_data[1],
+                        "widget": style_data[key_varname]["widget"],
+                        "invalid": settings_data["timer"]["invalid"]
+                    }
+                else:
+                    print("No style data for: " + key_varname)
             else:
                 print("No data for: " + key_varname)
         self.write(data)

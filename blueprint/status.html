@@ -168,7 +168,7 @@ setInterval(function() {
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
-                var retval = eval( "parse_" + response[key]["interface"] + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
+                var retval = eval( "parse_" + response[key]["widget"].replace(/-/g, "_") + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
                 $("#" + key + " > .value").text(retval);
                 console.log(key + " : " + retval);
                 //$("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
