@@ -124,7 +124,7 @@
 {% end %}
 
 {% if data['style'][key]['type'] == "icon" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
     <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
@@ -1219,7 +1219,10 @@ function verifyRequiredFields(item, prefix) {
 function createItemId(item, prefix) {
     if (["text", "box"].includes(prefix)) {
         // For "box" and "text" plugins
-        let value = params[prefix + "-div-name-must-data"];
+        // TODO: NTJ -> Bug
+        let value = params[prefix + "-div-text_name-must-nodata"];
+        console.log(params);
+        console.log(prefix,  value);
         value = value.replace(/[^a-zA-Z0-9]/g, "");
         return prefix + "_" + value;
     } else {
