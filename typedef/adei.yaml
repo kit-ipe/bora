@@ -2,7 +2,7 @@
     "text_name":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "No"
     "unit_name":
         "value": ""
@@ -29,27 +29,27 @@
     "smaller_than":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "larger_than":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": Yes"
         "data": "Yes"
     "exp":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "link_adei":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "trend":
         "value": ""
         "type": "bool"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "background_color":
         "value":

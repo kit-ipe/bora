@@ -1,11 +1,38 @@
 "div":
     "icon_type":
-        "value": ""
-        "type": "string"
+        "value":
+            - "valve"
+            - "commbit"
+            - "alarm"
+            - "TMP"
+            - "bottle"
+            - "relay"
+            - "switch"
+        "type": "select"
         "optional": "No"
         "data": "No"
-    "icon_definition":
+    "onCondition":
         "value": ""
         "type": "string"
         "optional": "No"
+        "data": "Yes"
+    "offCondition":
+        "value": ""
+        "type": "string"
+        "optional": "No"
+        "data": "Yes"
+    "link_adei":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "trend":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "rotate":
+        "value": "180deg"
+        "type": "string"
+        "optional": "Yes"
         "data": "No"

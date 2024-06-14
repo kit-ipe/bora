@@ -2,13 +2,13 @@
     "text_name":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "No"
     "int_to_str":
         "value": ""
         "type": "string"
         "optional": "No"
-        "data": "No"
+        "data": "Yes"
     "font_size":
         "value": ""
         "type": "string"
@@ -21,6 +21,16 @@
         "type": "select"
         "optional": "No"
         "data": "No"
+    "link_adei":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "trend":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
     "background_color":
         "value":
             - 255

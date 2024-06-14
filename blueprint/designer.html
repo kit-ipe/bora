@@ -116,267 +116,73 @@
 
     
 {% if data['style'][key]['type'] == "calc" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
-
-    {% if "background_color" in data['style'][key] %}
-        background-color:{{ data['style'][key]['background_color'] }};' 
-    {% else %}
-    {% end %}
-
-    {% if "condition" in data['style'][key] %}
-        data-cond="{{ data['style'][key]['condition'] }}"
-    {% else%}position
-    {% end%}
-
-    {% if "formula" in data['style'][key] %}
-        data-formula="{{ data['style'][key]['formula'] }}"
-    {% else %}
-    {% end %}
-
-    {% if "lesser" in data['style'][key] %}
-        data-lesser="{{ data['style'][key]['lesser'] }}"
-    {% else %}
-    {% end %}
-
-    {% if "larger" in data['style'][key] %}
-        data-larger="{{ data['style'][key]['larger'] }}"
-    {% else %}
-    {% end %}
-
-    {% if "decimal" in data['style'][key] %}
-        data-decimal="{{ data['style'][key]['decimal'] }}"
-    {% else %}
-    {% end %}
-
-    data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval"> XXX.XX <span class='unit_title' style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" > {{ data['style'][key]['unit']['title'] }}</span></span></p>
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-formula="{{ data['style'][key]['div']['data-formula'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }};>
+    <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
 </div>
 {% else %}
 {% end %}
 
 {% if data['style'][key]['type'] == "icon" %}
-{% if data['style'][key]['icon'] == "valve" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("valve_inactive.png") }}'></img>
+{% if data['style'][key]['icon-type'] == "valve" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "commbit" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("commbit_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "commbit" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "alarm" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("alarm_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "alarm" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "TMP" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; 
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("TMP_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "TMP" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "relay" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("relay_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "relay" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "switch" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("switch_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "switch" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
 
-{% if data['style'][key]['icon'] == "bottle" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px;
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};'
-{% else %}
-{% end %}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
-{% if "on_condition" in data['style'][key] %}
- data-onexpression="{{ data['style'][key]['on_condition'] }}"
-{% else %}
-{% end %}
-{% if "off_condition" in data['style'][key] %}
- data-offexpression="{{ data['style'][key]['off_condition'] }}"
-{% else %}
-{% end %}
-{% if "icon" in data['style'][key] %}
- data-icon="{{ data['style'][key]['icon'] }}"
-{% else %}
-{% end %}
- data-type="{{ data['style'][key]['type'] }}" data-off="{{ data['style'][key]['off'] }}" data-on="{{ data['style'][key]['on'] }}" class='varbox' id="{{ key }}">
-<img width='100%' height='100%' style="transform:{{ data['style'][key]['rotate'] }}" src='{{ static_url("bottle_inactive.svg") }}'></img>
+{% if data['style'][key]['icon-type'] == "bottle" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-offCondition="{{ data['style'][key]['div']['data-offCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
+    style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
+    icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
+    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
@@ -385,31 +191,13 @@ background-color:{{ data['style'][key]['background_color'] }};'
 
 
 {% if data['style'][key]['type'] == "integer-to-string" %}
-<div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;
-    
-{% if "background_color" in data['style'][key] %}
-background-color:{{ data['style'][key]['background_color'] }};' 
-{% else%}
-{% end%}
-{% if "cond" in data['style'][key] %}
- data-cond="{{ data['style'][key]['cond'] }}"
-{% else%}
-{% end%}
-{% if "linkhtml" in data['style'][key] %}
- data-linkhtml="{{ data['style'][key]['linkhtml'] }}"
-{% else %}
-{% end %}
-{% if "trend" in data['style'][key] %}
- data-trend="{{ data['style'][key]['trend'] }}"
-{% else %}
-{% end %}
- data-dict="{{ data['style'][key]['dict'] }}" data-type="{{ data['style'][key]['type'] }}" class='varbox' id="{{ key }}">
-<p><span style="color: #000; font-size: {{ data['style'][key]['header']['size'] }}px; font-weight: {{ data['style'][key]['header']['weight'] }};" class="title">{{ data['style'][key]['header']['title'] }} </span><br /><span style="color: #000; font-size: {{ data['style'][key]['unit']['size'] }}px; font-weight: {{ data['style'][key]['unit']['weight'] }};" class="varval">??? </span></p>
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-int-to-str="{{ data['style'][key]['div']['data-int-to-str'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+    data['style'][key]['left'] }}; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }}; background-color: {{ data['style'][key]['div']['background-color'] }};'>
+    <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span>???</span>
 </div>
 {% else %}
 {% end %}
+
 
 {% if data['style'][key]['type'] == "header" %}
 <div style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
@@ -1495,14 +1283,20 @@ function createItemId(item, prefix) {
 }
 
 // Helper function: Creates the div head of the HTML element
-function createDivHead(item, item_id, item_array){
-    div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0] +"' ";
+function createDivHead(item, item_id, item_array) {
+    if (item_array[2] == "icon_type") {
+        if (params[item] == "valve" || "commbit" || "alarm" || "TMP" || "bottle" || "relay" || "switch") {
+            div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0].replace(/_/g, '-') + "' " + "icon-type='"+ params[item] + "' ";
+        }
+    } else {
+        div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0].replace(/_/g, '-') + "' ";
+    }
     return div_head;
 }
 
 // Helper function: Creates the div text of the HTML element
-function createDivText(item, div_text, item_array){
-    switch (item_array[2]){
+function createDivText(item, div_text, item_array) {
+    switch (item_array[2]) {
         case "text_name":
             div_text += "<span class='text_name'>" + params[item] + "</span> ";
             break;
@@ -1513,7 +1307,7 @@ function createDivText(item, div_text, item_array){
             }
             break;
         case "int_to_str":
-            div_text += " ??? ";
+            div_text += "<span>???</span>";
             break;
     }
     return div_text;
@@ -1523,8 +1317,8 @@ function createDivText(item, div_text, item_array){
 function createDivStyle(item, div_style, item_array) {
    
     if (item_array[item_array.length -1] == "nodata") {
-    
-        if (["name", "text_name", "unit_name", "int_to_str","icon_type"].indexOf(item_array[2]) === -1) {
+        
+        if (["name", "text_name", "unit_name", "int_to_str", "icon_type"].indexOf(item_array[2]) === -1) {
             css_property = item_array[2].replace(/_/g, '-');
             div_style += css_property + ":" + params[item] + "; ";
         }
@@ -1567,15 +1361,15 @@ function handleFontWeight(item, item_array ) {
 }
 
 // Helper function: Assemebels the html element 
-function createHtmlElement(div_head, div_data, div_style, div_text, prefix){
+function createHtmlElement(div_head, div_data, div_style, div_text, prefix) {
     var html_element = div_head + div_data + div_style + "'>" + div_text;
     switch (prefix){
         case "input":
             html_element += input_head + input_style + input_end + input_text;
             break;
         case "icon":
-            var icon_src = window.location.origin + "/static/" + params['icon-icon_type-div-must'] + ".png";
-            html_element += "<img src='" + icon_src + "' width='100%' height='100%'></img>";
+                var icon_src = window.location.origin + "/static/" + params["icon-div-icon_type-must-nodata"]  + "_inactive.png";
+                html_element += "<img src='" + icon_src + "' width='100%' height='100%'></img>";
             break;
         case "button":
             html_element += button_head + button_style + button_end;
@@ -1630,40 +1424,68 @@ function bora_add(prefix) {
     }
 
     html_element = createHtmlElement(div_head, div_data, div_style, div_text, prefix);
-    console.log(html_element);
     addHtmlElement(html_element, item_id);
 }
 
 
 /*********** Selecting an html element from the page ***********/
 // Helper function: changes the color of the selected element
-function highlightSelectedElement(element_id){
+function highlightSelectedElement(element_id) {
     $('body [id]').each(function() {
      $(this).toggleClass("box_highlight", $(this).attr("id") === element_id);
     });
 }
 
 // Helper function: fetches the text of the selected element
-function getElementText(element_id, item){
-    var fullText = $("#" + element_id).text();
-    var parts = fullText.split(' ');
-    // Return the part of the text expected to be the value, excluding 'XXX.XX' and 'unit'
-    if (parts.length > 2) {
-        return params[item] = parts.slice(0, -2).join(' ');  // Removes last two segments assuming they are 'XXX.XX' and 'unit'
-    } else {
-        return params[item] = fullText;
-    }
+function getElementText(element_id, item) {
+    var textName = $("#" + element_id + "> .text_name").text();
+    return textName;
 }
 
-function getElementUnit(element_id, item){
-    var fullUnit = $("#" + element_id).text();
-    var parts = fullUnit.split(' ');
-    // Check if the last segment is a reasonable unit (not just a leftover or empty)
-    if (parts.length > 2 && parts[parts.length - 1].trim() !== '') {
-        return params[item] = parts[parts.length - 1];
-    } else {
-        return params[item] = '';  // Return empty if no valid unit is discernible
-    }
+function getElementUnit(element_id, item) {
+    var unitName = $("#" + element_id + "> .unit_name").text();
+    return unitName;
+}
+
+function getIconType(element_id, item) {
+    var icon_src = $("#" + element_id).find("img").attr("src");
+    var icon_type = icon_src.substring(icon_src.lastIndexOf("/") + 1, icon_src.lastIndexOf("_inactive.png"));
+    return params[item] = icon_type;
+}
+
+function getOnCondition(element_id, item) {
+    var condition = $("#" + element_id).attr("data-onCondition");
+    return params[item] = condition || "";
+}
+
+function getOffCondition(element_id, item) {
+    var condition = $("#" + element_id).attr("data-offCondition");
+    return params[item] = condition || "";
+}
+
+function getFormula(element_id, item) {
+    var formula = $("#" + element_id).attr("data-formula");
+    return params[item] = formula || "";
+}
+
+function getDecimal(element_id, item) {
+    var decimalNumbers = $("#" + element_id).attr("data-decimal-numbers");
+    return params[item] = decimalNumbers || "";
+}
+
+function getSmaller(element_id, item) {
+    var smallerThan = $("#" + element_id).attr("data-smaller-than");
+    return params[item] = smallerThan || "";
+}
+
+function getIntegerToString(element_id, item) {
+    var integerToString = $("#" + element_id).attr("data-int-to-str");
+    return params[item] = integerToString || "";
+}
+
+function getLarger(element_id, item) {
+    var largerThan = $("#" + element_id).attr("data-larger-than");
+    return params[item] = largerThan || "";
 }
 
 // Helper function: changes the font_weight value from numeric to string
@@ -1699,30 +1521,46 @@ function getElementStyle(element_id, item, item_array) {
 function bora_select(prefix) {
     var element_id = params[prefix + "-div-name-must-nodata"];
     highlightSelectedElement(element_id);
+    
     for (item in params) {
         if (item.startsWith(prefix)) {
             var item_array = item.split("-");
             if (item_array[1] == "div") {
                 if (item_array[2] == "name") {
+                    // do nothing
                 } else if (item_array[2] == "text_name") {
-                    params[item] = getElementText(element_id, item);   
+                    params[item] = getElementText(element_id, item);
                 } else if (item_array[2] == "unit_name") {
                     params[item] = getElementUnit(element_id, item);
+                } else if (item_array[2] == "onCondition") {
+                    params[item] = getOnCondition(element_id, item);
+                } else if (item_array[2] == "offCondition") {
+                    params[item] = getOffCondition(element_id, item);
+                } else if (item_array[2] == "formula") {
+                    params[item] = getFormula(element_id, item);
+                } else if (item_array[2] == "decimal_numbers") {
+                    params[item] = getDecimal(element_id, item);
+                } else if (item_array[2] == "smaller_than") {
+                    params[item] = getSmaller(element_id, item);
+                } else if (item_array[2] == "larger_than") {
+                    params[item] = getLarger(element_id, item);
+                } else if (item_array[2] == "int_to_str") {
+                    params[item] = getIntegerToString(element_id, item);
+                } else if (item_array[2] == "icon_type") {
+                    params[item] = getIconType(element_id, item);
                 } else {
                     if (item_array[item_array.length - 1] == "nodata") {
                         params[item] = getElementStyle(element_id, item, item_array);
                     } else {
-                        console.log("check this");
-                        console.log(item);
                         var myvalue = $("#" + element_id).attr("data-" + item_array[2].replace(/_/g, '-'));
                         myvalue = (myvalue === 'true');
                         params[item] = myvalue;
+                        
                     }
                 }
             }
         }
     }
-    console.log(params);
     gui.updateDisplay();
 }
 
@@ -1730,42 +1568,57 @@ function bora_select(prefix) {
 /*********** Updates the properties of an html element ***********/
 // Helper Function: updates the text
 function updateElementText(item, element_id) {
-    if (params[item].trim() !== "") {  // Check if there is a non-empty value
-        var currentParts = $("#" + element_id).text().split(' ');
-        if (currentParts.length > 2) {
-            // Maintain the "XXX.XX" and unit part
-            $("#" + element_id).text(params[item] + " " + currentParts[currentParts.length - 2] + " " + currentParts[currentParts.length - 1]);
-        } else {
-            $("#" + element_id).text(params[item]);
-        }
-    }
+    $("#" + element_id + "> .text_name").text(params[item]);
 }
 
 // Helper Function: updates the unit part of the text
 function updateElementUnit(item, element_id) {
-    var parts = $("#" + element_id).text().split(' ');
-    if (params[item].trim() !== "") {  // Check if there is a value for unit
-        if (parts.length >= 3) {
-            // Update the unit and maintain the "XXX.XX"
-            parts[parts.length - 1] = params[item];
-            parts[parts.length - 2] = "XXX.XX";
-        } else {
-            // If currently no "XXX.XX" and unit, add them
-            parts.push("XXX.XX");
-            parts.push(params[item]);
-        }
-    } else {
-        // If unit is empty, remove the last two parts (assumed "XXX.XX" and unit)
-        if (parts.length >= 3) {
-            parts.splice(-2, 2);  // Remove the last two elements
-        }
-    }
-    $("#" + element_id).text(parts.join(' '));
+    $("#" + element_id + "> .unit_name").text(params[item]);
 }
 
-// Helper Function: updates the font_size
-function updateElementFontSize(item, element_id) {
-    $("#" + element_id).css('font-size', params[item] + 'px'); 
+// Helper Function: updates the integer to string part of the text
+function updateIntegerToString(item, element_id) {
+    $("#" + element_id).attr('data-int-to-str', params[item]);
+}
+
+function updateOnCondition(item, element_id) {
+    $("#" + element_id).attr('data-onCondition', params[item]);
+}
+
+function updateOffCondition(item, element_id) {
+    $("#" + element_id).attr('data-offCondition', params[item]);
+}
+
+function updateFormula(item, element_id) {
+    $("#" + element_id).attr('data-formula', params[item]);
+}
+
+function updateDecimal(item, element_id) {
+    $("#" + element_id).attr('data-decimal-numbers', params[item]);
+}
+
+function updateSmaller(item, element_id) {
+    $("#" + element_id).attr('data-smaller-than', params[item]);
+}
+
+function updateLarger(item, element_id) {
+    $("#" + element_id).attr('data-larger-than', params[item]);
+}
+
+function updateFontSize(item, element_id) {
+    $("#" + element_id).css('font-size', parseInt(params[item]) + 'px'); 
+}
+
+function updateExp(item, element_id) {
+    $("#" + element_id).attr('data-exp', params[item]);
+}
+
+function updateLinkAdei(item, element_id) {
+    $("#" + element_id).attr('data-link-adei', params[item]);
+}
+
+function updateTrend(item, element_id) {
+    $("#" + element_id).attr('data-trend', params[item]);
 }
 
 // Helper Function: updates the css style properties
@@ -1785,7 +1638,7 @@ function bora_update(prefix) {
                 switch (item_array[2]) {
                     case "name":
                     // Handle the name case if needed
-                    break;
+                        break;
                     case "text_name":
                         updateElementText(item, element_id);
                         break;
@@ -1793,7 +1646,37 @@ function bora_update(prefix) {
                         updateElementUnit(item, element_id);
                         break;
                     case "font_size":
-                        updateElementFontSize(item, element_id);
+                        updateFontSize(item, element_id);
+                        break;
+                    case "onCondition":
+                        updateOnCondition(item, element_id);
+                        break;
+                    case "offCondition":
+                        updateOffCondition(item, element_id);
+                        break;
+                    case "formula":
+                        updateFormula(item, element_id);
+                        break;
+                    case "decimal_numbers":
+                        updateDecimal(item, element_id);
+                        break;
+                    case "smaller_than":
+                        updateSmaller(item, element_id);
+                        break;
+                    case "larger_than":
+                        updateLarger(item, element_id);
+                        break;
+                    case "int_to_str":
+                        updateIntegerToString(item, element_id);
+                        break;
+                    case "exp":
+                        updateExp(item, element_id);
+                        break;
+                    case "link_adei":
+                        updateLinkAdei(item, element_id);
+                        break;
+                    case "trend":
+                        updateTrend(item, element_id);
                         break;
                     default:
                         updateElementStyle(item, element_id, css_property);
@@ -1828,13 +1711,14 @@ function extractElementAttributes(element_id) {
 // Helper Function: gets the css style properties of an element
 function collectCssStyles(element_id, category) {
     let mydiv = {};
+    mycat = category.replace(/-/g, '_'); 
+    
     for (item in params) {
-        
-        if (item.startsWith(category)) {
+        if (item.startsWith(mycat)) {
             var item_array = item.split("-");
-            var css_property = item_array[2].replace(/_/g, '-')
+            var css_property = item_array[2].replace(/_/g, '-');
          
-            if (item_array[1] == "div") {
+            if (item_array[1] == "div" && item_array[2] !== "icon_type") {
                 switch (item_array[2]) {
                 case "text_name":
                     mydiv[css_property] = $("#" + element_id + "> .text_name").text().trim();
@@ -1850,7 +1734,7 @@ function collectCssStyles(element_id, category) {
                     }
                     break;
                 }
-            }
+            } 
         }
     }
     return mydiv;
@@ -1875,13 +1759,21 @@ function sendDataToServer(dataToSend) {
 // Main function: bora_save
 function bora_save() {
     var position = {};
+    var mycategory;
+
     category.forEach(function(cat)
     {
-        $('*[data-type="' + cat + '"]').each(function() {
+        mycategory = cat.replace(/_/g, '-');
+        $('*[data-type="' + mycategory + '"]').each(function() {
             var element_id = $(this).attr('id');
             var attributes = extractElementAttributes(element_id);
-            var styles = collectCssStyles(element_id, cat);
-            attributes["widget"] = cat;
+            var styles = collectCssStyles(element_id, mycategory);
+
+            if (attributes["type"] == "icon") {
+                attributes["icon-type"] = "valve"; // hard code
+            }
+
+            attributes["widget"] = mycategory;
             attributes["div"] = styles;
             position[element_id] = attributes;
         });
@@ -2016,9 +1908,16 @@ gui.add(obj, 'backup');
                 params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = tmp_color;
                 
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "select"){
-                var weightOptions = ["normal", "bold"];
-                params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
-                folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data, weightOptions).name('{{ item }} ' + "{{ element }}");
+                {% if (item == "icon_type") %}
+                    var iconOptions = ["valve", "commbit", "alarm", "TMP", "bottle", "relay", "switch"];
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+                    folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data, iconOptions).name('{{ item }} ' + "{{ element }}");
+                {% else %}
+                    // item == "font-weight"
+                    var weightOptions = ["normal", "bold"];
+                    params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
+                    folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data, weightOptions).name('{{ item }} ' + "{{ element }}");
+                {% end %}
             } else {
                 params[ bind_param + "-"+ '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
             }
