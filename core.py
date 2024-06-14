@@ -51,6 +51,8 @@ plugins_data = {
 timer_queue = []
 settings_data = load_data("settings.yaml")
 varname_data = load_data("varname.yaml")
+style_data = load_data("style.yaml")
+
 
 bora_init()
 
@@ -386,7 +388,7 @@ class GetDataHandler(tornado.web.RequestHandler):
                 data[key_varname] = {
                     "timestamp": latest_data[0],
                     "value": latest_data[1],
-                    "interface": varname_data[key_varname]["interface"],
+                    "widget": style_data[key_varname]["widget"],
                     "invalid": settings_data["timer"]["invalid"]
                 }
             else:

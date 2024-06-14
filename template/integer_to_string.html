@@ -1,8 +1,9 @@
-{% if data['style'][key]['type'] == "integer_to_string" %}
-<div id="{{ key }}" class="varbox" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+{% if data['style'][key]['type'] == "integer-to-string" %}
+<div id='{{ key }}' onclick="open_adei_page('{{ key }}')" class="databox" tooltip="" data-query="{{ data['varname'][key]['url'] }}" data-type="{{ data['style'][key]['type'] }}" data-int-to-str="{{ data['style'][key]['div']['data-int-to-str'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
-    height:{{ data['style'][key]['height'] }}px;' data-type='box'>
-    <canvas id="canvas" style="overflow:auto"></canvas>
+    height:{{ data['style'][key]['height'] }}px; font-size:14px; font-weight: {{ data['style'][key]['div']['font-weight'] }}; background-color: {{ data['style'][key]['div']['background-color'] }};' data-type='adei'>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='text-name'>{{ data['style'][key]['div']['text-name'] }}</span>
+<span style='color: #000; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' class='value'>???</span>
 </div>
 {% else %}
 {% end %}
