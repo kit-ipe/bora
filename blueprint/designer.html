@@ -1276,7 +1276,9 @@ function verifyRequiredFields(item, prefix) {
 function createItemId(item, prefix) {
     if (["text", "box"].includes(prefix)) {
         // For "box" and "text" plugins
-        return prefix + "_" + (params[prefix + "-div-text_name-must-nodata"]);
+        let value = params[prefix + "-div-name-must-data"];
+        value = value.replace(/[^a-zA-Z0-9]/g, "");
+        return prefix + "_" + value;
     } else {
         return params[prefix + "-div-name-must-nodata"];
     }
