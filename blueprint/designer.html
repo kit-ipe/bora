@@ -116,9 +116,9 @@
 
     
 {% if data['style'][key]['type'] == "calc" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-formula="{{ data['style'][key]['div']['data-formula'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
-    data['style'][key]['left'] }};>
-    <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-formula="{{ data['style'][key]['div']['data-formula'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; 
+    left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};'>
+    <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
 </div>
 {% else %}
 {% end %}
@@ -1201,7 +1201,7 @@ function isNumeric(value) {
 /*********** Adding an html element to the page ***********/
 // Helper function: Verifies that the required fields are filled
 function verifyRequiredFields(item, prefix) {
-    if (!["text", "box"].includes(prefix)) {
+    if (!["text", "box", "calc"].includes(prefix)) {
         if ( (item.endsWith("must-data") && !params[item]) || (item.endsWith("must-nodata") && !params[item]) ){
             alert("please enter value for " + item);
         return false;
@@ -1217,8 +1217,8 @@ function verifyRequiredFields(item, prefix) {
 
 // Helper function: Creates a unique ID for each HTML element
 function createItemId(item, prefix) {
-    if (["text", "box"].includes(prefix)) {
-        // For "box" and "text" plugins
+    if (["text", "box", "calc"].includes(prefix)) {
+        // For "box" and "text" and "calc" plugins
         // TODO: NTJ -> Bug
         let value = params[prefix + "-div-text_name-must-nodata"];
         console.log(params);
@@ -1662,7 +1662,7 @@ function extractElementAttributes(element_id) {
 function collectCssStyles(element_id, category) {
     let mydiv = {};
     mycat = category.replace(/-/g, '_'); 
-    
+
     for (item in params) {
         if (item.startsWith(mycat)) {
             var item_array = item.split("-");
@@ -1803,7 +1803,8 @@ gui.add(obj, 'backup');
     mygroup["{{ category }}" + "-div-name-must-nodata"] = [];
 
     {% for item in data["style"] %}
-        {% if category in ['box', 'text'] %}
+    
+        {% if category in ['box', 'text', 'calc'] %}
             mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
             $("#" + "{{ item }}").resizable();
@@ -1811,7 +1812,7 @@ gui.add(obj, 'backup');
     {% end %}
 
     {% for key, value in data["vardata"].items() %}
-        {% if category not in ['box', 'text'] %}
+        {% if category not in ['box', 'text', 'calc'] %}
             mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{ key }}");
         {% end %}
     {% end %}
