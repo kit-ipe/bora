@@ -1198,6 +1198,13 @@ function isNumeric(value) {
 ******************************/
 
 
+function uuidv4() {
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+    (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+  );
+}
+
+
 /*********** Adding an html element to the page ***********/
 // Helper function: Verifies that the required fields are filled
 function verifyRequiredFields(item, prefix) {
@@ -1217,14 +1224,13 @@ function verifyRequiredFields(item, prefix) {
 
 // Helper function: Creates a unique ID for each HTML element
 function createItemId(item, prefix) {
-    if (["text", "box", "calc"].includes(prefix)) {
-        // For "box" and "text" and "calc" plugins
-        // TODO: NTJ -> Bug
+    if (["text", "box"].includes(prefix)) {
+        // For "box" and "text" plugins
         let value = params[prefix + "-div-text_name-must-nodata"];
-        console.log(params);
-        console.log(prefix,  value);
         value = value.replace(/[^a-zA-Z0-9]/g, "");
         return prefix + "_" + value;
+    } else if (["calc"].includes(prefix)) {
+        return prefix + "_" + uuidv4().split("-")[0];
     } else {
         return params[prefix + "-div-name-must-nodata"];
     }

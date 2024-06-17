@@ -71,6 +71,4 @@ function parse_icon(key, value, timestamp, invalid) {
     }
 
     $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
-
-    return "YOYO"
 }
