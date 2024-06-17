@@ -155,6 +155,8 @@ function handleClickConfig() {
     xhr.send(json);
 }
 
+let invalid_array = {};
+
 setInterval(function() {
     $.ajax({
         url: '/getdata/',
@@ -164,15 +166,24 @@ setInterval(function() {
             let currentTime = new Date();
             let currentUTCTime = currentTime.toUTCString();
 
+            invalid_array = {};
 
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
                 var retval = eval( "parse_" + response[key]["widget"].replace(/-/g, "_") + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
                 $("#" + key + " > .value").text(retval);
-                console.log(key + " : " + retval);
-                //$("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
+                //console.log(key + " : " + retval);
             }
+
+            // Loop through calc_
+            $('[id^=calc_]').each(function( index ) {
+                console.log("Looping calc");
+                console.log(this.id);
+                parse_calc(this.id, response);
+                //console.log($(this).attr('data-formula'));
+            });
+
         },
         error: function () {
 
