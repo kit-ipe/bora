@@ -1227,7 +1227,11 @@ function createItemId(item, prefix) {
     if (["text", "box"].includes(prefix)) {
         // For "box" and "text" plugins
         let value = params[prefix + "-div-text_name-must-nodata"];
+        console.log("CHECK THIS");
+        console.log(value);
         value = value.replace(/[^a-zA-Z0-9]/g, "");
+        console.log(value);
+        
         return prefix + "_" + value;
     } else if (["calc"].includes(prefix)) {
         return prefix + "_" + uuidv4().split("-")[0];
@@ -1250,6 +1254,11 @@ function createDivHead(item, item_id, item_array) {
 
 // Helper function: Creates the div text of the HTML element
 function createDivText(item, div_text, item_array) {
+    console.log("createDivText:");
+    console.log(item);
+    console.log(params[item]);
+    console.log(item_array);
+
     switch (item_array[2]) {
         case "text_name":
             div_text += "<span class='text_name'>" + params[item] + "</span> ";
@@ -1368,14 +1377,16 @@ function bora_add(prefix) {
 
     for (item in params) {
         if (item.startsWith(prefix)) {
-                if (!verifyRequiredFields(item, prefix)) { return; }
-                var item_array = item.split('-'), item_id = createItemId(item,prefix);
-                handleNumericValues(item);
-                handleFontWeight(item,item_array);
-                div_head = createDivHead(item, item_id, item_array);
-                div_data = createDivData(item, div_data, item_array);
-                div_text = createDivText(item, div_text, item_array);
-                div_style = createDivStyle(item, div_style, item_array);
+            if (!verifyRequiredFields(item, prefix)) { return; }
+            var item_array = item.split('-');
+            var item_id = createItemId(item,prefix);
+            console.log("NTJ: " + item_id);
+            handleNumericValues(item);
+            handleFontWeight(item,item_array);
+            div_head = createDivHead(item, item_id, item_array);
+            div_data = createDivData(item, div_data, item_array);
+            div_text = createDivText(item, div_text, item_array);
+            div_style = createDivStyle(item, div_style, item_array);
         }
     }
 
