@@ -7,8 +7,8 @@ $(function(){
 
 function parse_icon(key, value, timestamp, invalid) {
     //console.log(invalid); // invalid value is in milliseconds
-    console.log("Inside parse_icon");
-    console.log(key,value,timestamp, invalid);
+    //console.log("Inside parse_icon");
+    //console.log(key,value,timestamp, invalid);
 
     var data_oncondition = $("#" + key).attr("data-oncondition");
     var data_icon_type = $("#" + key).attr("data-icon-type");
@@ -71,6 +71,4 @@ function parse_icon(key, value, timestamp, invalid) {
     }
 
     $("#"+key).attr('tooltip',  key + "\nDeltaTime: " + parseFloat(delta).toFixed(3) + " s (" + parseFloat(delta / 60.0).toFixed(3) + " min)");
-
-    return "YOYO"
 }
