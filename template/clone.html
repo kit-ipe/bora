@@ -1,0 +1,6 @@
+{% if data['style'][key]['type'] == "clone" %}
+<div id='{{ key }}' data-type="{{ data['style'][key]['type'] }}" data-clone-id="{{ data['style'][key]['div']['data-clone-id'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }};
+    left:{{ data['style'][key]['left'] }};'>
+</div>
+{% else %}
+{% end %}
