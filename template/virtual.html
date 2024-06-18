@@ -1,0 +1,7 @@
+{% if data['style'][key]['type'] == "virtual" %}
+<div id='{{ key }}' data-type="{{ data['style'][key]['type'] }}" data-virtual-id="{{ data['style'][key]['div']['data-virtual-id'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }};
+    left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};'>
+    <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
+</div>
+{% else %}
+{% end %}

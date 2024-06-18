@@ -125,6 +125,21 @@
 {% else %}
 {% end %}
 
+{% if data['style'][key]['type'] == "virtual" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-virtual-id="{{ data['style'][key]['div']['data-virtual-id'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; 
+    left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};'>
+    <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
+</div>
+{% else %}
+{% end %}
+
+{% if data['style'][key]['type'] == "clone" %}
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-clone-id="{{ data['style'][key]['div']['data-clone-id'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; 
+    left:{{ data['style'][key]['left'] }};'>
+</div>
+{% else %}
+{% end %}
+
 {% if data['style'][key]['type'] == "icon" %}
 <div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
@@ -1210,7 +1225,7 @@ function uuidv4() {
 /*********** Adding an html element to the page ***********/
 // Helper function: Verifies that the required fields are filled
 function verifyRequiredFields(item, prefix) {
-    if (!["text", "box", "calc"].includes(prefix)) {
+    if (!["text", "box", "calc", "virtual", "clone"].includes(prefix)) {
         if ( (item.endsWith("must-data") && !params[item]) || (item.endsWith("must-nodata") && !params[item]) ){
             alert("please enter value for " + item);
         return false;
@@ -1231,7 +1246,7 @@ function createItemId(item, prefix) {
         let value = params[prefix + "-div-text_name-must-nodata"];
         value = value.replace(/[^a-zA-Z0-9]/g, "");
         return prefix + "_" + value;
-    } else if (["calc"].includes(prefix)) {
+    } else if (["calc", "virtual", "clone"].includes(prefix)) {
         return prefix + "_" + uuidv4().split("-")[0];
     } else {
         return params[prefix + "-div-name-must-nodata"];
@@ -1368,7 +1383,7 @@ function bora_add(prefix) {
     var div_text = "";
     var div_data = "";
     var div_style = " style='position: absolute; top:200px; left:200px; ";
-
+    
     for (item in params) {
         if (item.startsWith(prefix)) {
             if (!verifyRequiredFields(item, prefix)) { return; }
@@ -1426,6 +1441,16 @@ function getOffCondition(element_id, item) {
 function getFormula(element_id, item) {
     var formula = $("#" + element_id).attr("data-formula");
     return params[item] = formula || "";
+}
+
+function getVirtualID(element_id, item) {
+    var virtual_id = $("#" + element_id).attr("data-virtual-id");
+    return params[item] = virtual_id || "";
+}
+
+function getCloneID(element_id, item) {
+    var clone_id = $("#" + element_id).attr("data-clone-id");
+    return params[item] = clone_id || "";
 }
 
 function getDecimal(element_id, item) {
@@ -1498,6 +1523,10 @@ function bora_select(prefix) {
                     params[item] = getOffCondition(element_id, item);
                 } else if (item_array[2] == "formula") {
                     params[item] = getFormula(element_id, item);
+                } else if (item_array[2] == "virtual_id") {
+                    params[item] = getVirtualID(element_id, item);
+                } else if (item_array[2] == "clone_id") {
+                    params[item] = getCloneID(element_id, item);
                 } else if (item_array[2] == "decimal_numbers") {
                     params[item] = getDecimal(element_id, item);
                 } else if (item_array[2] == "smaller_than") {
@@ -1553,6 +1582,14 @@ function updateFormula(item, element_id) {
     $("#" + element_id).attr('data-formula', params[item]);
 }
 
+function updateVirtualID(item, element_id) {
+    $("#" + element_id).attr('data-virtual-id', params[item]);
+}
+
+function updateCloneID(item, element_id) {
+    $("#" + element_id).attr('data-clone-id', params[item]);
+}
+
 function updateDecimal(item, element_id) {
     $("#" + element_id).attr('data-decimal-numbers', params[item]);
 }
@@ -1588,6 +1625,7 @@ function updateElementStyle(item, element_id, css_property) {
 
 // Main Function: bora_update
 function bora_update(prefix) {
+    
     for (var item in params) {
         if (item.startsWith(prefix)) {
             var item_array = item.split("-");
@@ -1616,6 +1654,12 @@ function bora_update(prefix) {
                         break;
                     case "formula":
                         updateFormula(item, element_id);
+                        break;
+                    case "virtual_id":
+                        updateVirtualID(item, element_id);
+                        break;
+                    case "clone_id":
+                        updateCloneID(item, element_id);
                         break;
                     case "decimal_numbers":
                         updateDecimal(item, element_id);
@@ -1814,7 +1858,7 @@ gui.add(obj, 'backup');
 
     {% for item in data["style"] %}
     
-        {% if category in ['box', 'text', 'calc'] %}
+        {% if category in ['box', 'text', 'calc', 'virtual', 'clone'] %}
             mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{item}}");
             $("#" + "{{ item }}").draggable();
             $("#" + "{{ item }}").resizable();
@@ -1822,7 +1866,7 @@ gui.add(obj, 'backup');
     {% end %}
 
     {% for key, value in data["vardata"].items() %}
-        {% if category not in ['box', 'text', 'calc'] %}
+        {% if category not in ['box', 'text', 'calc', 'virtual', 'clone'] %}
             mygroup["{{ category }}" + "-div-name-must-nodata"].push("{{ key }}");
         {% end %}
     {% end %}
