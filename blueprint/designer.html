@@ -1302,8 +1302,14 @@ function createDivStyle(item, div_style, item_array) {
 function createDivData(item, div_data, item_array) {
     if (item_array[item_array.length -1] == "data") {
     
+        if (item_array[2] == "int_to_str") {
+            data_property = item_array[2].replace(/_/g, '-');
+            div_data += "data-" + data_property + '="' + params[item].replace(/"/g, "'") + '" ';
+        } else {
             data_property = item_array[2].replace(/_/g, '-');
             div_data += "data-" + data_property + '="' + params[item] + '" ';
+        }
+        
     }
     return div_data;
 }
@@ -1729,6 +1735,10 @@ function collectCssStyles(element_id, category) {
                     break;
                 case "unit_name":
                     mydiv[css_property] = $("#"+ element_id + "> .unit_name").text().trim();
+                    break;
+                case "int_to_str":
+                    let value = $("#" + element_id).attr("data-int-to-str");
+                    mydiv["data-int-to-str"] = value.replace(/'/g, '"');
                     break;
                 default:
                     if (item_array[item_array.length - 1] == "nodata") {
