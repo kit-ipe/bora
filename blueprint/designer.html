@@ -62,7 +62,7 @@
 {% end %}
 
 {% if data['style'][key]['type'] == "text" %}
-<div id='{{ key }}' class='varbox' style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
+<div id='{{ key }}' class='varbox' data-title-link="{{ data['style'][key]['div']['data-title-link'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; left:{{
     data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px;
     height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};' data-type='text'>
     <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span>
@@ -126,7 +126,7 @@
 {% end %}
 
 {% if data['style'][key]['type'] == "virtual" %}
-<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-virtual-id="{{ data['style'][key]['div']['data-virtual-id'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; 
+<div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-virtual-id="{{ data['style'][key]['div']['data-virtual-id'] }}" data-decimal-numbers="{{ data['style'][key]['div']['data-decimal-numbers'] }}" data-smaller-than="{{ data['style'][key]['div']['data-smaller-than'] }}" data-larger-than="{{ data['style'][key]['div']['data-larger-than'] }}" data-exp="{{ data['style'][key]['div']['data-exp'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}" style='position: absolute; top: {{ data['style'][key]['top'] }}; 
     left:{{ data['style'][key]['left'] }}; width:{{ data['style'][key]['width'] }}px; height:{{ data['style'][key]['height'] }}px; font-size: {{ data['style'][key]['div']['font-size'] }}; font-weight: {{ data['style'][key]['div']['font-weight'] }};'>
     <span class='text_name'>{{ data['style'][key]['div']['text-name'] }}</span> <span class='value'>XXX.XX</span> <span class='unit_name'>{{ data['style'][key]['div']['unit-name'] }}</span>
 </div>
@@ -1479,6 +1479,11 @@ function getLarger(element_id, item) {
     return params[item] = largerThan || "";
 }
 
+function getTitleLink(element_id, item) {
+    var titleLink = $("#" + element_id).attr("data-title-link");
+    return params[item] = titleLink || "";
+}
+
 // Helper function: changes the font_weight value from numeric to string
 function interpretFontWeight(font_weight_value) {
     switch (font_weight_value) {
@@ -1543,6 +1548,8 @@ function bora_select(prefix) {
                     params[item] = getIntegerToString(element_id, item);
                 } else if (item_array[2] == "icon_type") {
                     params[item] = getIconType(element_id, item);
+                } else if (item_array[2] == "title_link") {
+                    params[item] = getTitleLink(element_id, item);
                 } else {
                     if (item_array[item_array.length - 1] == "nodata") {
                         params[item] = getElementStyle(element_id, item, item_array);
@@ -1624,6 +1631,10 @@ function updateTrend(item, element_id) {
     $("#" + element_id).attr('data-trend', params[item]);
 }
 
+function updateTitleLink(item, element_id) {
+    $("#" + element_id).attr('data-title-link', params[item]);
+}
+
 // Helper Function: updates the css style properties
 function updateElementStyle(item, element_id, css_property) {
     $("#" + element_id).css(css_property, params[item]);
@@ -1687,6 +1698,9 @@ function bora_update(prefix) {
                         break;
                     case "trend":
                         updateTrend(item, element_id);
+                        break;
+                    case "title_link":
+                        updateTitleLink(item, element_id);
                         break;
                     default:
                         updateElementStyle(item, element_id, css_property);

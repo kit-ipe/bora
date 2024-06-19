@@ -4,6 +4,11 @@
         "type": "string"
         "optional": "No"
         "data": "No"
+    "title_link":
+        "value": ""
+        "type": "string"
+        "optional": "Yes"
+        "data": "Yes"
     "font_size":
         "value": ""
         "type": "string"
