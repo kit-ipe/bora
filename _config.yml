@@ -1,8 +1,6 @@
-title: BORA: A Personalized Data Display for Large-scale Experiments
-description: BORA is an open source visualization framework supporting large-scale experiments by generating personalized data displays and enabling the human-in-the-loop concept within the experiment.
+title: BORA
+description: A personalized Data Display for Experiments
 theme: just-the-docs
-
 url: https://kit-ipe.github.io/bora/
-
 aux_links:
   Template Repository: https://github.com/kit-ipe/bora
