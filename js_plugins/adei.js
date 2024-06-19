@@ -124,3 +124,13 @@ function open_adei_page(key) {
         return;
     }
 }
+
+function open_link(key) {
+    var data_link = $("#" + key).attr('data-title-link');
+
+    if (data_link != undefined) {    
+        window.open(data_link, '_blank');
+    } else {
+        return;
+    }
+}
