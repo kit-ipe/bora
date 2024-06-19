@@ -34,7 +34,7 @@ function parse_calc(key, response) {
     var finalstring = "";
     var pattern = /\[(.*?)\]/g;
     var teststring = myformula.split(/[\[\]]+/);
-    console.log("Test String");
+    //console.log("Test String");
     //console.log(teststring);
     //console.log(finalstring);
                 
