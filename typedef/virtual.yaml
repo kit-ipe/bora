@@ -41,13 +41,27 @@
         "type": "select"
         "optional": "No"
         "data": "No"
-    "width":
+    "exp":
         "value": ""
-        "type": "string"
-        "optional": "No"
-        "data": "No"
-    "height":
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "link_adei":
         "value": ""
-        "type": "string"
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "trend":
+        "value": ""
+        "type": "bool"
+        "optional": "Yes"
+        "data": "Yes"
+    "background_color":
+        "value":
+            - 255
+            - 255
+            - 255
+            - 0
+        "type": "color"
         "optional": "No"
         "data": "No"
