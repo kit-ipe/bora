@@ -33,7 +33,7 @@ function parse_adei(key, value, timestamp, invalid) {
     invalid = invalid / 1000.0;
 
 
-    if (data_decimal_numbers != undefined && data_decimal_numbers > 0) {
+    if (data_decimal_numbers != undefined && data_decimal_numbers >= 0) {
         value = (Math.round(value * 100) / 100).toFixed(data_decimal_numbers);
     }
 
