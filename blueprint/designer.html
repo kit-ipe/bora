@@ -144,7 +144,7 @@
 <div id='{{ key }}' class='varbox' data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }}; 
     icon-type:{{ data['style'][key]['icon-type'] }}; rotate:{{ data['style'][key]['div']['rotate'] }};'>
-    <img width='100%' height='100%' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
+    <img width='{{ data['style'][key]['width'] }}' height='{{ data['style'][key]['height'] }}' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
