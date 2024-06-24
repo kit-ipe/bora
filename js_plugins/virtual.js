@@ -25,6 +25,7 @@ function parse_virtual(id, response) {
     var data_decimal_numbers = parseInt($("#" + id).attr("data-decimal-numbers"));
     var data_smaller_than = $("#" + id).attr("data-smaller-than");
     var data_larger_than = $("#" + id).attr("data-larger-than");
+    var data_exp = $("#" + id).attr("data-exp");
 
     var delta = (currentTimeMillis - timestamp) / 1000.0;
     // since delta is converted to seconds, we need to convert invalid to seconds as well
