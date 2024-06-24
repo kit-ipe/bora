@@ -2,7 +2,7 @@
 <div id='{{ key }}' onclick="open_adei_page('{{ key }}')" class="databox" tooltip="" data-icon-type="{{ data['style'][key]['icon-type'] }}" data-query="{{ data['varname'][key]['url'] }}" data-type="{{ data['style'][key]['type'] }}" data-onCondition="{{ data['style'][key]['div']['data-onCondition'] }}" data-link-adei="{{ data['style'][key]['div']['data-link-adei'] }}" data-trend="{{ data['style'][key]['div']['data-trend'] }}"
     style='position: absolute; top:{{ data['style'][key]['top'] }}; left:{{ data['style'][key]['left'] }};
     icon-type:{{ data['style'][key]['icon-type'] }};'>
-    <img width='100%' height='100%' style='rotate:{{ data['style'][key]['div']['rotate'] }}' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
+    <img width='{{ data['style'][key]['width'] }}' height='{{ data['style'][key]['height'] }}' style='rotate:{{ data['style'][key]['div']['rotate'] }}' src="{{ static_url( data['style'][key]['icon-type'] + '_inactive.png' ) }}"></img>
 </div>
 {% else %}
 {% end %}
