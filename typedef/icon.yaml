@@ -10,7 +10,7 @@
             - "switch"
         "type": "select"
         "optional": "No"
-        "data": "No"
+        "data": "Yes"
     "onCondition":
         "value": ""
         "type": "string"
