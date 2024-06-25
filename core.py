@@ -220,7 +220,9 @@ def write_data_to_redis():
 
     sync_timestamp = time.time() * 1000.0
 
+    #print("Total Varname: " + str(len(varname_data)))
     for key_varname in varname_data:
+        #print("-> Processing: " + key_varname)
         if "interface" in varname_data[key_varname]:
             current_interface = varname_data[key_varname]["interface"]
             current_url = varname_data[key_varname]["url"]
@@ -229,13 +231,18 @@ def write_data_to_redis():
             current_interface = default_interface
 
         current_parser = Factory(current_interface)
-        print("-> Parsing data from: " + current_url)
-        print(current_parser.parse(current_url))
+        #print("-> Parsing data from: " + current_url)
+        #print(current_parser.parse(current_url))
+
+        res = current_parser.parse(current_url)
+        if res is None:
+            print("-> No data for: " + key_varname)
+            continue
 
         ts.add(
             key_varname,
-            current_parser.parse(current_url)["timestamp"],
-            current_parser.parse(current_url)["value"],
+            res["timestamp"],
+            res["value"],
             retention_msecs=86400000)
 
     print("-> Writing data to redis.")
@@ -388,7 +395,6 @@ class GetDataHandler(tornado.web.RequestHandler):
         ts = r.ts()
         data = {}
        
-
         for key_varname in varname_data:
             if r.exists(key_varname):
                 if key_varname in style_data:
@@ -400,9 +406,11 @@ class GetDataHandler(tornado.web.RequestHandler):
                         "invalid": settings_data["timer"]["invalid"]
                     }
                 else:
-                    print("No style data for: " + key_varname)
+                    pass
+                    #print("No style data for: " + key_varname)
             else:
-                print("No data for: " + key_varname)
+                pass
+                #print("No data for: " + key_varname)
         
         for key_stylename in style_data:
             # filter key_stylename to calc_ prefix
@@ -420,7 +428,8 @@ class GetDataHandler(tornado.web.RequestHandler):
                                 "invalid": settings_data["timer"]["invalid"]
                             }
                         else:
-                            print("No data for (calc): " + varname_in_calc)
+                            pass
+                            #print("No data for (calc): " + varname_in_calc)
         self.write(data)
 
 
@@ -434,6 +443,7 @@ class RedisDataHandler(tornado.web.RequestHandler):
             keys = varname_data.keys()
             data = {}
             for key in keys:
+                print(key)   
                 try:
                     latest_data = ts.get(key)
                     if latest_data:

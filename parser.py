@@ -52,7 +52,7 @@ class AdeiParser:
         data = data.decode("utf-8")
 
         if data == "":
-            print(str(plugin) + ': Empty data!')
+            print(': Empty data!')
             return None
 
         if "ERROR" in data.splitlines()[-1]:
