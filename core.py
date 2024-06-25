@@ -1,5 +1,5 @@
 from parser import Factory
-
+import re
 import redis
 import logging
 import calendar
@@ -403,6 +403,24 @@ class GetDataHandler(tornado.web.RequestHandler):
                     print("No style data for: " + key_varname)
             else:
                 print("No data for: " + key_varname)
+        
+        for key_stylename in style_data:
+            # filter key_stylename to calc_ prefix
+            if key_stylename.startswith("calc_"):
+                res = re.findall(r'\[.*?\]', style_data[key_stylename]["div"]["data-formula"])
+                for item in res:
+                    varname_in_calc = item[1:-1]
+                    if not varname_in_calc in data:
+                        if r.exists(varname_in_calc):
+                            latest_data = ts.get(varname_in_calc)
+                            data[varname_in_calc] = {
+                                "timestamp": latest_data[0],
+                                "value": latest_data[1],
+                                "widget": None,
+                                "invalid": settings_data["timer"]["invalid"]
+                            }
+                        else:
+                            print("No data for (calc): " + varname_in_calc)
         self.write(data)
 
 

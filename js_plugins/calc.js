@@ -52,7 +52,7 @@ function parse_calc(key, response) {
     finalstring = finalstring.trim();
     console.log("(line code delay) suppress error from math.js");
     console.log("(line code delay) suppress error from math.js");
-
+    
     var value = math.round(math.eval(finalstring),parseInt(data_decimal_numbers));
 
     //console.log("My Value");

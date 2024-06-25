@@ -171,9 +171,11 @@ setInterval(function() {
             $("#page_info > .time_info").text("Time in UTC: " + currentUTCTime);
             
             for (var key in response) {
-                var retval = eval( "parse_" + response[key]["widget"].replace(/-/g, "_") + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
-                $("#" + key + " > .value").text(retval);
-                //console.log(key + " : " + retval);
+                if (response[key]["widget"]) {
+                    var retval = eval( "parse_" + response[key]["widget"].replace(/-/g, "_") + "('" + key + "','" + response[key]["value"] + "','" + response[key]["timestamp"] +"','" + response[key]["invalid"] + "')" );
+                    $("#" + key + " > .value").text(retval);
+                    //console.log(key + " : " + retval);
+                }
             }
 
             // Loop through calc_
