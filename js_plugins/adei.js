@@ -37,20 +37,31 @@ function parse_adei(key, value, timestamp, invalid) {
         value = (Math.round(value * 100) / 100).toFixed(data_decimal_numbers);
     }
 
-    if (data_smaller_than != undefined && value < data_smaller_than) {
-        $("#" + key + "> .value").css('color', 'red');
-        $("#" + key + "> .unit-name").css('color', 'red');
-    } else {
-        $("#" + key + "> .value").css('color', 'green');
-        $("#" + key + "> .unit-name").css('color', 'green');
-    }
+    if (data_smaller_than != undefined && data_larger_than != undefined) {
 
-    if (data_larger_than != undefined && value > data_larger_than) {
-        $("#" + key + "> .value").css('color', 'red');
-        $("#" + key + "> .unit-name").css('color', 'red');
-    } else {
-        $("#" + key + "> .value").css('color', 'green');
-        $("#" + key + "> .unit-name").css('color', 'green');
+        if (value > data_smaller_than && value < data_larger_than) {
+            $("#" + key + "> .value").css('color', 'green');
+            $("#" + key + "> .unit-name").css('color', 'green');
+        } else if (data_smaller_than == '' && data_larger_than == '') {
+            $("#" + key + "> .value").css('color', 'black');
+            $("#" + key + "> .unit-name").css('color', 'black');
+        } else if (value < data_smaller_than && data_larger_than == '') {
+            $("#" + key + "> .value").css('color', 'red');
+            $("#" + key + "> .unit-name").css('color', 'red');
+        } else if (value > data_smaller_than && data_larger_than == '') {
+            $("#" + key + "> .value").css('color', 'green');
+            $("#" + key + "> .unit-name").css('color', 'green');
+        } else if (value > data_larger_than && data_smaller_than == '') {
+            $("#" + key + "> .value").css('color', 'red');
+            $("#" + key + "> .unit-name").css('color', 'red');
+        } else if (value < data_larger_than && data_smaller_than == '') {
+            $("#" + key + "> .value").css('color', 'green');
+            $("#" + key + "> .unit-name").css('color', 'green');
+        } else {
+            // value < data_smaller_than && value > data_larger_than
+            $("#" + key + "> .value").css('color', 'red');
+            $("#" + key + "> .unit-name").css('color', 'red');
+        }
     }
 
     if (data_exp != undefined && data_exp == "true") {
