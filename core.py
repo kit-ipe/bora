@@ -265,7 +265,7 @@ class DesignerHandler(tornado.web.RequestHandler):
         print("In designer mode.")
         
         # check other data sources: rtsp or rest
-        with open("style.yaml", 'r') as stream:
+        with open("style.yaml", 'r', encoding='utf8') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
@@ -346,7 +346,7 @@ class SaveHandler(tornado.web.RequestHandler):
     def post(self):
         json_obj = json_decode(self.request.body)
         
-        with open("style.yaml", 'wb') as output:
+        with open("style.yaml", 'wb', encoding='utf8') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
         response = {"success": "Data entry inserted."}
@@ -366,7 +366,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
     def get(self):
         #print( "In status mode.")
-        with open("style.yaml", 'r') as stream:
+        with open("style.yaml", 'r', encoding='utf8') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
@@ -386,7 +386,7 @@ class StatusHandler(tornado.web.RequestHandler):
 
 class GetDataHandler(tornado.web.RequestHandler):
     def get(self):
-        with open("style.yaml", 'r') as stream:
+        with open("style.yaml", 'r', encoding='utf8') as stream:
             try:
                 style_data = yaml.load(stream, Loader=yaml.Loader)
             except yaml.YAMLError as exc:
