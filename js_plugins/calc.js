@@ -64,8 +64,8 @@ function parse_calc(key, response) {
             $("#" + key + "> .value").css('color', 'green');
             $("#" + key + "> .unit-name").css('color', 'green');
         } else if (data_smaller_than == '' && data_larger_than == '') {
-            $("#" + key + "> .value").css('color', 'black');
-            $("#" + key + "> .unit-name").css('color', 'black');
+            $("#" + key + "> .value").css('color', 'green');
+            $("#" + key + "> .unit-name").css('color', 'green');
         } else if (value < data_smaller_than && data_larger_than == '') {
             $("#" + key + "> .value").css('color', 'red');
             $("#" + key + "> .unit-name").css('color', 'red');

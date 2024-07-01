@@ -346,7 +346,7 @@ class SaveHandler(tornado.web.RequestHandler):
     def post(self):
         json_obj = json_decode(self.request.body)
         
-        with open("style.yaml", 'wb', encoding='utf8') as output:
+        with open("style.yaml", 'wb') as output:
             output.write(yaml.safe_dump(json_obj,  encoding='utf-8',
                          allow_unicode=True, default_flow_style=False))
         response = {"success": "Data entry inserted."}
