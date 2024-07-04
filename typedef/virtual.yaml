@@ -9,6 +9,11 @@
         "type": "string"
         "optional": "Yes"
         "data": "No"
+    "formula":
+        "value": ""
+        "type": "string"
+        "optional": "Yes"
+        "data": "Yes"    
     "virtual_id":
         "value": ""
         "type": "string"
