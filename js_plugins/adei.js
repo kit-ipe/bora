@@ -69,10 +69,14 @@ function parse_adei(key, value, timestamp, invalid) {
         }
     } else {
         if (data_decimal_numbers != undefined && data_decimal_numbers >= 0) {
-            value = (Math.round(value * 100) / 100).toFixed(data_decimal_numbers);
+            if (value >= 0) {
+                value = (Math.round(value * 100) / 100).toFixed(data_decimal_numbers);
+            } else {
+                // negative value
+                value = ((value * 100) / 100).toFixed(data_decimal_numbers);
+            }
         }
     }
-
 
     if (invalid != undefined && invalid < delta) {
         $("#" + key + "> .value").css('color', 'grey');
