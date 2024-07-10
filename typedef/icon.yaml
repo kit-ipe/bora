@@ -26,6 +26,8 @@
             - "humidity"
             - "email"
             - "dewpoint"
+            - "K35"
+            - "K65"
         "type": "select"
         "optional": "No"
         "data": "Yes"

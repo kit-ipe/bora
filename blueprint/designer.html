@@ -1255,7 +1255,7 @@ function createItemId(item, prefix) {
 // Helper function: Creates the div head of the HTML element
 function createDivHead(item, item_id, item_array) {
     if (item_array[2] == "icon_type") {
-        if (params[item] == "valve" || "commbit" || "alarm" || "TMP" || "bottle" || "relay" || "switch" || "fpd" || "ground" || "splitring" || "source" || "postreg" || "ice" || "gauge" || "ex" || "cp" || "cc" || "egun" || "egunSwitchHV" || "egunSwitchGND" || "temperature" || "pressure" || "humidity" || "email" || "dewpoint") {
+        if (params[item] == "valve" || "commbit" || "alarm" || "TMP" || "bottle" || "relay" || "switch" || "fpd" || "ground" || "splitring" || "source" || "postreg" || "ice" || "gauge" || "ex" || "cp" || "cc" || "egun" || "egunSwitchHV" || "egunSwitchGND" || "temperature" || "pressure" || "humidity" || "email" || "dewpoint" || "K35" || "K65") {
             div_head = "<div " + "class='varbox box_highlight' " +"id=" + item_id + " " + "data-type='"+ item_array[0].replace(/_/g, '-') + "' " + "icon-type='"+ params[item] + "' ";
         }
     } else {
@@ -1934,7 +1934,7 @@ gui.add(obj, 'backup');
                 
             } else if ('{{ data["typedef"][ category ][element][item]["type"] }}' == "select"){
                 {% if (item == "icon_type") %}
-                var iconOptions = ["valve", "commbit", "alarm", "TMP", "bottle", "relay", "switch", "fpd", "ground", "splitring", "source", "postreg", "ice", "gauge", "ex", "cp", "cc", "egun", "egunSwitchHV", "egunSwitchGND", "temperature", "pressure", "humidity", "email", "dewpoint"];
+                var iconOptions = ["valve", "commbit", "alarm", "TMP", "bottle", "relay", "switch", "fpd", "ground", "splitring", "source", "postreg", "ice", "gauge", "ex", "cp", "cc", "egun", "egunSwitchHV", "egunSwitchGND", "temperature", "pressure", "humidity", "email", "dewpoint", "K35", "K65"];
                     params[ bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data] = '{{ data["typedef"][ category ][element][item]["value"] }}';
                     folder.add(params, bind_param + "-" + '{{ element }}' + "-" + '{{ item }}' + "-" + opt + "-" + encode_data, iconOptions).name('{{ item }} ' + "{{ element }}");
                 {% else %}
