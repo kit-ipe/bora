@@ -32,7 +32,7 @@
     "onCondition":
         "value": ""
         "type": "string"
-        "optional": "No"
+        "optional": "Yes"
         "data": "Yes"
     "link_adei":
         "value": ""
