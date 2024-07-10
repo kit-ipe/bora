@@ -28,6 +28,7 @@
             - "dewpoint"
             - "K35"
             - "K65"
+            - "beamlineMOS"
         "type": "select"
         "optional": "No"
         "data": "Yes"
