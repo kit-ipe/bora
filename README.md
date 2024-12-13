@@ -34,9 +34,9 @@ BORA is an open source visualization framework supporting large-scale experiment
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <!--
     <li>
       <a href="#getting-started">Getting Started</a>
+    <!--
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
@@ -52,12 +52,39 @@ BORA is an open source visualization framework supporting large-scale experiment
   </ol>
 </details>
 
+## Prerequisite
 
-<!-- GETTING STARTED
+Please start a separate redis database
+
+    $ docker run -p 6379:6379 -it --rm redislabs/redistimeseries
+
 ## Getting Started
 
-TODO
+    $ mkdir new_bora
 
+    $ cd new_bora
+
+    $ git clone https://github.com/kit-ipe/bora.git
+
+    $ python -m venv env
+
+    $ source env/bin/activate
+
+    (env)$ pip install -r bora/requirements.txt
+
+    (env)$ python bora/start.py
+    Enter the new title: slope
+    Enter the new port: 8000
+    Settings updated successfully!
+    Bora repository already cloned.
+    Do you want to use the default background image provided? (Enter 'yes' for default, or enter 'no' to provide your own image path): yes
+    Using default background image.
+
+    (env)$ python bora/core.py
+
+Now launch http://localhost:8000 to see the BORA page, to add widgets, go to http://localhost:8000/designer
+
+<!--
 ### Prerequisites
 
 TODO

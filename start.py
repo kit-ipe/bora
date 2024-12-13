@@ -13,6 +13,7 @@ def create_yaml_file(file_path, content):
 settings_content = {
     'title': '<TITLE>',
     'port': '<PORT>',
+    'interface': None,
     'tabs': {
         'config': False,
         'main': False,
@@ -20,13 +21,14 @@ settings_content = {
     },
     'timer': {
         'client': 1000,
-        'plugins': [],
+        'group': [],
         'retention': 86400000,
-        'server': 60000
+        'server': 60000,
+        'invalid': 10000
     },
     'redis': {
-        'host': None,
-        'port': None
+        'host': "127.0.0.1",
+        'port': 6379
     },
     'notebook': {
         'host': None,
