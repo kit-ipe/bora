@@ -27,7 +27,7 @@ from tornado.escape import json_decode, json_encode, url_escape
 
 from threading import Timer
 from pathlib import Path
-from distutils.dir_util import copy_tree
+from shutil import copytree
 
 from string import Template
 from utils.bora_helper import load_data, bora_init
@@ -86,7 +86,7 @@ Path("./runtime_env").mkdir(parents=True, exist_ok=True)
 for plugin in plugins_data["plugins"]:
     #print("copy: " + plugin)
     # load lambda.yaml
-    copy_tree(
+    copytree(
         "./bora/function/" + plugin,
         "./runtime_env/" + plugin
     )
